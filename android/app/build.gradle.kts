@@ -7,9 +7,16 @@ plugins {
 
 android {
     namespace = "com.example.netlab"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
+    ndkVersion = "29.0.13113456"
 
+    externalNativeBuild {
+        cmake {
+            version = "4.0.2"
+        }
+    }
+    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
