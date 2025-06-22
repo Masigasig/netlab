@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/core/constants/app_constants.dart';
+import 'package:netlab/simulation/widgets/device_drawer.dart';
 import 'package:netlab/simulation/widgets/grid_painter.dart';
 
 class SimulationScreen extends ConsumerStatefulWidget {
@@ -66,6 +67,8 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
               );
             },
           ),
+
+          DeviceDrawer(),
         ],
       ),
     );

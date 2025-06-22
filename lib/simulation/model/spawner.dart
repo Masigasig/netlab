@@ -4,7 +4,7 @@ import 'package:netlab/core/constants/app_image.dart';
 
 class Spawner {
   static Column buildSpawner(String type, String imagePath, String label) {
-    const double size = 65.0;
+    const double size = 100.0;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -13,16 +13,16 @@ class Spawner {
           data: type,
           dragAnchorStrategy: pointerDragAnchorStrategy,
           feedback: Transform.translate(
-            offset: Offset(-(size + 35) / 2, -(size + 35) / 2),
+            offset: Offset(-size / 2, -size / 2),
             child: SizedBox(
-              width: size + 35,
-              height: size + 35,
+              width: size,
+              height: size,
               child: Image.asset(imagePath, fit: BoxFit.contain),
             ),
           ),
           child: SizedBox(
-            width: size,
-            height: size,
+            width: size - 35,
+            height: size - 35,
             child: Image.asset(imagePath, fit: BoxFit.contain),
           ),
         ),
