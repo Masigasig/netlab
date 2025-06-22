@@ -42,6 +42,7 @@ Useful website to look for:
     https://pub.dev  - for package/plugins.
 
     https://dartpad.dev - playground for dart and flutter codes.
+    https://zapp.run - whole editor for flutter lol
 
 
 
@@ -86,6 +87,13 @@ Youtube Videos you might find helpful (don't get stuck on tutorial hell, wath it
             https://youtu.be/7JdcGBSWo50?si=rtJFuJbTW7e6F-V-
         (4 mins) Clean Architecture in Flutter - All You Need to Know!
             https://youtu.be/zon3WgmcqQw?si=zlL1Ma6bpNriKWDv
+
+
+        - Riverpod
+        (8 mins) Flutter Riverpod EASY Tutorial
+            https://youtu.be/7Cp1GlmHTGE?si=Abybk7wVpC91aId5
+        (2 hrs) Flutter Riverpod 2 Tutorial for Beginners | Riverpod Generator
+            https://youtu.be/pwflXIA-6YQ?si=rEj3zaeeriHyO6cm
 
 
 Current version:
