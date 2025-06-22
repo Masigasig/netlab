@@ -34,11 +34,8 @@ abstract class DeviceWidgetState extends ConsumerState<DeviceWidget> {
           offset: Offset(-widget.size / 2, -widget.size / 2),
           child: SizedBox(
             width: widget.size,
-            child: SizedBox(
-              width: widget.size,
-              height: widget.size,
-              child: Image.asset(widget.imagePath, fit: BoxFit.contain),
-            ),
+            height: widget.size,
+            child: Image.asset(widget.imagePath, fit: BoxFit.contain),
           ),
         ),
         dragAnchorStrategy: pointerDragAnchorStrategy,
@@ -106,3 +103,23 @@ class ServerDevice extends DeviceWidget {
 }
 
 class ServerDeviceState extends DeviceWidgetState {}
+
+class PCDevice extends DeviceWidget {
+  const PCDevice({super.key, required super.device})
+    : super(imagePath: AppImage.pc);
+
+  @override
+  ConsumerState<DeviceWidget> createState() => PCDeviceState();
+}
+
+class PCDeviceState extends DeviceWidgetState {}
+
+class SwitchDevice extends DeviceWidget {
+  const SwitchDevice({super.key, required super.device})
+    : super(imagePath: AppImage.switch_);
+
+  @override
+  ConsumerState<DeviceWidget> createState() => SwitchDeviceState();
+}
+
+class SwitchDeviceState extends DeviceWidgetState {}

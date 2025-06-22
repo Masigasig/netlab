@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 import 'package:netlab/core/constants/app_constants.dart';
+import 'package:netlab/simulation/model/device.dart';
+import 'package:netlab/simulation/model/device_widget.dart';
+import 'package:netlab/simulation/providers/device_map_provider.dart';
+import 'package:netlab/simulation/providers/device_stack_provider.dart';
 import 'package:netlab/simulation/widgets/device_drawer.dart';
 import 'package:netlab/simulation/widgets/grid_painter.dart';
+import 'package:netlab/simulation/widgets/device_stack.dart';
 
 class SimulationScreen extends ConsumerStatefulWidget {
   final double canvasSize = AppConstants.canvasSize;
@@ -92,11 +98,60 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                       size: Size(widget.canvasSize, widget.canvasSize),
                     ),
 
-                    // DeviceStack(),
+                    DeviceStack(),
                   ],
                 ),
               );
             },
+            onAcceptWithDetails: (details) {
+              final Matrix4 inverse = Matrix4.copy(
+                _transformationController.value,
+              )..invert();
+
+              final Vector4 pos = inverse.transform(
+                Vector4(details.offset.dx, details.offset.dy, 0, 1),
+              );
+
+              final uniqueKey = DateTime.now().millisecondsSinceEpoch;
+              final deviceType = details.data.toLowerCase();
+              final counter = ref
+                  .read(deviceMapProvider.notifier)
+                  .getNextCounter(deviceType);
+
+              final newDevice = Device(
+                id: 'device_$uniqueKey',
+                name: '${deviceType}_$counter',
+                type: deviceType,
+                posX: pos.x,
+                posY: pos.y,
+              );
+
+              ref.read(deviceMapProvider.notifier).addDevice(newDevice);
+
+              late DeviceWidget newDeviceWidget;
+
+              switch (details.data) {
+                case 'router':
+                  newDeviceWidget = RouterDevice(device: newDevice);
+                  break;
+                case 'laptop':
+                  newDeviceWidget = LaptopDevice(device: newDevice);
+                  break;
+                case 'server':
+                  newDeviceWidget = ServerDevice(device: newDevice);
+                  break;
+                case 'pc':
+                  newDeviceWidget = PCDevice(device: newDevice);
+                  break;
+                case 'switch':
+                  newDeviceWidget = SwitchDevice(device: newDevice);
+                default:
+              }
+              
+              ref
+                  .read(deviceStackProvider.notifier)
+                  .addDevice(uniqueKey.toString(), newDeviceWidget);
+            }
           ),
 
           Positioned(
