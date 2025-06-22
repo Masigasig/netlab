@@ -17,10 +17,17 @@ class SimulationScreen extends ConsumerStatefulWidget {
 class _SimulationScreenState extends ConsumerState<SimulationScreen>
     with SingleTickerProviderStateMixin {
   final _transformationController = TransformationController();
+  late AnimationController _animationController;
+  late Animation<Matrix4> _animation;
 
   @override
   void initState() {
     super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       {
@@ -41,6 +48,31 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
         _transformationController.value = matrix;
       }
     });
+  }
+
+
+  void _centerView() {
+    final renderBox = context.findRenderObject() as RenderBox;
+    final size = renderBox.size;
+
+    final Matrix4 targetMatrix =
+        Matrix4.identity()
+          ..translate(size.width / 2, size.height / 2)
+          ..translate(-widget.canvasSize / 2, -widget.canvasSize / 2);
+
+    _animation = Matrix4Tween(
+      begin: _transformationController.value,
+      end: targetMatrix,
+    ).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
+
+    _animationController
+      ..reset()
+      ..addListener(() {
+        _transformationController.value = _animation.value;
+      })
+      ..forward();
   }
 
   @override
@@ -68,9 +100,28 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
             },
           ),
 
+          Positioned(
+            top: 10,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: FloatingActionButton.small(
+                onPressed: _centerView,
+                child: const Icon(Icons.center_focus_strong),
+              ),
+            ),
+          ),
+
           DeviceDrawer(),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _transformationController.dispose();
+    super.dispose();
   }
 }
