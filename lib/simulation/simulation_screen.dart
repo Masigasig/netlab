@@ -50,7 +50,6 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     });
   }
 
-
   void _centerView() {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;

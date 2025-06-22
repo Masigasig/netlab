@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:netlab/core/constants/app_image.dart';
+import 'package:netlab/core/constants/app_constants.dart';
 
 class Spawner {
   static Column buildSpawner(String type, String imagePath, String label) {
-    const double size = 100.0;
+    const double size = AppConstants.deviceSize;
 
     return Column(
       mainAxisSize: MainAxisSize.min,

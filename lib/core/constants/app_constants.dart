@@ -7,4 +7,7 @@ class AppConstants {
 
   /// Animation Duration like opening a drawer
   static const int animationSpeed = 300; // in mili-seconds
+
+  /// Size of Device in the Canvas
+  static const double deviceSize = 100.0;
 }
