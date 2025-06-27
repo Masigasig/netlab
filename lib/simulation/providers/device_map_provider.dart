@@ -10,15 +10,8 @@ class DeviceMapNotifier extends StateNotifier<Map<String, Device>> {
   void syncCountersFromLoadedDevices() {
     _typeCounters.clear();
     for (final device in state.values) {
-      final type = device.type;
-      final name = device.name;
-      final match = RegExp(r'${type.toLowerCase()}_(\d+)').firstMatch(name);
-      if (match != null) {
-        final num = int.parse(match.group(1)!);
-        if ((_typeCounters[type] ?? 0) < num) {
-          _typeCounters[type] = num;
-        }
-      }
+      final type = device.type.trim().toLowerCase();
+      _typeCounters[type] = (_typeCounters[type] ?? 0) + 1;
     }
   }
 
@@ -39,14 +32,33 @@ class DeviceMapNotifier extends StateNotifier<Map<String, Device>> {
     }
   }
 
-  void updateDevice(Device device) {
-    state = {...state, device.id: device};
-  }
-
   void removeDevice(String id) {
     final newState = Map<String, Device>.from(state);
     newState.remove(id);
     state = newState;
+  }
+
+  void setDevices(Map<String, Device> devices) {
+    state = devices;
+    syncCountersFromLoadedDevices();
+  }
+
+  Device createAndAddDevice({
+    required String type,
+    required double posX,
+    required double posY,
+  }) {
+    final uniqueKey = DateTime.now().millisecondsSinceEpoch;
+    final counter = getNextCounter(type);
+    final device = Device(
+      id: 'device_$uniqueKey',
+      name: '${type}_$counter',
+      type: type,
+      posX: posX,
+      posY: posY,
+    );
+    addDevice(device);
+    return device;
   }
 }
 

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Device {
   final String id;
   final String name;
@@ -28,4 +30,29 @@ class Device {
       posY: posY ?? this.posY,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'type': type,
+      'posX': posX,
+      'posY': posY,
+    };
+  }
+
+  factory Device.fromMap(Map<String, dynamic> map) {
+    return Device(
+      id: map['id'] as String,
+      name: map['name'] as String,
+      type: map['type'] as String,
+      posX: map['posX'] as double,
+      posY: map['posY'] as double,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Device.fromJson(String source) =>
+      Device.fromMap(json.decode(source) as Map<String, dynamic>);
 }

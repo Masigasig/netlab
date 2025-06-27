@@ -1,10 +1,13 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 import 'package:netlab/core/constants/app_constants.dart';
 import 'package:netlab/simulation/model/device.dart';
-import 'package:netlab/simulation/model/device_widget.dart';
+import 'package:netlab/simulation/model/spawner.dart';
 import 'package:netlab/simulation/providers/device_map_provider.dart';
 import 'package:netlab/simulation/providers/device_stack_provider.dart';
 import 'package:netlab/simulation/widgets/device_drawer.dart';
@@ -112,46 +115,18 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                 Vector4(details.offset.dx, details.offset.dy, 0, 1),
               );
 
-              final uniqueKey = DateTime.now().millisecondsSinceEpoch;
-              final deviceType = details.data.toLowerCase();
-              final counter = ref
+              final device = ref
                   .read(deviceMapProvider.notifier)
-                  .getNextCounter(deviceType);
-
-              final newDevice = Device(
-                id: 'device_$uniqueKey',
-                name: '${deviceType}_$counter',
-                type: deviceType,
-                posX: pos.x,
-                posY: pos.y,
-              );
-
-              ref.read(deviceMapProvider.notifier).addDevice(newDevice);
-
-              late DeviceWidget newDeviceWidget;
-
-              switch (details.data) {
-                case 'router':
-                  newDeviceWidget = RouterDevice(device: newDevice);
-                  break;
-                case 'laptop':
-                  newDeviceWidget = LaptopDevice(device: newDevice);
-                  break;
-                case 'server':
-                  newDeviceWidget = ServerDevice(device: newDevice);
-                  break;
-                case 'pc':
-                  newDeviceWidget = PCDevice(device: newDevice);
-                  break;
-                case 'switch':
-                  newDeviceWidget = SwitchDevice(device: newDevice);
-                default:
-              }
-              
+                  .createAndAddDevice(
+                    type: details.data.toLowerCase(),
+                    posX: pos.x,
+                    posY: pos.y,
+                  );
+              final widget = Spawner.createDeviceWidget(device);
               ref
                   .read(deviceStackProvider.notifier)
-                  .addDevice(uniqueKey.toString(), newDeviceWidget);
-            }
+                  .addDevice(device.id, widget);
+            },
           ),
 
           Positioned(
@@ -159,9 +134,81 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
             left: 0,
             right: 0,
             child: Center(
-              child: FloatingActionButton.small(
-                onPressed: _centerView,
-                child: const Icon(Icons.center_focus_strong),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FloatingActionButton.small(
+                    onPressed: _centerView,
+                    heroTag: 'center',
+                    child: const Icon(Icons.center_focus_strong),
+                  ),
+                  const SizedBox(width: 10),
+                  FloatingActionButton.small(
+                    onPressed: () async {
+                      final jsonString = jsonEncode(
+                        ref
+                            .read(deviceMapProvider)
+                            .values
+                            .map((d) => d.toMap())
+                            .toList(),
+                      );
+                      final bytes = utf8.encode(jsonString);
+                      final saved = await FilePicker.platform.saveFile(
+                        dialogTitle: 'Save your device map',
+                        fileName: 'devices.netlab.json',
+                        allowedExtensions: ['json'],
+                        type: FileType.custom,
+                        bytes: bytes,
+                      );
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            saved != null
+                                ? 'Map saved!'
+                                : 'Save cancelled or failed',
+                          ),
+                        ),
+                      );
+                    },
+                    heroTag: 'save',
+                    child: const Icon(Icons.save),
+                  ),
+                  const SizedBox(width: 10),
+                  FloatingActionButton.small(
+                    onPressed: () async {
+                      final result = await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['json'],
+                      );
+                      if (result != null && result.files.single.path != null) {
+                        final path = result.files.single.path!;
+                        final jsonString = await File(path).readAsString();
+                        final List<dynamic> jsonList = jsonDecode(jsonString);
+                        final devices = {
+                          for (var d in jsonList)
+                            (d['id'] as String): Device.fromMap(
+                              d as Map<String, dynamic>,
+                            ),
+                        };
+
+                        ref.read(deviceStackProvider.notifier).clear();
+                        ref
+                            .read(deviceMapProvider.notifier)
+                            .setDevices(devices);
+
+                        devices.forEach((id, device) {
+                          final widget = Spawner.createDeviceWidget(device);
+                          ref
+                              .read(deviceStackProvider.notifier)
+                              .addDevice(id, widget);
+                        });
+                      }
+                    },
+                    heroTag: 'load',
+                    child: const Icon(Icons.folder_open),
+                  ),
+                ],
               ),
             ),
           ),

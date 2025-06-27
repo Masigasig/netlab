@@ -22,7 +22,7 @@ abstract class DeviceWidgetState extends ConsumerState<DeviceWidget> {
   @override
   Widget build(BuildContext context) {
     final device = ref.watch(
-      deviceMapProvider.select((map) => map[widget.device.id]!),
+      deviceMapProvider.select((map) => map[widget.device.id] ?? widget.device),
     );
     final notifier = ref.read(deviceMapProvider.notifier);
 

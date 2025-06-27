@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:netlab/core/constants/app_image.dart';
 import 'package:netlab/core/constants/app_constants.dart';
+import 'package:netlab/simulation/model/device_widget.dart';
+import 'package:netlab/simulation/model/device.dart';
 
 class Spawner {
   static Column buildSpawner(String type, String imagePath, String label) {
@@ -39,4 +41,21 @@ class Spawner {
     buildSpawner('server', AppImage.server, 'Server'),
     buildSpawner('switch', AppImage.switch_, 'Switch'),
   ];
+
+  static DeviceWidget createDeviceWidget(Device device) {
+    switch (device.type) {
+      case 'router':
+        return RouterDevice(device: device);
+      case 'laptop':
+        return LaptopDevice(device: device);
+      case 'server':
+        return ServerDevice(device: device);
+      case 'pc':
+        return PCDevice(device: device);
+      case 'switch':
+        return SwitchDevice(device: device);
+      default:
+        throw Exception('Unknown device type: ${device.type}');
+    }
+  }
 }

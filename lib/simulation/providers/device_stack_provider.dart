@@ -8,6 +8,10 @@ class DeviceStackNotifier extends StateNotifier<Map<String, DeviceWidget>> {
     state = {...state, key: device};
   }
 
+  void clear() {
+    state = {};
+  }
+
   void removeItem(String key) {
     final updated = Map<String, DeviceWidget>.from(state)..remove(key);
     state = updated;
