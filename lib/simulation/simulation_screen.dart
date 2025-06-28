@@ -144,67 +144,13 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                   ),
                   const SizedBox(width: 10),
                   FloatingActionButton.small(
-                    onPressed: () async {
-                      final jsonString = jsonEncode(
-                        ref
-                            .read(deviceMapProvider)
-                            .values
-                            .map((d) => d.toMap())
-                            .toList(),
-                      );
-                      final bytes = utf8.encode(jsonString);
-                      final saved = await FilePicker.platform.saveFile(
-                        dialogTitle: 'Save your device map',
-                        fileName: 'devices.netlab.json',
-                        allowedExtensions: ['json'],
-                        type: FileType.custom,
-                        bytes: bytes,
-                      );
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            saved != null
-                                ? 'Map saved!'
-                                : 'Save cancelled or failed',
-                          ),
-                        ),
-                      );
-                    },
+                    onPressed: _saveDeviceMap,
                     heroTag: 'save',
                     child: const Icon(Icons.save),
                   ),
                   const SizedBox(width: 10),
                   FloatingActionButton.small(
-                    onPressed: () async {
-                      final result = await FilePicker.platform.pickFiles(
-                        type: FileType.custom,
-                        allowedExtensions: ['json'],
-                      );
-                      if (result != null && result.files.single.path != null) {
-                        final path = result.files.single.path!;
-                        final jsonString = await File(path).readAsString();
-                        final List<dynamic> jsonList = jsonDecode(jsonString);
-                        final devices = {
-                          for (var d in jsonList)
-                            (d['id'] as String): Device.fromMap(
-                              d as Map<String, dynamic>,
-                            ),
-                        };
-
-                        ref.read(deviceStackProvider.notifier).clear();
-                        ref
-                            .read(deviceMapProvider.notifier)
-                            .setDevices(devices);
-
-                        devices.forEach((id, device) {
-                          final widget = Spawner.createDeviceWidget(device);
-                          ref
-                              .read(deviceStackProvider.notifier)
-                              .addDevice(id, widget);
-                        });
-                      }
-                    },
+                    onPressed: _loadDeviceMap,
                     heroTag: 'load',
                     child: const Icon(Icons.folder_open),
                   ),
@@ -217,6 +163,44 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
         ],
       ),
     );
+  }
+
+  Future<void> _saveDeviceMap() async {
+    final jsonString = jsonEncode(
+      ref.read(deviceMapProvider).values.map((d) => d.toMap()).toList(),
+    );
+    final bytes = utf8.encode(jsonString);
+    await FilePicker.platform.saveFile(
+      dialogTitle: 'Save your device map',
+      fileName: 'devices.netlab.json',
+      allowedExtensions: ['json'],
+      type: FileType.custom,
+      bytes: bytes,
+    );
+  }
+
+  Future<void> _loadDeviceMap() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+    );
+    if (result != null && result.files.single.path != null) {
+      final path = result.files.single.path!;
+      final jsonString = await File(path).readAsString();
+      final List<dynamic> jsonList = jsonDecode(jsonString);
+      final devices = {
+        for (var d in jsonList)
+          (d['id'] as String): Device.fromMap(d as Map<String, dynamic>),
+      };
+
+      ref.read(deviceStackProvider.notifier).clear();
+      ref.read(deviceMapProvider.notifier).setDevices(devices);
+
+      devices.forEach((id, device) {
+        final widget = Spawner.createDeviceWidget(device);
+        ref.read(deviceStackProvider.notifier).addDevice(id, widget);
+      });
+    }
   }
 
   @override

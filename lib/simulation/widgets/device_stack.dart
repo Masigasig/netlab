@@ -9,7 +9,7 @@ class DeviceStack extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    debugPrint('DeviceStack rebuilding');
+    print('DeviceStack rebuilding');
     final devices = ref.watch(deviceStackProvider);
 
     return SizedBox(
