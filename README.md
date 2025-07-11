@@ -98,7 +98,7 @@ Youtube Videos you might find helpful (don't get stuck on tutorial hell, wath it
 
 Current version:
     dart = Dart SDK version: 3.8.1
-    flutter = Flutter 3.32.4
+    flutter = Flutter 3.32.6
 
     Android: 
         compileSdk = 36

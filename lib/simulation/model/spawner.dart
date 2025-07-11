@@ -36,9 +36,6 @@ class Spawner {
 
   static final List<Widget> allSpawners = [
     buildSpawner('router', AppImage.router, 'Router'),
-    buildSpawner('laptop', AppImage.laptop, 'Laptop'),
-    buildSpawner('pc', AppImage.pc, 'PC'),
-    buildSpawner('server', AppImage.server, 'Server'),
     buildSpawner('switch', AppImage.switch_, 'Switch'),
   ];
 
@@ -46,12 +43,6 @@ class Spawner {
     switch (device.type) {
       case 'router':
         return RouterDevice(device: device);
-      case 'laptop':
-        return LaptopDevice(device: device);
-      case 'server':
-        return ServerDevice(device: device);
-      case 'pc':
-        return PCDevice(device: device);
       case 'switch':
         return SwitchDevice(device: device);
       default:

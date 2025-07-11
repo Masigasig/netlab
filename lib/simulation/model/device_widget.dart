@@ -84,36 +84,6 @@ class RouterDevice extends DeviceWidget {
 
 class RouterDeviceState extends DeviceWidgetState {}
 
-class LaptopDevice extends DeviceWidget {
-  const LaptopDevice({super.key, required super.device})
-    : super(imagePath: AppImage.laptop);
-
-  @override
-  ConsumerState<DeviceWidget> createState() => LaptopDeviceState();
-}
-
-class LaptopDeviceState extends DeviceWidgetState {}
-
-class ServerDevice extends DeviceWidget {
-  const ServerDevice({super.key, required super.device})
-    : super(imagePath: AppImage.server);
-
-  @override
-  ConsumerState<DeviceWidget> createState() => ServerDeviceState();
-}
-
-class ServerDeviceState extends DeviceWidgetState {}
-
-class PCDevice extends DeviceWidget {
-  const PCDevice({super.key, required super.device})
-    : super(imagePath: AppImage.pc);
-
-  @override
-  ConsumerState<DeviceWidget> createState() => PCDeviceState();
-}
-
-class PCDeviceState extends DeviceWidgetState {}
-
 class SwitchDevice extends DeviceWidget {
   const SwitchDevice({super.key, required super.device})
     : super(imagePath: AppImage.switch_);
