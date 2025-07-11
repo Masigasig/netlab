@@ -11,18 +11,15 @@ class GridPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
 
-    final axisPaint =
-        Paint()
-          ..color = Colors.black
-          ..strokeWidth = _axis;
-    final majorPaint =
-        Paint()
-          ..color = Colors.black
-          ..strokeWidth = _majorLine;
-    final minorPaint =
-        Paint()
-          ..color = Colors.grey
-          ..strokeWidth = _minorLine;
+    final axisPaint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = _axis;
+    final majorPaint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = _majorLine;
+    final minorPaint = Paint()
+      ..color = Colors.grey
+      ..strokeWidth = _minorLine;
 
     void drawLines(bool vertical) {
       final length = vertical ? size.width : size.height;
@@ -30,14 +27,14 @@ class GridPainter extends CustomPainter {
 
       for (double pos = 0; pos <= length; pos += _spacing) {
         final dist = (pos - centerCoord).abs();
-        final paint =
-            (pos == centerCoord)
-                ? axisPaint
-                : (dist % _major == 0 ? majorPaint : minorPaint);
+        final paint = (pos == centerCoord)
+            ? axisPaint
+            : (dist % _major == 0 ? majorPaint : minorPaint);
 
         final from = vertical ? Offset(pos, 0) : Offset(0, pos);
-        final to =
-            vertical ? Offset(pos, size.height) : Offset(size.width, pos);
+        final to = vertical
+            ? Offset(pos, size.height)
+            : Offset(size.width, pos);
         canvas.drawLine(from, to, paint);
       }
     }

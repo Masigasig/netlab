@@ -1,10 +1,7 @@
 part of 'sim_object_widget.dart';
 
 class ConnectionWidget extends SimObjectWidget {
-  const ConnectionWidget({
-    super.key,
-    required super.simObjectId,
-  });
+  const ConnectionWidget({super.key, required super.simObjectId});
 
   @override
   ConsumerState<ConnectionWidget> createState() => _ConnectionWidgetState();
@@ -12,13 +9,15 @@ class ConnectionWidget extends SimObjectWidget {
 
 class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
   late final String _conAId;
-  late final String _conBId; 
+  late final String _conBId;
 
   @override
   void initState() {
     super.initState();
-    _conAId = (ref.read(simObjectMapProvider)[widget.simObjectId] as Connection).conA;
-    _conBId = (ref.read(simObjectMapProvider)[widget.simObjectId] as Connection).conB;
+    _conAId =
+        (ref.read(simObjectMapProvider)[widget.simObjectId] as Connection).conA;
+    _conBId =
+        (ref.read(simObjectMapProvider)[widget.simObjectId] as Connection).conB;
   }
 
   @override
@@ -44,9 +43,7 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
       children: [
         IgnorePointer(
           child: CustomPaint(
-            painter: _ConnectionLinePainter(start: start,
-            end: end,
-            ),
+            painter: _ConnectionLinePainter(start: start, end: end),
             child: const SizedBox.expand(),
           ),
         ),
@@ -64,11 +61,7 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 2),
               ),
-              child: const Icon(
-                Icons.circle,
-                color: Colors.white,
-                size: 18,
-              ),
+              child: const Icon(Icons.circle, color: Colors.white, size: 18),
             ),
           ),
         ),
@@ -81,10 +74,7 @@ class _ConnectionLinePainter extends CustomPainter {
   final Offset start;
   final Offset end;
 
-  const _ConnectionLinePainter({
-    required this.start,
-    required this.end,
-  }); 
+  const _ConnectionLinePainter({required this.start, required this.end});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -96,7 +86,8 @@ class _ConnectionLinePainter extends CustomPainter {
     canvas.drawLine(start, end, paint);
   }
 
-  @override bool shouldRepaint(covariant _ConnectionLinePainter oldDelegate) {
+  @override
+  bool shouldRepaint(covariant _ConnectionLinePainter oldDelegate) {
     return oldDelegate.start != start || oldDelegate.end != end;
   }
 }

@@ -1,18 +1,13 @@
-import 'dart:io';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_math/vector_math_64.dart' hide Colors;
+import 'package:vector_math/vector_math_64.dart' show Vector4;
 
 import 'package:netlab/core/constants/app_constants.dart';
-import 'package:netlab/simulation/model/device.dart';
-import 'package:netlab/simulation/model/spawner.dart';
-import 'package:netlab/simulation/providers/device_map_provider.dart';
-import 'package:netlab/simulation/providers/device_stack_provider.dart';
+
 import 'package:netlab/simulation/widgets/device_drawer.dart';
 import 'package:netlab/simulation/widgets/grid_painter.dart';
-import 'package:netlab/simulation/widgets/device_stack.dart';
+
+import 'package:netlab/simulation/providers/sim_object_map_provider.dart';
 
 class SimulationScreen extends ConsumerStatefulWidget {
   final double canvasSize = AppConstants.canvasSize;
@@ -27,7 +22,6 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     with SingleTickerProviderStateMixin {
   final _transformationController = TransformationController();
   late AnimationController _animationController;
-  late Animation<Matrix4> _animation;
 
   @override
   void initState() {
@@ -38,96 +32,38 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
       duration: const Duration(milliseconds: 1000),
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      {
-        final RenderBox renderBox = context.findRenderObject() as RenderBox;
-        final size = renderBox.size;
-
-        final Matrix4 matrix =
-            Matrix4.identity()
-              ..translate(
-                size.width / 2,
-                size.height / 2,
-              ) // Center of the screen
-              ..translate(
-                -widget.canvasSize / 2,
-                -widget.canvasSize / 2,
-              ); // Offset to center of canvas
-
-        _transformationController.value = matrix;
-      }
-    });
-  }
-
-  void _centerView() {
-    final renderBox = context.findRenderObject() as RenderBox;
-    final size = renderBox.size;
-
-    final Matrix4 targetMatrix =
-        Matrix4.identity()
-          ..translate(size.width / 2, size.height / 2)
-          ..translate(-widget.canvasSize / 2, -widget.canvasSize / 2);
-
-    _animation = Matrix4Tween(
-      begin: _transformationController.value,
-      end: targetMatrix,
-    ).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _transformationController.value = _getCenteredMatrix(),
     );
-
-    _animationController
-      ..reset()
-      ..addListener(() {
-        _transformationController.value = _animation.value;
-      })
-      ..forward();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
+    return Scaffold(
+      body: Stack(
         children: [
-          DragTarget<String>(
+          DragTarget<SimObjectType>(
             builder: (context, candidateData, rejectedData) {
               return InteractiveViewer(
                 transformationController: _transformationController,
                 constrained: false,
-                minScale: 0.1,
+                minScale: 0.2,
                 child: Stack(
                   children: [
                     CustomPaint(
                       painter: GridPainter(),
                       size: Size(widget.canvasSize, widget.canvasSize),
                     ),
-
-                    DeviceStack(),
+                    const _ConnectionWidgetStack(),
+                    const _DeviceWidgetStack(),
                   ],
                 ),
               );
             },
-            onAcceptWithDetails: (details) {
-              final Matrix4 inverse = Matrix4.copy(
-                _transformationController.value,
-              )..invert();
-
-              final Vector4 pos = inverse.transform(
-                Vector4(details.offset.dx, details.offset.dy, 0, 1),
-              );
-
-              final device = ref
-                  .read(deviceMapProvider.notifier)
-                  .createAndAddDevice(
-                    type: details.data.toLowerCase(),
-                    posX: pos.x,
-                    posY: pos.y,
-                  );
-              final widget = Spawner.createDeviceWidget(device);
-              ref
-                  .read(deviceStackProvider.notifier)
-                  .addDevice(device.id, widget);
-            },
+            onAcceptWithDetails: (details) => _createDevice(details),
           ),
+
+          const DeviceDrawer(),
 
           Positioned(
             top: 10,
@@ -138,19 +74,19 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   FloatingActionButton.small(
-                    onPressed: _centerView,
+                    onPressed: _centerViewAnimated,
                     heroTag: 'center',
                     child: const Icon(Icons.center_focus_strong),
                   ),
                   const SizedBox(width: 10),
                   FloatingActionButton.small(
-                    onPressed: _saveDeviceMap,
+                    onPressed: () => {/*TODO: save button*/},
                     heroTag: 'save',
                     child: const Icon(Icons.save),
                   ),
                   const SizedBox(width: 10),
                   FloatingActionButton.small(
-                    onPressed: _loadDeviceMap,
+                    onPressed: () => {/*TODO: load button*/},
                     heroTag: 'load',
                     child: const Icon(Icons.folder_open),
                   ),
@@ -158,49 +94,9 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
               ),
             ),
           ),
-
-          DeviceDrawer(),
         ],
       ),
     );
-  }
-
-  Future<void> _saveDeviceMap() async {
-    final jsonString = jsonEncode(
-      ref.read(deviceMapProvider).values.map((d) => d.toMap()).toList(),
-    );
-    final bytes = utf8.encode(jsonString);
-    await FilePicker.platform.saveFile(
-      dialogTitle: 'Save your device map',
-      fileName: 'devices.netlab.json',
-      allowedExtensions: ['json'],
-      type: FileType.custom,
-      bytes: bytes,
-    );
-  }
-
-  Future<void> _loadDeviceMap() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['json'],
-    );
-    if (result != null && result.files.single.path != null) {
-      final path = result.files.single.path!;
-      final jsonString = await File(path).readAsString();
-      final List<dynamic> jsonList = jsonDecode(jsonString);
-      final devices = {
-        for (var d in jsonList)
-          (d['id'] as String): Device.fromMap(d as Map<String, dynamic>),
-      };
-
-      ref.read(deviceStackProvider.notifier).clear();
-      ref.read(deviceMapProvider.notifier).setDevices(devices);
-
-      devices.forEach((id, device) {
-        final widget = Spawner.createDeviceWidget(device);
-        ref.read(deviceStackProvider.notifier).addDevice(id, widget);
-      });
-    }
   }
 
   @override
@@ -208,5 +104,72 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     _animationController.dispose();
     _transformationController.dispose();
     super.dispose();
+  }
+
+  void _createDevice(DragTargetDetails details) {
+    final Matrix4 inverse = Matrix4.copy(_transformationController.value)
+      ..invert();
+    final Vector4 pos = inverse.transform(
+      Vector4(details.offset.dx, details.offset.dy, 0, 1),
+    );
+
+    ref
+        .read(simObjectMapProvider.notifier)
+        .createDevice(type: details.data, posX: pos.x, posY: pos.y);
+  }
+
+  void _centerViewAnimated() {
+    final animation =
+        Matrix4Tween(
+          begin: _transformationController.value,
+          end: _getCenteredMatrix(),
+        ).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeInOut,
+          ),
+        );
+
+    _animationController
+      ..addListener(() => _transformationController.value = animation.value)
+      ..forward(from: 0);
+  }
+
+  Matrix4 _getCenteredMatrix() {
+    final renderBox = context.findRenderObject() as RenderBox;
+    final size = renderBox.size;
+    return Matrix4.identity()
+      ..translate(size.width / 2, size.height / 2)
+      ..translate(-widget.canvasSize / 2, -widget.canvasSize / 2);
+  }
+}
+
+class _DeviceWidgetStack extends ConsumerWidget {
+  const _DeviceWidgetStack();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final deviceWidgets = ref.watch(deviceWidgetProvider);
+
+    return SizedBox(
+      width: AppConstants.canvasSize,
+      height: AppConstants.canvasSize,
+      child: Stack(children: [...deviceWidgets.values]),
+    );
+  }
+}
+
+class _ConnectionWidgetStack extends ConsumerWidget {
+  const _ConnectionWidgetStack();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final connectionWidgets = ref.watch(connectionWidgetProvider);
+
+    return SizedBox(
+      width: AppConstants.canvasSize,
+      height: AppConstants.canvasSize,
+      child: Stack(children: [...connectionWidgets.values]),
+    );
   }
 }

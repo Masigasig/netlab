@@ -53,20 +53,20 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
 
     if (wireModeNotifier.isWireModeEnabled) {
       if (!wireModeNotifier.selectedDevices.contains(widget.simObjectId) &&
-        wireModeNotifier.selectedDevices.length < 2){
-
+          wireModeNotifier.selectedDevices.length < 2) {
         wireModeNotifier.addDevice(widget.simObjectId);
 
         if (wireModeNotifier.selectedDevices.length == 2) {
           final updated = wireModeNotifier.selectedDevices;
-          simObjectMapNotifier.createConnection(conA: updated[0], conB: updated[1]);
+          simObjectMapNotifier.createConnection(
+            conA: updated[0],
+            conB: updated[1],
+          );
           wireModeNotifier.clearDevices();
           wireModeNotifier.toggle();
         }
       }
     }
-
-
   }
 
   void _updatePosition(DragUpdateDetails details, double posX, double posY) {

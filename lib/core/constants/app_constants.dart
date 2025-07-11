@@ -11,3 +11,20 @@ class AppConstants {
   /// Size of Device in the Canvas
   static const double deviceSize = 100.0;
 }
+
+enum SimObjectType { router, switch_, host, connection }
+
+extension SimObjectTypeX on SimObjectType {
+  String get label {
+    switch (this) {
+      case SimObjectType.router:
+        return 'Router';
+      case SimObjectType.switch_:
+        return 'Switch';
+      case SimObjectType.host:
+        return 'Host';
+      case SimObjectType.connection:
+        return 'Connection';
+    }
+  }
+}

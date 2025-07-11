@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:netlab/core/constants/app_constants.dart' show SimObjectType;
+
 import 'package:netlab/simulation/model/sim_object/sim_object.dart';
-import 'package:netlab/simulation/utils/sim_object_creation.dart'
-    show createSimObject, createSimObjectWidget;
 import 'package:netlab/simulation/widgets/sim_object_widget/sim_object_widget.dart';
 
 final simObjectMapProvider =
@@ -76,18 +76,15 @@ class SimObjectMapNotifier extends StateNotifier<Map<String, SimObject>> {
 
     final simObjectId = DateTime.now().millisecondsSinceEpoch.toString();
 
-    final connection = Connection(
-      id: simObjectId,
-      conA: conA,
-      conB: conB,
-    );
+    final connection = Connection(id: simObjectId, conA: conA, conB: conB);
 
     addObject(connection);
 
     final widget = ConnectionWidget(simObjectId: simObjectId);
 
-    ref.read(connectionWidgetProvider.notifier)
-       .addConnection(simObjectId, widget);
+    ref
+        .read(connectionWidgetProvider.notifier)
+        .addConnection(simObjectId, widget);
   }
 }
 
@@ -105,5 +102,66 @@ class ConnectionWidgetNotifier
 
   void addConnection(String key, ConnectionWidget connection) {
     state = {...state, key: connection};
+  }
+}
+
+SimObject createSimObject({
+  required SimObjectType type,
+  required String simObjectId,
+  double posX = 0,
+  double posY = 0,
+  String conA = '',
+  String conB = '',
+}) {
+  switch (type) {
+    case SimObjectType.router:
+      return Router(id: simObjectId, posX: posX, posY: posY);
+    case SimObjectType.switch_:
+      return Switch(id: simObjectId, posX: posX, posY: posY);
+    case SimObjectType.host:
+      return Host(id: simObjectId, posX: posX, posY: posY);
+    case SimObjectType.connection:
+      return Connection(id: simObjectId, conA: conA, conB: conB);
+  }
+}
+
+SimObjectWidget createSimObjectWidget({
+  required SimObjectType type,
+  required String simObjectId,
+}) {
+  switch (type) {
+    case SimObjectType.router:
+      return RouterWidget(simObjectId: simObjectId);
+    case SimObjectType.host:
+      return HostWidget(simObjectId: simObjectId);
+    case SimObjectType.switch_:
+      return SwitchWidget(simObjectId: simObjectId);
+    case SimObjectType.connection:
+      return ConnectionWidget(simObjectId: simObjectId);
+  }
+}
+
+final wireModeProvider = StateNotifierProvider<WireModeNotifier, bool>(
+  (ref) => WireModeNotifier(),
+);
+
+class WireModeNotifier extends StateNotifier<bool> {
+  WireModeNotifier() : super(false);
+
+  final List<String> _selectedDevices = [];
+
+  bool get isWireModeEnabled => state;
+  List<String> get selectedDevices => List.unmodifiable(_selectedDevices);
+
+  void toggle() => state = !state;
+
+  void addDevice(String deviceId) {
+    if (!_selectedDevices.contains(deviceId) && _selectedDevices.length < 2) {
+      _selectedDevices.add(deviceId);
+    }
+  }
+
+  void clearDevices() {
+    _selectedDevices.clear();
   }
 }
