@@ -1,21 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:netlab/core/constants/app_image.dart';
-import 'package:netlab/core/constants/app_constants.dart';
-
-import 'package:netlab/simulation/providers/sim_screen_state.dart';
+part of '../simulation_screen.dart';
 
 class DeviceDrawer extends StatefulWidget {
-  final double width = AppConstants.deviceDrawerWidth;
-
-  final allSpawners = const [
-    _DeviceSpawner(type: SimObjectType.host, imagePath: AppImage.host),
-    _DeviceSpawner(type: SimObjectType.router, imagePath: AppImage.router),
-    _DeviceSpawner(type: SimObjectType.switch_, imagePath: AppImage.switch_),
-    _ConnectionSpawner(),
-  ];
-
   const DeviceDrawer({super.key});
 
   @override
@@ -24,6 +9,7 @@ class DeviceDrawer extends StatefulWidget {
 
 class _DeviceDrawerState extends State<DeviceDrawer> {
   bool _isOpen = true;
+  
 
   void _toggleDrawer() {
     setState(() {
@@ -33,14 +19,24 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    const double width = 200.0;
+    const int animationSpeed = 300;
+
+    const allSpawners = [
+      _DeviceSpawner(type: SimObjectType.host, imagePath: AppImage.host),
+      _DeviceSpawner(type: SimObjectType.router, imagePath: AppImage.router),
+      _DeviceSpawner(type: SimObjectType.switch_, imagePath: AppImage.switch_),
+      _ConnectionSpawner(),
+    ];
+
     return Stack(
       children: [
         AnimatedPositioned(
-          duration: const Duration(milliseconds: AppConstants.animationSpeed),
+          duration: Duration(milliseconds: animationSpeed),
           top: 0,
           bottom: 0,
-          left: _isOpen ? 0 : -widget.width,
-          width: widget.width,
+          left: _isOpen ? 0 : -width,
+          width: width,
           child: Material(
             color: Color.fromRGBO(0, 0, 0, 0.5),
             shape: RoundedRectangleBorder(
@@ -69,8 +65,8 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
                           mainAxisSpacing: 0.0,
                           childAspectRatio: 0.9,
                         ),
-                    itemCount: widget.allSpawners.length,
-                    itemBuilder: (context, index) => widget.allSpawners[index],
+                    itemCount: allSpawners.length,
+                    itemBuilder: (context, index) => allSpawners[index],
                   ),
                 ),
               ],
@@ -79,9 +75,9 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
         ),
 
         AnimatedPositioned(
-          duration: const Duration(milliseconds: AppConstants.animationSpeed),
+          duration: Duration(milliseconds: animationSpeed),
           top: 47,
-          left: _isOpen ? widget.width : 0,
+          left: _isOpen ? width : 0,
           child: GestureDetector(
             onTap: () => _toggleDrawer(),
             child: Container(
@@ -115,7 +111,7 @@ class _DeviceSpawner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double size = AppConstants.deviceSize;
+    const double size = 200.0;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -148,7 +144,7 @@ class _ConnectionSpawner extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const double size = AppConstants.deviceSize;
+    const double size = 200.0;
     final isActive = ref.watch(wireModeProvider);
 
     return Column(

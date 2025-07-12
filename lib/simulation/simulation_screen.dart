@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector4;
 
-import 'package:netlab/core/constants/app_constants.dart';
+import 'package:netlab/core/constants/app_image.dart';
+import 'package:netlab/simulation/sim_screen_state/sim_screen_state.dart';
 
-import 'package:netlab/simulation/widgets/device_drawer.dart';
-import 'package:netlab/simulation/widgets/grid_painter.dart';
+part 'widgets/device_drawer.dart';
+part 'widgets/widget_stack.dart';
+part 'widgets/grid_painter.dart';
 
-import 'package:netlab/simulation/providers/sim_screen_state.dart';
+const double canvasSize = 100_000.0; 
 
 class SimulationScreen extends ConsumerStatefulWidget {
-  final double canvasSize = AppConstants.canvasSize;
   const SimulationScreen({super.key});
 
   @override
@@ -51,11 +52,11 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                 child: Stack(
                   children: [
                     CustomPaint(
-                      painter: GridPainter(),
-                      size: Size(widget.canvasSize, widget.canvasSize),
+                      painter: _GridPainter(),
+                      size: Size(canvasSize, canvasSize),
                     ),
-                    const _ConnectionWidgetStack(),
-                    const _DeviceWidgetStack(),
+                    _ConnectionWidgetStack(),
+                    _DeviceWidgetStack(),
                   ],
                 ),
               );
@@ -140,36 +141,9 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     final size = renderBox.size;
     return Matrix4.identity()
       ..translate(size.width / 2, size.height / 2)
-      ..translate(-widget.canvasSize / 2, -widget.canvasSize / 2);
+      ..translate(-canvasSize / 2, -canvasSize / 2);
   }
 }
 
-class _DeviceWidgetStack extends ConsumerWidget {
-  const _DeviceWidgetStack();
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final deviceWidgets = ref.watch(deviceWidgetProvider);
 
-    return SizedBox(
-      width: AppConstants.canvasSize,
-      height: AppConstants.canvasSize,
-      child: Stack(children: [...deviceWidgets.values]),
-    );
-  }
-}
-
-class _ConnectionWidgetStack extends ConsumerWidget {
-  const _ConnectionWidgetStack();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final connectionWidgets = ref.watch(connectionWidgetProvider);
-
-    return SizedBox(
-      width: AppConstants.canvasSize,
-      height: AppConstants.canvasSize,
-      child: Stack(children: [...connectionWidgets.values]),
-    );
-  }
-}

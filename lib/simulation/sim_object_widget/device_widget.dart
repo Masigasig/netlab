@@ -2,7 +2,7 @@ part of 'sim_object_widget.dart';
 
 abstract class DeviceWidget extends SimObjectWidget {
   final String imagePath;
-  final double size = AppConstants.deviceSize;
+  final double size = 100;
 
   const DeviceWidget({
     super.key,

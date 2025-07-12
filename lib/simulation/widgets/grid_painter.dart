@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+part of '../simulation_screen.dart';
 
-class GridPainter extends CustomPainter {
+class _GridPainter extends CustomPainter {
   static const double _spacing = 50.0;
   static const double _major = _spacing * 5;
   static const double _axis = 2.0;
