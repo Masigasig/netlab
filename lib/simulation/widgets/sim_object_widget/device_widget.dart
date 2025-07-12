@@ -16,7 +16,7 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
   @override
   Widget build(BuildContext context) {
     final device = ref.watch(
-      simObjectMapProvider.select((map) => map[widget.simObjectId] as Device),
+      deviceProvider.select((map) => map[widget.simObjectId]!),
     );
 
     return Positioned(
@@ -48,24 +48,10 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
   }
 
   void _handleTap() {
-    final wireModeNotifier = ref.read(wireModeProvider.notifier);
-    final simObjectMapNotifier = ref.read(simObjectMapProvider.notifier);
-
-    if (wireModeNotifier.isWireModeEnabled) {
-      if (!wireModeNotifier.selectedDevices.contains(widget.simObjectId) &&
-          wireModeNotifier.selectedDevices.length < 2) {
-        wireModeNotifier.addDevice(widget.simObjectId);
-
-        if (wireModeNotifier.selectedDevices.length == 2) {
-          final updated = wireModeNotifier.selectedDevices;
-          simObjectMapNotifier.createConnection(
-            conA: updated[0],
-            conB: updated[1],
-          );
-          wireModeNotifier.clearDevices();
-          wireModeNotifier.toggle();
-        }
-      }
+    if (ref.read(wireModeProvider)) {
+      ref
+          .read(simScreenState.notifier)
+          .createConnection(simObjectId: widget.simObjectId);
     }
   }
 
@@ -79,7 +65,7 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
     final newY = posY + localPosition.dy - widget.size / 2;
 
     ref
-        .read(simObjectMapProvider.notifier)
+        .read(deviceProvider.notifier)
         .updatePosition(widget.simObjectId, newX, newY);
   }
 }

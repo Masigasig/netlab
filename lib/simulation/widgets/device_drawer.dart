@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:netlab/core/constants/app_constants.dart';
 import 'package:netlab/core/constants/app_image.dart';
+import 'package:netlab/core/constants/app_constants.dart';
 
-import 'package:netlab/simulation/providers/sim_object_map_provider.dart';
+import 'package:netlab/simulation/providers/sim_screen_state.dart';
 
 class DeviceDrawer extends StatefulWidget {
   final double width = AppConstants.deviceDrawerWidth;
@@ -155,7 +155,7 @@ class _ConnectionSpawner extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
-          onTap: () => ref.read(wireModeProvider.notifier).toggle(),
+          onTap: () => ref.read(simScreenState.notifier).toggleWireMode(),
           child: Container(
             width: size - 35,
             height: size - 35,

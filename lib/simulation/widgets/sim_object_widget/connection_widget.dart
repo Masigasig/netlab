@@ -14,25 +14,23 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
   @override
   void initState() {
     super.initState();
-    _conAId =
-        (ref.read(simObjectMapProvider)[widget.simObjectId] as Connection).conA;
-    _conBId =
-        (ref.read(simObjectMapProvider)[widget.simObjectId] as Connection).conB;
+    _conAId = (ref.read(connectionProvider)[widget.simObjectId]!).conA;
+    _conBId = (ref.read(connectionProvider)[widget.simObjectId]!).conB;
   }
 
   @override
   Widget build(BuildContext context) {
     final conAPosX = ref.watch(
-      simObjectMapProvider.select((map) => (map[_conAId] as Device).posX),
+      deviceProvider.select((map) => (map[_conAId]!).posX),
     );
     final conAPosY = ref.watch(
-      simObjectMapProvider.select((map) => (map[_conAId] as Device).posY),
+      deviceProvider.select((map) => (map[_conAId]!).posY),
     );
     final conBPosX = ref.watch(
-      simObjectMapProvider.select((map) => (map[_conBId] as Device).posX),
+      deviceProvider.select((map) => (map[_conBId]!).posX),
     );
     final conBPosY = ref.watch(
-      simObjectMapProvider.select((map) => (map[_conBId] as Device).posY),
+      deviceProvider.select((map) => (map[_conBId]!).posY),
     );
 
     final start = Offset(conAPosX, conAPosY);

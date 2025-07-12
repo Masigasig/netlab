@@ -7,7 +7,7 @@ import 'package:netlab/core/constants/app_constants.dart';
 import 'package:netlab/simulation/widgets/device_drawer.dart';
 import 'package:netlab/simulation/widgets/grid_painter.dart';
 
-import 'package:netlab/simulation/providers/sim_object_map_provider.dart';
+import 'package:netlab/simulation/providers/sim_screen_state.dart';
 
 class SimulationScreen extends ConsumerStatefulWidget {
   final double canvasSize = AppConstants.canvasSize;
@@ -114,7 +114,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     );
 
     ref
-        .read(simObjectMapProvider.notifier)
+        .read(simScreenState.notifier)
         .createDevice(type: details.data, posX: pos.x, posY: pos.y);
   }
 

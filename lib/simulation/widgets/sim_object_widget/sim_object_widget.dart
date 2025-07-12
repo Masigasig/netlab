@@ -4,8 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:netlab/core/constants/app_image.dart';
 import 'package:netlab/core/constants/app_constants.dart' show AppConstants;
 
-import 'package:netlab/simulation/model/sim_object/sim_object.dart';
-import 'package:netlab/simulation/providers/sim_object_map_provider.dart';
+import 'package:netlab/simulation/providers/sim_screen_state.dart';
 
 part 'device_widget.dart';
 part 'router_widget.dart';
