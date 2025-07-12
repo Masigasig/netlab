@@ -3,13 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:netlab/simulation/sim_object/sim_object.dart';
 import 'package:netlab/simulation/sim_object_widget/sim_object_widget.dart';
 
-export 'package:netlab/simulation/sim_object/sim_object.dart' show SimObjectType, SimObjectTypeX;
+export 'package:netlab/simulation/sim_object/sim_object.dart'
+    show SimObjectType, SimObjectTypeX;
 
 part 'device_provider.dart';
 part 'device_widget_provider.dart';
 part 'connection_provider.dart';
 part 'connection_widget_provider.dart';
-
 
 final wireModeProvider = StateProvider<bool>((ref) => false);
 final simScreenState = StateNotifierProvider<SimScreenState, void>(
@@ -53,17 +53,14 @@ class SimScreenState extends StateNotifier<void> {
   void createConnection({required String simObjectId}) {
     if (!_wireModeNotifier.state) return;
 
-    // Add device to selection if valid
     if (!_selectedDevices.contains(simObjectId) &&
         _selectedDevices.length < 2) {
       _selectedDevices.add(simObjectId);
 
-      // Only proceed if we have 2 selected devices
       if (_selectedDevices.length == 2) {
         final conA = _selectedDevices[0];
         final conB = _selectedDevices[1];
 
-        // Check for duplicates
         final isDuplicate = _connectionNotifier.state.values.any(
           (conn) =>
               (conn.conA == conA && conn.conB == conB) ||
@@ -74,7 +71,6 @@ class SimScreenState extends StateNotifier<void> {
           return;
         }
 
-        // Create the connection
         final simObjectId = DateTime.now().millisecondsSinceEpoch.toString();
         final (simObject, widget) = _createSimObjectAndWidget(
           type: SimObjectType.connection,

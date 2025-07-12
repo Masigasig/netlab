@@ -7,15 +7,13 @@ import 'package:netlab/core/routing/router.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Set up system UI overlay settings
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-  // Force landscape orientation
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]).then((_) {
-    runApp(ProviderScope(child: const MyApp()));
+    runApp(const ProviderScope(child: MyApp()));
   });
 }
 

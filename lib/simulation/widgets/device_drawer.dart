@@ -9,7 +9,6 @@ class DeviceDrawer extends StatefulWidget {
 
 class _DeviceDrawerState extends State<DeviceDrawer> {
   bool _isOpen = true;
-  
 
   void _toggleDrawer() {
     setState(() {
@@ -32,14 +31,14 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
     return Stack(
       children: [
         AnimatedPositioned(
-          duration: Duration(milliseconds: animationSpeed),
+          duration: const Duration(milliseconds: animationSpeed),
           top: 0,
           bottom: 0,
           left: _isOpen ? 0 : -width,
           width: width,
           child: Material(
-            color: Color.fromRGBO(0, 0, 0, 0.5),
-            shape: RoundedRectangleBorder(
+            color: const Color.fromRGBO(0, 0, 0, 0.5),
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20),
                 bottomRight: Radius.circular(20),
@@ -75,7 +74,7 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
         ),
 
         AnimatedPositioned(
-          duration: Duration(milliseconds: animationSpeed),
+          duration: const Duration(milliseconds: animationSpeed),
           top: 47,
           left: _isOpen ? width : 0,
           child: GestureDetector(
@@ -83,9 +82,9 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
             child: Container(
               width: 20,
               height: 60,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(0, 0, 0, 0.5),
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   topRight: Radius.circular(4),
                   bottomRight: Radius.circular(4),
                 ),

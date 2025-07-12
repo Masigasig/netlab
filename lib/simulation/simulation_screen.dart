@@ -9,7 +9,7 @@ part 'widgets/device_drawer.dart';
 part 'widgets/widget_stack.dart';
 part 'widgets/grid_painter.dart';
 
-const double canvasSize = 100_000.0; 
+const double canvasSize = 100_000.0;
 
 class SimulationScreen extends ConsumerStatefulWidget {
   const SimulationScreen({super.key});
@@ -49,7 +49,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                 transformationController: _transformationController,
                 constrained: false,
                 minScale: 0.2,
-                child: Stack(
+                child: const Stack(
                   children: [
                     CustomPaint(
                       painter: _GridPainter(),
@@ -144,6 +144,3 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
       ..translate(-canvasSize / 2, -canvasSize / 2);
   }
 }
-
-
-

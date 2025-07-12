@@ -1,6 +1,8 @@
 part of '../simulation_screen.dart';
 
 class _GridPainter extends CustomPainter {
+  const _GridPainter();
+
   static const double _spacing = 50.0;
   static const double _major = _spacing * 5;
   static const double _axis = 2.0;
