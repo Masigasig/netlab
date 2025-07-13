@@ -31,6 +31,7 @@ class SimScreenState extends StateNotifier<void> {
       ref.read(connectionWidgetProvider.notifier);
 
   final List<String> _selectedDevices = [];
+  final Map<SimObjectType, int> _typeCounters = {};
 
   void createDevice({
     required SimObjectType type,
@@ -38,12 +39,14 @@ class SimScreenState extends StateNotifier<void> {
     required double posY,
   }) {
     final simObjectId = DateTime.now().millisecondsSinceEpoch.toString();
+    final name = '${type.label} ${_getNextCounter(type)}';
 
     final (simObject, widget) = _createSimObjectAndWidget(
       type: type,
       simObjectId: simObjectId,
       posX: posX,
       posY: posY,
+      name: name,
     );
 
     _deviceNotifier.addDevice(simObject as Device);
@@ -95,6 +98,11 @@ class SimScreenState extends StateNotifier<void> {
     _selectedDevices.clear();
   }
 
+  int _getNextCounter(SimObjectType type) {
+    _typeCounters[type] = (_typeCounters[type] ?? 0) + 1;
+    return _typeCounters[type]!;
+  }
+
   (SimObject, SimObjectWidget) _createSimObjectAndWidget({
     required SimObjectType type,
     required String simObjectId,
@@ -102,18 +110,19 @@ class SimScreenState extends StateNotifier<void> {
     double posY = 0,
     String conA = '',
     String conB = '',
+    String name = '',
   }) {
     return switch (type) {
       SimObjectType.host => (
-        Host(id: simObjectId, posX: posX, posY: posY),
+        Host(id: simObjectId, posX: posX, posY: posY, name: name),
         HostWidget(simObjectId: simObjectId),
       ),
       SimObjectType.router => (
-        Router(id: simObjectId, posX: posX, posY: posY),
+        Router(id: simObjectId, posX: posX, posY: posY, name: name),
         RouterWidget(simObjectId: simObjectId),
       ),
       SimObjectType.switch_ => (
-        Switch(id: simObjectId, posX: posX, posY: posY),
+        Switch(id: simObjectId, posX: posX, posY: posY, name: name),
         SwitchWidget(simObjectId: simObjectId),
       ),
       SimObjectType.connection => (

@@ -21,6 +21,26 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
       deviceProvider.select((map) => map[widget.simObjectId]!),
     );
 
+    Column deviceWithLabel() {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: Image.asset(widget.imagePath, fit: BoxFit.contain),
+          ),
+          Material(
+            color: Colors.transparent,
+            child: Text(
+              device.name,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+          ),
+        ],
+      );
+    }
+
     return Positioned(
       left: device.posX - widget.size / 2,
       top: device.posY - widget.size / 2,
@@ -29,21 +49,13 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
         child: Draggable(
           feedback: Transform.translate(
             offset: Offset(-widget.size / 2, -widget.size / 2),
-            child: SizedBox(
-              width: widget.size,
-              height: widget.size,
-              child: Image.asset(widget.imagePath, fit: BoxFit.contain),
-            ),
+            child: deviceWithLabel(),
           ),
           dragAnchorStrategy: pointerDragAnchorStrategy,
           childWhenDragging: Container(),
           onDragUpdate: (details) =>
               _updatePosition(details, device.posX, device.posY),
-          child: SizedBox(
-            width: widget.size,
-            height: widget.size,
-            child: Image.asset(widget.imagePath, fit: BoxFit.contain),
-          ),
+          child: deviceWithLabel(),
         ),
       ),
     );
