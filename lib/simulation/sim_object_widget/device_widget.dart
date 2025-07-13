@@ -15,6 +15,8 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
     extends _SimObjectWidgetState<T> {
   @override
   Widget build(BuildContext context) {
+    debugPrint('Device_${widget.simObjectId} Rebuilt');
+
     final device = ref.watch(
       deviceProvider.select((map) => map[widget.simObjectId]!),
     );

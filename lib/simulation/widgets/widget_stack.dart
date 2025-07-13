@@ -5,6 +5,7 @@ class _DeviceWidgetStack extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint('DeviceWidgetStack Widget Rebuilt');
     final deviceWidgets = ref.watch(deviceWidgetProvider);
 
     return SizedBox(
@@ -20,6 +21,7 @@ class _ConnectionWidgetStack extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint('ConnectionWidgetStack Widget Rebuilt');
     final connectionWidgets = ref.watch(connectionWidgetProvider);
 
     return SizedBox(

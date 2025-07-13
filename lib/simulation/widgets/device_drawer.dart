@@ -1,6 +1,15 @@
 part of '../simulation_screen.dart';
 
 class DeviceDrawer extends StatefulWidget {
+  final double width = 200.0;
+  final int animationSpeed = 300;
+  final allSpawners = const [
+    _DeviceSpawner(type: SimObjectType.host, imagePath: AppImage.host),
+    _DeviceSpawner(type: SimObjectType.router, imagePath: AppImage.router),
+    _DeviceSpawner(type: SimObjectType.switch_, imagePath: AppImage.switch_),
+    _ConnectionSpawner(),
+  ];
+
   const DeviceDrawer({super.key});
 
   @override
@@ -18,24 +27,15 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    const double width = 200.0;
-    const int animationSpeed = 300;
-
-    const allSpawners = [
-      _DeviceSpawner(type: SimObjectType.host, imagePath: AppImage.host),
-      _DeviceSpawner(type: SimObjectType.router, imagePath: AppImage.router),
-      _DeviceSpawner(type: SimObjectType.switch_, imagePath: AppImage.switch_),
-      _ConnectionSpawner(),
-    ];
-
+    debugPrint('DeviceDrawer Widget Rebuilt');
     return Stack(
       children: [
         AnimatedPositioned(
-          duration: const Duration(milliseconds: animationSpeed),
+          duration: Duration(milliseconds: widget.animationSpeed),
           top: 0,
           bottom: 0,
-          left: _isOpen ? 0 : -width,
-          width: width,
+          left: _isOpen ? 0 : -widget.width,
+          width: widget.width,
           child: Material(
             color: const Color.fromRGBO(0, 0, 0, 0.5),
             shape: const RoundedRectangleBorder(
@@ -64,8 +64,8 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
                           mainAxisSpacing: 0.0,
                           childAspectRatio: 0.9,
                         ),
-                    itemCount: allSpawners.length,
-                    itemBuilder: (context, index) => allSpawners[index],
+                    itemCount: widget.allSpawners.length,
+                    itemBuilder: (context, index) => widget.allSpawners[index],
                   ),
                 ),
               ],
@@ -74,9 +74,9 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
         ),
 
         AnimatedPositioned(
-          duration: const Duration(milliseconds: animationSpeed),
+          duration: Duration(milliseconds: widget.animationSpeed),
           top: 47,
-          left: _isOpen ? width : 0,
+          left: _isOpen ? widget.width : 0,
           child: GestureDetector(
             onTap: () => _toggleDrawer(),
             child: Container(
@@ -105,13 +105,13 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
 class _DeviceSpawner extends StatelessWidget {
   final SimObjectType type;
   final String imagePath;
+  final double size = 100.0;
 
   const _DeviceSpawner({required this.type, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
-    const double size = 200.0;
-
+    debugPrint('DeviceSpawner Widget Rebuilt');
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -119,7 +119,7 @@ class _DeviceSpawner extends StatelessWidget {
           data: type,
           dragAnchorStrategy: pointerDragAnchorStrategy,
           feedback: Transform.translate(
-            offset: const Offset(-size / 2, -size / 2),
+            offset: Offset(-size / 2, -size / 2),
             child: SizedBox(
               width: size,
               height: size,
@@ -139,11 +139,13 @@ class _DeviceSpawner extends StatelessWidget {
 }
 
 class _ConnectionSpawner extends ConsumerWidget {
+  final double size = 100.0;
+
   const _ConnectionSpawner();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const double size = 200.0;
+    debugPrint('ConnectionSpawner Widget Rebuilt');
     final isActive = ref.watch(wireModeProvider);
 
     return Column(

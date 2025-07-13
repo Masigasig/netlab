@@ -8,6 +8,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('HomeScreen Widget rebuilt');
     return Material(
       child: Row(
         children: [

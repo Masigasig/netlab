@@ -20,6 +20,7 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Connection_${widget.simObjectId} Rebuilt');
     final conAPosX = ref.watch(
       deviceProvider.select((map) => (map[_conAId]!).posX),
     );
@@ -50,7 +51,7 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
           left: mid.dx - 15,
           top: mid.dy - 15,
           child: GestureDetector(
-            onTap: () => debugPrint('midpoint tap'),
+            onTap: () => debugPrint('midpoint ${widget.simObjectId} tapped'),
             child: Container(
               width: 30,
               height: 30,

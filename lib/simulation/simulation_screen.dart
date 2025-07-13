@@ -9,7 +9,7 @@ part 'widgets/device_drawer.dart';
 part 'widgets/widget_stack.dart';
 part 'widgets/grid_painter.dart';
 
-const double canvasSize = 100_000.0;
+const double canvasSize = 100_000.0; // put it here for optimazation
 
 class SimulationScreen extends ConsumerStatefulWidget {
   const SimulationScreen({super.key});
@@ -40,6 +40,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('SimulationScreen Widget Rebuilt');
     return Scaffold(
       body: Stack(
         children: [
