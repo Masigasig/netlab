@@ -13,12 +13,15 @@ abstract class DeviceWidget extends SimObjectWidget {
 
 abstract class _DeviceWidgetState<T extends DeviceWidget>
     extends _SimObjectWidgetState<T> {
+  StateNotifierProvider<DeviceNotifier<dynamic>, Map<String, dynamic>>
+  get provider;
+
   @override
   Widget build(BuildContext context) {
     debugPrint('Device_${widget.simObjectId} Rebuilt');
 
     final device = ref.watch(
-      deviceProvider.select((map) => map[widget.simObjectId]!),
+      provider.select((map) => map[widget.simObjectId]!),
     );
 
     Column deviceWithLabel() {
@@ -78,8 +81,6 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
     final newX = posX + localPosition.dx - widget.size / 2;
     final newY = posY + localPosition.dy - widget.size / 2;
 
-    ref
-        .read(deviceProvider.notifier)
-        .updatePosition(widget.simObjectId, newX, newY);
+    ref.read(provider.notifier).updatePosition(widget.simObjectId, newX, newY);
   }
 }

@@ -8,4 +8,8 @@ class RouterWidget extends DeviceWidget {
   ConsumerState<RouterWidget> createState() => _RouterDeviceState();
 }
 
-class _RouterDeviceState extends _DeviceWidgetState<RouterWidget> {}
+class _RouterDeviceState extends _DeviceWidgetState<RouterWidget> {
+  @override
+  StateNotifierProvider<DeviceNotifier<dynamic>, Map<String, dynamic>>
+  get provider => routerProvider;
+}

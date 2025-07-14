@@ -56,8 +56,11 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                       painter: _GridPainter(),
                       size: Size(canvasSize, canvasSize),
                     ),
-                    _ConnectionWidgetStack(),
-                    _DeviceWidgetStack(),
+
+                    _DeviceWidgetStack(type: SimObjectType.connection),
+                    _DeviceWidgetStack(type: SimObjectType.host),
+                    _DeviceWidgetStack(type: SimObjectType.switch_),
+                    _DeviceWidgetStack(type: SimObjectType.router),
                   ],
                 ),
               );

@@ -12,18 +12,3 @@ abstract class SimObject {
 
   SimObject({required this.id, required this.type});
 }
-
-extension SimObjectTypeX on SimObjectType {
-  String get label {
-    switch (this) {
-      case SimObjectType.router:
-        return 'Router';
-      case SimObjectType.switch_:
-        return 'Switch';
-      case SimObjectType.host:
-        return 'Host';
-      case SimObjectType.connection:
-        return 'Connection';
-    }
-  }
-}

@@ -8,4 +8,8 @@ class HostWidget extends DeviceWidget {
   ConsumerState<HostWidget> createState() => _HostDeviceState();
 }
 
-class _HostDeviceState extends _DeviceWidgetState<HostWidget> {}
+class _HostDeviceState extends _DeviceWidgetState<HostWidget> {
+  @override
+  StateNotifierProvider<DeviceNotifier<dynamic>, Map<String, dynamic>>
+  get provider => hostProvider;
+}
