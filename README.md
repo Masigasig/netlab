@@ -103,7 +103,7 @@ Current version:
     Android: 
         compileSdk = 36
         buildToolsVersion = "36.0.0"
-        ndkVersion = "29.0.13113456"
+        ndkVersion = "29.0.13599879"
         cmake = "4.0.2"
 
 -->

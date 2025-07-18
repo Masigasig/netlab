@@ -9,7 +9,7 @@ android {
     namespace = "com.example.netlab"
     compileSdk = 36
     buildToolsVersion = "36.0.0"
-    ndkVersion = "29.0.13113456"
+    ndkVersion = "29.0.13599879"
 
     externalNativeBuild {
         cmake {
