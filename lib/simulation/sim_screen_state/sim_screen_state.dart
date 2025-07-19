@@ -10,6 +10,7 @@ part 'connection_notifier.dart';
 part 'device_notifier.dart';
 part 'host_notifier.dart';
 part 'router_notifier.dart';
+part 'sim_object_notifier.dart';
 part 'switch_notifier.dart';
 
 final wireModeProvider = StateProvider<bool>((ref) => false);
@@ -107,6 +108,11 @@ class SimScreenState extends StateNotifier<void> {
     SimObjectWidget widget,
   ) {
     switch (type) {
+      case SimObjectType.connection:
+        _connectionNotifier.addSimObject(object as Connection);
+        _connectionWidgetNotifier.addSimObjectWidget(
+          widget as ConnectionWidget,
+        );
       case SimObjectType.host:
         _hostNotifier.addSimObject(object as Host);
         _hostWidgetNotifier.addSimObjectWidget(widget as HostWidget);
@@ -119,44 +125,21 @@ class SimScreenState extends StateNotifier<void> {
         _switchNotifier.addSimObject(object as Switch);
         _switchWidgetNotifier.addSimObjectWidget(widget as SwitchWidget);
         break;
-      case SimObjectType.connection:
-        _connectionNotifier.addSimObject(object as Connection);
-        _connectionWidgetNotifier.addSimObjectWidget(
-          widget as ConnectionWidget,
-        );
     }
-  }
-}
-
-abstract class SimObjectNotifier<T extends SimObject>
-    extends StateNotifier<Map<String, T>> {
-  SimObjectNotifier() : super({});
-
-  void addSimObject(T simObject) {
-    state = {...state, simObject.id: simObject};
-  }
-}
-
-abstract class SimObjectWidgetNotifier<T extends SimObjectWidget>
-    extends StateNotifier<Map<String, T>> {
-  SimObjectWidgetNotifier() : super({});
-
-  void addSimObjectWidget(T simObjectWidget) {
-    state = {...state, simObjectWidget.simObjectId: simObjectWidget};
   }
 }
 
 extension SimObjectTypeX on SimObjectType {
   String get label {
     switch (this) {
+      case SimObjectType.connection:
+        return 'Connection';
+      case SimObjectType.host:
+        return 'Host';
       case SimObjectType.router:
         return 'Router';
       case SimObjectType.switch_:
         return 'Switch';
-      case SimObjectType.host:
-        return 'Host';
-      case SimObjectType.connection:
-        return 'Connection';
     }
   }
 
@@ -171,6 +154,8 @@ extension SimObjectTypeX on SimObjectType {
 
     return (
       switch (this) {
+        SimObjectType.connection => Connection(id: id, conA: conA, conB: conB),
+        SimObjectType.host => Host(id: id, posX: posX, posY: posY, name: name),
         SimObjectType.router => Router(
           id: id,
           posX: posX,
@@ -183,15 +168,13 @@ extension SimObjectTypeX on SimObjectType {
           posY: posY,
           name: name,
         ),
-        SimObjectType.host => Host(id: id, posX: posX, posY: posY, name: name),
-        SimObjectType.connection => Connection(id: id, conA: conA, conB: conB),
       },
 
       switch (this) {
+        SimObjectType.connection => ConnectionWidget(simObjectId: id),
+        SimObjectType.host => HostWidget(simObjectId: id),
         SimObjectType.router => RouterWidget(simObjectId: id),
         SimObjectType.switch_ => SwitchWidget(simObjectId: id),
-        SimObjectType.host => HostWidget(simObjectId: id),
-        SimObjectType.connection => ConnectionWidget(simObjectId: id),
       },
     );
   }
