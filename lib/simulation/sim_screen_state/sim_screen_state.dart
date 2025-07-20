@@ -50,11 +50,9 @@ class SimScreenState extends StateNotifier<void> {
   }) {
     final name = '${type.label} ${_getNextCounter(type)}';
 
-    final (device, widget) = type.createSimObjAndWidget(
-      name: name,
-      posX: posX,
-      posY: posY,
-    );
+    final device = type.createSimObject(name: name, posX: posX, posY: posY);
+
+    final widget = type.createSimObjectWidget(simObjectId: device.id);
 
     _addSimObjAndWidgetToPovider(type, device, widget);
   }
@@ -80,8 +78,15 @@ class SimScreenState extends StateNotifier<void> {
           return;
         }
 
-        final (connection, widget) = SimObjectType.connection
-            .createSimObjAndWidget(conA: conA, conB: conB);
+        final connection = SimObjectType.connection.createSimObject(
+          conA: conA,
+          conB: conB,
+        );
+
+        final widget = SimObjectType.connection.createSimObjectWidget(
+          simObjectId: connection.id,
+        );
+
         _addSimObjAndWidgetToPovider(
           SimObjectType.connection,
           connection,
@@ -95,6 +100,97 @@ class SimScreenState extends StateNotifier<void> {
   void toggleWireMode() {
     _wireModeNotifier.state = !_wireModeNotifier.state;
     _selectedDevices.clear();
+  }
+
+  Map<String, dynamic> exportSimulation() {
+    return {
+      'typeCounters': _typeCounters.map(
+        (key, value) => MapEntry(key.name, value),
+      ),
+      'connections': ref
+          .read(connectionProvider)
+          .values
+          .map((c) => c.toMap())
+          .toList(),
+      'hosts': ref.read(hostProvider).values.map((h) => h.toMap()).toList(),
+      'routers': ref.read(routerProvider).values.map((r) => r.toMap()).toList(),
+      'switches': ref
+          .read(switchProvider)
+          .values
+          .map((s) => s.toMap())
+          .toList(),
+    };
+  }
+
+  void importSimulation(Map<String, dynamic> data) {
+    _clearAllState();
+
+    if (data['typeCounters'] != null) {
+      final countersMap = data['typeCounters'] as Map<String, dynamic>;
+      countersMap.forEach((key, value) {
+        final type = SimObjectType.values.firstWhere((t) => t.name == key);
+        _typeCounters[type] = value as int;
+      });
+    }
+
+    for (final connectionMap in (data['connections'] as List)) {
+      final connection = Connection.fromMap(
+        connectionMap as Map<String, dynamic>,
+      );
+      final widget = SimObjectType.connection.createSimObjectWidget(
+        simObjectId: connection.id,
+      );
+
+      _addSimObjAndWidgetToPovider(
+        SimObjectType.connection,
+        connection,
+        widget,
+      );
+    }
+
+    for (final hostMap in (data['hosts'] as List)) {
+      final host = Host.fromMap(hostMap as Map<String, dynamic>);
+      final widget = SimObjectType.host.createSimObjectWidget(
+        simObjectId: host.id,
+      );
+
+      _addSimObjAndWidgetToPovider(SimObjectType.host, host, widget);
+    }
+
+    for (final routerMap in (data['routers'] as List)) {
+      final router = Router.fromMap(routerMap as Map<String, dynamic>);
+      final widget = SimObjectType.router.createSimObjectWidget(
+        simObjectId: router.id,
+      );
+
+      _addSimObjAndWidgetToPovider(SimObjectType.router, router, widget);
+    }
+
+    for (final switchMap in (data['switches'] as List)) {
+      final switchObj = Switch.fromMap(switchMap as Map<String, dynamic>);
+      final widget = SimObjectType.switch_.createSimObjectWidget(
+        simObjectId: switchObj.id,
+      );
+
+      _addSimObjAndWidgetToPovider(SimObjectType.switch_, switchObj, widget);
+    }
+  }
+
+  void _clearAllState() {
+    _typeCounters.clear();
+    _selectedDevices.clear();
+
+    _connectionNotifier.state = {};
+    _connectionWidgetNotifier.state = {};
+
+    _hostNotifier.state = {};
+    _hostWidgetNotifier.state = {};
+
+    _routerNotifier.state = {};
+    _routerWidgetNotifier.state = {};
+
+    _switchNotifier.state = {};
+    _switchWidgetNotifier.state = {};
   }
 
   int _getNextCounter(SimObjectType type) {
@@ -143,7 +239,16 @@ extension SimObjectTypeX on SimObjectType {
     }
   }
 
-  (SimObject, SimObjectWidget) createSimObjAndWidget({
+  SimObjectWidget createSimObjectWidget({required String simObjectId}) {
+    return switch (this) {
+      SimObjectType.connection => ConnectionWidget(simObjectId: simObjectId),
+      SimObjectType.host => HostWidget(simObjectId: simObjectId),
+      SimObjectType.router => RouterWidget(simObjectId: simObjectId),
+      SimObjectType.switch_ => SwitchWidget(simObjectId: simObjectId),
+    };
+  }
+
+  SimObject createSimObject({
     String name = '',
     double posX = 0,
     double posY = 0,
@@ -152,30 +257,21 @@ extension SimObjectTypeX on SimObjectType {
   }) {
     final id = DateTime.now().millisecondsSinceEpoch.toString();
 
-    return (
-      switch (this) {
-        SimObjectType.connection => Connection(id: id, conA: conA, conB: conB),
-        SimObjectType.host => Host(id: id, posX: posX, posY: posY, name: name),
-        SimObjectType.router => Router(
-          id: id,
-          posX: posX,
-          posY: posY,
-          name: name,
-        ),
-        SimObjectType.switch_ => Switch(
-          id: id,
-          posX: posX,
-          posY: posY,
-          name: name,
-        ),
-      },
-
-      switch (this) {
-        SimObjectType.connection => ConnectionWidget(simObjectId: id),
-        SimObjectType.host => HostWidget(simObjectId: id),
-        SimObjectType.router => RouterWidget(simObjectId: id),
-        SimObjectType.switch_ => SwitchWidget(simObjectId: id),
-      },
-    );
+    return switch (this) {
+      SimObjectType.connection => Connection(id: id, conA: conA, conB: conB),
+      SimObjectType.host => Host(id: id, posX: posX, posY: posY, name: name),
+      SimObjectType.router => Router(
+        id: id,
+        posX: posX,
+        posY: posY,
+        name: name,
+      ),
+      SimObjectType.switch_ => Switch(
+        id: id,
+        posX: posX,
+        posY: posY,
+        name: name,
+      ),
+    };
   }
 }

@@ -1,3 +1,6 @@
+import 'dart:io' show File;
+import 'dart:convert' show jsonEncode, utf8, jsonDecode;
+import 'package:file_picker/file_picker.dart' show FilePicker, FileType;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector4;
@@ -85,13 +88,13 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                   ),
                   const SizedBox(width: 10),
                   FloatingActionButton.small(
-                    onPressed: () => {/*TODO: save button*/},
+                    onPressed: _saveSimulation,
                     heroTag: 'save',
                     child: const Icon(Icons.save),
                   ),
                   const SizedBox(width: 10),
                   FloatingActionButton.small(
-                    onPressed: () => {/*TODO: load button*/},
+                    onPressed: _loadSimulation,
                     heroTag: 'load',
                     child: const Icon(Icons.folder_open),
                   ),
@@ -146,5 +149,34 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     return Matrix4.identity()
       ..translate(size.width / 2, size.height / 2)
       ..translate(-canvasSize / 2, -canvasSize / 2);
+  }
+
+  Future<void> _saveSimulation() async {
+    final data = ref.read(simScreenState.notifier).exportSimulation();
+    final jsonString = jsonEncode(data);
+    final bytes = utf8.encode(jsonString);
+
+    await FilePicker.platform.saveFile(
+      dialogTitle: 'Save Network Simulation',
+      fileName: 'network.netlab.json',
+      allowedExtensions: ['json'],
+      type: FileType.custom,
+      bytes: bytes,
+    );
+  }
+
+  Future<void> _loadSimulation() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+    );
+
+    if (result != null && result.files.single.path != null) {
+      final path = result.files.single.path!;
+      final jsonString = await File(path).readAsString();
+      final data = jsonDecode(jsonString) as Map<String, dynamic>;
+
+      ref.read(simScreenState.notifier).importSimulation(data);
+    }
   }
 }
