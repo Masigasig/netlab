@@ -160,6 +160,8 @@ class SimScreenState extends StateNotifier<void> {
       _addSimObjAndWidgetToPovider(SimObjectType.switch_, switch_, widget);
     }
 
+    // delay para mag load muna lahat ng devices sa taas, magiging null kasi 
+    // yung makukuha ng connection if walang delay so mag e-error
     await Future.delayed(const Duration(milliseconds: 10));
 
     for (final connectionMap in (data['connections'] as List)) {
@@ -185,12 +187,12 @@ class SimScreenState extends StateNotifier<void> {
 
     _connectionWidgetNotifier.state = {};
     _connectionNotifier.state = {};
-    await Future.delayed(const Duration(milliseconds: 10));
+    await Future.delayed(const Duration(milliseconds: 10)); // para d sabay sabay mag delete
 
     _hostWidgetNotifier.state = {};
     _routerWidgetNotifier.state = {};
     _switchWidgetNotifier.state = {};
-    await Future.delayed(const Duration(milliseconds: 10));
+    await Future.delayed(const Duration(milliseconds: 10)); // para d sabay sabay mag delete
 
     _hostNotifier.state = {};
     _routerNotifier.state = {};
@@ -259,7 +261,7 @@ extension SimObjectTypeX on SimObjectType {
     String conA = '',
     String conB = '',
   }) {
-    final id = DateTime.now().millisecondsSinceEpoch.toString();
+    final id = DateTime.now().millisecondsSinceEpoch.toString(); //TODO: should replace for better uniquness
 
     return switch (this) {
       SimObjectType.connection => Connection(id: id, conA: conA, conB: conB),
