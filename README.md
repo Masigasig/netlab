@@ -47,21 +47,32 @@ Useful website to look for:
 
 
 WorkFlow and shit for our productivity and collaboration :
-    Forked our repo first then bala kana kung ano gawin mo don sa repo mo pag mag susubmit ng pull req keep your commit
-    less as possible but not that it's one commit, I mean yung useful commit lang para madali makita kung ano yung changes
-    git squash mo para matanggal yung unecessary commit at masama don sa ibang commit: watch the firt video here it's
-    highly recommended for proffesional future carrer as programmer lol, ako na mag aaccept ng PR code review ko muna.
+    Forked our repo first then bala kana kung ano gawin mo don sa repo mo tas pag uupload nyo na yung changes sa
+    main repo "git pull --rebase" nyo muna yung branch sa forked repo tas saka nyo push sa main repo, linear lang dapat
+    ang mangyayari sa git history natin.
 
-    ps. you can use "git commit --amend --no-edit" kung may hahabol kang changes sa commit mo its useful command search about it.
+    ps. you can use "git commit --amend --no-edit" kung may hahabol kang changes sa commit mo it's useful command search about it.
+
+    sa commit message naman ket ganto nalang: "Type: Purpose" for example "chore: update dependecies" 
+    
+    Type:       Purpose:
+    feat        Intorduce a new feature
+    fix         Fixes bug
+    docs        Changes to documentation only
+    style       Code style changes (formatting, missing semicolons, etc.)-no logic
+    refactor    Code changes that neither fix a bug nor add a feature
+    test        Adding or updating test
+    chore       Routing tasks like build scripts, configs, or dependecy update
+    build       Changes that affect the build system or external dependencies
+    ci          Changes to CI/CD configuration files and scripts
+    perf        Code changes that improve perfomance
+    revert      Reverts a previous commit
 
     (10 mins) How to Write a Git Commit Message: Conventions & Best Practices
         https://youtu.be/9ilpKtF0KGQ?si=vTaau_o7iFp0adJJ
 
     (4 mins) Never use git pull
         https://youtu.be/xN1-2p06Urc?si=oueXWIJJUvqUPpAu
-
-    (Playlist) (30 mins approx) Git 
-        https://youtube.com/playlist?list=PLp3qkYQbU5kexG03Z79eU7SpoWtTv7Ww3&si=8N-owtMY2REm8umr
 
 
 Youtube Videos you might find helpful (don't get stuck on tutorial hell, wath it 2x speed lol):
@@ -94,6 +105,10 @@ Youtube Videos you might find helpful (don't get stuck on tutorial hell, wath it
             https://youtu.be/7Cp1GlmHTGE?si=Abybk7wVpC91aId5
         (2 hrs) Flutter Riverpod 2 Tutorial for Beginners | Riverpod Generator
             https://youtu.be/pwflXIA-6YQ?si=rEj3zaeeriHyO6cm
+
+        - Unit/Integration Testing 
+        (Playlist) Flutter Testing Tutorial For Beginners
+            https://youtube.com/playlist?list=PLlzmAWV2yTgAW2rVT0sqRmtBXc-pmBnJG&si=2OrG1U4IkfOHSkRk
 
 
 Current version:
