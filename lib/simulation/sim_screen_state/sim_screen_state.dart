@@ -122,8 +122,8 @@ class SimScreenState extends StateNotifier<void> {
     };
   }
 
-  void importSimulation(Map<String, dynamic> data) {
-    _clearAllState();
+  Future<void> importSimulation(Map<String, dynamic> data) async {
+    await _clearAllState();
 
     if (data['typeCounters'] != null) {
       final countersMap = data['typeCounters'] as Map<String, dynamic>;
@@ -131,21 +131,6 @@ class SimScreenState extends StateNotifier<void> {
         final type = SimObjectType.values.firstWhere((t) => t.name == key);
         _typeCounters[type] = value as int;
       });
-    }
-
-    for (final connectionMap in (data['connections'] as List)) {
-      final connection = Connection.fromMap(
-        connectionMap as Map<String, dynamic>,
-      );
-      final widget = SimObjectType.connection.createSimObjectWidget(
-        simObjectId: connection.id,
-      );
-
-      _addSimObjAndWidgetToPovider(
-        SimObjectType.connection,
-        connection,
-        widget,
-      );
     }
 
     for (final hostMap in (data['hosts'] as List)) {
@@ -167,30 +152,49 @@ class SimScreenState extends StateNotifier<void> {
     }
 
     for (final switchMap in (data['switches'] as List)) {
-      final switchObj = Switch.fromMap(switchMap as Map<String, dynamic>);
+      final switch_ = Switch.fromMap(switchMap as Map<String, dynamic>);
       final widget = SimObjectType.switch_.createSimObjectWidget(
-        simObjectId: switchObj.id,
+        simObjectId: switch_.id,
       );
 
-      _addSimObjAndWidgetToPovider(SimObjectType.switch_, switchObj, widget);
+      _addSimObjAndWidgetToPovider(SimObjectType.switch_, switch_, widget);
+    }
+
+    await Future.delayed(const Duration(milliseconds: 10));
+
+    for (final connectionMap in (data['connections'] as List)) {
+      final connection = Connection.fromMap(
+        connectionMap as Map<String, dynamic>,
+      );
+      final widget = SimObjectType.connection.createSimObjectWidget(
+        simObjectId: connection.id,
+      );
+
+      _addSimObjAndWidgetToPovider(
+        SimObjectType.connection,
+        connection,
+        widget,
+      );
     }
   }
 
-  void _clearAllState() {
+  Future<void> _clearAllState() async {
     _typeCounters.clear();
     _selectedDevices.clear();
+    _wireModeNotifier.state = false;
 
-    _connectionNotifier.state = {};
     _connectionWidgetNotifier.state = {};
+    _connectionNotifier.state = {};
+    await Future.delayed(const Duration(milliseconds: 10));
+
+    _hostWidgetNotifier.state = {};
+    _routerWidgetNotifier.state = {};
+    _switchWidgetNotifier.state = {};
+    await Future.delayed(const Duration(milliseconds: 10));
 
     _hostNotifier.state = {};
-    _hostWidgetNotifier.state = {};
-
     _routerNotifier.state = {};
-    _routerWidgetNotifier.state = {};
-
     _switchNotifier.state = {};
-    _switchWidgetNotifier.state = {};
   }
 
   int _getNextCounter(SimObjectType type) {

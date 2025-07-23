@@ -156,19 +156,27 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     final jsonString = jsonEncode(data);
     final bytes = utf8.encode(jsonString);
 
-    await FilePicker.platform.saveFile(
+    String? path = await FilePicker.platform.saveFile(
       dialogTitle: 'Save Network Simulation',
-      fileName: 'network.netlab.json',
-      allowedExtensions: ['json'],
+      fileName: 'network.netlab',
       type: FileType.custom,
-      bytes: bytes,
+      allowedExtensions: ['netlab'],
     );
+
+    if (path != null) {
+      if (!path.toLowerCase().endsWith('.netlab')) {
+        path += '.netlab';
+      }
+
+      final file = File(path);
+      await file.writeAsBytes(bytes);
+    }
   }
 
   Future<void> _loadSimulation() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['json'],
+      allowedExtensions: ['netlab'],
     );
 
     if (result != null && result.files.single.path != null) {

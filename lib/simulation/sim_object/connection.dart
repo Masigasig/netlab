@@ -8,7 +8,7 @@ class Connection extends SimObject {
     : super(type: SimObjectType.connection);
 
   @override
-  SimObject copyWith({String? conA, String? conB}) {
+  Connection copyWith({String? conA, String? conB}) {
     return Connection(id: id, conA: conA ?? this.conA, conB: conB ?? this.conB);
   }
 
