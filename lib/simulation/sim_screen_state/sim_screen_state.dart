@@ -1,3 +1,4 @@
+import 'package:ulid/ulid.dart' show Ulid;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/simulation/sim_object/sim_object.dart';
@@ -261,7 +262,7 @@ extension SimObjectTypeX on SimObjectType {
     String conA = '',
     String conB = '',
   }) {
-    final id = DateTime.now().millisecondsSinceEpoch.toString(); //TODO: should replace for better uniquness
+    final id = Ulid().toUuid();
 
     return switch (this) {
       SimObjectType.connection => Connection(id: id, conA: conA, conB: conB),

@@ -1,11 +1,9 @@
-import 'dart:io' show File;
-import 'dart:convert' show jsonEncode, utf8, jsonDecode;
-import 'package:file_picker/file_picker.dart' show FilePicker, FileType;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector4;
 
 import 'package:netlab/core/constants/app_image.dart';
+import 'package:netlab/core/utils/file_service.dart';
 import 'package:netlab/simulation/sim_screen_state/sim_screen_state.dart';
 
 part 'widgets/device_drawer.dart';
@@ -153,38 +151,13 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 
   Future<void> _saveSimulation() async {
     final data = ref.read(simScreenState.notifier).exportSimulation();
-    final jsonString = jsonEncode(data);
-    final bytes = utf8.encode(jsonString);
-
-    String? path = await FilePicker.platform.saveFile(
-      dialogTitle: 'Save Network Simulation',
-      fileName: 'network.netlab',
-      type: FileType.custom,
-      allowedExtensions: ['netlab'],
-    );
-
-    if (path != null) {
-      if (!path.toLowerCase().endsWith('.netlab')) {
-        path += '.netlab';
-      }
-
-      final file = File(path);
-      await file.writeAsBytes(bytes);
-    }
+    await FileService.saveFile(data);
   }
 
   Future<void> _loadSimulation() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['netlab'],
-    );
-
-    if (result != null && result.files.single.path != null) {
-      final path = result.files.single.path!;
-      final jsonString = await File(path).readAsString();
-      final data = jsonDecode(jsonString) as Map<String, dynamic>;
-
-      ref.read(simScreenState.notifier).importSimulation(data);
+    final data = await FileService.loadFile();
+    if (data != null) {
+      await ref.read(simScreenState.notifier).importSimulation(data);
     }
   }
 }

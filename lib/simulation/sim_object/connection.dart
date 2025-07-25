@@ -19,9 +19,9 @@ class Connection extends SimObject {
 
   factory Connection.fromMap(Map<String, dynamic> map) {
     return Connection(
-      id: map['id'] as String,
-      conA: map['conA'] as String,
-      conB: map['conB'] as String,
+      id: map['id'].toString(),
+      conA: map['conA'].toString(),
+      conB: map['conB'].toString(),
     );
   }
 }

@@ -25,10 +25,10 @@ class Switch extends Device {
 
   factory Switch.fromMap(Map<String, dynamic> map) {
     return Switch(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      posX: map['posX'] as double,
-      posY: map['posY'] as double,
+      id: map['id'].toString(),
+      name: map['name'].toString(),
+      posX: map['posX'].toDouble(),
+      posY: map['posY'].toDouble(),
     );
   }
 }

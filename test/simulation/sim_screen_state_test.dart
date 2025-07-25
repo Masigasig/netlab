@@ -92,9 +92,6 @@ void main() {
       expect(hosts.values.first.name, 'Host 1');
       expect(routers.values.first.name, 'Router 1');
 
-      // Id here has same when you run all of the test that's why it fail 
-      // I add a todo in the unique id to solve the problem
-      // this test pass if it runs alone
       state.createConnection(simObjectId: hosts.values.first.id);
       state.createConnection(simObjectId: routers.values.first.id);
 

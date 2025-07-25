@@ -38,6 +38,9 @@ dependencies:
   vector_math: ^2.1.4
   flutter_riverpod: ^2.6.1
   file_picker: ^10.2.0
+  universal_html: ^2.2.4
+  mocktail: ^1.0.4
+  ulid: ^2.0.1
 
 dev_dependencies:
   flutter_test:
