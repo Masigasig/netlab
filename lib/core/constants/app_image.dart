@@ -11,4 +11,8 @@ class AppLottie {
   static const _base = 'assets/images/lottie';
 
   static const String reading = '$_base/Reading.json';
+  static const String bgWave = '$_base/bg.json';
+  static const String bgr = '$_base/gradient.json';
+  static const String kid = '$_base/kid.json';
+  static const String particle = '$_base/particle.json';
 }
