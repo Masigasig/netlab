@@ -18,18 +18,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<Map<String, String>> _pages = [
     {
-      'title': 'Welcome!',
-      'description': 'Discover new ways to learn.',
+      'title': 'Welcome to NetLab!',
+      'description': 'Discover how computer networks work — no cables, no configurations. Just simple, hands-on learning built for students and educators.',
       'lottie': AppLottie.kid,
     },
     {
-      'title': 'Stay Motivated',
-      'description': 'Get reminders and track your progress.',
+      'title': 'Build & Connect Your Network.',
+      'description': 'Use drag-and-drop tools to create network topologies. Connect routers, switches, and PCs to visualize how real networks function.',
       'lottie': AppLottie.reading,
     },
     {
-      'title': 'Start Now',
-      'description': 'Let’s begin your learning journey.',
+      'title': 'Simulate. Learn. Repeat.',
+      'description': 'Simulate basic networking scenarios to reinforce classroom concepts. Whether you’re a beginner or teaching others, learning is just a tap away.',
       'lottie': AppLottie.reading,
     },
   ];
