@@ -161,9 +161,9 @@ class SimScreenState extends StateNotifier<void> {
       _addSimObjAndWidgetToPovider(SimObjectType.switch_, switch_, widget);
     }
 
-    // delay para mag load muna lahat ng devices sa taas, magiging null kasi 
+    // delay para mag load muna lahat ng devices sa taas, magiging null kasi
     // yung makukuha ng connection if walang delay so mag e-error
-    await Future.delayed(const Duration(milliseconds: 10));
+    await Future.delayed(const Duration(milliseconds: 100));
 
     for (final connectionMap in (data['connections'] as List)) {
       final connection = Connection.fromMap(
@@ -188,12 +188,16 @@ class SimScreenState extends StateNotifier<void> {
 
     _connectionWidgetNotifier.state = {};
     _connectionNotifier.state = {};
-    await Future.delayed(const Duration(milliseconds: 10)); // para d sabay sabay mag delete
+    await Future.delayed(
+      const Duration(milliseconds: 100),
+    ); // para d sabay sabay mag delete
 
     _hostWidgetNotifier.state = {};
     _routerWidgetNotifier.state = {};
     _switchWidgetNotifier.state = {};
-    await Future.delayed(const Duration(milliseconds: 10)); // para d sabay sabay mag delete
+    await Future.delayed(
+      const Duration(milliseconds: 100),
+    ); // para d sabay sabay mag delete
 
     _hostNotifier.state = {};
     _routerNotifier.state = {};

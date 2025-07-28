@@ -18,11 +18,7 @@ void main() {
 
   group('SimScreenState Device Creation', () {
     test('createDevice should create host correctly', () {
-      state.createDevice(
-        type: SimObjectType.host,
-        posX: 100,
-        posY: 200,
-      );
+      state.createDevice(type: SimObjectType.host, posX: 100, posY: 200);
 
       final hosts = container.read(hostProvider);
       expect(hosts.length, 1);
@@ -32,16 +28,8 @@ void main() {
     });
 
     test('createDevice should increment counter correctly', () {
-      state.createDevice(
-        type: SimObjectType.router,
-        posX: 100,
-        posY: 200,
-      );
-      state.createDevice(
-        type: SimObjectType.router,
-        posX: 300,
-        posY: 400,
-      );
+      state.createDevice(type: SimObjectType.router, posX: 100, posY: 200);
+      state.createDevice(type: SimObjectType.router, posX: 300, posY: 400);
 
       final routers = container.read(routerProvider);
       expect(routers.length, 2);
@@ -54,7 +42,7 @@ void main() {
     test('createConnection should not create when wire mode is off', () {
       state.createConnection(simObjectId: 'testId1');
       state.createConnection(simObjectId: 'testId2');
-      
+
       final connections = container.read(connectionProvider);
       expect(connections.length, 0);
     });
@@ -64,24 +52,16 @@ void main() {
 
       state.createConnection(simObjectId: 'testId1');
       state.createConnection(simObjectId: 'testId2');
-      
+
       final connections = container.read(connectionProvider);
       expect(connections.length, 1);
     });
 
     test('createConnection should create connection between two devices', () {
       state.toggleWireMode();
-      
-      state.createDevice(
-        type: SimObjectType.host,
-        posX: 100,
-        posY: 200,
-      );
-      state.createDevice(
-        type: SimObjectType.router,
-        posX: 300,
-        posY: 400,
-      );
+
+      state.createDevice(type: SimObjectType.host, posX: 100, posY: 200);
+      state.createDevice(type: SimObjectType.router, posX: 300, posY: 400);
 
       final hosts = container.read(hostProvider);
       final routers = container.read(routerProvider);
@@ -101,7 +81,7 @@ void main() {
 
     test('createConnection should prevent duplicate connections', () {
       state.toggleWireMode();
-      
+
       const hostId = 'host1';
       const routerId = 'router1';
 
@@ -118,11 +98,7 @@ void main() {
 
   group('SimScreenState Export/Import', () {
     test('exportSimulation should create correct map structure', () {
-      state.createDevice(
-        type: SimObjectType.host,
-        posX: 100,
-        posY: 200,
-      );
+      state.createDevice(type: SimObjectType.host, posX: 100, posY: 200);
 
       final exportData = state.exportSimulation();
 
@@ -134,11 +110,7 @@ void main() {
     });
 
     test('importSimulation should restore state correctly', () async {
-      state.createDevice(
-        type: SimObjectType.host,
-        posX: 100,
-        posY: 200,
-      );
+      state.createDevice(type: SimObjectType.host, posX: 100, posY: 200);
 
       final exportData = state.exportSimulation();
 
@@ -161,10 +133,10 @@ void main() {
   group('SimScreenState Wire Mode', () {
     test('toggleWireMode should toggle state correctly', () {
       expect(container.read(wireModeProvider), false);
-      
+
       state.toggleWireMode();
       expect(container.read(wireModeProvider), true);
-      
+
       state.toggleWireMode();
       expect(container.read(wireModeProvider), false);
     });
@@ -173,7 +145,7 @@ void main() {
       state.toggleWireMode();
       state.createConnection(simObjectId: 'testId');
       state.toggleWireMode();
-      
+
       state.createConnection(simObjectId: 'testId');
       final connections = container.read(connectionProvider);
       expect(connections.isEmpty, true);
@@ -182,11 +154,7 @@ void main() {
 
   group('SimScreenState Clear State', () {
     test('_clearAllState should reset all state', () async {
-      state.createDevice(
-        type: SimObjectType.host,
-        posX: 100,
-        posY: 200,
-      );
+      state.createDevice(type: SimObjectType.host, posX: 100, posY: 200);
       state.toggleWireMode();
 
       await state.importSimulation(<String, dynamic>{
