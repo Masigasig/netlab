@@ -80,6 +80,8 @@ Youtube Videos you might find helpful (don't get stuck on tutorial hell, wath it
     -Networking Related : 
         (Playlist) Networking Fundamentals
             https://youtube.com/playlist?list=PLIFyRwBY_4bRLmKfP1KnZA6rZbRHtxmXi&si=gv2XohVBLuKKMqDu
+        (Playlist) FREE CCNA 200-301
+            https://youtube.com/playlist?list=PLIhvC56v63IJVXv0GJcl9vO5Z6znCVb1P&si=c-HX-P8Z38oTdy1S
 
     -Flutterr/Dart Related: 
         (2 hrs) The Complete Dart & Flutter Developer Course | Full Tutorial For Beginners to Advanced
