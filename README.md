@@ -45,6 +45,11 @@ Useful website to look for:
     https://zapp.run - whole editor for flutter lol
 
 
+Excalidraw Notes: 
+    Luto ni allan
+        https://excalidraw.com/#json=gv6gncOqVMgkt6lthZ3F5,i8dpEYkjw-hR3CaGYLGLQQ
+    Note sa Mechanics ng simulator:
+        https://excalidraw.com/#json=NERDPqduFITz7P18ZuuWV,Ut5OvvDjVYka2F2yWrCxEA
 
 WorkFlow and shit for our productivity and collaboration :
     Forked our repo first then bala kana kung ano gawin mo don sa repo mo tas pag uupload nyo na yung changes sa
@@ -75,7 +80,7 @@ WorkFlow and shit for our productivity and collaboration :
         https://youtu.be/xN1-2p06Urc?si=oueXWIJJUvqUPpAu
 
 
-Youtube Videos you might find helpful (don't get stuck on tutorial hell, wath it 2x speed lol):
+Youtube Videos you might find helpful (don't get stuck on tutorial hell, watch it 2x speed lol):
 
     -Networking Related : 
         (Playlist) Networking Fundamentals
