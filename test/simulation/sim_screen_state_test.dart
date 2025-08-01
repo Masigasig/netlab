@@ -172,4 +172,17 @@ void main() {
       expect(container.read(connectionProvider).isEmpty, true);
     });
   });
+
+  group('SimScreenState MAC Address Generation', () {
+    test('generateUniqueMacAddress should generate valid MAC address format', () {
+      final mac = state.generateUniqueMacAddress();
+    
+      // Test MAC address format (XX:XX:XX:XX:XX:XX)
+      expect(
+        RegExp(r'^([0-9A-F]{2}:){5}[0-9A-F]{2}$').hasMatch(mac), 
+        true,
+        reason: 'MAC address should be in format XX:XX:XX:XX:XX:XX'
+      );
+    });
+  });
 }

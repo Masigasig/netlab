@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:ulid/ulid.dart' show Ulid;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,6 +24,7 @@ class SimScreenState extends StateNotifier<void> {
   final Ref ref;
   final List<String> _selectedDevices = [];
   final Map<SimObjectType, int> _typeCounters = {};
+  final List<String> _macStorage = [];
 
   SimScreenState(this.ref) : super(null);
 
@@ -207,6 +209,25 @@ class SimScreenState extends StateNotifier<void> {
   int _getNextCounter(SimObjectType type) {
     _typeCounters[type] = (_typeCounters[type] ?? 0) + 1;
     return _typeCounters[type]!;
+  }
+
+  String generateUniqueMacAddress() {
+    final rng = Random();
+    String mac;
+
+    do {
+      mac = List.generate(6, (_) {
+        int byte = rng.nextInt(256);
+        return byte.toRadixString(16).padLeft(2, '0');
+      }).join(':').toUpperCase();
+    } while (
+      _macStorage.contains(mac) ||
+      mac == 'FF:FF:FF:FF:FF:FF' || //BroadCast Address
+      mac == '00:00:00:00:00:00'    //Uninitialized/invalid
+    );
+
+    _macStorage.add(mac);
+    return mac;
   }
 
   void _addSimObjAndWidgetToPovider(
