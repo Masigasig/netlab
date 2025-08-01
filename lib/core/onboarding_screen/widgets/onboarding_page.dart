@@ -29,40 +29,53 @@ class OnboardingPage extends StatelessWidget {
           isLandscape
               ? Row(
                   children: [
-                    // Content first
+                    // Left side
                     Expanded(
                       flex: 1,
                       child: Padding(
-                        padding: const EdgeInsets.all(80.0),
+                        padding: const EdgeInsets.all(32.0),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildGradientTitle(title, isLandscape),
-                            const SizedBox(height: 16),
-                            Text(
-                              description,
-                              style: GoogleFonts.inter(
-                                fontSize: 18,
-                                color: Colors.white70,
-                                height: 1.4,
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                _buildGradientTitle(title, isLandscape),
+                                const SizedBox(height: 16),
+                                Text(
+                                  description,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 18,
+                                    color: Colors.white70,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const Spacer(),
                             if (bottomWidget != null)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 50.0),
+                                padding: const EdgeInsets.only(bottom: 16.0),
                                 child: bottomWidget!,
                               ),
                           ],
                         ),
                       ),
                     ),
-                    // Animation on the right
+
+                    // Right side
                     Expanded(
                       flex: 1,
                       child: Padding(
                         padding: const EdgeInsets.all(32.0),
-                        child: Lottie.asset(lottiePath),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxHeight: 450),
+                            child: Lottie.asset(lottiePath),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -95,50 +108,46 @@ class OnboardingPage extends StatelessWidget {
     );
   }
 
-    Widget _buildGradientTitle(String title, bool isLandscape) {
+  Widget _buildGradientTitle(String title, bool isLandscape) {
     const gradientWords = ['NetLab', 'Build', 'Simulate'];
 
-    // Split by space but preserve original structure
     final regex = RegExp(r'(\s+|[^\s]+)');
     final tokens = regex.allMatches(title).map((m) => m.group(0)!).toList();
+
+    final defaultStyle = GoogleFonts.poppins(
+      fontSize: isLandscape ? 42 : 32,
+      fontWeight: FontWeight.bold,
+      height: 1.2,
+      color: Colors.white,
+    );
 
     return RichText(
       textAlign: isLandscape ? TextAlign.start : TextAlign.center,
       text: TextSpan(
-        style: GoogleFonts.poppins(
-          fontSize: isLandscape ? 42 : 32,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-          height: 1.2,
-        ),
+        style: defaultStyle,
         children: tokens.map((token) {
           final clean = token.trim().replaceAll(RegExp(r'[^\w]'), '');
-          final hasGradient = gradientWords.contains(clean);
+          final isGradient = gradientWords.contains(clean);
 
-          if (hasGradient) {
-            return WidgetSpan(
-              alignment: PlaceholderAlignment.baseline,
-              baseline: TextBaseline.alphabetic,
-              child: ShaderMask(
-                shaderCallback: (bounds) => const LinearGradient(
-                  colors: [Colors.blueAccent, Colors.purpleAccent],
-                ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
-                child: Text(
-                  token,
-                  style: GoogleFonts.poppins(
-                    fontSize: isLandscape ? 42 : 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+          if (isGradient) {
+            return TextSpan(
+              text: token,
+              style: defaultStyle.copyWith(
+                foreground: Paint()
+                  ..shader = const LinearGradient(
+                    colors: [
+                      Color(0xFF6C63FF),
+                      Color(0xFFD77EFF),
+                      Color(0xFFFF4D94),
+                    ],
+                  ).createShader(const Rect.fromLTWH(0, 0, 300, 70)),
               ),
             );
           } else {
-            return TextSpan(text: token);
+            return TextSpan(text: token); 
           }
         }).toList(),
       ),
     );
   }
-
 }
