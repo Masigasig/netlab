@@ -174,15 +174,171 @@ void main() {
   });
 
   group('SimScreenState MAC Address Generation', () {
-    test('generateUniqueMacAddress should generate valid MAC address format', () {
-      final mac = state.generateUniqueMacAddress();
-    
-      // Test MAC address format (XX:XX:XX:XX:XX:XX)
+    test(
+      'generateUniqueMacAddress should generate valid MAC address format',
+      () {
+        final mac = state.generateUniqueMacAddress();
+
+        // Test MAC address format (XX:XX:XX:XX:XX:XX)
+        expect(
+          RegExp(r'^([0-9A-F]{2}:){5}[0-9A-F]{2}$').hasMatch(mac),
+          true,
+          reason: 'MAC address should be in format XX:XX:XX:XX:XX:XX',
+        );
+      },
+    );
+  });
+
+  group('IP/Subnet/broadcast/network address Validation', () {
+    test('isValidIp should validate IP addresses correctly', () {
+      expect(state.isValidIp('asdfads'), false);
+      expect(state.isValidIp('192.168.256.6'), false);
+      expect(state.isValidIp('192.168.0.6.6'), false);
+      expect(state.isValidIp('RE.sfe.ger.eeq'), false);
+
+      expect(state.isValidIp('192.168.255.3'), true);
+      expect(state.isValidIp('0.0.0.0'), true);
+      expect(state.isValidIp('255.255.255.255'), true);
+    });
+
+    test('isValidSubnet should validate SubnetMask correctly', () {
+      expect(state.isValidSubnet('/0'), true);
+      expect(state.isValidSubnet('/16'), true);
+      expect(state.isValidSubnet('/32'), true);
+      expect(state.isValidSubnet('0.0.0.0'), true);
+      expect(state.isValidSubnet('255.255.128.0'), true);
+      expect(state.isValidSubnet('255.255.255.255'), true);
+
+      expect(state.isValidSubnet('/-1'), false);
+      expect(state.isValidSubnet('/33'), false);
+      expect(state.isValidSubnet('/'), false);
+      expect(state.isValidSubnet('/abc'), false);
+      expect(state.isValidSubnet('-1.0.0.0'), false);
+      expect(state.isValidSubnet('256.255.255.255'), false);
+      expect(state.isValidSubnet('255.255.255.250'), false);
+      expect(state.isValidSubnet('255.0.255.0'), false);
+      expect(state.isValidSubnet('adfasdf'), false);
+      expect(state.isValidSubnet('192.168.0.2'), false);
+    });
+
+    test('getNetworkAddress should compute network correctly', () {
       expect(
-        RegExp(r'^([0-9A-F]{2}:){5}[0-9A-F]{2}$').hasMatch(mac), 
-        true,
-        reason: 'MAC address should be in format XX:XX:XX:XX:XX:XX'
+        state.getNetworkAddress('10.0.15.256', '/8'),
+        'Not Valid IP address',
       );
+      expect(
+        state.getNetworkAddress('10.0.15.253', '/33'),
+        'Not Valid Subnetmask',
+      );
+
+      expect(state.getNetworkAddress('10.0.15.67', '/8'), '10.0.0.0');
+      expect(state.getNetworkAddress('192.168.1.10', '/24'), '192.168.1.0');
+      expect(
+        state.getNetworkAddress('192.168.1.10', '255.255.255.0'),
+        '192.168.1.0',
+      );
+      expect(
+        state.getNetworkAddress('172.16.5.123', '255.255.255.192'),
+        '172.16.5.64',
+      );
+
+      expect(state.getNetworkAddress('192.0.2.200', '/32'), '192.0.2.200');
+      expect(state.getNetworkAddress('203.0.113.55', '/0'), '0.0.0.0');
+      expect(state.getNetworkAddress('8.8.8.8', '0.0.0.0'), '0.0.0.0');
+    });
+
+    test('getBroadcastAddress should compute broadcast address correctly', () {
+      expect(
+        state.getBroadcastAddress('192.168.1.10', '255.255.255.0'),
+        '192.168.1.255',
+      );
+      expect(state.getBroadcastAddress('10.0.15.67', '/8'), '10.255.255.255');
+      expect(
+        state.getBroadcastAddress('172.16.5.123', '255.255.255.192'),
+        '172.16.5.127',
+      );
+      expect(
+        state.getBroadcastAddress('192.0.2.200', '/32'),
+        '192.0.2.200',
+      ); // Only one host
+      expect(
+        state.getBroadcastAddress('203.0.113.55', '/0'),
+        '255.255.255.255',
+      ); // All addresses
+      expect(
+        state.getBroadcastAddress('8.8.8.8', '0.0.0.0'),
+        '255.255.255.255',
+      ); // Explicit full mask
+
+      expect(
+        state.getBroadcastAddress('300.168.1.1', '255.255.255.0'),
+        'Not Valid IP address',
+      );
+      expect(
+        state.getBroadcastAddress('abcd', '255.255.255.0'),
+        'Not Valid IP address',
+      );
+
+      expect(
+        state.getBroadcastAddress('192.168.1.10', '255.0.255.0'),
+        'Not Valid Subnetmask',
+      );
+      expect(
+        state.getBroadcastAddress('192.168.1.10', '/33'),
+        'Not Valid Subnetmask',
+      );
+      expect(
+        state.getBroadcastAddress('192.168.1.10', '/'),
+        'Not Valid Subnetmask',
+      );
+    });
+
+    group('isValidIPForSubnet should valid IP address correctly', () {
+      test('isValidIpForSubnet returns true for valid host IPs', () {
+        expect(
+          state.isValidIpForSubnet('192.168.1.10', '255.255.255.0'),
+          true,
+        ); // host in range
+        expect(state.isValidIpForSubnet('10.0.0.1', '/8'), true); // valid host
+        expect(
+          state.isValidIpForSubnet('172.16.5.62', '255.255.255.192'),
+          true,
+        ); // last usable host
+      });
+
+      test(
+        'isValidIpForSubnet returns false for network and broadcast addresses',
+        () {
+          expect(
+            state.isValidIpForSubnet('192.168.1.0', '255.255.255.0'),
+            false,
+          ); // network address
+          expect(
+            state.isValidIpForSubnet('192.168.1.255', '255.255.255.0'),
+            false,
+          ); // broadcast address
+          expect(state.isValidIpForSubnet('10.0.0.0', '/8'), false); // network
+          expect(
+            state.isValidIpForSubnet('10.255.255.255', '/8'),
+            false,
+          ); // broadcast
+        },
+      );
+
+      test('isValidIpForSubnet returns false for invalid IP or subnet', () {
+        expect(
+          state.isValidIpForSubnet('999.999.999.999', '255.255.255.0'),
+          false,
+        ); // invalid IP
+        expect(
+          state.isValidIpForSubnet('192.168.1.10', '255.255.0.255'),
+          false,
+        ); // invalid subnet
+        expect(
+          state.isValidIpForSubnet('abc.def.gha.jkl', '255.255.255.0'),
+          false,
+        ); // junk IP
+      });
     });
   });
 }
