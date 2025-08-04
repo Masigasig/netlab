@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:netlab/simulation/sim_object/sim_object.dart';
+import 'package:netlab/simulation/sim_screen_state/network_utils.dart';
 
 void main() {
   group('Connection Test', () {
@@ -39,16 +40,57 @@ void main() {
     late Host host;
 
     setUp(() {
-      host = const Host(id: 'hostId', name: 'Host_1', posX: 100, posY: 200);
+      final macAddress = generateUniqueMacAddress();
+
+      host = Host(
+        id: 'hostId',
+        name: 'Host_1',
+        posX: 100,
+        posY: 200,
+        ipAddress: '192.168.1.3',
+        subnetMask: '/24',
+        macAddress: macAddress,
+        defaultGateway: '192.168.1.1',
+        connectedDeviceId: 'someIDhere',
+        arpTable: {
+          'someIPhere' : 'someMachere',
+          'someIPhere1' : 'someMachere1',
+          'someIPhere2' : 'someMachere2',
+        }
+      );
     });
 
     test('copyWith creates a new Host with updated properties', () {
-      final updatedHost = host.copyWith(posX: 150, posY: 250);
+      final updatedHost = host.copyWith(
+        posX: 150,
+        posY: 250,
+        ipAddress: '192.168.2.4',
+        subnetMask: '255.255.255.0',
+        defaultGateway: '192.168.2.1',
+        connectedDeviceId: 'newSomeIDhere',
+        arpTable: {
+          'someIPhere' : 'someMachere',
+          'someIPhere1' : 'someMachere1',
+          'someIPhere2' : 'someMachere2',
+          'someIPhere3' : 'someMachere3',
+        }
+      );
 
       expect(updatedHost.id, host.id);
       expect(updatedHost.name, host.name);
       expect(updatedHost.posX, 150);
       expect(updatedHost.posY, 250);
+      expect(updatedHost.ipAddress, '192.168.2.4');
+      expect(updatedHost.subnetMask, '255.255.255.0');
+      expect(RegExp(r'^([0-9A-F]{2}:){5}[0-9A-F]{2}$').hasMatch(updatedHost.macAddress), isTrue);
+      expect(updatedHost.defaultGateway, '192.168.2.1');
+      expect(updatedHost.connectedDeviceId, 'newSomeIDhere');
+      expect(updatedHost.arpTable, {
+          'someIPhere' : 'someMachere',
+          'someIPhere1' : 'someMachere1',
+          'someIPhere2' : 'someMachere2',
+          'someIPhere3' : 'someMachere3',
+        });
       expect(updatedHost.type, SimObjectType.host);
     });
 
@@ -60,6 +102,12 @@ void main() {
       expect(newHost.name, host.name);
       expect(newHost.posX, host.posX);
       expect(newHost.posY, host.posY);
+      expect(newHost.ipAddress, host.ipAddress);
+      expect(newHost.subnetMask, host.subnetMask);
+      expect(newHost.macAddress, host.macAddress);
+      expect(newHost.defaultGateway, host.defaultGateway);
+      expect(newHost.connectedDeviceId, host.connectedDeviceId);
+      expect(newHost.arpTable, host.arpTable);
       expect(newHost.type, host.type);
     });
   });
