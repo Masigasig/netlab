@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/simulation/sim_object/sim_object.dart';
 import 'package:netlab/simulation/sim_object_widget/sim_object_widget.dart';
+import 'package:netlab/simulation/sim_screen_state/network_utils.dart';
 
 export 'package:netlab/simulation/sim_object/sim_object.dart'
     show SimObjectType;
@@ -267,10 +268,11 @@ extension SimObjectTypeX on SimObjectType {
     String conB = '',
   }) {
     final id = Ulid().toUuid();
+    final macAddress = generateUniqueMacAddress();
 
     return switch (this) {
       SimObjectType.connection => Connection(id: id, conA: conA, conB: conB),
-      SimObjectType.host => Host(id: id, posX: posX, posY: posY, name: name),
+      SimObjectType.host => Host(id: id, posX: posX, posY: posY, name: name, macAddress: macAddress),
       SimObjectType.router => Router(
         id: id,
         posX: posX,
