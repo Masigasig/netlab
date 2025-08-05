@@ -4,6 +4,7 @@ import 'widgets/page_indicator.dart';
 import 'widgets/onboarding_button.dart';
 import 'package:netlab/core/constants/app_image.dart';
 import 'widgets/bg.dart';
+import 'package:go_router/go_router.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -41,7 +42,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeIn,
       );
     } else {
-      // Navigate to home or login
+      // ✅ Navigate to home when the last page is reached
+      context.go('/home'); // Make sure '/home' is registered in GoRouter
     }
   }
 
@@ -74,7 +76,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                         TextButton(
                           onPressed: () {
-                            // Skip to login or home
+                            // ✅ Skip to home screen directly
+                            context.go('/homie');
                           },
                           child: const Text(
                             'Skip',

@@ -1,8 +1,10 @@
 import 'package:go_router/go_router.dart';
 
-import 'package:netlab/core/onboarding_screen/onboarding_screen.dart';
-import 'package:netlab/home/home_screen.dart';
+import 'package:netlab/onboarding_screen/onboarding_screen.dart';
+//import 'package:netlab/home/home_screen.dart';
 import 'package:netlab/simulation/simulation_screen.dart';
+import 'package:netlab/homie/home.dart';
+
 
 final router = GoRouter(
   routes: [
@@ -11,8 +13,8 @@ final router = GoRouter(
       builder: (context, state) => const OnboardingScreen(),
     ),
     GoRoute(
-      path: '/home',
-      builder: (context, state) => const HomeScreen(),
+      path: '/homie',
+      builder: (context, state) => const HomieScreen(),
       routes: [
         GoRoute(
           path: 'simulation',
