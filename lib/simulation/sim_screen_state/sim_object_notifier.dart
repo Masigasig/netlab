@@ -2,7 +2,9 @@ part of 'sim_screen_state.dart';
 
 abstract class SimObjectNotifier<T extends SimObject>
     extends StateNotifier<Map<String, T>> {
-  SimObjectNotifier() : super({});
+  final Ref ref;
+
+  SimObjectNotifier(this.ref) : super({});
 
   void addSimObject(T simObject) {
     state = {...state, simObject.id: simObject};
