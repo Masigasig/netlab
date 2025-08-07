@@ -38,12 +38,11 @@ void main() {
       expect(newConnection.type, connection.type);
     });
   });
-
   group('Host Test', () {
     late Host host;
 
     setUp(() {
-      final macAddress = generateUniqueMacAddress();
+      final macAddress = MacAddressManager.generateUniqueMacAddress();
 
       host = Host(
         id: 'hostId',
@@ -52,14 +51,15 @@ void main() {
         posY: 200,
         ipAddress: '192.168.1.3',
         subnetMask: '/24',
-        macAddress: macAddress,
         defaultGateway: '192.168.1.1',
-        connectedDeviceId: 'someIDhere',
+        macAddress: macAddress,
+        connectionId: 'conn_Id',
         arpTable: {
           'someIPhere': 'someMachere',
           'someIPhere1': 'someMachere1',
           'someIPhere2': 'someMachere2',
         },
+        messageIds: ['someMsgId1', 'someMsgId2'],
       );
     });
 
@@ -70,13 +70,12 @@ void main() {
         ipAddress: '192.168.2.4',
         subnetMask: '255.255.255.0',
         defaultGateway: '192.168.2.1',
-        connectedDeviceId: 'newSomeIDhere',
+        connectionId: '',
         arpTable: {
-          'someIPhere': 'someMachere',
-          'someIPhere1': 'someMachere1',
           'someIPhere2': 'someMachere2',
           'someIPhere3': 'someMachere3',
         },
+        messageIds: ['someMsgId2', 'someMsgId3'],
       );
 
       expect(updatedHost.id, host.id);
@@ -92,13 +91,12 @@ void main() {
         isTrue,
       );
       expect(updatedHost.defaultGateway, '192.168.2.1');
-      expect(updatedHost.connectedDeviceId, 'newSomeIDhere');
+      expect(updatedHost.macToIdMap[updatedHost.macAddress], '');
       expect(updatedHost.arpTable, {
-        'someIPhere': 'someMachere',
-        'someIPhere1': 'someMachere1',
         'someIPhere2': 'someMachere2',
         'someIPhere3': 'someMachere3',
       });
+      expect(updatedHost.messageIds, ['someMsgId2', 'someMsgId3']);
       expect(updatedHost.type, SimObjectType.host);
     });
 
@@ -114,12 +112,16 @@ void main() {
       expect(newHost.subnetMask, host.subnetMask);
       expect(newHost.macAddress, host.macAddress);
       expect(newHost.defaultGateway, host.defaultGateway);
-      expect(newHost.connectedDeviceId, host.connectedDeviceId);
+      expect(newHost.connectionId, host.connectionId);
+      expect(
+        newHost.macToIdMap[newHost.macAddress],
+        host.macToIdMap[host.macAddress],
+      );
       expect(newHost.arpTable, host.arpTable);
+      expect(newHost.messageIds, host.messageIds);
       expect(newHost.type, host.type);
     });
   });
-
   group('Message Test', () {
     late Message message;
 
@@ -201,7 +203,6 @@ void main() {
       expect(newRouter.type, router.type);
     });
   });
-
   group('Switch Test', () {
     late Switch switch_;
 
