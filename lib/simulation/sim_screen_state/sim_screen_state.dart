@@ -280,7 +280,7 @@ extension SimObjectTypeX on SimObjectType {
     String dstId = '',
   }) {
     final id = Ulid().toUuid();
-    final macAddress = generateUniqueMacAddress();
+    final macAddress = MacAddressManager.generateUniqueMacAddress();
 
     return switch (this) {
       SimObjectType.connection => Connection(
