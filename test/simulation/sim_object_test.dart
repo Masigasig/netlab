@@ -117,6 +117,54 @@ void main() {
     });
   });
 
+  group('Message Test', () {
+    late Message message;
+
+    setUp(() {
+      message = const Message(
+        id: 'messageId',
+        srcId: 'someSrcId',
+        dstId: 'someDstId',
+        currentPlaceId: 'someCrntId',
+        layerStack: [
+          {'lvl3src': 'someIPsrc', 'lvl3dst': 'someIPdst'},
+          {'lvl2src': 'someMACsrc', 'lvl2dst': 'someMACdst'},
+          {'lvl1src': 'someConnsrc', 'lvl1dst': 'someConndst'},
+        ],
+      );
+    });
+
+    test('copyWith creates a new Message with updated properties', () {
+      final updatedMessage = message.copyWith(
+        currentPlaceId: 'newsomeCrntId',
+        layerStack: [
+          {'newlvl4src': 'newsomePortsrc', 'newlvl4dst': 'newsomePortdst'},
+          {'newlvl3src': 'newsomeIPsrc', 'newlvl3dst': 'newsomeIPdst'},
+        ],
+      );
+
+      expect(updatedMessage.id, message.id);
+      expect(updatedMessage.srcId, message.srcId);
+      expect(updatedMessage.dstId, message.dstId);
+      expect(updatedMessage.currentPlaceId, 'newsomeCrntId');
+      expect(updatedMessage.layerStack, [
+        {'newlvl4src': 'newsomePortsrc', 'newlvl4dst': 'newsomePortdst'},
+        {'newlvl3src': 'newsomeIPsrc', 'newlvl3dst': 'newsomeIPdst'},
+      ]);
+    });
+
+    test('toMap and fromMap work correctly', () {
+      final map = message.toMap();
+      final newMessage = Message.fromMap(map);
+
+      expect(newMessage.id, message.id);
+      expect(newMessage.srcId, message.srcId);
+      expect(newMessage.dstId, message.dstId);
+      expect(newMessage.currentPlaceId, message.currentPlaceId);
+      expect(newMessage.layerStack, message.layerStack);
+      expect(newMessage.type, message.type);
+    });
+  });
   group('Router Test', () {
     late Router router;
 
