@@ -10,10 +10,12 @@ class _DeviceWidgetStack extends ConsumerWidget {
     debugPrint('${type.label}Widget Stack Rebuilt');
 
     final provider = switch (type) {
+      SimObjectType.connection => connectionWidgetProvider,
       SimObjectType.host => hostWidgetProvider,
+      SimObjectType.message =>
+        throw UnimplementedError(), // TODO: implement message
       SimObjectType.router => routerWidgetProvider,
       SimObjectType.switch_ => switchWidgetProvider,
-      SimObjectType.connection => connectionWidgetProvider,
     };
 
     final widgets = ref.watch(provider);
