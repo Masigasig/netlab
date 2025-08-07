@@ -2,190 +2,447 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:netlab/simulation/sim_screen_state/network_utils.dart';
 
 void main() {
-  group('MAC Address Generation', () {
-    test('generateUniqueMacAddress returns valid MAC', () {
-      final mac = generateUniqueMacAddress();
-      final macRegex = RegExp(r'^([0-9A-F]{2}:){5}[0-9A-F]{2}$');
-      expect(macRegex.hasMatch(mac), isTrue);
-      expect(mac, isNot('FF:FF:FF:FF:FF:FF'));
-      expect(mac, isNot('00:00:00:00:00:00'));
+  group('MacAddressManager', () {
+    test('generateUniqueMacAddress returns a valid and unique MAC', () {
+      final mac = MacAddressManager.generateUniqueMacAddress();
+
+      expect(MacAddressManager.isValid(mac), isTrue);
+      expect(mac, isNot(equals(MacAddressManager.broadcastMacAddress)));
+      expect(mac, isNot(equals(MacAddressManager.unknownMacAddress)));
+      expect(MacAddressManager.macStorage.contains(mac), isTrue);
     });
 
-    test('generateUniqueMacAddress generates unique addresses', () {
-      final macs = <String>{};
-      for (int i = 0; i < 10; i++) {
-        macs.add(generateUniqueMacAddress());
-      }
-      expect(macs.length, 10);
+    test('remove returns true when MAC is removed', () {
+      final mac = MacAddressManager.generateUniqueMacAddress();
+      final result = MacAddressManager.remove(mac);
+
+      expect(result, isTrue);
+      expect(MacAddressManager.macStorage.contains(mac), isFalse);
+    });
+
+    test('remove returns false when MAC does not exist', () {
+      final result = MacAddressManager.remove('AA:BB:CC:DD:EE:FF');
+      expect(result, isFalse);
+    });
+
+    test('isValid returns false for malformed MAC', () {
+      expect(MacAddressManager.isValid('ZZ:ZZ:ZZ:ZZ:ZZ:ZZ'), isFalse);
+      expect(MacAddressManager.isValid('123456'), isFalse);
+      expect(MacAddressManager.isValid('00:00:00:00:00'), isFalse);
+    });
+
+    test('isValid returns true for correct MAC format', () {
+      expect(MacAddressManager.isValid('AA:BB:CC:DD:EE:FF'), isTrue);
     });
   });
 
-  group('IP and Subnet Validation', () {
+  group('IPv4AddressManager', () {
     test('isValidIp returns true for valid IPs', () {
-      expect(isValidIp('192.168.1.1'), isTrue);
-      expect(isValidIp('192.168.255.3'), isTrue);
-      expect(isValidIp('0.0.0.0'), isTrue);
-      expect(isValidIp('255.255.255.255'), isTrue);
+      expect(IPv4AddressManager.isValidIp('192.168.1.1'), isTrue);
+      expect(IPv4AddressManager.isValidIp('0.0.0.0'), isTrue);
+      expect(IPv4AddressManager.isValidIp('255.255.255.255'), isTrue);
+      expect(IPv4AddressManager.isValidIp('192.168.255.3'), isTrue);
     });
 
     test('isValidIp returns false for invalid IPs', () {
-      expect(isValidIp('256.0.0.1'), isFalse);
-      expect(isValidIp('asdfads'), isFalse);
-      expect(isValidIp('192.168.256.6'), isFalse);
-      expect(isValidIp('192.168.0.6.6'), isFalse);
-      expect(isValidIp('192.168.1'), isFalse);
-      expect(isValidIp('abc.def.ghi.jkl'), isFalse);
-      expect(isValidIp('RE.sfe.ger.eeq'), isFalse);
+      expect(IPv4AddressManager.isValidIp('256.256.256.256'), isFalse);
+      expect(IPv4AddressManager.isValidIp('abc.def.ghi.jkl'), isFalse);
+      expect(IPv4AddressManager.isValidIp('192.168.1'), isFalse);
+      expect(IPv4AddressManager.isValidIp('256.0.0.1'), isFalse);
+      expect(IPv4AddressManager.isValidIp('asdfads'), isFalse);
+      expect(IPv4AddressManager.isValidIp('192.168.256.6'), isFalse);
+      expect(IPv4AddressManager.isValidIp('192.168.0.6.6'), isFalse);
+      expect(IPv4AddressManager.isValidIp('RE.sfe.ger.eeq'), isFalse);
     });
 
-    test('isValidSubnet returns true for valid subnets', () {
-      expect(isValidSubnet('/24'), isTrue);
-      expect(isValidSubnet('/0'), isTrue);
-      expect(isValidSubnet('/16'), isTrue);
-      expect(isValidSubnet('/32'), isTrue);
-      expect(isValidSubnet('0.0.0.0'), isTrue);
-      expect(isValidSubnet('255.255.128.0'), isTrue);
-      expect(isValidSubnet('255.255.255.0'), isTrue);
-      expect(isValidSubnet('255.255.255.255'), isTrue);
+    test('isValidSubnet accepts CIDR and dotted masks', () {
+      expect(IPv4AddressManager.isValidSubnet('/0'), isTrue);
+      expect(IPv4AddressManager.isValidSubnet('/16'), isTrue);
+      expect(IPv4AddressManager.isValidSubnet('/24'), isTrue);
+      expect(IPv4AddressManager.isValidSubnet('/32'), isTrue);
+      expect(IPv4AddressManager.isValidSubnet('0.0.0.0'), isTrue);
+      expect(IPv4AddressManager.isValidSubnet('255.255.128.0'), isTrue);
+      expect(IPv4AddressManager.isValidSubnet('255.255.255.0'), isTrue);
+      expect(IPv4AddressManager.isValidSubnet('255.255.255.255'), isTrue);
     });
 
-    test('isValidSubnet returns false for invalid subnets', () {
-      expect(isValidSubnet('/33'), isFalse);
-      expect(isValidSubnet('255.255.0.1'), isFalse);
-      expect(isValidSubnet('/-1'), isFalse);
-      expect(isValidSubnet('/'), isFalse);
-      expect(isValidSubnet('/abc'), isFalse);
-      expect(isValidSubnet('-1.0.0.0'), isFalse);
-      expect(isValidSubnet('256.255.255.255'), isFalse);
-      expect(isValidSubnet('255.255.255.250'), isFalse);
-      expect(isValidSubnet('255.0.255.0'), isFalse);
-      expect(isValidSubnet('adfasdf'), isFalse);
-      expect(isValidSubnet('192.168.0.2'), isFalse);
+    test('isValidSubnet rejects invalid formats', () {
+      expect(IPv4AddressManager.isValidSubnet('/'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('/-1'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('/33'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('/abc'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('invalid'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('adfasdf'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('-1.0.0.0'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('192.168.0.2'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('255.0.255.0'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('255.255.0.1'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('255.255.0.255'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('255.255.255.250'), isFalse);
+      expect(IPv4AddressManager.isValidSubnet('256.255.255.255'), isFalse);
     });
-  });
 
-  group('Network and Broadcast Address Calculation', () {
+    test('normalizeSubnet converts CIDR to dotted mask', () {
+      final expectedMasks = {
+        0: '0.0.0.0',
+        1: '128.0.0.0',
+        2: '192.0.0.0',
+        3: '224.0.0.0',
+        4: '240.0.0.0',
+        5: '248.0.0.0',
+        6: '252.0.0.0',
+        7: '254.0.0.0',
+        8: '255.0.0.0',
+        9: '255.128.0.0',
+        10: '255.192.0.0',
+        11: '255.224.0.0',
+        12: '255.240.0.0',
+        13: '255.248.0.0',
+        14: '255.252.0.0',
+        15: '255.254.0.0',
+        16: '255.255.0.0',
+        17: '255.255.128.0',
+        18: '255.255.192.0',
+        19: '255.255.224.0',
+        20: '255.255.240.0',
+        21: '255.255.248.0',
+        22: '255.255.252.0',
+        23: '255.255.254.0',
+        24: '255.255.255.0',
+        25: '255.255.255.128',
+        26: '255.255.255.192',
+        27: '255.255.255.224',
+        28: '255.255.255.240',
+        29: '255.255.255.248',
+        30: '255.255.255.252',
+        31: '255.255.255.254',
+        32: '255.255.255.255',
+      };
+
+      expectedMasks.forEach((cidr, mask) {
+        expect(
+          IPv4AddressManager.normalizeSubnet('/$cidr'),
+          equals(mask),
+          reason: 'CIDR /$cidr should map to $mask',
+        );
+      });
+    });
+
     test('getNetworkAddress returns correct network address', () {
-      expect(getNetworkAddress('192.168.1.10', '/24'), '192.168.1.0');
-      expect(getNetworkAddress('10.0.0.5', '255.0.0.0'), '10.0.0.0');
-      expect(getNetworkAddress('10.0.15.67', '/8'), '10.0.0.0');
-
-      expect(getNetworkAddress('192.168.1.10', '255.255.255.0'), '192.168.1.0');
       expect(
-        getNetworkAddress('172.16.5.123', '255.255.255.192'),
-        '172.16.5.64',
+        IPv4AddressManager.getNetworkAddress('203.0.113.55', '/0'),
+        equals('0.0.0.0'),
       );
-
-      expect(getNetworkAddress('192.0.2.200', '/32'), '192.0.2.200');
-      expect(getNetworkAddress('203.0.113.55', '/0'), '0.0.0.0');
-      expect(getNetworkAddress('8.8.8.8', '0.0.0.0'), '0.0.0.0');
+      expect(
+        IPv4AddressManager.getNetworkAddress('10.0.15.67', '/8'),
+        equals('10.0.0.0'),
+      );
+      expect(
+        IPv4AddressManager.getNetworkAddress('192.168.1.10', '/24'),
+        equals('192.168.1.0'),
+      );
+      expect(
+        IPv4AddressManager.getNetworkAddress('192.0.2.200', '/32'),
+        equals('192.0.2.200'),
+      );
+      expect(
+        IPv4AddressManager.getNetworkAddress('8.8.8.8', '0.0.0.0'),
+        equals('0.0.0.0'),
+      );
+      expect(
+        IPv4AddressManager.getNetworkAddress('10.0.0.5', '255.0.0.0'),
+        equals('10.0.0.0'),
+      );
+      expect(
+        IPv4AddressManager.getNetworkAddress('192.168.1.10', '255.255.255.0'),
+        equals('192.168.1.0'),
+      );
+      expect(
+        IPv4AddressManager.getNetworkAddress('172.16.5.123', '255.255.255.192'),
+        equals('172.16.5.64'),
+      );
     });
 
     test('getBroadcastAddress returns correct broadcast address', () {
-      expect(getBroadcastAddress('192.168.1.10', '/24'), '192.168.1.255');
-      expect(getBroadcastAddress('10.0.0.5', '255.0.0.0'), '10.255.255.255');
+      expect(
+        IPv4AddressManager.getBroadcastAddress('203.0.113.55', '/0'),
+        equals('255.255.255.255'),
+      );
+      expect(
+        IPv4AddressManager.getBroadcastAddress('10.0.15.67', '/8'),
+        equals('10.255.255.255'),
+      );
+      expect(
+        IPv4AddressManager.getBroadcastAddress('192.168.1.10', '/24'),
+        equals('192.168.1.255'),
+      );
+      expect(
+        IPv4AddressManager.getBroadcastAddress('192.0.2.200', '/32'),
+        equals('192.0.2.200'),
+      );
+      expect(
+        IPv4AddressManager.getBroadcastAddress('8.8.8.8', '0.0.0.0'),
+        equals('255.255.255.255'),
+      );
+      expect(
+        IPv4AddressManager.getBroadcastAddress('10.0.0.5', '255.0.0.0'),
+        equals('10.255.255.255'),
+      );
+      expect(
+        IPv4AddressManager.getBroadcastAddress('192.168.1.10', '255.255.255.0'),
+        equals('192.168.1.255'),
+      );
+      expect(
+        IPv4AddressManager.getBroadcastAddress(
+          '172.16.5.123',
+          '255.255.255.192',
+        ),
+        equals('172.16.5.127'),
+      );
+    });
 
+    test('isValidIpForSubnet returns false for network/broadcast IPs', () {
+      expect(IPv4AddressManager.isValidIpForSubnet('10.0.0.0', '/8'), isFalse);
       expect(
-        getBroadcastAddress('192.168.1.10', '255.255.255.0'),
-        '192.168.1.255',
-      );
-      expect(getBroadcastAddress('10.0.15.67', '/8'), '10.255.255.255');
-      expect(
-        getBroadcastAddress('172.16.5.123', '255.255.255.192'),
-        '172.16.5.127',
+        IPv4AddressManager.isValidIpForSubnet('192.168.1.0', '/24'),
+        isFalse,
       );
       expect(
-        getBroadcastAddress('192.0.2.200', '/32'),
-        '192.0.2.200',
-      ); // Only one host
+        IPv4AddressManager.isValidIpForSubnet('192.168.1.255', '/24'),
+        isFalse,
+      );
       expect(
-        getBroadcastAddress('203.0.113.55', '/0'),
-        '255.255.255.255',
-      ); // All addresses
+        IPv4AddressManager.isValidIpForSubnet('10.255.255.255', '/8'),
+        isFalse,
+      );
       expect(
-        getBroadcastAddress('8.8.8.8', '0.0.0.0'),
-        '255.255.255.255',
-      ); // Explicit full mask
+        IPv4AddressManager.isValidIpForSubnet('192.168.1.0', '255.255.255.0'),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isValidIpForSubnet('192.168.1.10', '255.255.0.255'),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isValidIpForSubnet('192.168.1.255', '255.255.255.0'),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isValidIpForSubnet(
+          '999.999.999.999',
+          '255.255.255.0',
+        ),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isValidIpForSubnet(
+          'abc.def.gha.jkl',
+          '255.255.255.0',
+        ),
+        isFalse,
+      );
+    });
+
+    test('isValidIpForSubnet returns true for usable IPs', () {
+      expect(IPv4AddressManager.isValidIpForSubnet('10.0.0.1', '/8'), isTrue);
+      expect(
+        IPv4AddressManager.isValidIpForSubnet('192.168.1.10', '/24'),
+        isTrue,
+      );
+      expect(
+        IPv4AddressManager.isValidIpForSubnet('192.168.1.10', '/24'),
+        isTrue,
+      );
+      expect(
+        IPv4AddressManager.isValidIpForSubnet('192.168.1.10', '255.255.255.0'),
+        isTrue,
+      );
+      expect(
+        IPv4AddressManager.isValidIpForSubnet('172.16.5.62', '255.255.255.192'),
+        isTrue,
+      );
+    });
+
+    test('isInSameNetwork returns true for IPs in same subnet', () {
+      expect(
+        IPv4AddressManager.isInSameNetwork('10.0.0.1', '/8', '10.0.255.255'),
+        isTrue,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork('172.16.5.4', '/16', '172.16.200.1'),
+        isTrue,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '192.168.1.10',
+          '/24',
+          '192.168.1.20',
+        ),
+        isTrue,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '10.0.0.1',
+          '255.0.0.0',
+          '10.0.255.255',
+        ),
+        isTrue,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '172.16.5.4',
+          '255.255.0.0',
+          '172.16.200.1',
+        ),
+        isTrue,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '192.168.1.2',
+          '255.255.255.0',
+          '192.168.1.254',
+        ),
+        isTrue,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '192.168.1.10',
+          '255.255.255.0',
+          '192.168.1.20',
+        ),
+        isTrue,
+      );
+    });
+
+    test('isInSameNetwork returns false for IPs in different subnets', () {
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '192.168.1.10',
+          '/24',
+          '192.168.2.10',
+        ),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork('10.0.0.1', '255.0.0.0', '11.0.0.1'),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '172.16.5.4',
+          '255.255.0.0',
+          '172.17.5.4',
+        ),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '192.168.1.10',
+          '255.255.0',
+          '192.168.1.20',
+        ),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '192.168.1.0',
+          '255.255.255.0',
+          '192.168.1.254',
+        ),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '192.168.1.2',
+          '255.255.255.0',
+          '192.168.1.255',
+        ),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '192.168.1.10',
+          '255.255.255.0',
+          '192.168.2.20',
+        ),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '192.168.1.10',
+          '255.255.255.0',
+          'abc.def.ghi.jkl',
+        ),
+        isFalse,
+      );
+      expect(
+        IPv4AddressManager.isInSameNetwork(
+          '999.999.999.999',
+          '255.255.255.0',
+          '192.168.1.20',
+        ),
+        isFalse,
+      );
     });
 
     test('getNetworkAddress returns error for invalid input', () {
       expect(
-        getNetworkAddress('999.999.999.999', '/24'),
-        'Not Valid IP address',
+        IPv4AddressManager.getNetworkAddress('10.0.15.256', '/8'),
+        equals('Not Valid IP address'),
       );
-      expect(getNetworkAddress('192.168.1.1', '/33'), 'Not Valid Subnetmask');
-      expect(getNetworkAddress('10.0.15.256', '/8'), 'Not Valid IP address');
-      expect(getNetworkAddress('10.0.15.253', '/33'), 'Not Valid Subnetmask');
+      expect(
+        IPv4AddressManager.getNetworkAddress('999.999.999.999', '/24'),
+        equals('Not Valid IP address'),
+      );
+
+      expect(
+        IPv4AddressManager.getNetworkAddress('192.168.1.1', '/33'),
+        equals('Not Valid Subnetmask'),
+      );
+      expect(
+        IPv4AddressManager.getNetworkAddress('10.0.15.253', '/33'),
+        equals('Not Valid Subnetmask'),
+      );
+      expect(
+        IPv4AddressManager.getNetworkAddress('192.168.1.1', 'invalid'),
+        equals('Not Valid Subnetmask'),
+      );
     });
 
     test('getBroadcastAddress returns error for invalid input', () {
       expect(
-        getBroadcastAddress('999.999.999.999', '/24'),
-        'Not Valid IP address',
-      );
-      expect(getBroadcastAddress('192.168.1.1', '/33'), 'Not Valid Subnetmask');
-
-      expect(
-        getBroadcastAddress('300.168.1.1', '255.255.255.0'),
-        'Not Valid IP address',
+        IPv4AddressManager.getBroadcastAddress('abcd', '255.255.255.0'),
+        equals('Not Valid IP address'),
       );
       expect(
-        getBroadcastAddress('abcd', '255.255.255.0'),
-        'Not Valid IP address',
+        IPv4AddressManager.getBroadcastAddress('999.999.999.999', '/24'),
+        equals('Not Valid IP address'),
+      );
+      expect(
+        IPv4AddressManager.getBroadcastAddress('300.168.1.1', '255.255.255.0'),
+        equals('Not Valid IP address'),
       );
 
       expect(
-        getBroadcastAddress('192.168.1.10', '255.0.255.0'),
-        'Not Valid Subnetmask',
+        IPv4AddressManager.getBroadcastAddress('192.168.1.10', '/'),
+        equals('Not Valid Subnetmask'),
       );
       expect(
-        getBroadcastAddress('192.168.1.10', '/33'),
-        'Not Valid Subnetmask',
+        IPv4AddressManager.getBroadcastAddress('192.168.1.1', '/33'),
+        equals('Not Valid Subnetmask'),
       );
-      expect(getBroadcastAddress('192.168.1.10', '/'), 'Not Valid Subnetmask');
-    });
-  });
-
-  group('isValidIpForSubnet', () {
-    test('returns false for network and broadcast addresses', () {
-      expect(isValidIpForSubnet('192.168.1.0', '/24'), isFalse);
-      expect(isValidIpForSubnet('192.168.1.255', '/24'), isFalse);
       expect(
-        isValidIpForSubnet('192.168.1.0', '255.255.255.0'),
-        isFalse,
-      ); // network address
+        IPv4AddressManager.getBroadcastAddress('192.168.1.10', '/33'),
+        equals('Not Valid Subnetmask'),
+      );
       expect(
-        isValidIpForSubnet('192.168.1.255', '255.255.255.0'),
-        isFalse,
-      ); // broadcast address
-      expect(isValidIpForSubnet('10.0.0.0', '/8'), isFalse); // network
-      expect(isValidIpForSubnet('10.255.255.255', '/8'), isFalse); // broadcast
-
+        IPv4AddressManager.getBroadcastAddress('192.168.1.1', 'invalid'),
+        equals('Not Valid Subnetmask'),
+      );
       expect(
-        isValidIpForSubnet('999.999.999.999', '255.255.255.0'),
-        isFalse,
-      ); // invalid IP
-      expect(
-        isValidIpForSubnet('192.168.1.10', '255.255.0.255'),
-        isFalse,
-      ); // invalid subnet
-      expect(
-        isValidIpForSubnet('abc.def.gha.jkl', '255.255.255.0'),
-        isFalse,
-      ); // junk IP
-    });
-
-    test('returns true for valid host address', () {
-      expect(isValidIpForSubnet('192.168.1.10', '/24'), isTrue);
-      expect(
-        isValidIpForSubnet('192.168.1.10', '255.255.255.0'),
-        isTrue,
-      ); // host in range
-      expect(isValidIpForSubnet('10.0.0.1', '/8'), isTrue); // valid host
-      expect(
-        isValidIpForSubnet('172.16.5.62', '255.255.255.192'),
-        isTrue,
-      ); // last usable host
+        IPv4AddressManager.getBroadcastAddress('192.168.1.10', '255.0.255.0'),
+        equals('Not Valid Subnetmask'),
+      );
     });
   });
 }
