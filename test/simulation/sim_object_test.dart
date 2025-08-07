@@ -9,19 +9,20 @@ void main() {
     setUp(() {
       connection = const Connection(
         id: 'connId',
-        conA: 'conAId',
-        conB: 'conBId',
+        conAmac: 'conAmacTest',
+        conBmac: 'conBmacTest',
+        conAId: 'conAIdTest',
+        conBId: 'conBIdTest',
       );
     });
     test('copyWith creates new Connection with updated properties', () {
-      final updatedConnection = connection.copyWith(
-        conA: 'newConA',
-        conB: 'newConB',
-      );
+      final updatedConnection = connection.copyWith();
 
-      expect(updatedConnection.id, 'connId');
-      expect(updatedConnection.conA, 'newConA');
-      expect(updatedConnection.conB, 'newConB');
+      expect(updatedConnection.id, connection.id);
+      expect(updatedConnection.conAmac, connection.conAmac);
+      expect(updatedConnection.conBmac, connection.conBmac);
+      expect(updatedConnection.conAId, connection.conAId);
+      expect(updatedConnection.conBId, connection.conBId);
       expect(updatedConnection.type, SimObjectType.connection);
     });
 
@@ -30,8 +31,10 @@ void main() {
       final newConnection = Connection.fromMap(map);
 
       expect(newConnection.id, connection.id);
-      expect(newConnection.conA, connection.conA);
-      expect(newConnection.conB, connection.conB);
+      expect(newConnection.conAmac, connection.conAmac);
+      expect(newConnection.conBmac, connection.conBmac);
+      expect(newConnection.conAId, connection.conAId);
+      expect(newConnection.conBId, connection.conBId);
       expect(newConnection.type, connection.type);
     });
   });
