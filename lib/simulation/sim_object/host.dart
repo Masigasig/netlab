@@ -3,10 +3,13 @@ part of 'sim_object.dart';
 class Host extends Device {
   final String ipAddress;
   final String subnetMask;
-  final String macAddress;
   final String defaultGateway;
-  final String connectedDeviceId;
+  final String macAddress;
+  final String connectionId;
   final Map<String, String> arpTable;
+  final List<String> messageIds;
+
+  Map<String, String> get macToIdMap => {macAddress: connectionId};
 
   const Host({
     required super.id,
@@ -15,10 +18,11 @@ class Host extends Device {
     required super.posY,
     this.ipAddress = '',
     this.subnetMask = '',
-    required this.macAddress,
     this.defaultGateway = '',
-    this.connectedDeviceId = '',
+    required this.macAddress,
+    this.connectionId = '',
     this.arpTable = const {},
+    this.messageIds = const [],
   }) : super(type: SimObjectType.host);
 
   @override
@@ -28,8 +32,9 @@ class Host extends Device {
     String? ipAddress,
     String? subnetMask,
     String? defaultGateway,
-    String? connectedDeviceId,
+    String? connectionId,
     Map<String, String>? arpTable,
+    List<String>? messageIds,
   }) {
     return Host(
       id: id,
@@ -38,10 +43,11 @@ class Host extends Device {
       posY: posY ?? this.posY,
       ipAddress: ipAddress ?? this.ipAddress,
       subnetMask: subnetMask ?? this.subnetMask,
-      macAddress: macAddress,
       defaultGateway: defaultGateway ?? this.defaultGateway,
-      connectedDeviceId: connectedDeviceId ?? this.connectedDeviceId,
+      macAddress: macAddress,
+      connectionId: connectionId ?? this.connectionId,
       arpTable: arpTable ?? Map<String, String>.from(this.arpTable),
+      messageIds: messageIds ?? List<String>.from(this.messageIds),
     );
   }
 
@@ -51,10 +57,11 @@ class Host extends Device {
       ...super.toMap(),
       'ipAddress': ipAddress,
       'subnetMask': subnetMask,
-      'macAddress': macAddress,
       'defaultGateway': defaultGateway,
-      'connectedDeviceId': connectedDeviceId,
+      'macAddress': macAddress,
+      'connectionId': connectionId,
       'arpTable': arpTable,
+      'messagesIds': messageIds,
     };
   }
 
@@ -66,10 +73,11 @@ class Host extends Device {
       posY: map['posY'].toDouble(),
       ipAddress: map['ipAddress']?.toString() ?? '',
       subnetMask: map['subnetMask']?.toString() ?? '',
-      macAddress: map['macAddress'].toString(),
       defaultGateway: map['defaultGateway']?.toString() ?? '',
-      connectedDeviceId: map['connectedDeviceId']?.toString() ?? '',
+      macAddress: map['macAddress'].toString(),
+      connectionId: map['connectionId']?.toString() ?? '',
       arpTable: Map<String, String>.from(map['arpTable'] ?? {}),
+      messageIds: List<String>.from(map['messagesIds'] ?? []),
     );
   }
 }
