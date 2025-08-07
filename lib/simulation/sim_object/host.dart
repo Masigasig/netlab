@@ -23,14 +23,14 @@ class Host extends Device {
 
   @override
   Host copyWith({
-      double? posX, 
-      double? posY,
-      String? ipAddress,
-      String? subnetMask,
-      String? defaultGateway,
-      String? connectedDeviceId,
-      Map<String, String>? arpTable,
-    }) {
+    double? posX,
+    double? posY,
+    String? ipAddress,
+    String? subnetMask,
+    String? defaultGateway,
+    String? connectedDeviceId,
+    Map<String, String>? arpTable,
+  }) {
     return Host(
       id: id,
       name: name,

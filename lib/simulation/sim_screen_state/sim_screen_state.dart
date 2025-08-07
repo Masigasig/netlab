@@ -225,6 +225,9 @@ class SimScreenState extends StateNotifier<void> {
         _hostNotifier.addSimObject(object as Host);
         _hostWidgetNotifier.addSimObjectWidget(widget as HostWidget);
         break;
+      case SimObjectType.message:
+        //TODO: implemment message
+        break;
       case SimObjectType.router:
         _routerNotifier.addSimObject(object as Router);
         _routerWidgetNotifier.addSimObjectWidget(widget as RouterWidget);
@@ -244,6 +247,8 @@ extension SimObjectTypeX on SimObjectType {
         return 'Connection';
       case SimObjectType.host:
         return 'Host';
+      case SimObjectType.message:
+        return 'Message';
       case SimObjectType.router:
         return 'Router';
       case SimObjectType.switch_:
@@ -255,6 +260,8 @@ extension SimObjectTypeX on SimObjectType {
     return switch (this) {
       SimObjectType.connection => ConnectionWidget(simObjectId: simObjectId),
       SimObjectType.host => HostWidget(simObjectId: simObjectId),
+      SimObjectType.message =>
+        throw UnimplementedError(), // TODO: creaate a messagewidget
       SimObjectType.router => RouterWidget(simObjectId: simObjectId),
       SimObjectType.switch_ => SwitchWidget(simObjectId: simObjectId),
     };
@@ -266,13 +273,22 @@ extension SimObjectTypeX on SimObjectType {
     double posY = 0,
     String conA = '',
     String conB = '',
+    String srcId = '',
+    String dstId = '',
   }) {
     final id = Ulid().toUuid();
     final macAddress = generateUniqueMacAddress();
 
     return switch (this) {
       SimObjectType.connection => Connection(id: id, conA: conA, conB: conB),
-      SimObjectType.host => Host(id: id, posX: posX, posY: posY, name: name, macAddress: macAddress),
+      SimObjectType.host => Host(
+        id: id,
+        posX: posX,
+        posY: posY,
+        name: name,
+        macAddress: macAddress,
+      ),
+      SimObjectType.message => Message(id: id, srcId: srcId, dstId: dstId),
       SimObjectType.router => Router(
         id: id,
         posX: posX,

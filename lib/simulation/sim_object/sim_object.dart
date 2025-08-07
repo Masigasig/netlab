@@ -3,8 +3,9 @@ part 'device.dart';
 part 'host.dart';
 part 'router.dart';
 part 'switch.dart';
+part 'message.dart';
 
-enum SimObjectType { connection, host, router, switch_ }
+enum SimObjectType { connection, host, message, router, switch_ }
 
 abstract class SimObject {
   final String id;

@@ -53,10 +53,10 @@ void main() {
         defaultGateway: '192.168.1.1',
         connectedDeviceId: 'someIDhere',
         arpTable: {
-          'someIPhere' : 'someMachere',
-          'someIPhere1' : 'someMachere1',
-          'someIPhere2' : 'someMachere2',
-        }
+          'someIPhere': 'someMachere',
+          'someIPhere1': 'someMachere1',
+          'someIPhere2': 'someMachere2',
+        },
       );
     });
 
@@ -69,11 +69,11 @@ void main() {
         defaultGateway: '192.168.2.1',
         connectedDeviceId: 'newSomeIDhere',
         arpTable: {
-          'someIPhere' : 'someMachere',
-          'someIPhere1' : 'someMachere1',
-          'someIPhere2' : 'someMachere2',
-          'someIPhere3' : 'someMachere3',
-        }
+          'someIPhere': 'someMachere',
+          'someIPhere1': 'someMachere1',
+          'someIPhere2': 'someMachere2',
+          'someIPhere3': 'someMachere3',
+        },
       );
 
       expect(updatedHost.id, host.id);
@@ -82,15 +82,20 @@ void main() {
       expect(updatedHost.posY, 250);
       expect(updatedHost.ipAddress, '192.168.2.4');
       expect(updatedHost.subnetMask, '255.255.255.0');
-      expect(RegExp(r'^([0-9A-F]{2}:){5}[0-9A-F]{2}$').hasMatch(updatedHost.macAddress), isTrue);
+      expect(
+        RegExp(
+          r'^([0-9A-F]{2}:){5}[0-9A-F]{2}$',
+        ).hasMatch(updatedHost.macAddress),
+        isTrue,
+      );
       expect(updatedHost.defaultGateway, '192.168.2.1');
       expect(updatedHost.connectedDeviceId, 'newSomeIDhere');
       expect(updatedHost.arpTable, {
-          'someIPhere' : 'someMachere',
-          'someIPhere1' : 'someMachere1',
-          'someIPhere2' : 'someMachere2',
-          'someIPhere3' : 'someMachere3',
-        });
+        'someIPhere': 'someMachere',
+        'someIPhere1': 'someMachere1',
+        'someIPhere2': 'someMachere2',
+        'someIPhere3': 'someMachere3',
+      });
       expect(updatedHost.type, SimObjectType.host);
     });
 
