@@ -60,6 +60,7 @@ class SimScreenState extends StateNotifier<void> {
   }
 
   void createConnection({required String simObjectId}) {
+    //TODO: fix this
     if (!_wireModeNotifier.state) return;
 
     if (!_selectedDevices.contains(simObjectId) &&
@@ -72,8 +73,8 @@ class SimScreenState extends StateNotifier<void> {
 
         final isDuplicate = _connectionNotifier.state.values.any(
           (conn) =>
-              (conn.conA == conA && conn.conB == conB) ||
-              (conn.conA == conB && conn.conB == conA),
+              (conn.conAId == conA && conn.conBId == conB) ||
+              (conn.conAId == conB && conn.conBId == conA),
         );
         if (isDuplicate) {
           _selectedDevices.clear();
@@ -81,8 +82,8 @@ class SimScreenState extends StateNotifier<void> {
         }
 
         final connection = SimObjectType.connection.createSimObject(
-          conA: conA,
-          conB: conB,
+          conAId: conA,
+          conBId: conB,
         );
 
         final widget = SimObjectType.connection.createSimObjectWidget(
@@ -271,8 +272,10 @@ extension SimObjectTypeX on SimObjectType {
     String name = '',
     double posX = 0,
     double posY = 0,
-    String conA = '',
-    String conB = '',
+    String conAmac = '',
+    String conBmac = '',
+    String conAId = '',
+    String conBId = '',
     String srcId = '',
     String dstId = '',
   }) {
@@ -280,7 +283,13 @@ extension SimObjectTypeX on SimObjectType {
     final macAddress = generateUniqueMacAddress();
 
     return switch (this) {
-      SimObjectType.connection => Connection(id: id, conA: conA, conB: conB),
+      SimObjectType.connection => Connection(
+        id: id,
+        conAmac: conAmac,
+        conBmac: conBmac,
+        conAId: conAId,
+        conBId: conBId,
+      ),
       SimObjectType.host => Host(
         id: id,
         posX: posX,
