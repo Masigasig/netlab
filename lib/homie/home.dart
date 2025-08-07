@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:netlab/homie/widgets/sidebar.dart'; // Import your custom sidebar
+import 'package:netlab/homie/widgets/dashboard.dart';
+import 'package:netlab/homie/widgets/sidebar.dart';
+import 'package:netlab/homie/widgets/simulator.dart';
+import 'package:netlab/homie/widgets/study.dart';
+import 'package:netlab/homie/widgets/tutorial.dart';
 
 class HomieScreen extends StatefulWidget {
   const HomieScreen({super.key});
@@ -11,12 +15,11 @@ class HomieScreen extends StatefulWidget {
 class _HomieScreenState extends State<HomieScreen> {
   int selectedIndex = 0;
 
-  final List<String> pages = [
-    'Welcome to NetLab!',
-    'Let\'s play something!',
-    'Your saved items',
-    'School dashboard',
-    'Open your book!',
+  final List<Widget> pages = [
+    const DashboardScreen(),
+    const SimulatorScreen(),
+    const TutorialScreen(),
+    const StudyScreen(),
   ];
 
   void _onSidebarTap(int index) {
@@ -28,36 +31,14 @@ class _HomieScreenState extends State<HomieScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: const Color(0xFF121212),
       body: Row(
         children: [
           Sidebar(
-            onItemSelected: _onSidebarTap, // Hook up tap handler
+            onItemSelected: _onSidebarTap,
           ),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'NetLab',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
-                Center(
-                  child: Text(
-                    pages[selectedIndex],
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                ),
-              ],
-            ),
+            child: pages[selectedIndex], // All pages take full space
           ),
         ],
       ),

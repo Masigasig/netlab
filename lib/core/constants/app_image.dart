@@ -15,4 +15,8 @@ class AppLottie {
   static const String bgr = '$_base/gradient.json';
   static const String kid = '$_base/kid.json';
   static const String particle = '$_base/particle.json';
+  static const String homeIcon = '$_base/home.json';
+  static const String helpIcon = '$_base/help.json';
+  static const String bookIcon = '$_base/book.json';
+  static const String playIcon = '$_base/play.json';
 }

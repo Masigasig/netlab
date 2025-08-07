@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'sidebar_item.dart';
+import 'package:netlab/core/constants/app_image.dart';
 
 class Sidebar extends StatefulWidget {
   final ValueChanged<int>? onItemSelected;
@@ -28,11 +29,11 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      width: isExpanded ? 240 : 72,
-      decoration: const BoxDecoration(color: Color(0xFF343541)),
+      width: isExpanded ? 240 : 70,
+      decoration: const BoxDecoration(color: Color.fromARGB(255, 26, 26, 32)),
       child: Column(
         children: [
-          // Fixed Header with aligned icon
+          // Header
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             child: Container(
@@ -44,7 +45,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
               child: Row(
                 children: [
                   const SizedBox(
-                    width: 24, // Match SidebarItem icon space
+                    width: 24,
                     child: Icon(Icons.science, color: Colors.white, size: 20),
                   ),
                   const SizedBox(width: 12),
@@ -74,49 +75,39 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
             ),
           ),
 
-          const Divider(color: Colors.white24, height: 1),
-
           // Sidebar Items
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 8),
               children: [
                 SidebarItem(
-                  icon: Icons.archive,
-                  label: 'Archive',
+                  lottiePath: AppLottie.homeIcon,
+                  label: 'Home',
                   index: 0,
                   selectedIndex: selectedIndex,
                   isExpanded: isExpanded,
                   onTap: onSelect,
                 ),
                 SidebarItem(
-                  icon: Icons.image,
-                  label: 'Images',
+                  lottiePath: AppLottie.playIcon,
+                  label: 'Simulator',
                   index: 1,
                   selectedIndex: selectedIndex,
                   isExpanded: isExpanded,
                   onTap: onSelect,
                 ),
                 SidebarItem(
-                  icon: Icons.smart_toy,
-                  label: 'Bot',
+                  lottiePath: AppLottie.helpIcon,
+                  label: 'Tutorials',
                   index: 2,
                   selectedIndex: selectedIndex,
                   isExpanded: isExpanded,
                   onTap: onSelect,
                 ),
                 SidebarItem(
-                  icon: Icons.menu_book,
-                  label: 'Docs',
+                  lottiePath: AppLottie.bookIcon,
+                  label: 'Study',
                   index: 3,
-                  selectedIndex: selectedIndex,
-                  isExpanded: isExpanded,
-                  onTap: onSelect,
-                ),
-                SidebarItem(
-                  icon: Icons.vpn_key,
-                  label: 'Keys',
-                  index: 4,
                   selectedIndex: selectedIndex,
                   isExpanded: isExpanded,
                   onTap: onSelect,
@@ -125,7 +116,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
             ),
           ),
 
-          // Toggle button
+          // Toggle Button
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             child: Container(
