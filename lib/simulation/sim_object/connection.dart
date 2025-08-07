@@ -1,27 +1,50 @@
 part of 'sim_object.dart';
 
 class Connection extends SimObject {
-  final String conA;
-  final String conB;
+  final String conAmac;
+  final String conBmac;
+  final String conAId;
+  final String conBId;
 
-  const Connection({required super.id, required this.conA, required this.conB})
-    : super(type: SimObjectType.connection);
+  Map<String, String> get macToIdMap => {conAmac: conAId, conBmac: conBId};
+
+  const Connection({
+    required super.id,
+    required this.conAmac,
+    required this.conBmac,
+    required this.conAId,
+    required this.conBId,
+  }) : super(type: SimObjectType.connection);
 
   @override
-  Connection copyWith({String? conA, String? conB}) {
-    return Connection(id: id, conA: conA ?? this.conA, conB: conB ?? this.conB);
+  Connection copyWith() {
+    return Connection(
+      id: id,
+      conAmac: conAmac,
+      conBmac: conBmac,
+      conAId: conAId,
+      conBId: conBId,
+    );
   }
 
   @override
   Map<String, dynamic> toMap() {
-    return {...super.toMap(), 'conA': conA, 'conB': conB};
+    return {
+      ...super.toMap(),
+      'conAmac': conAmac,
+      'conBmac': conBmac,
+      'conAId': conAId,
+      'conBId': conBId,
+    };
   }
 
   factory Connection.fromMap(Map<String, dynamic> map) {
     return Connection(
       id: map['id'].toString(),
-      conA: map['conA'].toString(),
-      conB: map['conB'].toString(),
+      conAmac: map['conAmac'].toString(),
+      conBmac: map['conBmac'].toString(),
+      conAId: map['conAId'].toString(),
+      conBId: map['conBId'].toString(),
     );
   }
 }

@@ -8,6 +8,7 @@ class ConnectionWidget extends SimObjectWidget {
 }
 
 class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
+  // TODO: Fix this
   late final String _conAId;
   late final String _conBId;
   late final StateNotifierProvider<dynamic, Map<String, dynamic>> _conAProvider;
@@ -16,8 +17,8 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
   @override
   void initState() {
     super.initState();
-    _conAId = (ref.read(connectionProvider)[widget.simObjectId]!).conA;
-    _conBId = (ref.read(connectionProvider)[widget.simObjectId]!).conB;
+    _conAId = (ref.read(connectionProvider)[widget.simObjectId]!).conAId;
+    _conBId = (ref.read(connectionProvider)[widget.simObjectId]!).conBId;
 
     _conAProvider = _getDeviceProvider(_conAId);
     _conBProvider = _getDeviceProvider(_conBId);
