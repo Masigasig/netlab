@@ -260,6 +260,8 @@ extension SimObjectTypeX on SimObjectType {
     }
   }
 
+  String generatePrefixedId() => '${label}_${Ulid().toUuid()}';
+
   SimObjectWidget createSimObjectWidget({required String simObjectId}) {
     return switch (this) {
       SimObjectType.connection => ConnectionWidget(simObjectId: simObjectId),
@@ -282,8 +284,7 @@ extension SimObjectTypeX on SimObjectType {
     String srcId = '',
     String dstId = '',
   }) {
-    final id = Ulid().toUuid();
-    final macAddress = MacAddressManager.generateUniqueMacAddress();
+    final id = generatePrefixedId();
 
     return switch (this) {
       SimObjectType.connection => Connection(
@@ -298,7 +299,7 @@ extension SimObjectTypeX on SimObjectType {
         posX: posX,
         posY: posY,
         name: name,
-        macAddress: macAddress,
+        macAddress: MacAddressManager.generateUniqueMacAddress(),
       ),
       SimObjectType.message => Message(id: id, srcId: srcId, dstId: dstId),
       SimObjectType.router => Router(
