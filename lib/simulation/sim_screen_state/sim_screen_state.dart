@@ -11,6 +11,7 @@ export 'package:netlab/simulation/sim_object/sim_object.dart'
 part 'connection_notifier.dart';
 part 'device_notifier.dart';
 part 'host_notifier.dart';
+part 'message_notifier.dart';
 part 'router_notifier.dart';
 part 'sim_object_notifier.dart';
 part 'switch_notifier.dart';
@@ -33,6 +34,7 @@ class SimScreenState extends StateNotifier<void> {
   ConnectionNotifier get _connectionNotifier =>
       ref.read(connectionProvider.notifier);
   HostNotifier get _hostNotifier => ref.read(hostProvider.notifier);
+  MessageNotifier get _messageNotifier => ref.read(messageProvider.notifier);
   RouterNotifier get _routerNotifier => ref.read(routerProvider.notifier);
   SwitchNotifier get _switchNotifier => ref.read(switchProvider.notifier);
 
@@ -227,6 +229,7 @@ class SimScreenState extends StateNotifier<void> {
         _hostWidgetNotifier.addSimObjectWidget(widget as HostWidget);
         break;
       case SimObjectType.message:
+        _messageNotifier.addSimObject(object as Message);
         //TODO: implemment message
         break;
       case SimObjectType.router:
