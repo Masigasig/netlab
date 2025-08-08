@@ -1,5 +1,9 @@
 import 'dart:math';
 
+enum DataLinkLayerType { arp, ipv4 }
+
+enum OperationType { request, reply }
+
 class MacAddressManager {
   static final Set<String> macStorage = {};
 
