@@ -5,8 +5,10 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
 
   MessageNotifier get messageNotifier => ref.read(messageProvider.notifier);
 
-  void sendToConnection(String connectionId, Message message) {
-    ref.read(connectionProvider.notifier).receiveMessage(connectionId, message);
+  void sendToConnection(String connectionId, String messageId) {
+    ref
+        .read(connectionProvider.notifier)
+        .receiveMessage(connectionId, messageId);
   }
 
   void updatePosition(String deviceId, double newX, double newY) {

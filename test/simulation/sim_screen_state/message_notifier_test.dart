@@ -63,5 +63,22 @@ void main() {
       expect(popedMessage.layerStack[0]['src'], 'Ipsrc');
       expect(popedMessage.layerStack.length, 1);
     });
+
+    test('updateCurrentPlaceId should work properly', () {
+      expect(notifier.state[messageId]!.currentPlaceId, 'crntId');
+
+      notifier.updateCurrentPlaceId(messageId, 'updatedId');
+
+      expect(notifier.state[messageId]!.currentPlaceId, 'updatedId');
+    });
+
+    test('peekLayerStack should return top Layer', () {
+      expect(notifier.state[messageId]!.layerStack.last, {
+        'src': 'Ipsrc',
+        'dst': 'Ipdst',
+      });
+      expect(notifier.state[messageId]!.layerStack.last['dst'], 'Ipdst');
+      expect(notifier.state[messageId]!.layerStack.last['src'], 'Ipsrc');
+    });
   });
 }

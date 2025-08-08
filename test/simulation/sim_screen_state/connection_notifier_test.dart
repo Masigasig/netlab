@@ -72,13 +72,15 @@ void main() {
   });
 
   test('receiveMessage and sendMessage should work properly', () {
-    final message = messageNotifier.state[messageId]!;
+    expect(messageNotifier.state[messageId]!.currentPlaceId, equals(hostId1));
 
-    expect(messageNotifier.state[messageId]!.currentPlaceId, hostId1);
+    connectionNotifier.receiveMessage(conId, messageId);
 
-    connectionNotifier.receiveMessage(conId, message);
+    expect(messageNotifier.state[messageId]!.currentPlaceId, equals(conId));
 
-    expect(messageNotifier.state[messageId]!.currentPlaceId, hostId2);
+    connectionNotifier.sendMessage(conId);
+
+    expect(messageNotifier.state[messageId]!.currentPlaceId, equals(hostId2));
 
     messageNotifier.popLayer(messageId);
     final dataLinkLayer = {
@@ -88,12 +90,14 @@ void main() {
     };
     messageNotifier.pushLayer(messageId, dataLinkLayer);
 
-    final updatedMessage = messageNotifier.state[messageId]!;
+    expect(messageNotifier.state[messageId]!.currentPlaceId, equals(hostId2));
 
-    expect(messageNotifier.state[messageId]!.currentPlaceId, hostId2);
+    connectionNotifier.receiveMessage(conId, messageId);
 
-    connectionNotifier.receiveMessage(conId, updatedMessage);
+    expect(messageNotifier.state[messageId]!.currentPlaceId, equals(conId));
 
-    expect(messageNotifier.state[messageId]!.currentPlaceId, hostId1);
+    connectionNotifier.sendMessage(conId);
+
+    expect(messageNotifier.state[messageId]!.currentPlaceId, equals(hostId1));
   });
 }

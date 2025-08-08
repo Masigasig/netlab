@@ -11,8 +11,8 @@ final hostWidgetProvider =
 class HostNotifier extends DeviceNotifier<Host> {
   HostNotifier(super.ref);
 
-  void receiveMessage(String hostId, Message message) {
-    messageNotifier.updateCurrentPlaceId(message.id, hostId);
+  void receiveMessage(String hostId, String messageId) {
+    messageNotifier.updateCurrentPlaceId(messageId, hostId);
   }
 }
 

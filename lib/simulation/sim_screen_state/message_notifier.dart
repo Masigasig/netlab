@@ -30,6 +30,9 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     state = {...state, messageId: updatedMessage};
   }
 
+  Map<String, String> peekLayerStack(String messageId) =>
+      state[messageId]!.layerStack.last;
+
   void updateCurrentPlaceId(String messageId, String newPlace) {
     final message = state[messageId]!;
 
