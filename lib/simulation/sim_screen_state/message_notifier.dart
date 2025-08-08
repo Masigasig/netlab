@@ -8,10 +8,10 @@ final messageProvider =
 class MessageNotifier extends SimObjectNotifier<Message> {
   MessageNotifier(super.ref);
 
-  void pushLayer(String messageId, Map<String, String> newLayer) {
+  void pushLayer(String messageId, Map<String, dynamic> newLayer) {
     final message = state[messageId]!;
 
-    final newStack = List<Map<String, String>>.from(message.layerStack)
+    final newStack = List<Map<String, dynamic>>.from(message.layerStack)
       ..add(newLayer);
 
     final updatedMessage = message.copyWith(layerStack: newStack);
@@ -30,12 +30,18 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     state = {...state, messageId: updatedMessage};
   }
 
-  Map<String, String> peekLayerStack(String messageId) =>
+  Map<String, dynamic> peekLayerStack(String messageId) =>
       state[messageId]!.layerStack.last;
 
   void updateCurrentPlaceId(String messageId, String newPlace) {
     final message = state[messageId]!;
 
     state = {...state, messageId: message.copyWith(currentPlaceId: newPlace)};
+  }
+
+  void dropMessage(String messageId) {
+    final newState = {...state};
+    newState.remove(messageId);
+    state = newState;
   }
 }

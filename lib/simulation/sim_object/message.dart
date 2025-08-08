@@ -4,7 +4,7 @@ class Message extends SimObject {
   final String srcId;
   final String dstId;
   final String currentPlaceId;
-  final List<Map<String, String>> layerStack;
+  final List<Map<String, dynamic>> layerStack;
 
   const Message({
     required super.id,
@@ -17,14 +17,15 @@ class Message extends SimObject {
   @override
   Message copyWith({
     String? currentPlaceId,
-    List<Map<String, String>>? layerStack,
+    List<Map<String, dynamic>>? layerStack,
   }) {
     return Message(
       id: id,
       srcId: srcId,
       dstId: dstId,
       currentPlaceId: currentPlaceId ?? this.currentPlaceId,
-      layerStack: layerStack ?? List<Map<String, String>>.from(this.layerStack),
+      layerStack:
+          layerStack ?? List<Map<String, dynamic>>.from(this.layerStack),
     );
   }
 
@@ -45,7 +46,7 @@ class Message extends SimObject {
       srcId: map['srcId'].toString(),
       dstId: map['dstId'].toString(),
       currentPlaceId: map['currentPlaceId'].toString(),
-      layerStack: List<Map<String, String>>.from(map['layerStack']),
+      layerStack: List<Map<String, dynamic>>.from(map['layerStack']),
     );
   }
 }
