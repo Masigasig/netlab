@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:netlab/core/constants/app_colors.dart';
 
 class GradientText extends StatelessWidget {
   final String text;
@@ -19,12 +20,8 @@ class GradientText extends StatelessWidget {
     this.fontWeight = FontWeight.bold,
     this.textAlign = TextAlign.center,
     this.height = 1.2,
-    this.gradientColors = const [
-      Color(0xFF6C63FF),
-      Color(0xFFD77EFF), 
-      Color(0xFFFF4D94),
-    ],
-    this.defaultColor = Colors.white,
+    this.gradientColors = AppColors.primaryGradient,
+    this.defaultColor = AppColors.textPrimary,
   });
 
   @override
@@ -56,6 +53,8 @@ class GradientText extends StatelessWidget {
       final index = entry.key;
       final word = entry.value;
       final isLast = index == words.length - 1;
+      
+      // Clean word by removing punctuation for comparison
       final cleanWord = word.replaceAll(RegExp(r'[^\w]'), '');
       final isGradient = gradientWords.any((gw) => 
           gw.toLowerCase() == cleanWord.toLowerCase());

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'gradient_text.dart';
+import 'package:netlab/core/constants/app_colors.dart';
 
 class OnboardingPage extends StatelessWidget {
   final String title;
@@ -27,7 +28,7 @@ class OnboardingPage extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            color: Colors.black.withOpacity(0.3),
+            color: AppColors.overlay,
           ),
           isLandscape
               ? Row(
@@ -56,7 +57,7 @@ class OnboardingPage extends StatelessWidget {
                                   description,
                                   style: GoogleFonts.inter(
                                     fontSize: 18,
-                                    color: Colors.white70,
+                                    color: AppColors.textSecondary,
                                     height: 1.4,
                                   ),
                                 ),
@@ -107,7 +108,7 @@ class OnboardingPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
                           fontSize: 16,
-                          color: Colors.white70,
+                          color: AppColors.textSecondary,
                           height: 1.5,
                         ),
                       ),

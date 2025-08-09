@@ -5,6 +5,7 @@ import 'widgets/onboarding_button.dart';
 import 'package:netlab/core/constants/app_image.dart';
 import 'widgets/bg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:netlab/core/constants/app_colors.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -81,7 +82,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           },
                           child: const Text(
                             'Skip',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: AppColors.textPrimary),
                           ),
                         ),
                         const SizedBox(width: 8),

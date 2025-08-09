@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:netlab/core/constants/app_colors.dart';
 
 class OnboardingButton extends StatefulWidget {
   final String text;
@@ -54,7 +55,7 @@ class _OnboardingButtonState extends State<OnboardingButton>
             child: ElevatedButton(
               onPressed: widget.onPressed,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0B0F1E), // Updated dark background
+                backgroundColor: AppColors.background,
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: _borderRadius,
@@ -63,7 +64,7 @@ class _OnboardingButtonState extends State<OnboardingButton>
               child: Text(
                 widget.text,
                 style: const TextStyle(
-                  color: Colors.white, // High contrast
+                  color: AppColors.textPrimary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -94,12 +95,7 @@ class GradientBorderPainter extends CustomPainter {
       startAngle: 0.0,
       endAngle: 2 * pi,
       transform: GradientRotation(2 * pi * animationValue),
-      colors: const [
-        Color(0xFF6C63FF),
-        Color(0xFFD77EFF),
-        Color(0xFFFF4D94),
-        Color(0xFF6C63FF),
-      ],
+      colors: AppColors.extendedGradient, // Use AppColors
     );
 
     final paint = Paint()

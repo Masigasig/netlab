@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:netlab/core/constants/app_image.dart';
+import 'package:netlab/core/constants/app_colors.dart';
 
 class GlobalAnimatedBackground extends StatelessWidget {
   final Widget child;
@@ -10,7 +11,7 @@ class GlobalAnimatedBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF0B0F1E),
+      color: AppColors.background,
       child: Stack(
         children: [
           Positioned.fill(
@@ -20,7 +21,6 @@ class GlobalAnimatedBackground extends StatelessWidget {
               repeat: true,
             ),
           ),
-          // this is gradient man idk if its cool or what still on experiment
           Positioned.fill(
             child: Container(
               decoration: const BoxDecoration(
@@ -28,9 +28,9 @@ class GlobalAnimatedBackground extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFF0B0F1E),
-                    Color(0x000B0F1E),
-                    Color(0xFF0B0F1E),
+                    AppColors.background,
+                    AppColors.overlay,
+                    AppColors.background,
                   ],
                   stops: [0.0, 0.5, 1.0],
                 ),

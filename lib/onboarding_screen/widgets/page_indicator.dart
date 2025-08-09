@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netlab/core/constants/app_colors.dart';
 
 class PageIndicator extends StatelessWidget {
   final int currentIndex;
@@ -16,7 +17,7 @@ class PageIndicator extends StatelessWidget {
           width: index == currentIndex ? 12 : 8,
           height: index == currentIndex ? 12 : 8,
           decoration: BoxDecoration(
-            color: index == currentIndex ? Colors.blue : Colors.grey,
+            color: index == currentIndex ? AppColors.active : AppColors.inactive,
             shape: BoxShape.circle,
           ),
         );
