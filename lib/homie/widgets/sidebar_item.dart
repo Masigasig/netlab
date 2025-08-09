@@ -28,7 +28,6 @@ class SidebarItem extends StatefulWidget {
 class _SidebarItemState extends State<SidebarItem>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  int _lastSelectedIndex = -1;
 
   @override
   void initState() {
@@ -39,20 +38,12 @@ class _SidebarItemState extends State<SidebarItem>
   @override
   void didUpdateWidget(SidebarItem oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    final isNowSelected = widget.index == widget.selectedIndex;
-    final wasSelected = widget.index == oldWidget.selectedIndex;
-
-    if (isNowSelected && !wasSelected) {
+    
+    // Play animation when item becomes selected
+    if (widget.index == widget.selectedIndex && 
+        widget.index != oldWidget.selectedIndex) {
       _controller.reset();
       _controller.forward();
-    } else if (isNowSelected && widget.selectedIndex != _lastSelectedIndex) {
-      _controller.reset();
-      _controller.forward();
-    }
-
-    if (widget.selectedIndex != oldWidget.selectedIndex) {
-      _lastSelectedIndex = oldWidget.selectedIndex;
     }
   }
 
@@ -64,7 +55,7 @@ class _SidebarItemState extends State<SidebarItem>
 
   @override
   Widget build(BuildContext context) {
-    final bool selected = widget.index == widget.selectedIndex;
+    final isSelected = widget.index == widget.selectedIndex;
 
     return InkWell(
       onTap: () => widget.onTap(widget.index),
@@ -75,56 +66,61 @@ class _SidebarItemState extends State<SidebarItem>
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           children: [
+            // Selection indicator
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 3,
               height: 32,
               decoration: BoxDecoration(
-                color: selected ? Colors.white : Colors.transparent,
+                color: isSelected ? Colors.white : Colors.transparent,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
             const SizedBox(width: 10),
+            
+            // Icon or Lottie animation
             SizedBox(
               width: 24,
               height: 24,
-              child: widget.lottiePath != null
-                  ? Lottie.asset(
-                      widget.lottiePath!,
-                      controller: _controller,
-                      onLoaded: (composition) {
-                        _controller.duration = composition.duration;
-                      },
-                      fit: BoxFit.contain,
-                    )
-                  : (widget.icon != null
-                      ? Icon(widget.icon, color: Colors.white, size: 20)
-                      : const SizedBox.shrink()),
+              child: _buildIcon(),
             ),
-            if (widget.isExpanded)
+            
+            // Label
+            if (widget.isExpanded) ...[
+              const SizedBox(width: 12),
               Expanded(
-                child: AnimatedOpacity(
-                  opacity: 1.0,
-                  duration: const Duration(milliseconds: 200),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Text(
-                      widget.label,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight:
-                            selected ? FontWeight.w600 : FontWeight.w400,
-                      ),
-                      overflow: TextOverflow.clip,
-                      maxLines: 1,
-                    ),
+                child: Text(
+                  widget.label,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                   ),
+                  overflow: TextOverflow.clip,
+                  maxLines: 1,
                 ),
               ),
+            ],
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildIcon() {
+    if (widget.lottiePath != null) {
+      return Lottie.asset(
+        widget.lottiePath!,
+        controller: _controller,
+        onLoaded: (composition) => _controller.duration = composition.duration,
+        fit: BoxFit.contain,
+      );
+    }
+    
+    if (widget.icon != null) {
+      return Icon(widget.icon, color: Colors.white, size: 20);
+    }
+    
+    return const SizedBox.shrink();
   }
 }
