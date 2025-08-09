@@ -5,13 +5,13 @@ import 'package:netlab/core/constants/app_colors.dart';
 class OnboardingButton extends StatefulWidget {
   final String text;
   final VoidCallback onPressed;
-
+  
   const OnboardingButton({
     super.key,
     required this.text,
     required this.onPressed,
   });
-
+  
   @override
   State<OnboardingButton> createState() => _OnboardingButtonState();
 }
@@ -19,98 +19,59 @@ class OnboardingButton extends StatefulWidget {
 class _OnboardingButtonState extends State<OnboardingButton>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-
-  final BorderRadius _borderRadius = BorderRadius.circular(30);
-  final double _borderWidth = 2;
-  final Duration _duration = const Duration(seconds: 2);
-
+  
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: _duration,
+      duration: const Duration(seconds: 2),
       vsync: this,
     )..repeat();
   }
-
+  
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, _) {
-        return CustomPaint(
-          painter: GradientBorderPainter(
-            animationValue: _controller.value,
-            borderRadius: _borderRadius,
-            borderWidth: _borderWidth,
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            gradient: SweepGradient(
+              startAngle: 0.0,
+              endAngle: 2 * pi,
+              transform: GradientRotation(2 * pi * _controller.value),
+              colors: AppColors.extendedGradient,
+            ),
           ),
-          child: Container(
-            padding: EdgeInsets.all(_borderWidth),
-            child: ElevatedButton(
-              onPressed: widget.onPressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.background,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: _borderRadius,
-                ),
+          padding: const EdgeInsets.all(2),
+          child: ElevatedButton(
+            onPressed: widget.onPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.background,
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(28),
               ),
-              child: Text(
-                widget.text,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
-                  fontWeight: FontWeight.w600,
-                ),
+              elevation: 0,
+              shadowColor: Colors.transparent,
+            ),
+            child: Text(
+              widget.text,
+              style: const TextStyle(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
         );
       },
     );
-  }
-}
-
-class GradientBorderPainter extends CustomPainter {
-  final double animationValue;
-  final BorderRadius borderRadius;
-  final double borderWidth;
-
-  GradientBorderPainter({
-    required this.animationValue,
-    required this.borderRadius,
-    required this.borderWidth,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-
-    final gradient = SweepGradient(
-      startAngle: 0.0,
-      endAngle: 2 * pi,
-      transform: GradientRotation(2 * pi * animationValue),
-      colors: AppColors.extendedGradient, // Use AppColors
-    );
-
-    final paint = Paint()
-      ..shader = gradient.createShader(rect)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = borderWidth;
-
-    final rrect = borderRadius.toRRect(rect);
-    canvas.drawRRect(rrect, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant GradientBorderPainter oldDelegate) {
-    return oldDelegate.animationValue != animationValue ||
-        oldDelegate.borderRadius != borderRadius ||
-        oldDelegate.borderWidth != borderWidth;
   }
 }
