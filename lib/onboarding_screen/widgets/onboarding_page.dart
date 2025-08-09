@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'gradient_text.dart';
 
 class OnboardingPage extends StatelessWidget {
   final String title;
   final String description;
   final String lottiePath;
   final Widget? bottomWidget;
+  final List<String> gradientWords;
 
   const OnboardingPage({
     super.key,
@@ -14,6 +16,7 @@ class OnboardingPage extends StatelessWidget {
     required this.description,
     required this.lottiePath,
     this.bottomWidget,
+    this.gradientWords = const ['NetLab', 'Build', 'Simulate'],
   });
 
   @override
@@ -42,7 +45,12 @@ class OnboardingPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                _buildGradientTitle(title, isLandscape),
+                                GradientText(
+                                  text: title,
+                                  gradientWords: gradientWords,
+                                  fontSize: 42,
+                                  textAlign: TextAlign.start,
+                                ),
                                 const SizedBox(height: 16),
                                 Text(
                                   description,
@@ -85,7 +93,12 @@ class OnboardingPage extends StatelessWidget {
                   children: [
                     Lottie.asset(lottiePath, height: 250),
                     const SizedBox(height: 20),
-                    _buildGradientTitle(title, isLandscape),
+                    GradientText(
+                      text: title,
+                      gradientWords: gradientWords,
+                      fontSize: 32,
+                      textAlign: TextAlign.center,
+                    ),
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -104,49 +117,6 @@ class OnboardingPage extends StatelessWidget {
                   ],
                 ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildGradientTitle(String title, bool isLandscape) {
-    const gradientWords = ['NetLab', 'Build', 'Simulate'];
-
-    final regex = RegExp(r'(\s+|[^\s]+)');
-    final tokens = regex.allMatches(title).map((m) => m.group(0)!).toList();
-
-    final defaultStyle = GoogleFonts.poppins(
-      fontSize: isLandscape ? 42 : 32,
-      fontWeight: FontWeight.bold,
-      height: 1.2,
-      color: Colors.white,
-    );
-
-    return RichText(
-      textAlign: isLandscape ? TextAlign.start : TextAlign.center,
-      text: TextSpan(
-        style: defaultStyle,
-        children: tokens.map((token) {
-          final clean = token.trim().replaceAll(RegExp(r'[^\w]'), '');
-          final isGradient = gradientWords.contains(clean);
-
-          if (isGradient) {
-            return TextSpan(
-              text: token,
-              style: defaultStyle.copyWith(
-                foreground: Paint()
-                  ..shader = const LinearGradient(
-                    colors: [
-                      Color(0xFF6C63FF),
-                      Color(0xFFD77EFF),
-                      Color(0xFFFF4D94),
-                    ],
-                  ).createShader(const Rect.fromLTWH(0, 0, 300, 70)),
-              ),
-            );
-          } else {
-            return TextSpan(text: token); 
-          }
-        }).toList(),
       ),
     );
   }
