@@ -6,18 +6,22 @@ class Message extends SimObject {
   final String currentPlaceId;
   final List<Map<String, dynamic>> layerStack;
 
+  final bool shouldAnimate;
+
   const Message({
     required super.id,
     required this.srcId,
     required this.dstId,
     this.currentPlaceId = '',
     this.layerStack = const [],
+    this.shouldAnimate = false,
   }) : super(type: SimObjectType.message);
 
   @override
   Message copyWith({
     String? currentPlaceId,
     List<Map<String, dynamic>>? layerStack,
+    bool? shouldAnimate,
   }) {
     return Message(
       id: id,
@@ -26,6 +30,7 @@ class Message extends SimObject {
       currentPlaceId: currentPlaceId ?? this.currentPlaceId,
       layerStack:
           layerStack ?? List<Map<String, dynamic>>.from(this.layerStack),
+      shouldAnimate: shouldAnimate ?? this.shouldAnimate,
     );
   }
 

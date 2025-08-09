@@ -13,28 +13,26 @@ final connectionWidgetProvider =
 class ConnectionNotifier extends SimObjectNotifier<Connection> {
   ConnectionNotifier(super.ref);
 
-  late String messageIdHolder;
-
   HostNotifier get _hostNotifier => ref.read(hostProvider.notifier);
   MessageNotifier get _messageNotifier => ref.read(messageProvider.notifier);
 
   void receiveMessage(String connectionId, String messageId) {
-    messageIdHolder = messageId;
-    _messageNotifier.updateCurrentPlaceId(messageIdHolder, connectionId);
+    _messageNotifier.updateCurrentPlaceId(messageId, connectionId);
 
-    // TODO: Then update the connection Widget
-    // to trigger the sendMessage method
+    _messageNotifier.toggleShouldAnimate(messageId);
   }
 
-  void sendMessage(String connectionId) {
-    final src = _messageNotifier.peekLayerStack(messageIdHolder)['src'];
-    final dst = _messageNotifier.peekLayerStack(messageIdHolder)['dst'];
+  void sendMessage(String connectionId, String messageId) {
+    _messageNotifier.toggleShouldAnimate(messageId);
+
+    final src = _messageNotifier.state[messageId]!.layerStack.last['src'];
+    final dst = _messageNotifier.state[messageId]!.layerStack.last['dst'];
 
     if (dst != MacAddressManager.broadcastMacAddress) {
       final deviceId = state[connectionId]!.macToIdMap[dst]!;
 
       if (deviceId.startsWith(SimObjectType.host.label)) {
-        _hostNotifier.receiveMessage(deviceId, messageIdHolder);
+        _hostNotifier.receiveMessage(deviceId, messageId);
       } else if (deviceId.startsWith(SimObjectType.router.label)) {
       } else if (deviceId.startsWith(SimObjectType.switch_.label)) {}
     } else {
@@ -43,7 +41,7 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
           .value;
 
       if (deviceId.startsWith(SimObjectType.host.label)) {
-        _hostNotifier.receiveMessage(deviceId, messageIdHolder);
+        _hostNotifier.receiveMessage(deviceId, messageId);
       } else if (deviceId.startsWith(SimObjectType.router.label)) {
       } else if (deviceId.startsWith(SimObjectType.switch_.label)) {}
     }

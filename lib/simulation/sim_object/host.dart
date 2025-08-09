@@ -9,8 +9,6 @@ class Host extends Device {
   final Map<String, String> arpTable;
   final List<String> messageIds;
 
-  Map<String, String> get macToIdMap => {macAddress: connectionId};
-
   const Host({
     required super.id,
     required super.name,

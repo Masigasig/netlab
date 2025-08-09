@@ -19,24 +19,32 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     state = {...state, messageId: updatedMessage};
   }
 
-  void popLayer(String messageId) {
+  Map<String, dynamic> popLayer(String messageId) {
     final message = state[messageId]!;
 
-    final newStack = List<Map<String, String>>.from(message.layerStack)
+    final layer = message.layerStack.last;
+
+    final newStack = List<Map<String, dynamic>>.from(message.layerStack)
       ..removeLast();
 
-    final updatedMessage = message.copyWith(layerStack: newStack);
+    state = {...state, messageId: message.copyWith(layerStack: newStack)};
 
-    state = {...state, messageId: updatedMessage};
+    return layer;
   }
-
-  Map<String, dynamic> peekLayerStack(String messageId) =>
-      state[messageId]!.layerStack.last;
 
   void updateCurrentPlaceId(String messageId, String newPlace) {
     final message = state[messageId]!;
 
     state = {...state, messageId: message.copyWith(currentPlaceId: newPlace)};
+  }
+
+  void toggleShouldAnimate(String messageId) {
+    final message = state[messageId]!;
+
+    state = {
+      ...state,
+      messageId: message.copyWith(shouldAnimate: !message.shouldAnimate),
+    };
   }
 
   void dropMessage(String messageId) {

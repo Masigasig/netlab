@@ -13,26 +13,47 @@ class HostNotifier extends DeviceNotifier<Host> {
 
   void receiveMessage(String hostId, String messageId) {
     messageNotifier.updateCurrentPlaceId(messageId, hostId);
+    final dataLinkLayer = messageNotifier.popLayer(messageId);
 
-    final type = messageNotifier.peekLayerStack(messageId)['type'];
-
-    if (type == DataLinkLayerType.arp) {
-      processArpMsg(hostId, messageId);
-    } else {
-      messageNotifier.dropMessage(messageId);
+    switch (dataLinkLayer['type']) {
+      case DataLinkLayerType.arp:
+        processArpMsg(hostId, messageId, dataLinkLayer);
     }
   }
 
-  void processArpMsg(String hostId, String messageId) {
-    messageNotifier.popLayer(messageId);
+  void processArpMsg(
+    String hostId,
+    String messageId,
+    Map<String, dynamic> dataLinkLayer,
+  ) {
+    final arpLayer = messageNotifier.popLayer(messageId);
 
-    final arpLayer = messageNotifier.peekLayerStack(messageId);
-
-    updateArpTable(hostId, arpLayer['senderIp'], arpLayer['senderMac']);
+    updateArpTable(hostId, arpLayer['senderIp'], dataLinkLayer['source']);
 
     if (arpLayer['operation'] == OperationType.request) {
       if (arpLayer['targetIp'] == state[hostId]!.ipAddress) {
-        // TODO: arp reply
+        messageNotifier.dropMessage(messageId);
+        final message = SimObjectType.message.createSimObject(
+          srcId: hostId,
+          dstId: '${DataLinkLayerType.arp.name} ${OperationType.reply.name}',
+        );
+        messageNotifier.addSimObject(message as Message);
+        messageNotifier.updateCurrentPlaceId(message.id, hostId);
+
+        final arpLayerReply = {
+          'operation': OperationType.reply,
+          'senderIp': state[hostId]!.ipAddress,
+        };
+
+        final dataLinkLayer = {
+          'source': state[hostId]!.macAddress,
+          'destination': getMacFromArpTable(hostId, arpLayer['senderIp']),
+          'type': DataLinkLayerType.arp,
+        };
+
+        messageNotifier.pushLayer(message.id, arpLayerReply);
+        messageNotifier.pushLayer(message.id, dataLinkLayer);
+        sendToConnection(state[hostId]!.connectionId, message.id);
       } else {
         messageNotifier.dropMessage(messageId);
       }
@@ -42,13 +63,13 @@ class HostNotifier extends DeviceNotifier<Host> {
   void sendArpRqst(String hostId, String targetIp) {
     final message = SimObjectType.message.createSimObject(
       srcId: hostId,
-      dstId: '${DataLinkLayerType.arp.name}  ${OperationType.request.name}',
+      dstId: '${DataLinkLayerType.arp.name} ${OperationType.request.name}',
     );
+    messageNotifier.addSimObject(message as Message);
     messageNotifier.updateCurrentPlaceId(message.id, hostId);
 
     final arpLayer = {
       'operation': OperationType.request,
-      'senderMac': state[hostId]!.macAddress,
       'senderIp': state[hostId]!.ipAddress,
       'targetIp': targetIp,
     };
@@ -72,6 +93,10 @@ class HostNotifier extends DeviceNotifier<Host> {
     newArpTable[ipAddress] = macAddress;
 
     state = {...state, hostId: host.copyWith(arpTable: newArpTable)};
+  }
+
+  String getMacFromArpTable(String hostId, String ipAddress) {
+    return state[hostId]!.arpTable[ipAddress]!;
   }
 }
 
