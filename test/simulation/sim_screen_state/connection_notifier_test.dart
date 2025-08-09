@@ -78,7 +78,7 @@ void main() {
 
     expect(messageNotifier.state[messageId]!.currentPlaceId, equals(conId));
 
-    connectionNotifier.sendMessage(conId);
+    connectionNotifier.sendMessage(conId, messageId);
 
     expect(messageNotifier.state[messageId]!.currentPlaceId, equals(hostId2));
 
@@ -96,7 +96,7 @@ void main() {
 
     expect(messageNotifier.state[messageId]!.currentPlaceId, equals(conId));
 
-    connectionNotifier.sendMessage(conId);
+    connectionNotifier.sendMessage(conId, messageId);
 
     expect(messageNotifier.state[messageId]!.currentPlaceId, equals(hostId1));
   });

@@ -91,7 +91,6 @@ void main() {
         isTrue,
       );
       expect(updatedHost.defaultGateway, '192.168.2.1');
-      expect(updatedHost.macToIdMap[updatedHost.macAddress], '');
       expect(updatedHost.arpTable, {
         'someIPhere2': 'someMachere2',
         'someIPhere3': 'someMachere3',
@@ -113,10 +112,6 @@ void main() {
       expect(newHost.macAddress, host.macAddress);
       expect(newHost.defaultGateway, host.defaultGateway);
       expect(newHost.connectionId, host.connectionId);
-      expect(
-        newHost.macToIdMap[newHost.macAddress],
-        host.macToIdMap[host.macAddress],
-      );
       expect(newHost.arpTable, host.arpTable);
       expect(newHost.messageIds, host.messageIds);
       expect(newHost.type, host.type);

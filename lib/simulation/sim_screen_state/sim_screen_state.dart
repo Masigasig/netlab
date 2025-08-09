@@ -227,19 +227,15 @@ class SimScreenState extends StateNotifier<void> {
       case SimObjectType.host:
         _hostNotifier.addSimObject(object as Host);
         _hostWidgetNotifier.addSimObjectWidget(widget as HostWidget);
-        break;
       case SimObjectType.message:
         _messageNotifier.addSimObject(object as Message);
-        //TODO: implemment message
-        break;
+      //TODO: implemment message
       case SimObjectType.router:
         _routerNotifier.addSimObject(object as Router);
         _routerWidgetNotifier.addSimObjectWidget(widget as RouterWidget);
-        break;
       case SimObjectType.switch_:
         _switchNotifier.addSimObject(object as Switch);
         _switchWidgetNotifier.addSimObjectWidget(widget as SwitchWidget);
-        break;
     }
   }
 }
