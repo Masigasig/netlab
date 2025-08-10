@@ -1,4 +1,4 @@
-part of 'sim_screen_state.dart';
+part of 'sim_object_notifier.dart';
 
 final messageMapProvider =
     StateNotifierProvider<MessageMapNotifier, Map<String, Message>>(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' hide Router, Switch;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/core/constants/app_image.dart';
-
 import 'package:netlab/simulation/sim_screen_state/sim_screen_state.dart';
 
 part 'device_widget.dart';

@@ -3,18 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/simulation/sim_object/sim_object.dart';
 import 'package:netlab/simulation/sim_object_widget/sim_object_widget.dart';
+import 'package:netlab/simulation/sim_screen_state/sim_object_notifier.dart';
+
 import 'package:netlab/simulation/sim_screen_state/network_utils.dart';
 
+export 'package:netlab/simulation/sim_screen_state/sim_object_notifier.dart';
 export 'package:netlab/simulation/sim_object/sim_object.dart'
     show SimObjectType;
-
-part 'connection_notifier.dart';
-part 'device_notifier.dart';
-part 'host_notifier.dart';
-part 'message_notifier.dart';
-part 'router_notifier.dart';
-part 'sim_object_notifier.dart';
-part 'switch_notifier.dart';
 
 final wireModeProvider = StateProvider<bool>((ref) => false);
 final simScreenState = StateNotifierProvider<SimScreenState, void>(
