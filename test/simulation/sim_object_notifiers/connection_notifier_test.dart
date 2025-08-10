@@ -58,9 +58,9 @@ void main() {
     messageNotifier.updateCurrentPlaceId(host1Id);
 
     final dataLinkLayer = {
-      'source': host1Notifier.state.macAddress,
-      'destination': host2Notifier.state.macAddress,
-      'type': 'IPv4',
+      MessageKey.source.name: host1Notifier.state.macAddress,
+      MessageKey.destination.name: host2Notifier.state.macAddress,
+      MessageKey.type.name: DataLinkLayerType.ipv4.name,
     };
 
     messageNotifier.pushLayer(dataLinkLayer);
@@ -84,9 +84,9 @@ void main() {
     messageNotifier.popLayer();
 
     final dataLinkLayer = {
-      'source': host2Notifier.state.macAddress,
-      'destination': host1Notifier.state.macAddress,
-      'type': 'IPv4',
+      MessageKey.source.name: host2Notifier.state.macAddress,
+      MessageKey.destination.name: host1Notifier.state.macAddress,
+      MessageKey.type.name: DataLinkLayerType.ipv4.name,
     };
 
     messageNotifier.pushLayer(dataLinkLayer);

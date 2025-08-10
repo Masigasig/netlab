@@ -20,8 +20,12 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
   void sendMessage(String messageId) {
     messageNotifier(messageId).toggleShouldAnimate();
 
-    final src = messageNotifier(messageId).state.layerStack.last['source'];
-    final dst = messageNotifier(messageId).state.layerStack.last['destination'];
+    final src = messageNotifier(
+      messageId,
+    ).state.layerStack.last[MessageKey.source.name];
+    final dst = messageNotifier(
+      messageId,
+    ).state.layerStack.last[MessageKey.destination.name];
 
     if (dst != MacAddressManager.broadcastMacAddress) {
       final deviceId = state.macToIdMap[dst]!;
