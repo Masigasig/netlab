@@ -157,7 +157,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
   Future<void> _loadSimulation() async {
     final data = await FileService.loadFile();
     if (data != null) {
-      await ref.read(simScreenState.notifier).importSimulation(data);
+      ref.read(simScreenState.notifier).importSimulation(data);
     }
   }
 }

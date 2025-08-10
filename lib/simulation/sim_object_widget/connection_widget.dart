@@ -3,6 +3,9 @@ part of 'sim_object_widget.dart';
 class ConnectionWidget extends SimObjectWidget {
   const ConnectionWidget({super.key, required super.simObjectId});
 
+  factory ConnectionWidget.fromId(String simObjectId) =>
+      ConnectionWidget(simObjectId: simObjectId);
+
   @override
   ConsumerState<ConnectionWidget> createState() => _ConnectionWidgetState();
 }
@@ -11,14 +14,24 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
   // TODO: Fix this
   late final String _conAId;
   late final String _conBId;
-  late final StateNotifierProvider<dynamic, Map<String, dynamic>> _conAProvider;
-  late final StateNotifierProvider<dynamic, Map<String, dynamic>> _conBProvider;
+  late final AutoDisposeStateNotifierProviderFamily<
+    DeviceNotifier<dynamic>,
+    dynamic,
+    String
+  >
+  _conAProvider;
+  late final AutoDisposeStateNotifierProviderFamily<
+    DeviceNotifier<dynamic>,
+    dynamic,
+    String
+  >
+  _conBProvider;
 
   @override
   void initState() {
     super.initState();
-    _conAId = (ref.read(connectionProvider)[widget.simObjectId]!).conAId;
-    _conBId = (ref.read(connectionProvider)[widget.simObjectId]!).conBId;
+    _conAId = (ref.read(connectionMapProvider)[widget.simObjectId]!).conAId;
+    _conBId = (ref.read(connectionMapProvider)[widget.simObjectId]!).conBId;
 
     _conAProvider = _getDeviceProvider(_conAId);
     _conBProvider = _getDeviceProvider(_conBId);
@@ -28,16 +41,16 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
   Widget build(BuildContext context) {
     debugPrint('Connection_${widget.simObjectId} Rebuilt');
     final conAPosX = ref.watch(
-      _conAProvider.select((map) => (map[_conAId].posX)),
+      _conAProvider(_conAId).select((state) => state.posX),
     );
     final conAPosY = ref.watch(
-      _conAProvider.select((map) => (map[_conAId].posY)),
+      _conAProvider(_conAId).select((state) => state.posY),
     );
     final conBPosX = ref.watch(
-      _conBProvider.select((map) => (map[_conBId].posX)),
+      _conBProvider(_conBId).select((state) => state.posX),
     );
     final conBPosY = ref.watch(
-      _conBProvider.select((map) => (map[_conBId].posY)),
+      _conBProvider(_conBId).select((state) => state.posY),
     );
 
     final start = Offset(conAPosX, conAPosY);
@@ -74,18 +87,33 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
     );
   }
 
-  StateNotifierProvider<dynamic, Map<String, dynamic>> _getDeviceProvider(
-    String deviceId,
-  ) {
-    if (ref.read(hostProvider).containsKey(deviceId)) {
+  AutoDisposeStateNotifierProviderFamily<
+    DeviceNotifier<dynamic>,
+    dynamic,
+    String
+  >
+  _getDeviceProvider(String deviceId) {
+    if (ref.read(hostMapProvider).containsKey(deviceId)) {
       return hostProvider
-          as StateNotifierProvider<dynamic, Map<String, dynamic>>;
-    } else if (ref.read(routerProvider).containsKey(deviceId)) {
+          as AutoDisposeStateNotifierProviderFamily<
+            DeviceNotifier<dynamic>,
+            dynamic,
+            String
+          >;
+    } else if (ref.read(routerMapProvider).containsKey(deviceId)) {
       return routerProvider
-          as StateNotifierProvider<dynamic, Map<String, dynamic>>;
-    } else if (ref.read(switchProvider).containsKey(deviceId)) {
+          as AutoDisposeStateNotifierProviderFamily<
+            DeviceNotifier<dynamic>,
+            dynamic,
+            String
+          >;
+    } else if (ref.read(switchMapProvider).containsKey(deviceId)) {
       return switchProvider
-          as StateNotifierProvider<dynamic, Map<String, dynamic>>;
+          as AutoDisposeStateNotifierProviderFamily<
+            DeviceNotifier<dynamic>,
+            dynamic,
+            String
+          >;
     } else {
       throw Exception('Device not found in any provider: $deviceId');
     }

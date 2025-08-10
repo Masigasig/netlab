@@ -4,12 +4,19 @@ class HostWidget extends DeviceWidget {
   const HostWidget({super.key, required super.simObjectId})
     : super(imagePath: AppImage.host);
 
+  factory HostWidget.fromId(String simObjectId) =>
+      HostWidget(simObjectId: simObjectId);
+
   @override
   ConsumerState<HostWidget> createState() => _HostDeviceState();
 }
 
 class _HostDeviceState extends _DeviceWidgetState<HostWidget> {
   @override
-  StateNotifierProvider<DeviceNotifier<dynamic>, Map<String, dynamic>>
+  AutoDisposeStateNotifierProviderFamily<
+    DeviceNotifier<dynamic>,
+    dynamic,
+    String
+  >
   get provider => hostProvider;
 }

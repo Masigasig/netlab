@@ -31,12 +31,15 @@ class SimScreenState extends StateNotifier<void> {
   StateController<bool> get _wireModeNotifier =>
       ref.read(wireModeProvider.notifier);
 
-  ConnectionNotifier get _connectionNotifier =>
-      ref.read(connectionProvider.notifier);
-  HostNotifier get _hostNotifier => ref.read(hostProvider.notifier);
-  MessageNotifier get _messageNotifier => ref.read(messageProvider.notifier);
-  RouterNotifier get _routerNotifier => ref.read(routerProvider.notifier);
-  SwitchNotifier get _switchNotifier => ref.read(switchProvider.notifier);
+  ConnectionMapNotifier get _connectionMapNotifier =>
+      ref.read(connectionMapProvider.notifier);
+  HostMapNotifier get _hostMapNotifier => ref.read(hostMapProvider.notifier);
+  MessageMapNotifier get _messageMapNotifier =>
+      ref.read(messageMapProvider.notifier);
+  RouterMapNotifier get _routerMapNotifier =>
+      ref.read(routerMapProvider.notifier);
+  SwitchMapNotifier get _switchMapNotifier =>
+      ref.read(switchMapProvider.notifier);
 
   ConnectionWidgetNotifier get _connectionWidgetNotifier =>
       ref.read(connectionWidgetProvider.notifier);
@@ -73,7 +76,7 @@ class SimScreenState extends StateNotifier<void> {
         final conA = _selectedDevices[0];
         final conB = _selectedDevices[1];
 
-        final isDuplicate = _connectionNotifier.state.values.any(
+        final isDuplicate = _connectionMapNotifier.state.values.any(
           (conn) =>
               (conn.conAId == conA && conn.conBId == conB) ||
               (conn.conAId == conB && conn.conBId == conA),
@@ -112,23 +115,15 @@ class SimScreenState extends StateNotifier<void> {
       'typeCounters': _typeCounters.map(
         (key, value) => MapEntry(key.name, value),
       ),
-      'connections': ref
-          .read(connectionProvider)
-          .values
-          .map((c) => c.toMap())
-          .toList(),
-      'hosts': ref.read(hostProvider).values.map((h) => h.toMap()).toList(),
-      'routers': ref.read(routerProvider).values.map((r) => r.toMap()).toList(),
-      'switches': ref
-          .read(switchProvider)
-          .values
-          .map((s) => s.toMap())
-          .toList(),
+      'routers': _routerMapNotifier.exportToList(),
+      'switches': _switchMapNotifier.exportToList(),
+      'hosts': _hostMapNotifier.exportToList(),
+      'connections': _connectionMapNotifier.exportToList(),
     };
   }
 
-  Future<void> importSimulation(Map<String, dynamic> data) async {
-    await _clearAllState();
+  void importSimulation(Map<String, dynamic> data) {
+    _clearAllState();
 
     if (data['typeCounters'] != null) {
       final countersMap = data['typeCounters'] as Map<String, dynamic>;
@@ -138,74 +133,38 @@ class SimScreenState extends StateNotifier<void> {
       });
     }
 
-    for (final hostMap in (data['hosts'] as List)) {
-      final host = Host.fromMap(hostMap as Map<String, dynamic>);
-      final widget = SimObjectType.host.createSimObjectWidget(
-        simObjectId: host.id,
-      );
+    final routerList = List.from(data['routers']);
+    final switchList = List.from(data['switches']);
+    final hostList = List.from(data['hosts']);
+    final connectionList = List.from(data['connections']);
 
-      _addSimObjAndWidgetToPovider(SimObjectType.host, host, widget);
-    }
+    _routerMapNotifier.importFromList(routerList);
+    _switchMapNotifier.importFromList(switchList);
+    _hostMapNotifier.importFromList(hostList);
 
-    for (final routerMap in (data['routers'] as List)) {
-      final router = Router.fromMap(routerMap as Map<String, dynamic>);
-      final widget = SimObjectType.router.createSimObjectWidget(
-        simObjectId: router.id,
-      );
+    _routerWidgetNotifier.importFromList(routerList);
+    _switchWidgetNotifier.importFromList(switchList);
+    _hostWidgetNotifier.importFromList(hostList);
 
-      _addSimObjAndWidgetToPovider(SimObjectType.router, router, widget);
-    }
-
-    for (final switchMap in (data['switches'] as List)) {
-      final switch_ = Switch.fromMap(switchMap as Map<String, dynamic>);
-      final widget = SimObjectType.switch_.createSimObjectWidget(
-        simObjectId: switch_.id,
-      );
-
-      _addSimObjAndWidgetToPovider(SimObjectType.switch_, switch_, widget);
-    }
-
-    // delay para mag load muna lahat ng devices sa taas, magiging null kasi
-    // yung makukuha ng connection if walang delay so mag e-error
-    await Future.delayed(const Duration(milliseconds: 100));
-
-    for (final connectionMap in (data['connections'] as List)) {
-      final connection = Connection.fromMap(
-        connectionMap as Map<String, dynamic>,
-      );
-      final widget = SimObjectType.connection.createSimObjectWidget(
-        simObjectId: connection.id,
-      );
-
-      _addSimObjAndWidgetToPovider(
-        SimObjectType.connection,
-        connection,
-        widget,
-      );
-    }
+    _connectionMapNotifier.importFromList(connectionList);
+    _connectionWidgetNotifier.importFromList(connectionList);
   }
 
-  Future<void> _clearAllState() async {
+  void _clearAllState() {
     _typeCounters.clear();
     _selectedDevices.clear();
     _wireModeNotifier.state = false;
 
-    _connectionWidgetNotifier.state = {};
-    _connectionNotifier.state = {};
-    await Future.delayed(
-      const Duration(milliseconds: 100),
-    ); // para d sabay sabay mag delete
+    _connectionWidgetNotifier.clearState();
+    _connectionMapNotifier.clearState();
 
-    _hostWidgetNotifier.state = {};
-    _routerWidgetNotifier.state = {};
-    _switchWidgetNotifier.state = {};
-    await Future.delayed(
-      const Duration(milliseconds: 100),
-    ); // para d sabay sabay mag delete
+    _hostWidgetNotifier.clearState();
+    _switchWidgetNotifier.clearState();
+    _routerWidgetNotifier.clearState();
 
-    _hostNotifier.state = {};
-    _routerNotifier.state = {};
-    _switchNotifier.state = {};
+    _hostMapNotifier.clearState();
+    _switchMapNotifier.clearState();
+    _routerMapNotifier.clearState();
   }
 
   int _getNextCounter(SimObjectType type) {
@@ -220,21 +179,21 @@ class SimScreenState extends StateNotifier<void> {
   ) {
     switch (type) {
       case SimObjectType.connection:
-        _connectionNotifier.addSimObject(object as Connection);
+        _connectionMapNotifier.addSimObject(object as Connection);
         _connectionWidgetNotifier.addSimObjectWidget(
           widget as ConnectionWidget,
         );
       case SimObjectType.host:
-        _hostNotifier.addSimObject(object as Host);
+        _hostMapNotifier.addSimObject(object as Host);
         _hostWidgetNotifier.addSimObjectWidget(widget as HostWidget);
       case SimObjectType.message:
-        _messageNotifier.addSimObject(object as Message);
+        _messageMapNotifier.addSimObject(object as Message);
       //TODO: implemment message
       case SimObjectType.router:
-        _routerNotifier.addSimObject(object as Router);
+        _routerMapNotifier.addSimObject(object as Router);
         _routerWidgetNotifier.addSimObjectWidget(widget as RouterWidget);
       case SimObjectType.switch_:
-        _switchNotifier.addSimObject(object as Switch);
+        _switchMapNotifier.addSimObject(object as Switch);
         _switchWidgetNotifier.addSimObjectWidget(widget as SwitchWidget);
     }
   }

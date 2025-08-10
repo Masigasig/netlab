@@ -4,12 +4,19 @@ class SwitchWidget extends DeviceWidget {
   const SwitchWidget({super.key, required super.simObjectId})
     : super(imagePath: AppImage.switch_);
 
+  factory SwitchWidget.fromId(String simObjectId) =>
+      SwitchWidget(simObjectId: simObjectId);
+
   @override
   ConsumerState<SwitchWidget> createState() => _SwitchDeviceState();
 }
 
 class _SwitchDeviceState extends _DeviceWidgetState<SwitchWidget> {
   @override
-  StateNotifierProvider<DeviceNotifier<dynamic>, Map<String, dynamic>>
+  AutoDisposeStateNotifierProviderFamily<
+    DeviceNotifier<dynamic>,
+    dynamic,
+    String
+  >
   get provider => switchProvider;
 }

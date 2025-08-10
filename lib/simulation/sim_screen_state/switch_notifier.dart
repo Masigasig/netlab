@@ -1,16 +1,25 @@
 part of 'sim_screen_state.dart';
 
-final switchProvider =
-    StateNotifierProvider<SwitchNotifier, Map<String, Switch>>(
-      (ref) => SwitchNotifier(ref),
+final switchMapProvider =
+    StateNotifierProvider<SwitchMapNotifier, Map<String, Switch>>(
+      (ref) => SwitchMapNotifier(),
     );
+
+final switchProvider = StateNotifierProvider.family
+    .autoDispose<SwitchNotifier, Switch, String>(
+      (ref, id) => SwitchNotifier(ref, id),
+    );
+
+class SwitchMapNotifier extends DeviceMapNotifier<Switch> {}
+
+class SwitchNotifier extends DeviceNotifier<Switch> {
+  SwitchNotifier(Ref ref, String id)
+    : super(ref.read(switchMapProvider)[id]!, ref);
+}
+
 final switchWidgetProvider =
     StateNotifierProvider<SwitchWidgetNotifier, Map<String, SwitchWidget>>(
       (ref) => SwitchWidgetNotifier(),
     );
-
-class SwitchNotifier extends DeviceNotifier<Switch> {
-  SwitchNotifier(super.ref);
-}
 
 class SwitchWidgetNotifier extends DeviceWidgetNotifier<SwitchWidget> {}
