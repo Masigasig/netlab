@@ -4,7 +4,7 @@ import 'package:vector_math/vector_math_64.dart' show Vector4;
 
 import 'package:netlab/core/constants/app_image.dart';
 import 'package:netlab/core/utils/file_service.dart';
-import 'package:netlab/simulation/sim_screen_state/sim_screen_state.dart';
+import 'package:netlab/simulation/sim_screen_state.dart';
 
 part 'widgets/device_drawer.dart';
 part 'widgets/widget_stack.dart';

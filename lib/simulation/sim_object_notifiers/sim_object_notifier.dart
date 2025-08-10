@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:netlab/simulation/sim_object/sim_object.dart';
-import 'package:netlab/simulation/sim_object_widget/sim_object_widget.dart';
+import 'package:netlab/simulation/sim_objects/sim_object.dart';
+import 'package:netlab/simulation/sim_object_widgets/sim_object_widget.dart';
 
 part 'connection_notifier.dart';
 part 'device_notifier.dart';
