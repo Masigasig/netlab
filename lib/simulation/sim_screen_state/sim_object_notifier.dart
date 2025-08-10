@@ -1,4 +1,14 @@
-part of 'sim_screen_state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:netlab/simulation/sim_object/sim_object.dart';
+import 'package:netlab/simulation/sim_object_widget/sim_object_widget.dart';
+
+part 'connection_notifier.dart';
+part 'device_notifier.dart';
+part 'host_notifier.dart';
+part 'message_notifier.dart';
+part 'router_notifier.dart';
+part 'switch_notifier.dart';
 
 abstract class SimObjectMapNotifier<T extends SimObject>
     extends StateNotifier<Map<String, T>> {

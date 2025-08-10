@@ -1,4 +1,4 @@
-part of 'sim_screen_state.dart';
+part of 'sim_object_notifier.dart';
 
 abstract class DeviceMapNotifier<T extends Device>
     extends SimObjectMapNotifier<T> {}

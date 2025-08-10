@@ -112,7 +112,7 @@ class IPv4AddressManager {
     return network1 == network2;
   }
 
-  static String normalizeSubnet(String subnet) {
+  static String _normalizeSubnet(String subnet) {
     if (!subnet.startsWith('/')) return subnet;
     final cidr = int.parse(subnet.substring(1));
     final mask = -1 << (32 - cidr);
@@ -129,7 +129,7 @@ class IPv4AddressManager {
     if (!isValidSubnet(subnet)) return 'Not Valid Subnetmask';
 
     final ipParts = ip.split('.').map(int.parse).toList();
-    final subnetParts = normalizeSubnet(
+    final subnetParts = _normalizeSubnet(
       subnet,
     ).split('.').map(int.parse).toList();
     final networkParts = List.generate(4, (i) => ipParts[i] & subnetParts[i]);
@@ -142,7 +142,7 @@ class IPv4AddressManager {
     if (!isValidSubnet(subnet)) return 'Not Valid Subnetmask';
 
     final ipParts = ip.split('.').map(int.parse).toList();
-    final subnetParts = normalizeSubnet(
+    final subnetParts = _normalizeSubnet(
       subnet,
     ).split('.').map(int.parse).toList();
     final broadcastParts = List.generate(

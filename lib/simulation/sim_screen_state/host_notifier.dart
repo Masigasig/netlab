@@ -1,4 +1,4 @@
-part of 'sim_screen_state.dart';
+part of 'sim_object_notifier.dart';
 
 final hostMapProvider =
     StateNotifierProvider<HostMapNotifier, Map<String, Host>>(
