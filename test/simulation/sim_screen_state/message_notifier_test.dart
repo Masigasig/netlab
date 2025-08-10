@@ -11,74 +11,50 @@ void main() {
 
   setUp(() {
     container = ProviderContainer();
-    notifier = container.read(messageProvider.notifier);
 
     const message = Message(
       id: messageId,
       srcId: 'srcId',
       dstId: 'dstId',
-      currentPlaceId: 'crntId',
+      currentPlaceId: 'srcId',
       layerStack: [
         {'src': 'Ipsrc', 'dst': 'Ipdst'},
       ],
     );
 
-    notifier.state = {messageId: message};
+    container.read(messageMapProvider.notifier).addSimObject(message);
+    notifier = container.read(messageProvider(messageId).notifier);
   });
 
   tearDown(() {
     container.dispose();
   });
 
-  group('Inherited method', () {
-    test('addSimObject in MessageNotifier should add new message in state', () {
-      expect(notifier.state.length, 1);
+  test('pushLayer and popLayer should work properly', () {
+    final newLayer = {'foo': 'bar'};
+    notifier.pushLayer(newLayer);
 
-      const newMessage = Message(
-        id: 'newMessageId',
-        srcId: 'srcId',
-        dstId: 'dstId',
-        currentPlaceId: 'crntId',
-        layerStack: [
-          {'src': 'Ipsrc', 'dst': 'Ipdst'},
-        ],
-      );
+    expect(notifier.state.layerStack.last, equals(newLayer));
+    expect(notifier.state.layerStack.length, equals(2));
 
-      notifier.addSimObject(newMessage);
-      expect(notifier.state.length, 2);
-    });
+    final popedLayer = notifier.popLayer();
+
+    expect(popedLayer, equals(newLayer));
+    expect(notifier.state.layerStack[0]['src'], equals('Ipsrc'));
+    expect(notifier.state.layerStack.length, equals(1));
   });
 
-  group('Main method', () {
-    test('pushLayer and popLayer should work properly', () {
-      final newLayer = {'foo': 'bar'};
-      notifier.pushLayer(messageId, newLayer);
+  test('updateCurrentPlaceId should work properly', () {
+    expect(notifier.state.currentPlaceId, equals('srcId'));
 
-      final updatedMessage = notifier.state[messageId]!;
-      expect(updatedMessage.layerStack.last, newLayer);
-      expect(updatedMessage.layerStack.length, 2);
+    notifier.updateCurrentPlaceId('updatedId');
 
-      notifier.popLayer(messageId);
-      final popedMessage = notifier.state[messageId]!;
-      expect(popedMessage.layerStack[0]['src'], 'Ipsrc');
-      expect(popedMessage.layerStack.length, 1);
-    });
+    expect(notifier.state.currentPlaceId, equals('updatedId'));
+  });
 
-    test('updateCurrentPlaceId should work properly', () {
-      expect(notifier.state[messageId]!.currentPlaceId, 'crntId');
-
-      notifier.updateCurrentPlaceId(messageId, 'updatedId');
-
-      expect(notifier.state[messageId]!.currentPlaceId, 'updatedId');
-    });
-
-    test('peekLayerStack should return top Layer', () {
-      expect(notifier.state[messageId]!.layerStack.last, {
-        'src': 'Ipsrc',
-        'dst': 'Ipdst',
-      });
-      expect(notifier.state[messageId]!.layerStack.last['dst'], 'Ipdst');
-      expect(notifier.state[messageId]!.layerStack.last['src'], 'Ipsrc');
-    });
+  test('toggleShouldAnimete should toggel properly', () {
+    expect(notifier.state.shouldAnimate, isFalse);
+    notifier.toggleShouldAnimate();
+    expect(notifier.state.shouldAnimate, isTrue);
   });
 }
