@@ -15,6 +15,23 @@ abstract class SimObjectWidget extends ConsumerStatefulWidget {
   final String simObjectId;
 
   const SimObjectWidget({super.key, required this.simObjectId});
+
+  factory SimObjectWidget.fromType(SimObjectType type, String simObjectId) {
+    switch (type) {
+      case SimObjectType.connection:
+        return ConnectionWidget.fromId(simObjectId);
+      case SimObjectType.host:
+        return HostWidget.fromId(simObjectId);
+      case SimObjectType.message:
+        throw UnimplementedError(
+          'Message widget not implemented',
+        ); // TODO: Implement
+      case SimObjectType.router:
+        return RouterWidget.fromId(simObjectId);
+      case SimObjectType.switch_:
+        return SwitchWidget.fromId(simObjectId);
+    }
+  }
 }
 
 abstract class _SimObjectWidgetState<T extends SimObjectWidget>

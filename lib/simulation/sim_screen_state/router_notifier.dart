@@ -1,16 +1,25 @@
 part of 'sim_screen_state.dart';
 
-final routerProvider =
-    StateNotifierProvider<RouterNotifier, Map<String, Router>>(
-      (ref) => RouterNotifier(ref),
+final routerMapProvider =
+    StateNotifierProvider<RouterMapNotifier, Map<String, Router>>(
+      (ref) => RouterMapNotifier(),
     );
+
+final routerProvider = StateNotifierProvider.family
+    .autoDispose<RouterNotifier, Router, String>(
+      (ref, id) => RouterNotifier(ref, id),
+    );
+
+class RouterMapNotifier extends DeviceMapNotifier<Router> {}
+
+class RouterNotifier extends DeviceNotifier<Router> {
+  RouterNotifier(Ref ref, String id)
+    : super(ref.read(routerMapProvider)[id]!, ref);
+}
+
 final routerWidgetProvider =
     StateNotifierProvider<RouterWidgetNotifier, Map<String, RouterWidget>>(
       (ref) => RouterWidgetNotifier(),
     );
-
-class RouterNotifier extends DeviceNotifier<Router> {
-  RouterNotifier(super.ref);
-}
 
 class RouterWidgetNotifier extends DeviceWidgetNotifier<RouterWidget> {}
