@@ -16,35 +16,33 @@ void main() {
     container.dispose();
   });
 
-  group('SimScreenState Device Creation', () {
+  group('SimObject/SimObjectWidget Creation', () {
     test('createDevice should create host correctly', () {
       state.createDevice(type: SimObjectType.host, posX: 100, posY: 200);
 
-      final hosts = container.read(hostProvider);
+      final hosts = container.read(hostMapProvider);
       expect(hosts.length, 1);
-      expect(hosts.values.first.name, 'Host 1');
-      expect(hosts.values.first.posX, 100);
-      expect(hosts.values.first.posY, 200);
+      expect(hosts.values.first.name, equals('Host 1'));
+      expect(hosts.values.first.posX, equals(100));
+      expect(hosts.values.first.posY, equals(200));
     });
 
     test('createDevice should increment counter correctly', () {
       state.createDevice(type: SimObjectType.router, posX: 100, posY: 200);
       state.createDevice(type: SimObjectType.router, posX: 300, posY: 400);
 
-      final routers = container.read(routerProvider);
-      expect(routers.length, 2);
-      expect(routers.values.first.name, 'Router 1');
-      expect(routers.values.last.name, 'Router 2');
+      final routers = container.read(routerMapProvider);
+      expect(routers.length, equals(2));
+      expect(routers.values.first.name, equals('Router 1'));
+      expect(routers.values.last.name, equals('Router 2'));
     });
-  });
 
-  group('SimScreenState Connection Creation', () {
     test('createConnection should not create when wire mode is off', () {
       state.createConnection(simObjectId: 'testId1');
       state.createConnection(simObjectId: 'testId2');
 
-      final connections = container.read(connectionProvider);
-      expect(connections.length, 0);
+      final connections = container.read(connectionMapProvider);
+      expect(connections.length, equals(0));
     });
 
     test('createConnection should create when wire mode id on', () {
@@ -53,8 +51,8 @@ void main() {
       state.createConnection(simObjectId: 'testId1');
       state.createConnection(simObjectId: 'testId2');
 
-      final connections = container.read(connectionProvider);
-      expect(connections.length, 1);
+      final connections = container.read(connectionMapProvider);
+      expect(connections.length, equals(1));
     });
 
     test('createConnection should create connection between two devices', () {
@@ -63,20 +61,20 @@ void main() {
       state.createDevice(type: SimObjectType.host, posX: 100, posY: 200);
       state.createDevice(type: SimObjectType.router, posX: 300, posY: 400);
 
-      final hosts = container.read(hostProvider);
-      final routers = container.read(routerProvider);
+      final hosts = container.read(hostMapProvider);
+      final routers = container.read(routerMapProvider);
 
-      expect(hosts.length, 1);
-      expect(routers.length, 1);
+      expect(hosts.length, equals(1));
+      expect(routers.length, equals(1));
 
-      expect(hosts.values.first.name, 'Host 1');
-      expect(routers.values.first.name, 'Router 1');
+      expect(hosts.values.first.name, equals('Host 1'));
+      expect(routers.values.first.name, equals('Router 1'));
 
       state.createConnection(simObjectId: hosts.values.first.id);
       state.createConnection(simObjectId: routers.values.first.id);
 
-      final connections = container.read(connectionProvider);
-      expect(connections.length, 1);
+      final connections = container.read(connectionMapProvider);
+      expect(connections.length, equals(1));
     });
 
     test('createConnection should prevent duplicate connections', () {
@@ -91,8 +89,8 @@ void main() {
       state.createConnection(simObjectId: hostId);
       state.createConnection(simObjectId: routerId);
 
-      final connections = container.read(connectionProvider);
-      expect(connections.length, 1);
+      final connections = container.read(connectionMapProvider);
+      expect(connections.length, equals(1));
     });
   });
 
@@ -102,19 +100,13 @@ void main() {
 
       final exportData = state.exportSimulation();
 
-      expect(exportData.containsKey('typeCounters'), true);
-      expect(exportData.containsKey('hosts'), true);
-      expect(exportData.containsKey('routers'), true);
-      expect(exportData.containsKey('switches'), true);
-      expect(exportData.containsKey('connections'), true);
-    });
+      expect(exportData.containsKey('typeCounters'), isTrue);
+      expect(exportData.containsKey('hosts'), isTrue);
+      expect(exportData.containsKey('routers'), isTrue);
+      expect(exportData.containsKey('switches'), isTrue);
+      expect(exportData.containsKey('connections'), isTrue);
 
-    test('importSimulation should restore state correctly', () async {
-      state.createDevice(type: SimObjectType.host, posX: 100, posY: 200);
-
-      final exportData = state.exportSimulation();
-
-      await state.importSimulation(<String, dynamic>{
+      state.importSimulation(<String, dynamic>{
         'typeCounters': <String, dynamic>{},
         'hosts': <Map<String, dynamic>>[],
         'routers': <Map<String, dynamic>>[],
@@ -122,11 +114,11 @@ void main() {
         'connections': <Map<String, dynamic>>[],
       });
 
-      expect(container.read(hostProvider).isEmpty, true);
+      expect(container.read(hostMapProvider).isEmpty, isTrue);
 
-      await state.importSimulation(exportData);
+      state.importSimulation(exportData);
 
-      expect(container.read(hostProvider).length, 1);
+      expect(container.read(hostMapProvider).length, equals(1));
     });
   });
 
@@ -147,7 +139,7 @@ void main() {
       state.toggleWireMode();
 
       state.createConnection(simObjectId: 'testId');
-      final connections = container.read(connectionProvider);
+      final connections = container.read(connectionMapProvider);
       expect(connections.isEmpty, true);
     });
   });
@@ -157,7 +149,7 @@ void main() {
       state.createDevice(type: SimObjectType.host, posX: 100, posY: 200);
       state.toggleWireMode();
 
-      await state.importSimulation(<String, dynamic>{
+      state.importSimulation(<String, dynamic>{
         'typeCounters': <String, dynamic>{},
         'hosts': <Map<String, dynamic>>[],
         'routers': <Map<String, dynamic>>[],
@@ -165,11 +157,11 @@ void main() {
         'connections': <Map<String, dynamic>>[],
       });
 
-      expect(container.read(hostProvider).isEmpty, true);
+      expect(container.read(hostMapProvider).isEmpty, true);
       expect(container.read(wireModeProvider), false);
-      expect(container.read(routerProvider).isEmpty, true);
-      expect(container.read(switchProvider).isEmpty, true);
-      expect(container.read(connectionProvider).isEmpty, true);
+      expect(container.read(routerMapProvider).isEmpty, true);
+      expect(container.read(switchMapProvider).isEmpty, true);
+      expect(container.read(connectionMapProvider).isEmpty, true);
     });
   });
 }
