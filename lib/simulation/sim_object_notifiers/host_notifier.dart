@@ -1,108 +1,119 @@
 part of 'sim_object_notifier.dart';
 
-final hostMapProvider =
-    StateNotifierProvider<HostMapNotifier, Map<String, Host>>(
-      (ref) => HostMapNotifier(),
-    );
-
 final hostProvider = StateNotifierProvider.family
     .autoDispose<HostNotifier, Host, String>(
       (ref, id) => HostNotifier(ref, id),
     );
-
-class HostMapNotifier extends DeviceMapNotifier<Host> {}
 
 class HostNotifier extends DeviceNotifier<Host> {
   HostNotifier(Ref ref, String id) : super(ref.read(hostMapProvider)[id]!, ref);
 
   void receiveMessage(String messageId) {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
-    // final dataLinkLayer = messageNotifier.popLayer(messageId);
+    final dataLinkLayer = messageNotifier(messageId).popLayer();
 
-    // switch (dataLinkLayer['type']) {
-    //   case DataLinkLayerType.arp:
-    //     processArpMsg(hostId, messageId, dataLinkLayer);
-    // }
+    final type = dataLinkLayer[MessageKey.type.name];
+
+    if (type == DataLinkLayerType.arp.name) {
+      processArpMsg(messageId, dataLinkLayer);
+    }
   }
 
-  // void processArpMsg(
-  //   String hostId,
-  //   String messageId,
-  //   Map<String, dynamic> dataLinkLayer,
-  // ) {
-  //   final arpLayer = messageNotifier.popLayer(messageId);
+  void processArpMsg(String messageId, Map<String, String> dataLinkLayer) {
+    final arpLayer = messageNotifier(messageId).popLayer();
 
-  //   updateArpTable(hostId, arpLayer['senderIp'], dataLinkLayer['source']);
+    updateArpTable(
+      arpLayer[MessageKey.senderIp.name]!,
+      dataLinkLayer[MessageKey.source.name]!,
+    );
 
-  //   if (arpLayer['operation'] == OperationType.request) {
-  //     if (arpLayer['targetIp'] == state[hostId]!.ipAddress) {
-  //       messageNotifier.dropMessage(messageId);
-  //       final message = SimObjectType.message.createSimObject(
-  //         srcId: hostId,
-  //         dstId: '${DataLinkLayerType.arp.name} ${OperationType.reply.name}',
-  //       );
-  //       messageNotifier.addSimObject(message as Message);
-  //       messageNotifier.updateCurrentPlaceId(message.id, hostId);
+    if (arpLayer[MessageKey.operation.name] == OperationType.request.name) {
+      if (arpLayer[MessageKey.targetIp.name] == state.ipAddress) {
+        messageNotifier(messageId).dropMessage();
+        final message =
+            SimObjectType.message.createSimObject(
+                  srcId: state.id,
+                  dstId:
+                      '${DataLinkLayerType.arp.name} ${OperationType.reply.name}',
+                )
+                as Message;
+        messageMapNotifier.addSimObject(message);
+        messageNotifier(message.id).updateCurrentPlaceId(state.id);
 
-  //       final arpLayerReply = {
-  //         'operation': OperationType.reply,
-  //         'senderIp': state[hostId]!.ipAddress,
-  //       };
+        final newArpLayer = {
+          MessageKey.operation.name: OperationType.reply.name,
+          MessageKey.senderIp.name: state.ipAddress,
+        };
 
-  //       final dataLinkLayer = {
-  //         'source': state[hostId]!.macAddress,
-  //         'destination': getMacFromArpTable(hostId, arpLayer['senderIp']),
-  //         'type': DataLinkLayerType.arp,
-  //       };
+        messageNotifier(message.id).pushLayer(newArpLayer);
 
-  //       messageNotifier.pushLayer(message.id, arpLayerReply);
-  //       messageNotifier.pushLayer(message.id, dataLinkLayer);
-  //       sendToConnection(state[hostId]!.connectionId, message.id);
-  //     } else {
-  //       messageNotifier.dropMessage(messageId);
-  //     }
-  //   }
-  // }
+        final newDataLinkLayer = {
+          MessageKey.source.name: state.macAddress,
+          MessageKey.destination.name: dataLinkLayer[MessageKey.source.name]!,
+        };
 
-  // void sendArpRqst(String hostId, String targetIp) {
-  //   final message = SimObjectType.message.createSimObject(
-  //     srcId: hostId,
-  //     dstId: '${DataLinkLayerType.arp.name} ${OperationType.request.name}',
-  //   );
-  //   messageNotifier.addSimObject(message as Message);
-  //   messageNotifier.updateCurrentPlaceId(message.id, hostId);
+        messageNotifier(message.id).pushLayer(newDataLinkLayer);
+        sendMessageToConnection(state.connectionId, message.id);
+      } else {
+        messageNotifier(messageId).dropMessage();
+      }
+    } else if (arpLayer[MessageKey.operation.name] ==
+        OperationType.reply.name) {
+      messageNotifier(messageId).dropMessage(); //TODO: add some success notif
+    } else {
+      messageNotifier(messageId).dropMessage();
+    }
+  }
 
-  //   final arpLayer = {
-  //     'operation': OperationType.request,
-  //     'senderIp': state[hostId]!.ipAddress,
-  //     'targetIp': targetIp,
-  //   };
+  void sendArpRqst(String targetIp) {
+    final message =
+        SimObjectType.message.createSimObject(
+              srcId: state.id,
+              dstId:
+                  '${DataLinkLayerType.arp.name} ${OperationType.request.name}',
+            )
+            as Message;
 
-  //   final dataLinkLayer = {
-  //     'source': state[hostId]!.macAddress,
-  //     'destination': MacAddressManager.broadcastMacAddress,
-  //     'type': DataLinkLayerType.arp,
-  //   };
+    messageMapNotifier.addSimObject(message);
+    messageNotifier(message.id).updateCurrentPlaceId(state.id);
 
-  //   messageNotifier.pushLayer(message.id, arpLayer);
-  //   messageNotifier.pushLayer(message.id, dataLinkLayer);
-  //   sendToConnection(state[hostId]!.connectionId, message.id);
-  // }
+    final arpLayer = {
+      MessageKey.operation.name: OperationType.request.name,
+      MessageKey.senderIp.name: state.ipAddress,
+      MessageKey.targetIp.name: targetIp,
+    };
 
-  // void updateArpTable(String hostId, String ipAddress, String macAddress) {
-  //   final host = state[hostId]!;
+    messageNotifier(message.id).pushLayer(arpLayer);
 
-  //   final newArpTable = Map<String, String>.from(host.arpTable);
+    final dataLinkLayer = {
+      MessageKey.source.name: state.macAddress,
+      MessageKey.destination.name: MacAddressManager.broadcastMacAddress,
+      MessageKey.type.name: DataLinkLayerType.arp.name,
+    };
 
-  //   newArpTable[ipAddress] = macAddress;
+    messageNotifier(message.id).pushLayer(dataLinkLayer);
+    sendMessageToConnection(state.connectionId, message.id);
+  }
 
-  //   state = {...state, hostId: host.copyWith(arpTable: newArpTable)};
-  // }
+  void updateArpTable(String ipAddress, String macAddress) {
+    final newArpTable = Map<String, String>.from(state.arpTable);
 
-  // String getMacFromArpTable(String hostId, String ipAddress) {
-  //   return state[hostId]!.arpTable[ipAddress]!;
-  // }
+    newArpTable[ipAddress] = macAddress;
+
+    state = state.copyWith(arpTable: newArpTable);
+  }
+
+  String getMacFromArpTable(String ipAddress) {
+    return state.arpTable[ipAddress] ?? '';
+  }
 }
+
+final hostMapProvider =
+    StateNotifierProvider<HostMapNotifier, Map<String, Host>>(
+      (ref) => HostMapNotifier(),
+    );
+
+class HostMapNotifier extends DeviceMapNotifier<Host> {}
 
 final hostWidgetProvider =
     StateNotifierProvider<HostWidgetNotifier, Map<String, HostWidget>>(

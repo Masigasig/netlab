@@ -9,6 +9,9 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   MessageNotifier messageNotifier(String messageId) =>
       ref.read(messageProvider(messageId).notifier);
 
+  MessageMapNotifier get messageMapNotifier =>
+      ref.read(messageMapProvider.notifier);
+
   void sendMessageToConnection(String connectionId, String messageId) {
     ref
         .read(connectionProvider(connectionId).notifier)

@@ -12,13 +12,19 @@ part 'message_notifier.dart';
 part 'router_notifier.dart';
 part 'switch_notifier.dart';
 
+abstract class SimObjectNotifier<T extends SimObject> extends StateNotifier<T> {
+  final Ref ref;
+
+  SimObjectNotifier(super.state, this.ref);
+}
+
 abstract class SimObjectMapNotifier<T extends SimObject>
     extends StateNotifier<Map<String, T>> {
   SimObjectMapNotifier() : super({});
 
-  void addSimObject(T simObject) {
-    state = {...state, simObject.id: simObject};
-  }
+  void addSimObject(T simObject) => state = {...state, simObject.id: simObject};
+
+  void removeSimObject(String objectId) => state = {...state}..remove(objectId);
 
   void clearState() => state = {};
 
@@ -34,12 +40,6 @@ abstract class SimObjectMapNotifier<T extends SimObject>
 
     state = newMap;
   }
-}
-
-abstract class SimObjectNotifier<T extends SimObject> extends StateNotifier<T> {
-  final Ref ref;
-
-  SimObjectNotifier(super.state, this.ref);
 }
 
 abstract class SimObjectWidgetNotifier<T extends SimObjectWidget>
