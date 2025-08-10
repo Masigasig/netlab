@@ -4,7 +4,9 @@ enum DataLinkLayerType { arp, ipv4 }
 
 enum OperationType { request, reply }
 
-enum MessageKey { destination, source, type }
+enum MessageKey { targetIp, senderIp, operation, destination, source, type }
+
+enum MsgDropReason { success, fail }
 
 final messageProvider =
     StateNotifierProvider.family<MessageNotifier, Message, String>(
@@ -39,6 +41,10 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     state = state.copyWith(layerStack: newStack);
 
     return lastLayer;
+  }
+
+  void dropMessage() {
+    ref.read(messageMapProvider.notifier).removeSimObject(state.id);
   }
 }
 
