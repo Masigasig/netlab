@@ -15,15 +15,15 @@ class HostMapNotifier extends DeviceMapNotifier<Host> {}
 class HostNotifier extends DeviceNotifier<Host> {
   HostNotifier(Ref ref, String id) : super(ref.read(hostMapProvider)[id]!, ref);
 
-  // void receiveMessage(String hostId, String messageId) {
-  //   messageNotifier.updateCurrentPlaceId(messageId, hostId);
-  //   final dataLinkLayer = messageNotifier.popLayer(messageId);
+  void receiveMessage(String messageId) {
+    messageNotifier(messageId).updateCurrentPlaceId(state.id);
+    // final dataLinkLayer = messageNotifier.popLayer(messageId);
 
-  //   switch (dataLinkLayer['type']) {
-  //     case DataLinkLayerType.arp:
-  //       processArpMsg(hostId, messageId, dataLinkLayer);
-  //   }
-  // }
+    // switch (dataLinkLayer['type']) {
+    //   case DataLinkLayerType.arp:
+    //     processArpMsg(hostId, messageId, dataLinkLayer);
+    // }
+  }
 
   // void processArpMsg(
   //   String hostId,

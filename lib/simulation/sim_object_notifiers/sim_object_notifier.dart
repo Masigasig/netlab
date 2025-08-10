@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:netlab/simulation/network_utils.dart';
 import 'package:netlab/simulation/sim_objects/sim_object.dart';
 import 'package:netlab/simulation/sim_object_widgets/sim_object_widget.dart';
+import 'package:netlab/simulation/sim_screen_state.dart' show SimObjectTypeX;
 
 part 'connection_notifier.dart';
 part 'device_notifier.dart';

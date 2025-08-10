@@ -6,13 +6,14 @@ abstract class DeviceMapNotifier<T extends Device>
 abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   DeviceNotifier(super.state, super.ref);
 
-  // MessageNotifier get messageNotifier => ref.read(messageProvider.notifier);
+  MessageNotifier messageNotifier(String messageId) =>
+      ref.read(messageProvider(messageId).notifier);
 
-  // void sendToConnection(String connectionId, String messageId) {
-  //   ref
-  //       .read(connectionProvider.notifier)
-  //       .receiveMessage(connectionId, messageId);
-  // }
+  void sendMessageToConnection(String connectionId, String messageId) {
+    ref
+        .read(connectionProvider(connectionId).notifier)
+        .receiveMessage(messageId);
+  }
 
   void updatePosition(double newX, double newY) {
     state = state.copyWith(posX: newX, posY: newY) as T;

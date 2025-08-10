@@ -1,55 +1,54 @@
 part of 'sim_object_notifier.dart';
 
-final connectionMapProvider =
-    StateNotifierProvider<ConnectionMapNotifier, Map<String, Connection>>(
-      (ref) => ConnectionMapNotifier(),
-    );
-
 final connectionProvider = StateNotifierProvider.family
     .autoDispose<ConnectionNotifier, Connection, String>(
       (ref, id) => ConnectionNotifier(ref, id),
     );
 
-class ConnectionMapNotifier extends SimObjectMapNotifier<Connection> {}
-
 class ConnectionNotifier extends SimObjectNotifier<Connection> {
   ConnectionNotifier(Ref ref, String id)
     : super(ref.read(connectionMapProvider)[id]!, ref);
 
-  // HostNotifier get _hostNotifier => ref.read(hostProvider.notifier);
-  // MessageNotifier get _messageNotifier => ref.read(messageProvider.notifier);
+  MessageNotifier messageNotifier(String messageId) =>
+      ref.read(messageProvider(messageId).notifier);
 
-  // void receiveMessage(String connectionId, String messageId) {
-  //   _messageNotifier.updateCurrentPlaceId(messageId, connectionId);
+  void receiveMessage(String messageId) {
+    messageNotifier(messageId).updateCurrentPlaceId(state.id);
+    messageNotifier(messageId).toggleShouldAnimate();
+  }
 
-  //   _messageNotifier.toggleShouldAnimate(messageId);
-  // }
+  void sendMessage(String messageId) {
+    messageNotifier(messageId).toggleShouldAnimate();
 
-  // void sendMessage(String connectionId, String messageId) {
-  //   _messageNotifier.toggleShouldAnimate(messageId);
+    final src = messageNotifier(messageId).state.layerStack.last['source'];
+    final dst = messageNotifier(messageId).state.layerStack.last['destination'];
 
-  //   final src = _messageNotifier.state[messageId]!.layerStack.last['src'];
-  //   final dst = _messageNotifier.state[messageId]!.layerStack.last['dst'];
+    if (dst != MacAddressManager.broadcastMacAddress) {
+      final deviceId = state.macToIdMap[dst]!;
 
-  //   if (dst != MacAddressManager.broadcastMacAddress) {
-  //     final deviceId = state[connectionId]!.macToIdMap[dst]!;
+      if (deviceId.startsWith(SimObjectType.host.label)) {
+        ref.read(hostProvider(deviceId).notifier).receiveMessage(messageId);
+      } else if (deviceId.startsWith(SimObjectType.router.label)) {
+      } else if (deviceId.startsWith(SimObjectType.switch_.label)) {}
+    } else {
+      final deviceId = state.macToIdMap.entries
+          .firstWhere((entry) => entry.key != src)
+          .value;
 
-  //     if (deviceId.startsWith(SimObjectType.host.label)) {
-  //       _hostNotifier.receiveMessage(deviceId, messageId);
-  //     } else if (deviceId.startsWith(SimObjectType.router.label)) {
-  //     } else if (deviceId.startsWith(SimObjectType.switch_.label)) {}
-  //   } else {
-  //     final deviceId = state[connectionId]!.macToIdMap.entries
-  //         .firstWhere((entry) => entry.key != src)
-  //         .value;
-
-  //     if (deviceId.startsWith(SimObjectType.host.label)) {
-  //       _hostNotifier.receiveMessage(deviceId, messageId);
-  //     } else if (deviceId.startsWith(SimObjectType.router.label)) {
-  //     } else if (deviceId.startsWith(SimObjectType.switch_.label)) {}
-  //   }
-  // }
+      if (deviceId.startsWith(SimObjectType.host.label)) {
+        ref.read(hostProvider(deviceId).notifier).receiveMessage(messageId);
+      } else if (deviceId.startsWith(SimObjectType.router.label)) {
+      } else if (deviceId.startsWith(SimObjectType.switch_.label)) {}
+    }
+  }
 }
+
+final connectionMapProvider =
+    StateNotifierProvider<ConnectionMapNotifier, Map<String, Connection>>(
+      (ref) => ConnectionMapNotifier(),
+    );
+
+class ConnectionMapNotifier extends SimObjectMapNotifier<Connection> {}
 
 final connectionWidgetProvider =
     StateNotifierProvider<
