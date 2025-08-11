@@ -81,8 +81,6 @@ void main() {
 
     expect(messageNotifier.state.currentPlaceId, equals(host2Id));
 
-    messageNotifier.popLayer();
-
     final dataLinkLayer = {
       MessageKey.source.name: host2Notifier.state.macAddress,
       MessageKey.destination.name: host1Notifier.state.macAddress,
