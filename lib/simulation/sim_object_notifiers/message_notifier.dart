@@ -8,8 +8,8 @@ enum MessageKey { targetIp, senderIp, operation, destination, source, type }
 
 enum MsgDropReason { success, fail }
 
-final messageProvider =
-    StateNotifierProvider.family<MessageNotifier, Message, String>(
+final messageProvider = StateNotifierProvider.family
+    .autoDispose<MessageNotifier, Message, String>(
       (ref, id) => MessageNotifier(ref, id),
     );
 
