@@ -14,12 +14,9 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 
   void receiveMessage(String messageId) {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
-    messageNotifier(messageId).toggleShouldAnimate();
   }
 
   void sendMessage(String messageId) {
-    messageNotifier(messageId).toggleShouldAnimate();
-
     final src = messageNotifier(
       messageId,
     ).state.layerStack.last[MessageKey.source.name];

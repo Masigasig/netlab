@@ -21,10 +21,6 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     state = state.copyWith(currentPlaceId: newPlace);
   }
 
-  void toggleShouldAnimate() {
-    state = state.copyWith(shouldAnimate: !state.shouldAnimate);
-  }
-
   void pushLayer(Map<String, String> newLayer) {
     final newStack = List<Map<String, String>>.from(state.layerStack)
       ..add(newLayer);
@@ -53,10 +49,4 @@ final messageMapProvider =
       (ref) => MessageMapNotifier(),
     );
 
-class MessageMapNotifier extends SimObjectMapNotifier<Message> {
-  // void dropMessage(String messageId) {
-  //   final newState = {...state};
-  //   newState.remove(messageId);
-  //   state = newState;
-  // }
-}
+class MessageMapNotifier extends SimObjectMapNotifier<Message> {}

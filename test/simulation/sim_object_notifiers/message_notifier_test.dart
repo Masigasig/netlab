@@ -51,10 +51,4 @@ void main() {
 
     expect(notifier.state.currentPlaceId, equals('updatedId'));
   });
-
-  test('toggleShouldAnimete should toggel properly', () {
-    expect(notifier.state.shouldAnimate, isFalse);
-    notifier.toggleShouldAnimate();
-    expect(notifier.state.shouldAnimate, isTrue);
-  });
 }
