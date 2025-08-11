@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:netlab/simulation/sim_objects/sim_object.dart';
 
+import 'package:netlab/simulation/sim_objects/sim_object.dart';
 import 'package:netlab/simulation/sim_screen_state.dart';
 
 void main() {

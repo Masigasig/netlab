@@ -22,7 +22,7 @@ class HostNotifier extends DeviceNotifier<Host> {
   void processArpMsg(String messageId, Map<String, String> dataLinkLayer) {
     final arpLayer = messageNotifier(messageId).popLayer();
 
-    updateArpTable(
+    _updateArpTable(
       arpLayer[MessageKey.senderIp.name]!,
       dataLinkLayer[MessageKey.source.name]!,
     );
@@ -65,7 +65,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     }
   }
 
-  void sendArpRqst(String targetIp) {
+  void _sendArpRqst(String targetIp) {
     final message =
         SimObjectType.message.createSimObject(
               srcId: state.id,
@@ -95,7 +95,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     sendMessageToConnection(state.connectionId, message.id);
   }
 
-  void updateArpTable(String ipAddress, String macAddress) {
+  void _updateArpTable(String ipAddress, String macAddress) {
     final newArpTable = Map<String, String>.from(state.arpTable);
 
     newArpTable[ipAddress] = macAddress;
@@ -103,9 +103,14 @@ class HostNotifier extends DeviceNotifier<Host> {
     state = state.copyWith(arpTable: newArpTable);
   }
 
-  String getMacFromArpTable(String ipAddress) {
-    return state.arpTable[ipAddress] ?? '';
-  }
+  String _getMacFromArpTable(String ipAddress) =>
+      state.arpTable[ipAddress] ?? '';
+
+  void updateConnectionId(String connectionId) =>
+      state = state.copyWith(connectionId: connectionId);
+
+  void updateIpAddress(String ipAddress) =>
+      state = state.copyWith(ipAddress: ipAddress);
 }
 
 final hostMapProvider =

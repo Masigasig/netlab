@@ -7,6 +7,7 @@ import 'package:netlab/simulation/sim_object_notifiers/sim_object_notifier.dart'
 
 import 'package:netlab/simulation/network_utils.dart';
 
+export 'package:netlab/simulation/network_utils.dart';
 export 'package:netlab/simulation/sim_object_notifiers/sim_object_notifier.dart';
 export 'package:netlab/simulation/sim_objects/sim_object.dart'
     show SimObjectType;
