@@ -1,8 +1,5 @@
 part of 'sim_object_notifier.dart';
 
-abstract class DeviceMapNotifier<T extends Device>
-    extends SimObjectMapNotifier<T> {}
-
 abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   DeviceNotifier(super.state, super.ref);
 
@@ -16,6 +13,9 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
     state = state.copyWith(posX: newX, posY: newY) as T;
   }
 }
+
+abstract class DeviceMapNotifier<T extends Device>
+    extends SimObjectMapNotifier<T> {}
 
 abstract class DeviceWidgetNotifier<T extends DeviceWidget>
     extends SimObjectWidgetNotifier<T> {}
