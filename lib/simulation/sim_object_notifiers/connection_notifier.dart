@@ -9,9 +9,6 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
   ConnectionNotifier(Ref ref, String id)
     : super(ref.read(connectionMapProvider)[id]!, ref);
 
-  MessageNotifier messageNotifier(String messageId) =>
-      ref.read(messageProvider(messageId).notifier);
-
   void receiveMessage(String messageId) {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
   }
@@ -27,19 +24,17 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
     if (dst != MacAddressManager.broadcastMacAddress) {
       final deviceId = state.macToIdMap[dst]!;
 
-      if (deviceId.startsWith(SimObjectType.host.label)) {
-        ref.read(hostProvider(deviceId).notifier).receiveMessage(messageId);
-      } else if (deviceId.startsWith(SimObjectType.router.label)) {
-      } else if (deviceId.startsWith(SimObjectType.switch_.label)) {}
+      final notifier = getNotifierById(deviceId) as DeviceNotifier;
+
+      notifier.receiveMessage(messageId);
     } else {
       final deviceId = state.macToIdMap.entries
           .firstWhere((entry) => entry.key != src)
           .value;
 
-      if (deviceId.startsWith(SimObjectType.host.label)) {
-        ref.read(hostProvider(deviceId).notifier).receiveMessage(messageId);
-      } else if (deviceId.startsWith(SimObjectType.router.label)) {
-      } else if (deviceId.startsWith(SimObjectType.switch_.label)) {}
+      final notifier = getNotifierById(deviceId) as DeviceNotifier;
+
+      notifier.receiveMessage(messageId);
     }
   }
 }

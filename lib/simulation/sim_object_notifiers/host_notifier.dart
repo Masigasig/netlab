@@ -11,6 +11,7 @@ class HostNotifier extends DeviceNotifier<Host> {
   void doNothing() {
     _sendArpRqst('asfd');
     _getMacFromArpTable('fads');
+    _makeIpv4Message('adsf');
   }
 
   void updateConnectionId(String connectionId) =>
@@ -19,6 +20,7 @@ class HostNotifier extends DeviceNotifier<Host> {
   void updateIpAddress(String ipAddress) =>
       state = state.copyWith(ipAddress: ipAddress);
 
+  @override
   void receiveMessage(String messageId) {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
     final dataLinkLayer = messageNotifier(messageId).popLayer();
@@ -29,14 +31,24 @@ class HostNotifier extends DeviceNotifier<Host> {
 
     switch (type) {
       case DataLinkLayerType.arp:
-        _processArpMsg(messageId, dataLinkLayer);
+        _receiveArpMsg(messageId, dataLinkLayer);
       case DataLinkLayerType.ipv4:
         // TODO: Handle this case.
         throw UnimplementedError();
     }
   }
 
-  void _processArpMsg(String messageId, Map<String, String> dataLinkLayer) {
+  String _makeIpv4Message(String messageId) {
+    messageNotifier(messageId).updateCurrentPlaceId(state.id);
+
+    // final networkLayer = {
+    //   MessageKey.senderIp.name: state.ipAddress,
+    //   MessageKey.targetIp.name: messageNotifier(messageId).state.dstId,
+    // };
+    return messageId;
+  }
+
+  void _receiveArpMsg(String messageId, Map<String, String> dataLinkLayer) {
     final arpLayer = messageNotifier(messageId).popLayer();
 
     _updateArpTable(
