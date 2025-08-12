@@ -16,6 +16,51 @@ abstract class SimObjectNotifier<T extends SimObject> extends StateNotifier<T> {
   final Ref ref;
 
   SimObjectNotifier(super.state, this.ref);
+
+  ConnectionNotifier connectionNotifier(String connectionId) =>
+      ref.read(connectionProvider(connectionId).notifier);
+
+  HostNotifier hostNotifier(String hostId) =>
+      ref.read(hostProvider(hostId).notifier);
+
+  MessageNotifier messageNotifier(String messageId) =>
+      ref.read(messageProvider(messageId).notifier);
+
+  RouterNotifier routerNotifier(String routerId) =>
+      ref.read(routerProvider(routerId).notifier);
+
+  SwitchNotifier switchNotifier(String switchId) =>
+      ref.read(switchProvider(switchId).notifier);
+
+  ConnectionMapNotifier get connectionMapNotifier =>
+      ref.read(connectionMapProvider.notifier);
+
+  HostMapNotifier get hostMapNotifier => ref.read(hostMapProvider.notifier);
+
+  MessageMapNotifier get messageMapNotifier =>
+      ref.read(messageMapProvider.notifier);
+
+  RouterMapNotifier get routerMapNotifier =>
+      ref.read(routerMapProvider.notifier);
+
+  SwitchMapNotifier get switchMapNotifier =>
+      ref.read(switchMapProvider.notifier);
+
+  SimObjectNotifier getNotifierById(String simObjectId) {
+    if (simObjectId.startsWith(SimObjectType.host.label)) {
+      return hostNotifier(simObjectId);
+    } else if (simObjectId.startsWith(SimObjectType.router.label)) {
+      return routerNotifier(simObjectId);
+    } else if (simObjectId.startsWith(SimObjectType.switch_.label)) {
+      return switchNotifier(simObjectId);
+    } else if (simObjectId.startsWith(SimObjectType.connection.label)) {
+      return connectionNotifier(simObjectId);
+    } else if (simObjectId.startsWith(SimObjectType.message.label)) {
+      return messageNotifier(simObjectId);
+    } else {
+      throw Exception('Unknown SimObject Provider for : $simObjectId');
+    }
+  }
 }
 
 abstract class SimObjectMapNotifier<T extends SimObject>

@@ -57,10 +57,17 @@ void main() {
 
     messageNotifier.updateCurrentPlaceId(host1Id);
 
+    final newArpLayer = {
+      MessageKey.operation.name: OperationType.reply.name,
+      MessageKey.senderIp.name: host1Notifier.state.ipAddress,
+    };
+
+    messageNotifier.pushLayer(newArpLayer);
+
     final dataLinkLayer = {
       MessageKey.source.name: host1Notifier.state.macAddress,
       MessageKey.destination.name: host2Notifier.state.macAddress,
-      MessageKey.type.name: DataLinkLayerType.ipv4.name,
+      MessageKey.type.name: DataLinkLayerType.arp.name,
     };
 
     messageNotifier.pushLayer(dataLinkLayer);
@@ -81,10 +88,17 @@ void main() {
 
     expect(messageNotifier.state.currentPlaceId, equals(host2Id));
 
+    final newArpLayer = {
+      MessageKey.operation.name: OperationType.reply.name,
+      MessageKey.senderIp.name: host2Notifier.state.ipAddress,
+    };
+
+    messageNotifier.pushLayer(newArpLayer);
+
     final dataLinkLayer = {
       MessageKey.source.name: host2Notifier.state.macAddress,
       MessageKey.destination.name: host1Notifier.state.macAddress,
-      MessageKey.type.name: DataLinkLayerType.ipv4.name,
+      MessageKey.type.name: DataLinkLayerType.arp.name,
     };
 
     messageNotifier.pushLayer(dataLinkLayer);
