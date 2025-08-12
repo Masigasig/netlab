@@ -40,8 +40,10 @@ class MessageNotifier extends SimObjectNotifier<Message> {
   }
 
   void dropMessage() {
-    ref.read(messageMapProvider.notifier).removeSimObject(state.id);
+    messageMapNotifier.removeSimObject(state.id);
   }
+
+  String getTargetIp() => hostNotifier(state.dstId).state.ipAddress;
 }
 
 final messageMapProvider =
