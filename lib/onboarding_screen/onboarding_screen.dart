@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/onboarding_page.dart';
 import 'widgets/page_indicator.dart';
-import 'widgets/onboarding_button.dart';
+import '../core/components/button.dart' as custom_button;
 import 'package:netlab/core/constants/app_image.dart';
 import 'widgets/bg.dart';
 import 'package:go_router/go_router.dart';
@@ -27,12 +27,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     {
       'title': 'Build & Connect Your Network.',
       'description': 'Use drag-and-drop tools to create network topologies. Connect routers, switches, and PCs to visualize how real networks function.',
-      'lottie': AppLottie.reading,
+      'lottie': AppLottie.floating,
     },
     {
       'title': 'Simulate. Learn. Repeat.',
       'description': 'Simulate basic networking scenarios to reinforce classroom concepts. Whether you’re a beginner or teaching others, learning is just a tap away.',
-      'lottie': AppLottie.reading,
+      'lottie': AppLottie.kid2,
     },
   ];
 
@@ -69,7 +69,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     bottomWidget: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        OnboardingButton(
+                        custom_button.ButtonStyle(
                           text: index == _pages.length - 1
                               ? 'Get Started'
                               : 'Next',

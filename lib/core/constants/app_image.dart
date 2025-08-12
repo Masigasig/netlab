@@ -8,15 +8,17 @@ class AppImage {
 }
 
 class AppLottie {
-  static const _base = 'assets/images/lottie';
+  static const _base = 'assets/images/lottie/';
 
-  static const String reading = '$_base/Reading.json';
-  static const String bgWave = '$_base/bg.json';
-  static const String bgr = '$_base/gradient.json';
-  static const String kid = '$_base/kid.json';
-  static const String particle = '$_base/particle.json';
-  static const String homeIcon = '$_base/home.json';
-  static const String helpIcon = '$_base/help.json';
-  static const String bookIcon = '$_base/book.json';
-  static const String playIcon = '$_base/play.json';
+  // onboarding animations 
+  static const String kid = '${_base}onboarding_screen/kid.json';
+  static const String kid2 = '${_base}onboarding_screen/handsy.json';
+  static const String floating = '${_base}onboarding_screen/floatings.json';
+  static const String particle = '${_base}onboarding_screen/particle.json';
+
+  // navigation icons 
+  static const String homeIcon = '${_base}nav_icons/home.json';
+  static const String helpIcon = '${_base}nav_icons/help.json';
+  static const String bookIcon = '${_base}nav_icons/book.json';
+  static const String playIcon = '${_base}nav_icons/play.json';
 }

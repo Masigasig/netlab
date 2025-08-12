@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'gradient_text.dart';
+import '../../core/components/gradient_text.dart';
 import 'package:netlab/core/constants/app_colors.dart';
 
 class OnboardingPage extends StatelessWidget {
