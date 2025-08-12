@@ -1,3 +1,4 @@
+import 'dart:async' show Timer;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/simulation/network_utils.dart';
