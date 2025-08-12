@@ -9,6 +9,7 @@ class SidebarItem extends StatefulWidget {
   final int selectedIndex;
   final bool isExpanded;
   final Function(int) onTap;
+  final bool isToggleButton;
 
   const SidebarItem({
     super.key,
@@ -19,6 +20,7 @@ class SidebarItem extends StatefulWidget {
     required this.selectedIndex,
     required this.isExpanded,
     required this.onTap,
+    this.isToggleButton = false,
   });
 
   @override
@@ -39,8 +41,9 @@ class _SidebarItemState extends State<SidebarItem>
   void didUpdateWidget(SidebarItem oldWidget) {
     super.didUpdateWidget(oldWidget);
     
-    // Play animation when item becomes selected
-    if (widget.index == widget.selectedIndex && 
+    if (!widget.isToggleButton &&
+        widget.index >= 0 &&
+        widget.index == widget.selectedIndex && 
         widget.index != oldWidget.selectedIndex) {
       _controller.reset();
       _controller.forward();
@@ -56,23 +59,44 @@ class _SidebarItemState extends State<SidebarItem>
   @override
   Widget build(BuildContext context) {
     final isSelected = widget.index == widget.selectedIndex;
+    
+    // Different styling based on item type
+    Color iconColor = Colors.white;
+    FontWeight fontWeight = FontWeight.w400;
+    double fontSize = 14;
+    
+    // Header styling (index -1)
+    if (widget.index == -1) {
+      fontWeight = FontWeight.w600;
+      fontSize = 18;
+    }
+    // Toggle button styling
+    else if (widget.isToggleButton) {
+      iconColor = Colors.white70;
+    }
+    // Regular navigation items
+    else if (widget.index >= 0) {
+      fontWeight = isSelected ? FontWeight.w600 : FontWeight.w400;
+    }
 
     return InkWell(
-      onTap: () => widget.onTap(widget.index),
+      onTap: (widget.index == -1) ? null : () => widget.onTap(widget.index), // Header not clickable
       borderRadius: BorderRadius.circular(8),
-      hoverColor: Colors.white10,
+      hoverColor: (widget.index == -1) ? Colors.transparent : Colors.white10,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
           children: [
-            // Selection indicator
+            // Selection indicator (only for navigation items)
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 3,
               height: 32,
               decoration: BoxDecoration(
-                color: isSelected ? Colors.white : Colors.transparent,
+                color: (widget.index >= 0 && isSelected) 
+                    ? Colors.white 
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -82,7 +106,7 @@ class _SidebarItemState extends State<SidebarItem>
             SizedBox(
               width: 24,
               height: 24,
-              child: _buildIcon(),
+              child: _buildIcon(iconColor),
             ),
             
             // Label
@@ -93,10 +117,10 @@ class _SidebarItemState extends State<SidebarItem>
                   widget.label,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                    fontSize: fontSize,
+                    fontWeight: fontWeight,
                   ),
-                  overflow: TextOverflow.clip,
+                  overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
               ),
@@ -107,7 +131,7 @@ class _SidebarItemState extends State<SidebarItem>
     );
   }
 
-  Widget _buildIcon() {
+  Widget _buildIcon(Color iconColor) {
     if (widget.lottiePath != null) {
       return Lottie.asset(
         widget.lottiePath!,
@@ -118,7 +142,7 @@ class _SidebarItemState extends State<SidebarItem>
     }
     
     if (widget.icon != null) {
-      return Icon(widget.icon, color: Colors.white, size: 20);
+      return Icon(widget.icon, color: iconColor, size: 20);
     }
     
     return const SizedBox.shrink();
