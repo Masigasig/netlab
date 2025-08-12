@@ -11,6 +11,10 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 
   void receiveMessage(String messageId) {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
+
+    sendMessage(
+      messageId,
+    ); //!! Temporaray should be removed this should trigger the animation
   }
 
   void sendMessage(String messageId) {

@@ -6,7 +6,14 @@ enum OperationType { request, reply }
 
 enum MessageKey { targetIp, senderIp, operation, destination, source, type }
 
-enum MsgDropReason { success, fail }
+enum MsgDropReason {
+  ipv4Success,
+  ipv4Fail,
+  arpReqSuccess,
+  arpReqNotMeant,
+  arpReplySuccess,
+  arpReqTimeout,
+}
 
 final messageProvider = StateNotifierProvider.family
     .autoDispose<MessageNotifier, Message, String>(
@@ -39,7 +46,8 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     return lastLayer;
   }
 
-  void dropMessage() {
+  void dropMessage(MsgDropReason reason) {
+    print('Dropping message ${state.id} due to ${reason.name}');
     messageMapNotifier.removeSimObject(state.id);
   }
 

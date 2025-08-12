@@ -60,6 +60,11 @@ class HostNotifier extends DeviceNotifier<Host> {
   void updateConnectionId(String connectionId) =>
       state = state.copyWith(connectionId: connectionId);
 
+  void enqueueMessage(String messageId) {
+    final newMessageIds = List<String>.from(state.messageIds)..add(messageId);
+    state = state.copyWith(messageIds: newMessageIds);
+  }
+
   void _processNextMessage() {
     if (!_isProcessingMessages || state.messageIds.isEmpty) {
       stopMessageProcessing();
@@ -80,9 +85,9 @@ class HostNotifier extends DeviceNotifier<Host> {
     if (_pendingArpRequests.containsKey(targetIp)) {
       if (_isArpTimedOut(targetIp)) {
         _pendingArpRequests.remove(targetIp);
-        messageNotifier(messageId).dropMessage(); //* Arp Timout
+        messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
       } else {
-        _enqueueMessage(messageId);
+        enqueueMessage(messageId);
       }
       _scheduleNextProcessing();
       return;
@@ -103,7 +108,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     if (targetMac.isEmpty) {
       _pendingArpRequests[targetIp] = DateTime.now();
       _sendArpRqst(lookupIp);
-      _enqueueMessage(messageId);
+      enqueueMessage(messageId);
     } else {
       _makeIpv4DataLinkLayer(messageId, targetMac);
       sendMessageToConnection(state.connectionId, messageId);
@@ -114,31 +119,26 @@ class HostNotifier extends DeviceNotifier<Host> {
 
   void _receiveArpMsg(String messageId, Map<String, String> dataLinkLayer) {
     final arpLayer = messageNotifier(messageId).popLayer();
+    final targetIp = arpLayer[MessageKey.targetIp.name]!;
+    final senderIp = arpLayer[MessageKey.senderIp.name]!;
 
-    _updateArpTable(
-      arpLayer[MessageKey.senderIp.name]!,
-      dataLinkLayer[MessageKey.source.name]!,
-    );
+    _updateArpTable(senderIp, dataLinkLayer[MessageKey.source.name]!);
 
     final operation = OperationType.values.firstWhere(
       (e) => e.name == arpLayer[MessageKey.operation.name],
     );
-    final targetIp = arpLayer[MessageKey.targetIp.name];
 
     switch (operation) {
       case OperationType.request:
         if (targetIp == state.ipAddress) {
-          messageNotifier(
-            messageId,
-          ).dropMessage(); //* ARP Request Arrive successfully
-          _sendArpReply(dataLinkLayer[MessageKey.source.name]!);
+          messageNotifier(messageId).dropMessage(MsgDropReason.arpReqSuccess);
+          _sendArpReply(dataLinkLayer[MessageKey.source.name]!, senderIp);
         } else {
-          messageNotifier(
-            messageId,
-          ).dropMessage(); //* ARP Request is not meant for this Host
+          messageNotifier(messageId).dropMessage(MsgDropReason.arpReqNotMeant);
         }
       case OperationType.reply:
-        messageNotifier(messageId).dropMessage(); //* ARP Reply Recieve
+        _pendingArpRequests.remove(senderIp);
+        messageNotifier(messageId).dropMessage(MsgDropReason.arpReplySuccess);
     }
   }
 
@@ -153,13 +153,9 @@ class HostNotifier extends DeviceNotifier<Host> {
     final targetIp = networkLayer[MessageKey.targetIp.name];
 
     if (targetIp == state.ipAddress) {
-      messageNotifier(
-        messageId,
-      ).dropMessage(); //* IPv4 Message Arrive successfully
+      messageNotifier(messageId).dropMessage(MsgDropReason.ipv4Success);
     } else {
-      messageNotifier(
-        messageId,
-      ).dropMessage(); //* IPv4 Message is not meant for this Host
+      messageNotifier(messageId).dropMessage(MsgDropReason.ipv4Fail);
     }
   }
 
@@ -194,11 +190,6 @@ class HostNotifier extends DeviceNotifier<Host> {
     messageNotifier(messageId).pushLayer(dataLinkLayer);
   }
 
-  void _enqueueMessage(String messageId) {
-    final newMessageIds = List<String>.from(state.messageIds)..add(messageId);
-    state = state.copyWith(messageIds: newMessageIds);
-  }
-
   String _dequeueMessage() {
     if (state.messageIds.isEmpty) return '';
     final messageIds = List<String>.from(state.messageIds);
@@ -207,7 +198,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     return messageId;
   }
 
-  void _sendArpReply(String targetMac) {
+  void _sendArpReply(String targetMac, String targetIp) {
     final message =
         SimObjectType.message.createSimObject(
               srcId: state.id,
@@ -222,6 +213,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     final newArpLayer = {
       MessageKey.operation.name: OperationType.reply.name,
       MessageKey.senderIp.name: state.ipAddress,
+      MessageKey.targetIp.name: targetIp,
     };
 
     messageNotifier(message.id).pushLayer(newArpLayer);
@@ -233,7 +225,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     };
 
     messageNotifier(message.id).pushLayer(newDataLinkLayer);
-    sendMessageToConnection(state.connectionId, message.id); //* Send Arp Reply
+    sendMessageToConnection(state.connectionId, message.id);
   }
 
   void _sendArpRqst(String targetIp) {
