@@ -68,9 +68,13 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
 
   void _handleTap() {
     if (ref.read(wireModeProvider)) {
-      ref
-          .read(simScreenState.notifier)
-          .createConnection(simObjectId: widget.simObjectId);
+      if (ref.read(selectedDeviceOnConnProvider.notifier).state ==
+          widget.simObjectId) {
+        ref.read(selectedDeviceOnConnProvider.notifier).state = '';
+      } else {
+        ref.read(selectedDeviceOnConnProvider.notifier).state =
+            widget.simObjectId;
+      }
     }
   }
 

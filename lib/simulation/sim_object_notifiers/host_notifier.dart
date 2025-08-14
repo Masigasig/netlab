@@ -60,6 +60,12 @@ class HostNotifier extends DeviceNotifier<Host> {
   void updateConnectionId(String connectionId) =>
       state = state.copyWith(connectionId: connectionId);
 
+  List<Map<String, String>> getAllConnectionInfo() {
+    return [
+      {'name': 'eth0', 'mac': state.macAddress, 'conId': state.connectionId},
+    ];
+  }
+
   void enqueueMessage(String messageId) {
     final newMessageIds = List<String>.from(state.messageIds)..add(messageId);
     state = state.copyWith(messageIds: newMessageIds);

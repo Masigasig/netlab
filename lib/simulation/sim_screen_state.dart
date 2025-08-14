@@ -13,19 +13,22 @@ export 'package:netlab/simulation/sim_objects/sim_object.dart'
     show SimObjectType;
 
 final wireModeProvider = StateProvider<bool>((ref) => false);
+final selectedDeviceOnConnProvider = StateProvider<String>((ref) => '');
 final simScreenState = StateNotifierProvider<SimScreenState, void>(
   (ref) => SimScreenState(ref),
 );
 
 class SimScreenState extends StateNotifier<void> {
   final Ref ref;
-  final List<String> _selectedDevices = [];
+  final List<Map<String, String>> _selectedDevices = [];
   final Map<SimObjectType, int> _typeCounters = {};
 
   SimScreenState(this.ref) : super(null);
 
   StateController<bool> get _wireModeNotifier =>
       ref.read(wireModeProvider.notifier);
+  StateController<String> get _selectedDeviceOnConnNotifier =>
+      ref.read(selectedDeviceOnConnProvider.notifier);
 
   ConnectionMapNotifier get _connectionMapNotifier =>
       ref.read(connectionMapProvider.notifier);
@@ -60,49 +63,69 @@ class SimScreenState extends StateNotifier<void> {
     _addSimObjAndWidgetToPovider(type, device, widget);
   }
 
-  void createConnection({required String simObjectId}) {
+  void createConnection({
+    required String deviceId,
+    required String macAddress,
+  }) {
     //TODO: fix this
     if (!_wireModeNotifier.state) return;
 
-    if (!_selectedDevices.contains(simObjectId) &&
-        _selectedDevices.length < 2) {
-      _selectedDevices.add(simObjectId);
+    _selectedDevices.add({'id': deviceId, 'mac': macAddress});
 
-      if (_selectedDevices.length == 2) {
-        final conA = _selectedDevices[0];
-        final conB = _selectedDevices[1];
+    if (_selectedDevices.length == 2) {
+      final conAId = _selectedDevices[0]['id']!;
+      final conBId = _selectedDevices[1]['id']!;
+      final conAmac = _selectedDevices[0]['mac']!;
+      final conBmac = _selectedDevices[1]['mac']!;
 
-        final isDuplicate = _connectionMapNotifier.state.values.any(
-          (conn) =>
-              (conn.conAId == conA && conn.conBId == conB) ||
-              (conn.conAId == conB && conn.conBId == conA),
-        );
-        if (isDuplicate) {
-          _selectedDevices.clear();
-          return;
-        }
-
-        final connection = SimObjectType.connection.createSimObject(
-          conAId: conA,
-          conBId: conB,
-        );
-
-        final widget = SimObjectType.connection.createSimObjectWidget(
-          simObjectId: connection.id,
-        );
-
-        _addSimObjAndWidgetToPovider(
-          SimObjectType.connection,
-          connection,
-          widget,
-        );
+      if (conAId == conBId) {
         toggleWireMode();
+        return;
       }
+
+      final connection = SimObjectType.connection.createSimObject(
+        conAId: conAId,
+        conBId: conBId,
+        conAmac: conAmac,
+        conBmac: conBmac,
+      );
+
+      final widget = SimObjectType.connection.createSimObjectWidget(
+        simObjectId: connection.id,
+      );
+
+      if (conAId.startsWith(SimObjectType.host.label)) {
+        ref
+            .read(hostProvider(conAId).notifier)
+            .updateConnectionId(connection.id);
+      } else if (conAId.startsWith(SimObjectType.router.label)) {
+        // ref.read(routerProvider(conAId).notifier).updateConnectionId(connection.id);
+      } else if (conAId.startsWith(SimObjectType.switch_.label)) {
+        // ref.read(switchProvider(conAId).notifier).updateConnectionId(connection.id);
+      }
+
+      if (conBId.startsWith(SimObjectType.host.label)) {
+        ref
+            .read(hostProvider(conBId).notifier)
+            .updateConnectionId(connection.id);
+      } else if (conBId.startsWith(SimObjectType.router.label)) {
+        // ref.read(routerProvider(conBId).notifier).updateConnectionId(connection.id);
+      } else if (conBId.startsWith(SimObjectType.switch_.label)) {
+        // ref.read(switchProvider(conBId).notifier).updateConnectionId(connection.id);
+      }
+
+      _addSimObjAndWidgetToPovider(
+        SimObjectType.connection,
+        connection,
+        widget,
+      );
+      toggleWireMode();
     }
   }
 
   void toggleWireMode() {
     _wireModeNotifier.state = !_wireModeNotifier.state;
+    _selectedDeviceOnConnNotifier.state = '';
     _selectedDevices.clear();
   }
 
