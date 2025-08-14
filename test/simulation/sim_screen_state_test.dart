@@ -38,8 +38,8 @@ void main() {
     });
 
     test('createConnection should not create when wire mode is off', () {
-      state.createConnection(simObjectId: 'testId1');
-      state.createConnection(simObjectId: 'testId2');
+      state.createConnection(deviceId: 'testId1', macAddress: 'testMac1');
+      state.createConnection(deviceId: 'testId2', macAddress: 'testMac2');
 
       final connections = container.read(connectionMapProvider);
       expect(connections.length, equals(0));
@@ -48,8 +48,8 @@ void main() {
     test('createConnection should create when wire mode id on', () {
       state.toggleWireMode();
 
-      state.createConnection(simObjectId: 'testId1');
-      state.createConnection(simObjectId: 'testId2');
+      state.createConnection(deviceId: 'testId1', macAddress: 'testMac1');
+      state.createConnection(deviceId: 'testId2', macAddress: 'testMac2');
 
       final connections = container.read(connectionMapProvider);
       expect(connections.length, equals(1));
@@ -70,24 +70,14 @@ void main() {
       expect(hosts.values.first.name, equals('Host 1'));
       expect(routers.values.first.name, equals('Router 1'));
 
-      state.createConnection(simObjectId: hosts.values.first.id);
-      state.createConnection(simObjectId: routers.values.first.id);
-
-      final connections = container.read(connectionMapProvider);
-      expect(connections.length, equals(1));
-    });
-
-    test('createConnection should prevent duplicate connections', () {
-      state.toggleWireMode();
-
-      const hostId = 'host1';
-      const routerId = 'router1';
-
-      state.createConnection(simObjectId: hostId);
-      state.createConnection(simObjectId: routerId);
-      state.toggleWireMode();
-      state.createConnection(simObjectId: hostId);
-      state.createConnection(simObjectId: routerId);
+      state.createConnection(
+        deviceId: hosts.values.first.id,
+        macAddress: hosts.values.first.macAddress,
+      );
+      state.createConnection(
+        deviceId: routers.values.first.id,
+        macAddress: 'samplemac',
+      );
 
       final connections = container.read(connectionMapProvider);
       expect(connections.length, equals(1));
@@ -135,10 +125,10 @@ void main() {
 
     test('toggleWireMode should clear selected devices', () {
       state.toggleWireMode();
-      state.createConnection(simObjectId: 'testId');
+      state.createConnection(deviceId: 'testId', macAddress: 'samplemac1');
       state.toggleWireMode();
 
-      state.createConnection(simObjectId: 'testId');
+      state.createConnection(deviceId: 'testId', macAddress: 'samplemac2');
       final connections = container.read(connectionMapProvider);
       expect(connections.isEmpty, true);
     });

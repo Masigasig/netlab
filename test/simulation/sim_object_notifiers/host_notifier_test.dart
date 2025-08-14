@@ -127,6 +127,7 @@ void main() {
       final newArpLayer = {
         MessageKey.operation.name: OperationType.reply.name,
         MessageKey.senderIp.name: hostNotifier.state.ipAddress,
+        MessageKey.targetIp.name: hostNotifier2.state.ipAddress,
       };
 
       arpReplyNotifier.pushLayer(newArpLayer);
@@ -169,6 +170,7 @@ void main() {
           {
             MessageKey.operation.name: OperationType.reply.name,
             MessageKey.senderIp.name: hostNotifier.state.ipAddress,
+            MessageKey.targetIp.name: hostNotifier2.state.ipAddress,
           },
           {
             MessageKey.source.name: hostNotifier.state.macAddress,
