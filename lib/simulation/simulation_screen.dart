@@ -9,6 +9,7 @@ import 'package:netlab/simulation/sim_screen_state.dart';
 part 'widgets/device_drawer.dart';
 part 'widgets/widget_stack.dart';
 part 'widgets/grid_painter.dart';
+part 'widgets/conn_choice_list.dart';
 
 const double canvasSize = 100_000.0; // put it here for optimazation
 
@@ -62,6 +63,8 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                     _DeviceWidgetStack(type: SimObjectType.host),
                     _DeviceWidgetStack(type: SimObjectType.switch_),
                     _DeviceWidgetStack(type: SimObjectType.router),
+
+                    ConnChoiceList(),
                   ],
                 ),
               );
