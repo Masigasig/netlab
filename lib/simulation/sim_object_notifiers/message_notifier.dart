@@ -15,8 +15,8 @@ enum MsgDropReason {
   arpReqTimeout,
 }
 
-final messageProvider = StateNotifierProvider.family
-    .autoDispose<MessageNotifier, Message, String>(
+final messageProvider =
+    StateNotifierProvider.family<MessageNotifier, Message, String>(
       (ref, id) => MessageNotifier(ref, id),
     );
 

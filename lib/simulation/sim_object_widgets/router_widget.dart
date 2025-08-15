@@ -13,10 +13,6 @@ class RouterWidget extends DeviceWidget {
 
 class _RouterDeviceState extends _DeviceWidgetState<RouterWidget> {
   @override
-  AutoDisposeStateNotifierProviderFamily<
-    DeviceNotifier<dynamic>,
-    dynamic,
-    String
-  >
+  StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
   get provider => routerProvider;
 }

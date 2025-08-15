@@ -1,9 +1,8 @@
 part of 'sim_object_notifier.dart';
 
-final hostProvider = StateNotifierProvider.family
-    .autoDispose<HostNotifier, Host, String>(
-      (ref, id) => HostNotifier(ref, id),
-    );
+final hostProvider = StateNotifierProvider.family<HostNotifier, Host, String>(
+  (ref, id) => HostNotifier(ref, id),
+);
 
 class HostNotifier extends DeviceNotifier<Host> {
   HostNotifier(Ref ref, String id) : super(ref.read(hostMapProvider)[id]!, ref);

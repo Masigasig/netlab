@@ -83,7 +83,6 @@ abstract class SimObjectMapNotifier<T extends SimObject>
       final obj = SimObject.fromMap(map);
       newMap[obj.id] = obj as T;
     }
-
     state = newMap;
   }
 }

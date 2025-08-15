@@ -13,11 +13,7 @@ abstract class DeviceWidget extends SimObjectWidget {
 
 abstract class _DeviceWidgetState<T extends DeviceWidget>
     extends _SimObjectWidgetState<T> {
-  AutoDisposeStateNotifierProviderFamily<
-    DeviceNotifier<dynamic>,
-    dynamic,
-    String
-  >
+  StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
   get provider;
 
   @override
