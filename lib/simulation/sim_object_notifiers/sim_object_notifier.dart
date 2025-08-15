@@ -91,6 +91,9 @@ abstract class SimObjectWidgetNotifier<T extends SimObjectWidget>
     extends StateNotifier<Map<String, T>> {
   SimObjectWidgetNotifier() : super({});
 
+  void addSimObjectWidget(T simObjectWidget) =>
+      state = {...state, simObjectWidget.simObjectId: simObjectWidget};
+
   void clearState() => state = {};
 
   void importFromList(List<dynamic> list) {
@@ -101,9 +104,5 @@ abstract class SimObjectWidgetNotifier<T extends SimObjectWidget>
       newMap[widget.simObjectId] = widget;
     }
     state = newMap;
-  }
-
-  void addSimObjectWidget(T simObjectWidget) {
-    state = {...state, simObjectWidget.simObjectId: simObjectWidget};
   }
 }

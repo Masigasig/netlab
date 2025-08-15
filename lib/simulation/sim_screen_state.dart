@@ -13,6 +13,7 @@ export 'package:netlab/simulation/sim_objects/sim_object.dart'
     show SimObjectType;
 
 final wireModeProvider = StateProvider<bool>((ref) => false);
+final messageModeProvider = StateProvider<bool>((ref) => false);
 final selectedDeviceOnConnProvider = StateProvider<String>((ref) => '');
 final simScreenState = StateNotifierProvider<SimScreenState, void>(
   (ref) => SimScreenState(ref),
@@ -27,6 +28,8 @@ class SimScreenState extends StateNotifier<void> {
 
   StateController<bool> get _wireModeNotifier =>
       ref.read(wireModeProvider.notifier);
+  StateController<bool> get _messageModeNotifier =>
+      ref.read(messageModeProvider.notifier);
   StateController<String> get _selectedDeviceOnConnNotifier =>
       ref.read(selectedDeviceOnConnProvider.notifier);
 
@@ -126,6 +129,14 @@ class SimScreenState extends StateNotifier<void> {
 
   void toggleWireMode() {
     _wireModeNotifier.state = !_wireModeNotifier.state;
+    _messageModeNotifier.state = false;
+    _selectedDeviceOnConnNotifier.state = '';
+    _selectedDevices.clear();
+  }
+
+  void toggleMessageMode() {
+    _messageModeNotifier.state = !_messageModeNotifier.state;
+    _wireModeNotifier.state = false;
     _selectedDeviceOnConnNotifier.state = '';
     _selectedDevices.clear();
   }
@@ -173,7 +184,7 @@ class SimScreenState extends StateNotifier<void> {
     final routerIds = _routerMapNotifier.state.keys.toList();
     final switchIds = _switchMapNotifier.state.keys.toList();
     final messageIds = _messageMapNotifier.state.keys.toList();
-    
+
     _typeCounters.clear();
     _selectedDevices.clear();
     _wireModeNotifier.state = false;

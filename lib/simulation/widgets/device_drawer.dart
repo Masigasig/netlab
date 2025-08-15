@@ -8,6 +8,7 @@ class DeviceDrawer extends StatefulWidget {
     _DeviceSpawner(type: SimObjectType.router, imagePath: AppImage.router),
     _DeviceSpawner(type: SimObjectType.switch_, imagePath: AppImage.switch_),
     _ConnectionSpawner(),
+    _MessageSpawner(),
   ];
 
   const DeviceDrawer({super.key});
@@ -164,6 +165,37 @@ class _ConnectionSpawner extends ConsumerWidget {
           ),
         ),
         Text(SimObjectType.connection.label),
+      ],
+    );
+  }
+}
+
+class _MessageSpawner extends ConsumerWidget {
+  final double size = 100.0;
+
+  const _MessageSpawner();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint('MessageSpawner Widget Rebuilt');
+    final isActive = ref.watch(messageModeProvider);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+          onTap: () => ref.read(simScreenState.notifier).toggleMessageMode(),
+          child: Container(
+            width: size - 35,
+            height: size - 35,
+            decoration: BoxDecoration(
+              color: isActive ? Colors.blueAccent : Colors.grey[300],
+              shape: BoxShape.circle,
+            ),
+            child: Image.asset(AppImage.message, fit: BoxFit.contain),
+          ),
+        ),
+        Text(SimObjectType.message.label),
       ],
     );
   }
