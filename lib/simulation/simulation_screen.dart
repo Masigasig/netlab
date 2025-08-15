@@ -63,6 +63,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                     _DeviceWidgetStack(type: SimObjectType.host),
                     _DeviceWidgetStack(type: SimObjectType.switch_),
                     _DeviceWidgetStack(type: SimObjectType.router),
+                    _DeviceWidgetStack(type: SimObjectType.message),
 
                     ConnChoiceList(),
                   ],

@@ -44,6 +44,8 @@ class SimScreenState extends StateNotifier<void> {
       ref.read(connectionWidgetProvider.notifier);
   HostWidgetNotifier get _hostWidgetNotifier =>
       ref.read(hostWidgetProvider.notifier);
+  MessageWidgetNotifier get _messageWidgetNotifier =>
+      ref.read(messageWidgetProvider.notifier);
   RouterWidgetNotifier get _routerWidgetNotifier =>
       ref.read(routerWidgetProvider.notifier);
   SwitchWidgetNotifier get _switchWidgetNotifier =>
@@ -206,7 +208,7 @@ class SimScreenState extends StateNotifier<void> {
         _hostWidgetNotifier.addSimObjectWidget(widget as HostWidget);
       case SimObjectType.message:
         _messageMapNotifier.addSimObject(object as Message);
-      //TODO: implemment message
+        _messageWidgetNotifier.addSimObjectWidget(widget as MessageWidget);
       case SimObjectType.router:
         _routerMapNotifier.addSimObject(object as Router);
         _routerWidgetNotifier.addSimObjectWidget(widget as RouterWidget);

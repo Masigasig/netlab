@@ -60,3 +60,10 @@ final messageMapProvider =
     );
 
 class MessageMapNotifier extends SimObjectMapNotifier<Message> {}
+
+final messageWidgetProvider =
+    StateNotifierProvider<MessageWidgetNotifier, Map<String, MessageWidget>>(
+      (ref) => MessageWidgetNotifier(),
+    );
+
+class MessageWidgetNotifier extends SimObjectWidgetNotifier<MessageWidget> {}

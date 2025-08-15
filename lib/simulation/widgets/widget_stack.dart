@@ -12,8 +12,7 @@ class _DeviceWidgetStack extends ConsumerWidget {
     final provider = switch (type) {
       SimObjectType.connection => connectionWidgetProvider,
       SimObjectType.host => hostWidgetProvider,
-      SimObjectType.message =>
-        throw UnimplementedError(), // TODO: implement message
+      SimObjectType.message => messageWidgetProvider,
       SimObjectType.router => routerWidgetProvider,
       SimObjectType.switch_ => switchWidgetProvider,
     };
