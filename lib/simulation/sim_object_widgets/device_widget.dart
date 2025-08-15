@@ -71,6 +71,8 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
         ref.read(selectedDeviceOnConnProvider.notifier).state =
             widget.simObjectId;
       }
+    } else if (ref.read(messageModeProvider)) {
+      ref.read(simScreenState.notifier).createMessage(widget.simObjectId);
     }
   }
 

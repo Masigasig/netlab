@@ -68,10 +68,7 @@ class SimScreenState extends StateNotifier<void> {
     _addSimObjAndWidgetToPovider(type, device, widget);
   }
 
-  void createConnection({
-    required String deviceId,
-    required String macAddress,
-  }) {
+  void createConnection(String deviceId, String macAddress) {
     if (!_wireModeNotifier.state) return;
 
     _selectedDevices.add({'id': deviceId, 'mac': macAddress});
@@ -124,6 +121,46 @@ class SimScreenState extends StateNotifier<void> {
         widget,
       );
       toggleWireMode();
+    }
+  }
+
+  void createMessage(String hostId) {
+    if (!_messageModeNotifier.state) return;
+    if (!hostId.startsWith(SimObjectType.host.label)) return;
+
+    _selectedDevices.add({'id': hostId});
+
+    if (_selectedDevices.length == 2) {
+      final hostId1 = _selectedDevices[0]['id']!;
+      final hostId2 = _selectedDevices[1]['id']!;
+
+      if (hostId1 == hostId2) {
+        toggleMessageMode();
+        return;
+      }
+
+      final message = SimObjectType.message.createSimObject(
+        name:
+            '${SimObjectType.message.label} ${_getNextCounter(SimObjectType.message)}',
+        srcId: hostId1,
+        dstId: hostId2,
+      );
+
+      final widget = SimObjectType.message.createSimObjectWidget(
+        simObjectId: message.id,
+      );
+
+      _addSimObjAndWidgetToPovider(SimObjectType.message, message, widget);
+
+      ref
+          .read(messageProvider(message.id).notifier)
+          .updateCurrentPlaceId(hostId1);
+      final posX = ref.read(hostProvider(hostId1)).posX;
+      final posY = ref.read(hostProvider(hostId1)).posY;
+      ref.read(messageProvider(message.id).notifier).updatePosition(posX, posY);
+      ref.read(hostProvider(hostId1).notifier).enqueueMessage(message.id);
+
+      toggleMessageMode();
     }
   }
 

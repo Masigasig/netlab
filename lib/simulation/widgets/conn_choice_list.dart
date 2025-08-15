@@ -65,8 +65,8 @@ class _ConnChoiceListState extends ConsumerState<ConnChoiceList> {
               ref
                   .read(simScreenState.notifier)
                   .createConnection(
-                    deviceId: ref.read(selectedDeviceOnConnProvider),
-                    macAddress: mac,
+                    ref.read(selectedDeviceOnConnProvider),
+                    mac,
                   );
               ref.read(selectedDeviceOnConnProvider.notifier).state = '';
             }
