@@ -1,6 +1,10 @@
 part of 'sim_object.dart';
 
 class Message extends SimObject {
+  final String name;
+  final double posX;
+  final double posY;
+  final Duration duration;
   final String srcId;
   final String dstId;
   final String currentPlaceId;
@@ -8,6 +12,10 @@ class Message extends SimObject {
 
   const Message({
     required super.id,
+    required this.name,
+    this.posX = 0,
+    this.posY = 0,
+    this.duration = const Duration(milliseconds: 0),
     required this.srcId,
     required this.dstId,
     this.currentPlaceId = '',
@@ -16,11 +24,18 @@ class Message extends SimObject {
 
   @override
   Message copyWith({
+    double? posX,
+    double? posY,
+    Duration? duration,
     String? currentPlaceId,
     List<Map<String, String>>? layerStack,
   }) {
     return Message(
       id: id,
+      name: name,
+      posX: posX ?? this.posX,
+      posY: posY ?? this.posY,
+      duration: duration ?? this.duration,
       srcId: srcId,
       dstId: dstId,
       currentPlaceId: currentPlaceId ?? this.currentPlaceId,
@@ -32,6 +47,9 @@ class Message extends SimObject {
   Map<String, dynamic> toMap() {
     return {
       ...super.toMap(),
+      'name': name,
+      'posX': posX,
+      'posY': posY,
       'srcId': srcId,
       'dstId': dstId,
       'currentPlaceId': currentPlaceId,
@@ -42,6 +60,9 @@ class Message extends SimObject {
   factory Message.fromMap(Map<String, dynamic> map) {
     return Message(
       id: map['id'].toString(),
+      name: map['name'].toString(),
+      posX: map['posX'].toDouble(),
+      posY: map['posY'].toDouble(),
       srcId: map['srcId'].toString(),
       dstId: map['dstId'].toString(),
       currentPlaceId: map['currentPlaceId'].toString(),

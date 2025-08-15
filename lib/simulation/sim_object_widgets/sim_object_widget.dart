@@ -7,6 +7,7 @@ import 'package:netlab/simulation/sim_screen_state.dart';
 part 'device_widget.dart';
 part 'router_widget.dart';
 part 'switch_widget.dart';
+part 'message_widget.dart';
 part 'host_widget.dart';
 part 'connection_widget.dart';
 
@@ -22,9 +23,7 @@ abstract class SimObjectWidget extends ConsumerStatefulWidget {
       case SimObjectType.host:
         return HostWidget.fromId(simObjectId);
       case SimObjectType.message:
-        throw UnimplementedError(
-          'Message widget not implemented',
-        ); // TODO: Implement
+        return MessageWidget.fromId(simObjectId);
       case SimObjectType.router:
         return RouterWidget.fromId(simObjectId);
       case SimObjectType.switch_:

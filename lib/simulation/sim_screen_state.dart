@@ -67,7 +67,6 @@ class SimScreenState extends StateNotifier<void> {
     required String deviceId,
     required String macAddress,
   }) {
-    //TODO: fix this
     if (!_wireModeNotifier.state) return;
 
     _selectedDevices.add({'id': deviceId, 'mac': macAddress});
@@ -240,8 +239,7 @@ extension SimObjectTypeX on SimObjectType {
     return switch (this) {
       SimObjectType.connection => ConnectionWidget(simObjectId: simObjectId),
       SimObjectType.host => HostWidget(simObjectId: simObjectId),
-      SimObjectType.message =>
-        throw UnimplementedError(), // TODO: creaate a messagewidget
+      SimObjectType.message => MessageWidget(simObjectId: simObjectId),
       SimObjectType.router => RouterWidget(simObjectId: simObjectId),
       SimObjectType.switch_ => SwitchWidget(simObjectId: simObjectId),
     };
@@ -275,7 +273,12 @@ extension SimObjectTypeX on SimObjectType {
         name: name,
         macAddress: MacAddressManager.generateUniqueMacAddress(),
       ),
-      SimObjectType.message => Message(id: id, srcId: srcId, dstId: dstId),
+      SimObjectType.message => Message(
+        id: id,
+        name: name,
+        srcId: srcId,
+        dstId: dstId,
+      ),
       SimObjectType.router => Router(
         id: id,
         posX: posX,
