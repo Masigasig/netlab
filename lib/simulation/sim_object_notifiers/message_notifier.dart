@@ -52,6 +52,10 @@ class MessageNotifier extends SimObjectNotifier<Message> {
   }
 
   String getTargetIp() => hostNotifier(state.dstId).state.ipAddress;
+
+  void updatePosition(double newX, double newY, {Duration? duration}) {
+    state = state.copyWith(posX: newX, posY: newY, duration: duration);
+  }
 }
 
 final messageMapProvider =

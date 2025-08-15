@@ -36,7 +36,7 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
           ),
           SizedBox(
             width: widget.size,
-            height: widget.size,
+            height: widget.size - 25,
             child: Image.asset(widget.imagePath, fit: BoxFit.contain),
           ),
         ],
@@ -44,8 +44,8 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
     }
 
     return AnimatedPositioned(
-      left: message.posX,
-      top: message.posY,
+      left: message.posX - widget.size / 2,
+      top: message.posY - widget.size / 2 - 25,
       duration: message.duration,
       curve: Curves.easeIn,
       child: GestureDetector(onTap: _handleTap, child: messageWithLabel()),
