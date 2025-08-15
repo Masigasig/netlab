@@ -143,8 +143,6 @@ class SimScreenState extends StateNotifier<void> {
   }
 
   void importSimulation(Map<String, dynamic> data) {
-    _clearAllState();
-
     if (data['typeCounters'] != null) {
       final countersMap = data['typeCounters'] as Map<String, dynamic>;
       countersMap.forEach((key, value) {
@@ -161,30 +159,58 @@ class SimScreenState extends StateNotifier<void> {
     _routerMapNotifier.importFromList(routerList);
     _switchMapNotifier.importFromList(switchList);
     _hostMapNotifier.importFromList(hostList);
+    _connectionMapNotifier.importFromList(connectionList);
 
     _routerWidgetNotifier.importFromList(routerList);
     _switchWidgetNotifier.importFromList(switchList);
     _hostWidgetNotifier.importFromList(hostList);
-
-    _connectionMapNotifier.importFromList(connectionList);
     _connectionWidgetNotifier.importFromList(connectionList);
   }
 
-  void _clearAllState() {
+  List<String> clearAllState() {
+    final connectionIds = _connectionMapNotifier.state.keys.toList();
+    final hostIds = _hostMapNotifier.state.keys.toList();
+    final routerIds = _routerMapNotifier.state.keys.toList();
+    final switchIds = _switchMapNotifier.state.keys.toList();
+    final messageIds = _messageMapNotifier.state.keys.toList();
+    
     _typeCounters.clear();
     _selectedDevices.clear();
     _wireModeNotifier.state = false;
 
     _connectionWidgetNotifier.clearState();
-    _connectionMapNotifier.clearState();
-
     _hostWidgetNotifier.clearState();
     _switchWidgetNotifier.clearState();
     _routerWidgetNotifier.clearState();
 
+    _connectionMapNotifier.clearState();
     _hostMapNotifier.clearState();
     _switchMapNotifier.clearState();
     _routerMapNotifier.clearState();
+
+    return [
+      ...connectionIds,
+      ...hostIds,
+      ...routerIds,
+      ...switchIds,
+      ...messageIds,
+    ];
+  }
+
+  void invalidateProviders(List<String> listId) {
+    for (final id in listId) {
+      if (id.startsWith(SimObjectType.connection.label)) {
+        ref.invalidate(connectionProvider(id));
+      } else if (id.startsWith(SimObjectType.host.label)) {
+        ref.invalidate(hostProvider(id));
+      } else if (id.startsWith(SimObjectType.router.label)) {
+        ref.invalidate(routerProvider(id));
+      } else if (id.startsWith(SimObjectType.switch_.label)) {
+        ref.invalidate(switchProvider(id));
+      } else if (id.startsWith(SimObjectType.message.label)) {
+        ref.invalidate(messageProvider(id));
+      }
+    }
   }
 
   int _getNextCounter(SimObjectType type) {

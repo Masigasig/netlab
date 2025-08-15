@@ -5,8 +5,8 @@ final switchMapProvider =
       (ref) => SwitchMapNotifier(),
     );
 
-final switchProvider = StateNotifierProvider.family
-    .autoDispose<SwitchNotifier, Switch, String>(
+final switchProvider =
+    StateNotifierProvider.family<SwitchNotifier, Switch, String>(
       (ref, id) => SwitchNotifier(ref, id),
     );
 

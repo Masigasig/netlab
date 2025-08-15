@@ -13,10 +13,6 @@ class SwitchWidget extends DeviceWidget {
 
 class _SwitchDeviceState extends _DeviceWidgetState<SwitchWidget> {
   @override
-  AutoDisposeStateNotifierProviderFamily<
-    DeviceNotifier<dynamic>,
-    dynamic,
-    String
-  >
+  StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
   get provider => switchProvider;
 }

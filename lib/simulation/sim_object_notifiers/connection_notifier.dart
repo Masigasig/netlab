@@ -1,7 +1,7 @@
 part of 'sim_object_notifier.dart';
 
-final connectionProvider = StateNotifierProvider.family
-    .autoDispose<ConnectionNotifier, Connection, String>(
+final connectionProvider =
+    StateNotifierProvider.family<ConnectionNotifier, Connection, String>(
       (ref, id) => ConnectionNotifier(ref, id),
     );
 

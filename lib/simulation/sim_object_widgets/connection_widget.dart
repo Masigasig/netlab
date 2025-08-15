@@ -11,27 +11,18 @@ class ConnectionWidget extends SimObjectWidget {
 }
 
 class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
-  // TODO: Fix this
   late final String _conAId;
   late final String _conBId;
-  late final AutoDisposeStateNotifierProviderFamily<
-    DeviceNotifier<dynamic>,
-    dynamic,
-    String
-  >
+  late StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
   _conAProvider;
-  late final AutoDisposeStateNotifierProviderFamily<
-    DeviceNotifier<dynamic>,
-    dynamic,
-    String
-  >
+  late StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
   _conBProvider;
 
   @override
   void initState() {
     super.initState();
-    _conAId = (ref.read(connectionMapProvider)[widget.simObjectId]!).conAId;
-    _conBId = (ref.read(connectionMapProvider)[widget.simObjectId]!).conBId;
+    _conAId = ref.read(connectionProvider(widget.simObjectId)).conAId;
+    _conBId = ref.read(connectionProvider(widget.simObjectId)).conBId;
 
     _conAProvider = _getDeviceProvider(_conAId);
     _conBProvider = _getDeviceProvider(_conBId);
@@ -87,33 +78,14 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
     );
   }
 
-  AutoDisposeStateNotifierProviderFamily<
-    DeviceNotifier<dynamic>,
-    dynamic,
-    String
-  >
+  StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
   _getDeviceProvider(String deviceId) {
-    if (ref.read(hostMapProvider).containsKey(deviceId)) {
-      return hostProvider
-          as AutoDisposeStateNotifierProviderFamily<
-            DeviceNotifier<dynamic>,
-            dynamic,
-            String
-          >;
-    } else if (ref.read(routerMapProvider).containsKey(deviceId)) {
-      return routerProvider
-          as AutoDisposeStateNotifierProviderFamily<
-            DeviceNotifier<dynamic>,
-            dynamic,
-            String
-          >;
-    } else if (ref.read(switchMapProvider).containsKey(deviceId)) {
-      return switchProvider
-          as AutoDisposeStateNotifierProviderFamily<
-            DeviceNotifier<dynamic>,
-            dynamic,
-            String
-          >;
+    if (deviceId.startsWith(SimObjectType.host.label)) {
+      return hostProvider;
+    } else if (deviceId.startsWith(SimObjectType.router.label)) {
+      return routerProvider;
+    } else if (deviceId.startsWith(SimObjectType.switch_.label)) {
+      return switchProvider;
     } else {
       throw Exception('Device not found in any provider: $deviceId');
     }

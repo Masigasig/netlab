@@ -13,10 +13,6 @@ class HostWidget extends DeviceWidget {
 
 class _HostDeviceState extends _DeviceWidgetState<HostWidget> {
   @override
-  AutoDisposeStateNotifierProviderFamily<
-    DeviceNotifier<dynamic>,
-    dynamic,
-    String
-  >
+  StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
   get provider => hostProvider;
 }

@@ -5,8 +5,8 @@ final routerMapProvider =
       (ref) => RouterMapNotifier(),
     );
 
-final routerProvider = StateNotifierProvider.family
-    .autoDispose<RouterNotifier, Router, String>(
+final routerProvider =
+    StateNotifierProvider.family<RouterNotifier, Router, String>(
       (ref, id) => RouterNotifier(ref, id),
     );
 
