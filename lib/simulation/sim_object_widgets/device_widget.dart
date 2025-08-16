@@ -73,6 +73,14 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
       }
     } else if (ref.read(messageModeProvider)) {
       ref.read(simScreenState.notifier).createMessage(widget.simObjectId);
+    } else {
+      if (ref.read(selectedDeviceOnInfoProvider.notifier).state ==
+          widget.simObjectId) {
+        ref.read(selectedDeviceOnInfoProvider.notifier).state = '';
+      } else {
+        ref.read(selectedDeviceOnInfoProvider.notifier).state =
+            widget.simObjectId;
+      }
     }
   }
 

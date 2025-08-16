@@ -2,6 +2,7 @@ part of '../simulation_screen.dart';
 
 class DeviceDrawer extends StatefulWidget {
   final double width = 200.0;
+  final double height = 400.0;
   final int animationSpeed = 300;
   final allSpawners = const [
     _DeviceSpawner(type: SimObjectType.host, imagePath: AppImage.host),
@@ -33,10 +34,9 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
       children: [
         AnimatedPositioned(
           duration: Duration(milliseconds: widget.animationSpeed),
-          top: 0,
-          bottom: 0,
           left: _isOpen ? 0 : -widget.width,
           width: widget.width,
+          height: widget.height,
           child: Material(
             color: const Color.fromRGBO(0, 0, 0, 0.5),
             shape: const RoundedRectangleBorder(
@@ -79,7 +79,7 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
           top: 47,
           left: _isOpen ? widget.width : 0,
           child: GestureDetector(
-            onTap: () => _toggleDrawer(),
+            onTap: _toggleDrawer,
             child: Container(
               width: 20,
               height: 60,

@@ -15,6 +15,7 @@ export 'package:netlab/simulation/sim_objects/sim_object.dart'
 final wireModeProvider = StateProvider<bool>((ref) => false);
 final messageModeProvider = StateProvider<bool>((ref) => false);
 final selectedDeviceOnConnProvider = StateProvider<String>((ref) => '');
+final selectedDeviceOnInfoProvider = StateProvider<String>((ref) => '');
 final simScreenState = StateNotifierProvider<SimScreenState, void>(
   (ref) => SimScreenState(ref),
 );
