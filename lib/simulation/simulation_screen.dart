@@ -6,10 +6,11 @@ import 'package:netlab/core/constants/app_image.dart';
 import 'package:netlab/core/utils/file_service.dart';
 import 'package:netlab/simulation/sim_screen_state.dart';
 
+part 'widgets/conn_choice_list.dart';
 part 'widgets/device_drawer.dart';
 part 'widgets/widget_stack.dart';
 part 'widgets/grid_painter.dart';
-part 'widgets/conn_choice_list.dart';
+part 'widgets/info_drawer.dart';
 
 const double canvasSize = 100_000.0; // put it here for optimazation
 
@@ -74,6 +75,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
           ),
 
           const DeviceDrawer(),
+          const InfoDrawer(),
 
           Positioned(
             top: 10,
