@@ -14,8 +14,10 @@ export 'package:netlab/simulation/sim_objects/sim_object.dart'
 
 final wireModeProvider = StateProvider<bool>((ref) => false);
 final messageModeProvider = StateProvider<bool>((ref) => false);
+final playingModeProvider = StateProvider<bool>((ref) => false);
 final selectedDeviceOnConnProvider = StateProvider<String>((ref) => '');
 final selectedDeviceOnInfoProvider = StateProvider<String>((ref) => '');
+
 final simScreenState = StateNotifierProvider<SimScreenState, void>(
   (ref) => SimScreenState(ref),
 );
@@ -31,8 +33,12 @@ class SimScreenState extends StateNotifier<void> {
       ref.read(wireModeProvider.notifier);
   StateController<bool> get _messageModeNotifier =>
       ref.read(messageModeProvider.notifier);
+  StateController<bool> get _playingModeNotifier =>
+      ref.read(playingModeProvider.notifier);
   StateController<String> get _selectedDeviceOnConnNotifier =>
       ref.read(selectedDeviceOnConnProvider.notifier);
+  StateController<String> get _selectedDeviceOnInfoNotifier =>
+      ref.read(selectedDeviceOnInfoProvider.notifier);
 
   ConnectionMapNotifier get _connectionMapNotifier =>
       ref.read(connectionMapProvider.notifier);
@@ -54,6 +60,19 @@ class SimScreenState extends StateNotifier<void> {
       ref.read(routerWidgetProvider.notifier);
   SwitchWidgetNotifier get _switchWidgetNotifier =>
       ref.read(switchWidgetProvider.notifier);
+
+  void startSimulation() {
+    _playingModeNotifier.state = true;
+    _wireModeNotifier.state = false;
+    _messageModeNotifier.state = false;
+    _selectedDeviceOnConnNotifier.state = '';
+    _selectedDeviceOnInfoNotifier.state = '';
+    _selectedDevices.clear();
+  }
+
+  void stopSimulation() {
+    _playingModeNotifier.state = false;
+  }
 
   void createDevice({
     required SimObjectType type,
