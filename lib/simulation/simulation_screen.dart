@@ -85,38 +85,10 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
               child: _SimulationControls(
                 onCenter: _centerViewAnimated,
                 onPlay: _playSimulation,
+                onStop: _stopSimulation,
                 onSave: _saveSimulation,
                 onLoad: _loadSimulation,
               ),
-
-              // Row(
-              //   mainAxisSize: MainAxisSize.min,
-              //   children: [
-              //     FloatingActionButton.small(
-              //       onPressed: _playSimulation,
-              //       heroTag: 'play',
-              //       child: const Icon(Icons.play_arrow),
-              //     ),
-              //     const SizedBox(width: 10),
-              //     FloatingActionButton.small(
-              //       onPressed: _centerViewAnimated,
-              //       heroTag: 'center',
-              //       child: const Icon(Icons.center_focus_strong),
-              //     ),
-              //     const SizedBox(width: 10),
-              //     FloatingActionButton.small(
-              //       onPressed: _saveSimulation,
-              //       heroTag: 'save',
-              //       child: const Icon(Icons.save),
-              //     ),
-              //     const SizedBox(width: 10),
-              //     FloatingActionButton.small(
-              //       onPressed: _loadSimulation,
-              //       heroTag: 'load',
-              //       child: const Icon(Icons.folder_open),
-              //     ),
-              //   ],
-              // ),
             ),
           ),
         ],
@@ -131,7 +103,13 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     super.dispose();
   }
 
-  void _playSimulation() {}
+  void _playSimulation() {
+    ref.read(simScreenState.notifier).startSimulation();
+  }
+
+  void _stopSimulation() {
+    ref.read(simScreenState.notifier).stopSimulation();
+  }
 
   void _createDevice(DragTargetDetails details) {
     final Matrix4 inverse = Matrix4.copy(_transformationController.value)
@@ -190,42 +168,55 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 class _SimulationControls extends ConsumerWidget {
   final VoidCallback onCenter;
   final VoidCallback onPlay;
+  final VoidCallback onStop;
   final VoidCallback onSave;
   final VoidCallback onLoad;
 
   const _SimulationControls({
     required this.onCenter,
     required this.onPlay,
+    required this.onStop,
     required this.onSave,
     required this.onLoad,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isPlaying = ref.watch(playingModeProvider);
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
+        // Play / Stop button
         FloatingActionButton.small(
-          onPressed: onPlay,
-          heroTag: 'play',
-          child: const Icon(Icons.play_arrow),
+          onPressed: isPlaying ? onStop : onPlay,
+          heroTag: isPlaying ? 'stop' : 'play',
+          child: Icon(isPlaying ? Icons.stop : Icons.play_arrow),
         ),
         const SizedBox(width: 10),
+
+        // Center button (always enabled)
         FloatingActionButton.small(
           onPressed: onCenter,
           heroTag: 'center',
           child: const Icon(Icons.center_focus_strong),
         ),
         const SizedBox(width: 10),
+
+        // Save button (disabled when playing)
         FloatingActionButton.small(
-          onPressed: onSave,
+          onPressed: isPlaying ? null : onSave,
           heroTag: 'save',
+          backgroundColor: isPlaying ? Colors.grey.shade400 : null,
           child: const Icon(Icons.save),
         ),
         const SizedBox(width: 10),
+
+        // Load button (disabled when playing)
         FloatingActionButton.small(
-          onPressed: onLoad,
+          onPressed: isPlaying ? null : onLoad,
           heroTag: 'load',
+          backgroundColor: isPlaying ? Colors.grey.shade400 : null,
           child: const Icon(Icons.folder_open),
         ),
       ],
