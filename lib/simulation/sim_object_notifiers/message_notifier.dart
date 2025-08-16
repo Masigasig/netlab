@@ -60,10 +60,19 @@ class MessageNotifier extends SimObjectNotifier<Message> {
 
 final messageMapProvider =
     StateNotifierProvider<MessageMapNotifier, Map<String, Message>>(
-      (ref) => MessageMapNotifier(),
+      (ref) => MessageMapNotifier(ref),
     );
 
-class MessageMapNotifier extends SimObjectMapNotifier<Message> {}
+class MessageMapNotifier extends SimObjectMapNotifier<Message> {
+  MessageMapNotifier(super.ref);
+
+  @override
+  List<Map<String, dynamic>> exportToList() {
+    return state.keys.map((id) {
+      return ref.read(messageProvider(id)).toMap();
+    }).toList();
+  }
+}
 
 final messageWidgetProvider =
     StateNotifierProvider<MessageWidgetNotifier, Map<String, MessageWidget>>(

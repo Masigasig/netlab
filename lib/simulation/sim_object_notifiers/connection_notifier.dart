@@ -41,10 +41,19 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 
 final connectionMapProvider =
     StateNotifierProvider<ConnectionMapNotifier, Map<String, Connection>>(
-      (ref) => ConnectionMapNotifier(),
+      (ref) => ConnectionMapNotifier(ref),
     );
 
-class ConnectionMapNotifier extends SimObjectMapNotifier<Connection> {}
+class ConnectionMapNotifier extends SimObjectMapNotifier<Connection> {
+  ConnectionMapNotifier(super.ref);
+
+  @override
+  List<Map<String, dynamic>> exportToList() {
+    return state.keys.map((id) {
+      return ref.read(connectionProvider(id)).toMap();
+    }).toList();
+  }
+}
 
 final connectionWidgetProvider =
     StateNotifierProvider<

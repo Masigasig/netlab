@@ -185,6 +185,7 @@ class SimScreenState extends StateNotifier<void> {
         (key, value) => MapEntry(key.name, value),
       ),
       'routers': _routerMapNotifier.exportToList(),
+      'messages': _messageMapNotifier.exportToList(),
       'switches': _switchMapNotifier.exportToList(),
       'hosts': _hostMapNotifier.exportToList(),
       'connections': _connectionMapNotifier.exportToList(),
@@ -201,65 +202,48 @@ class SimScreenState extends StateNotifier<void> {
     }
 
     final routerList = List.from(data['routers']);
+    final messageList = List.from(data['messages']);
     final switchList = List.from(data['switches']);
     final hostList = List.from(data['hosts']);
     final connectionList = List.from(data['connections']);
 
     _routerMapNotifier.importFromList(routerList);
+    _messageMapNotifier.importFromList(messageList);
     _switchMapNotifier.importFromList(switchList);
     _hostMapNotifier.importFromList(hostList);
     _connectionMapNotifier.importFromList(connectionList);
 
     _routerWidgetNotifier.importFromList(routerList);
+    _messageWidgetNotifier.importFromList(messageList);
     _switchWidgetNotifier.importFromList(switchList);
     _hostWidgetNotifier.importFromList(hostList);
     _connectionWidgetNotifier.importFromList(connectionList);
   }
 
-  List<String> clearAllState() {
-    final connectionIds = _connectionMapNotifier.state.keys.toList();
-    final hostIds = _hostMapNotifier.state.keys.toList();
-    final routerIds = _routerMapNotifier.state.keys.toList();
-    final switchIds = _switchMapNotifier.state.keys.toList();
-    final messageIds = _messageMapNotifier.state.keys.toList();
-
+  void clearAllState() {
     _typeCounters.clear();
     _selectedDevices.clear();
     _wireModeNotifier.state = false;
 
     _connectionWidgetNotifier.clearState();
+    _messageWidgetNotifier.clearState();
     _hostWidgetNotifier.clearState();
     _switchWidgetNotifier.clearState();
     _routerWidgetNotifier.clearState();
 
     _connectionMapNotifier.clearState();
+    _messageMapNotifier.clearState();
     _hostMapNotifier.clearState();
     _switchMapNotifier.clearState();
     _routerMapNotifier.clearState();
-
-    return [
-      ...connectionIds,
-      ...hostIds,
-      ...routerIds,
-      ...switchIds,
-      ...messageIds,
-    ];
   }
 
-  void invalidateProviders(List<String> listId) {
-    for (final id in listId) {
-      if (id.startsWith(SimObjectType.connection.label)) {
-        ref.invalidate(connectionProvider(id));
-      } else if (id.startsWith(SimObjectType.host.label)) {
-        ref.invalidate(hostProvider(id));
-      } else if (id.startsWith(SimObjectType.router.label)) {
-        ref.invalidate(routerProvider(id));
-      } else if (id.startsWith(SimObjectType.switch_.label)) {
-        ref.invalidate(switchProvider(id));
-      } else if (id.startsWith(SimObjectType.message.label)) {
-        ref.invalidate(messageProvider(id));
-      }
-    }
+  void invalidateProviders() {
+    ref.invalidate(connectionProvider);
+    ref.invalidate(hostProvider);
+    ref.invalidate(routerProvider);
+    ref.invalidate(switchProvider);
+    ref.invalidate(messageProvider);
   }
 
   int _getNextCounter(SimObjectType type) {

@@ -275,10 +275,19 @@ class HostNotifier extends DeviceNotifier<Host> {
 
 final hostMapProvider =
     StateNotifierProvider<HostMapNotifier, Map<String, Host>>(
-      (ref) => HostMapNotifier(),
+      (ref) => HostMapNotifier(ref),
     );
 
-class HostMapNotifier extends DeviceMapNotifier<Host> {}
+class HostMapNotifier extends DeviceMapNotifier<Host> {
+  HostMapNotifier(super.ref);
+
+  @override
+  List<Map<String, dynamic>> exportToList() {
+    return state.keys.map((id) {
+      return ref.read(hostProvider(id)).toMap();
+    }).toList();
+  }
+}
 
 final hostWidgetProvider =
     StateNotifierProvider<HostWidgetNotifier, Map<String, HostWidget>>(

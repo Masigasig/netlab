@@ -66,7 +66,9 @@ abstract class SimObjectNotifier<T extends SimObject> extends StateNotifier<T> {
 
 abstract class SimObjectMapNotifier<T extends SimObject>
     extends StateNotifier<Map<String, T>> {
-  SimObjectMapNotifier() : super({});
+  final Ref ref;
+
+  SimObjectMapNotifier(this.ref) : super({});
 
   void addSimObject(T simObject) => state = {...state, simObject.id: simObject};
 
@@ -74,8 +76,7 @@ abstract class SimObjectMapNotifier<T extends SimObject>
 
   void clearState() => state = {};
 
-  List<Map<String, dynamic>> exportToList() =>
-      state.values.map((obj) => obj.toMap()).toList();
+  List<Map<String, dynamic>> exportToList();
 
   void importFromList(List<dynamic> list) {
     Map<String, T> newMap = {};
