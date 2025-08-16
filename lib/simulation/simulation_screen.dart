@@ -82,28 +82,41 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
             left: 0,
             right: 0,
             child: Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  FloatingActionButton.small(
-                    onPressed: _centerViewAnimated,
-                    heroTag: 'center',
-                    child: const Icon(Icons.center_focus_strong),
-                  ),
-                  const SizedBox(width: 10),
-                  FloatingActionButton.small(
-                    onPressed: _saveSimulation,
-                    heroTag: 'save',
-                    child: const Icon(Icons.save),
-                  ),
-                  const SizedBox(width: 10),
-                  FloatingActionButton.small(
-                    onPressed: _loadSimulation,
-                    heroTag: 'load',
-                    child: const Icon(Icons.folder_open),
-                  ),
-                ],
+              child: _SimulationControls(
+                onCenter: _centerViewAnimated,
+                onPlay: _playSimulation,
+                onSave: _saveSimulation,
+                onLoad: _loadSimulation,
               ),
+
+              // Row(
+              //   mainAxisSize: MainAxisSize.min,
+              //   children: [
+              //     FloatingActionButton.small(
+              //       onPressed: _playSimulation,
+              //       heroTag: 'play',
+              //       child: const Icon(Icons.play_arrow),
+              //     ),
+              //     const SizedBox(width: 10),
+              //     FloatingActionButton.small(
+              //       onPressed: _centerViewAnimated,
+              //       heroTag: 'center',
+              //       child: const Icon(Icons.center_focus_strong),
+              //     ),
+              //     const SizedBox(width: 10),
+              //     FloatingActionButton.small(
+              //       onPressed: _saveSimulation,
+              //       heroTag: 'save',
+              //       child: const Icon(Icons.save),
+              //     ),
+              //     const SizedBox(width: 10),
+              //     FloatingActionButton.small(
+              //       onPressed: _loadSimulation,
+              //       heroTag: 'load',
+              //       child: const Icon(Icons.folder_open),
+              //     ),
+              //   ],
+              // ),
             ),
           ),
         ],
@@ -117,6 +130,8 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     _transformationController.dispose();
     super.dispose();
   }
+
+  void _playSimulation() {}
 
   void _createDevice(DragTargetDetails details) {
     final Matrix4 inverse = Matrix4.copy(_transformationController.value)
@@ -163,11 +178,57 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
   Future<void> _loadSimulation() async {
     final data = await FileService.loadFile();
     if (data != null) {
-      final ids = ref.read(simScreenState.notifier).clearAllState();
+      ref.read(simScreenState.notifier).clearAllState();
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(simScreenState.notifier).invalidateProviders(ids);
+        ref.read(simScreenState.notifier).invalidateProviders();
         ref.read(simScreenState.notifier).importSimulation(data);
       });
     }
+  }
+}
+
+class _SimulationControls extends ConsumerWidget {
+  final VoidCallback onCenter;
+  final VoidCallback onPlay;
+  final VoidCallback onSave;
+  final VoidCallback onLoad;
+
+  const _SimulationControls({
+    required this.onCenter,
+    required this.onPlay,
+    required this.onSave,
+    required this.onLoad,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FloatingActionButton.small(
+          onPressed: onPlay,
+          heroTag: 'play',
+          child: const Icon(Icons.play_arrow),
+        ),
+        const SizedBox(width: 10),
+        FloatingActionButton.small(
+          onPressed: onCenter,
+          heroTag: 'center',
+          child: const Icon(Icons.center_focus_strong),
+        ),
+        const SizedBox(width: 10),
+        FloatingActionButton.small(
+          onPressed: onSave,
+          heroTag: 'save',
+          child: const Icon(Icons.save),
+        ),
+        const SizedBox(width: 10),
+        FloatingActionButton.small(
+          onPressed: onLoad,
+          heroTag: 'load',
+          child: const Icon(Icons.folder_open),
+        ),
+      ],
+    );
   }
 }

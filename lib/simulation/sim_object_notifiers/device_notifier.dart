@@ -15,7 +15,9 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
 }
 
 abstract class DeviceMapNotifier<T extends Device>
-    extends SimObjectMapNotifier<T> {}
+    extends SimObjectMapNotifier<T> {
+  DeviceMapNotifier(super.ref);
+}
 
 abstract class DeviceWidgetNotifier<T extends DeviceWidget>
     extends SimObjectWidgetNotifier<T> {}
