@@ -1,3 +1,4 @@
+import 'dart:ui' show Offset;
 import 'dart:async' show Timer;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,17 +48,25 @@ abstract class SimObjectNotifier<T extends SimObject> extends StateNotifier<T> {
   SwitchMapNotifier get switchMapNotifier =>
       ref.read(switchMapProvider.notifier);
 
-  SimObjectNotifier getNotifierById(String simObjectId) {
+  DeviceNotifier getDeviceNotifierById(String simObjectId) {
     if (simObjectId.startsWith(SimObjectType.host.label)) {
       return hostNotifier(simObjectId);
     } else if (simObjectId.startsWith(SimObjectType.router.label)) {
       return routerNotifier(simObjectId);
     } else if (simObjectId.startsWith(SimObjectType.switch_.label)) {
       return switchNotifier(simObjectId);
-    } else if (simObjectId.startsWith(SimObjectType.connection.label)) {
-      return connectionNotifier(simObjectId);
-    } else if (simObjectId.startsWith(SimObjectType.message.label)) {
-      return messageNotifier(simObjectId);
+    } else {
+      throw Exception('Unknown SimObject Provider for : $simObjectId');
+    }
+  }
+
+  Device getDeviceById(String simObjectId) {
+    if (simObjectId.startsWith(SimObjectType.host.label)) {
+      return ref.read(hostProvider(simObjectId));
+    } else if (simObjectId.startsWith(SimObjectType.router.label)) {
+      return ref.read(routerProvider(simObjectId));
+    } else if (simObjectId.startsWith(SimObjectType.switch_.label)) {
+      return ref.read(switchProvider(simObjectId));
     } else {
       throw Exception('Unknown SimObject Provider for : $simObjectId');
     }

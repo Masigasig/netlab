@@ -10,32 +10,38 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
     : super(ref.read(connectionMapProvider)[id]!, ref);
 
   void receiveMessage(String messageId) {
-    messageNotifier(messageId).updateCurrentPlaceId(state.id);
+    final message = messageNotifier(messageId);
+    message.updateCurrentPlaceId(state.id);
+
+    final layer = message.state.layerStack.last;
+    final srcMac = layer[MessageKey.source.name];
+    final dstMac = layer[MessageKey.destination.name];
+
+    final deviceFrom = getDeviceById(state.macToIdMap[srcMac]!);
+    final deviceTo = getDeviceById(state.macToIdMap[dstMac]!);
+
+    final distance =
+        (Offset(deviceTo.posX, deviceTo.posY) -
+                Offset(deviceFrom.posX, deviceFrom.posY))
+            .distance;
+
+    const speed = 100.0; // pixels per second
+    final duration = Duration(milliseconds: (distance / speed * 1000).round());
+
+    message.updatePosition(deviceTo.posX, deviceTo.posY, duration: duration);
   }
 
   void sendMessage(String messageId) {
-    final src = messageNotifier(
-      messageId,
-    ).state.layerStack.last[MessageKey.source.name];
-    final dst = messageNotifier(
-      messageId,
-    ).state.layerStack.last[MessageKey.destination.name];
+    final layer = messageNotifier(messageId).state.layerStack.last;
+    final srcMac = layer[MessageKey.source.name];
+    final dstMac = layer[MessageKey.destination.name];
 
-    if (dst != MacAddressManager.broadcastMacAddress) {
-      final deviceId = state.macToIdMap[dst]!;
+    final targetDeviceId = dstMac == MacAddressManager.broadcastMacAddress
+        ? state.macToIdMap.entries.firstWhere((e) => e.key != srcMac).value
+        : state.macToIdMap[dstMac]!;
 
-      final notifier = getNotifierById(deviceId) as DeviceNotifier;
-
-      notifier.receiveMessage(messageId);
-    } else {
-      final deviceId = state.macToIdMap.entries
-          .firstWhere((entry) => entry.key != src)
-          .value;
-
-      final notifier = getNotifierById(deviceId) as DeviceNotifier;
-
-      notifier.receiveMessage(messageId);
-    }
+    final deviceNotifier = getDeviceNotifierById(targetDeviceId);
+    deviceNotifier.receiveMessage(messageId);
   }
 }
 
