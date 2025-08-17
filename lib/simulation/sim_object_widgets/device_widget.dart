@@ -21,6 +21,7 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
     debugPrint('Device_${widget.simObjectId} Rebuilt');
 
     final device = ref.watch(provider(widget.simObjectId));
+    final isPlaying = ref.watch(playingModeProvider);
 
     Column deviceWithLabel() {
       return Column(
@@ -47,17 +48,19 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
       top: device.posY - widget.size / 2,
       child: GestureDetector(
         onTap: _handleTap,
-        child: Draggable(
-          feedback: Transform.translate(
-            offset: Offset(-widget.size / 2, -widget.size / 2),
-            child: deviceWithLabel(),
-          ),
-          dragAnchorStrategy: pointerDragAnchorStrategy,
-          childWhenDragging: Container(),
-          onDragUpdate: (details) =>
-              _updatePosition(details, device.posX, device.posY),
-          child: deviceWithLabel(),
-        ),
+        child: isPlaying
+            ? deviceWithLabel()
+            : Draggable(
+                feedback: Transform.translate(
+                  offset: Offset(-widget.size / 2, -widget.size / 2),
+                  child: deviceWithLabel(),
+                ),
+                dragAnchorStrategy: pointerDragAnchorStrategy,
+                childWhenDragging: Container(),
+                onDragUpdate: (details) =>
+                    _updatePosition(details, device.posX, device.posY),
+                child: deviceWithLabel(),
+              ),
       ),
     );
   }

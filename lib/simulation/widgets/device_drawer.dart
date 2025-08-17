@@ -1,6 +1,6 @@
 part of '../simulation_screen.dart';
 
-class DeviceDrawer extends StatefulWidget {
+class DeviceDrawer extends ConsumerStatefulWidget {
   final double width = 200.0;
   final double height = 400.0;
   final int animationSpeed = 300;
@@ -15,10 +15,10 @@ class DeviceDrawer extends StatefulWidget {
   const DeviceDrawer({super.key});
 
   @override
-  State<DeviceDrawer> createState() => _DeviceDrawerState();
+  ConsumerState<DeviceDrawer> createState() => _DeviceDrawerState();
 }
 
-class _DeviceDrawerState extends State<DeviceDrawer> {
+class _DeviceDrawerState extends ConsumerState<DeviceDrawer> {
   bool _isOpen = true;
 
   void _toggleDrawer() {
@@ -30,6 +30,12 @@ class _DeviceDrawerState extends State<DeviceDrawer> {
   @override
   Widget build(BuildContext context) {
     debugPrint('DeviceDrawer Widget Rebuilt');
+    final isPlaying = ref.watch(playingModeProvider);
+
+    if (isPlaying) {
+      return const Offstage(offstage: true);
+    }
+
     return Stack(
       children: [
         AnimatedPositioned(
