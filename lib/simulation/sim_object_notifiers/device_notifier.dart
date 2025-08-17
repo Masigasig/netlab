@@ -4,7 +4,9 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   DeviceNotifier(super.state, super.ref);
 
   void sendMessageToConnection(String connectionId, String messageId) {
-    connectionNotifier(connectionId).receiveMessage(messageId);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      connectionNotifier(connectionId).receiveMessage(messageId);
+    });
   }
 
   void receiveMessage(String messageId);

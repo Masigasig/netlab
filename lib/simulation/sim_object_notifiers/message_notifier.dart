@@ -47,8 +47,8 @@ class MessageNotifier extends SimObjectNotifier<Message> {
   }
 
   void dropMessage(MsgDropReason reason) {
-    print('Dropping message ${state.id} due to ${reason.name}');
-    messageMapNotifier.removeSimObject(state.id);
+    print('Dropping message ${state.name} due to ${reason.name}');
+    ref.read(messageMapProvider.notifier).invalidateSpecificId(state.id);
   }
 
   String getTargetIp() => hostNotifier(state.dstId).state.ipAddress;
@@ -71,6 +71,11 @@ class MessageMapNotifier extends SimObjectMapNotifier<Message> {
     return state.keys.map((id) {
       return ref.read(messageProvider(id)).toMap();
     }).toList();
+  }
+
+  @override
+  void invalidateSpecificId(String objectId) {
+    ref.invalidate(messageProvider(objectId));
   }
 }
 

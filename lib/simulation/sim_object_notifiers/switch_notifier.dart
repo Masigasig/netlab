@@ -29,6 +29,11 @@ class SwitchMapNotifier extends DeviceMapNotifier<Switch> {
       return ref.read(switchProvider(id)).toMap();
     }).toList();
   }
+
+  @override
+  void invalidateSpecificId(String objectId) {
+    ref.invalidate(switchProvider(objectId));
+  }
 }
 
 final switchWidgetProvider =

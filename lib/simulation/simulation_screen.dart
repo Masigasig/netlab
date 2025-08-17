@@ -104,10 +104,21 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
   }
 
   void _playSimulation() {
+    final data = ref.read(simScreenState.notifier).exportSimulation();
+    ref.read(temporaryMapProvider.notifier).state = data;
     ref.read(simScreenState.notifier).startSimulation();
   }
 
   void _stopSimulation() {
+    final data = ref.read(temporaryMapProvider.notifier).state;
+
+    ref.read(simScreenState.notifier).clearAllState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(simScreenState.notifier).invalidateProviders();
+      ref.read(simScreenState.notifier).importSimulation(data);
+    });
+
+    ref.read(temporaryMapProvider.notifier).state = {};
     ref.read(simScreenState.notifier).stopSimulation();
   }
 
