@@ -18,6 +18,8 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
   @override
   Widget build(BuildContext context) {
     final message = ref.watch(messageProvider(widget.simObjectId));
+    final host = ref.watch(hostProvider(message.srcId));
+    final isPlaying = ref.watch(playingModeProvider);
 
     Column messageWithLabel() {
       final label = message.dstId.startsWith(DataLinkLayerType.arp.name)
@@ -43,20 +45,34 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
       );
     }
 
-    return AnimatedPositioned(
-      left: message.posX - widget.size / 2,
-      top: message.posY - widget.size / 2 - 25,
-      duration: message.duration,
-      curve: Curves.easeIn,
-      child: GestureDetector(onTap: _handleTap, child: messageWithLabel()),
-      onEnd: () {
-        if (message.currentPlaceId.startsWith(SimObjectType.connection.label)) {
-          ref
-              .read(connectionProvider(message.currentPlaceId).notifier)
-              .receiveMessage(widget.simObjectId);
-        }
-      },
-    );
+    return isPlaying
+        ? AnimatedPositioned(
+            left: message.posX - widget.size / 2,
+            top: message.posY - widget.size / 2 - 25,
+            duration: message.duration,
+            curve: Curves.easeIn,
+            child: GestureDetector(
+              onTap: _handleTap,
+              child: messageWithLabel(),
+            ),
+            onEnd: () {
+              if (message.currentPlaceId.startsWith(
+                SimObjectType.connection.label,
+              )) {
+                ref
+                    .read(connectionProvider(message.currentPlaceId).notifier)
+                    .receiveMessage(widget.simObjectId);
+              }
+            },
+          )
+        : Positioned(
+            left: host.posX - widget.size / 2,
+            top: host.posY - widget.size / 2 - 25,
+            child: GestureDetector(
+              onTap: _handleTap,
+              child: messageWithLabel(),
+            ),
+          );
   }
 
   void _handleTap() {}

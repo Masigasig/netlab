@@ -62,12 +62,23 @@ class SimScreenState extends StateNotifier<void> {
       ref.read(switchWidgetProvider.notifier);
 
   void startSimulation() {
-    _playingModeNotifier.state = true;
+    final messageIds = ref.read(messageMapProvider).keys;
+
+    for (final messageId in messageIds) {
+      final message = ref.read(messageProvider(messageId));
+      final host = ref.read(hostProvider(message.srcId));
+
+      ref
+          .read(messageProvider(messageId).notifier)
+          .updatePosition(host.posX, host.posY);
+    }
+
     _wireModeNotifier.state = false;
     _messageModeNotifier.state = false;
     _selectedDeviceOnConnNotifier.state = '';
     _selectedDeviceOnInfoNotifier.state = '';
     _selectedDevices.clear();
+    _playingModeNotifier.state = true;
   }
 
   void stopSimulation() {
@@ -175,9 +186,6 @@ class SimScreenState extends StateNotifier<void> {
       ref
           .read(messageProvider(message.id).notifier)
           .updateCurrentPlaceId(hostId1);
-      final posX = ref.read(hostProvider(hostId1)).posX;
-      final posY = ref.read(hostProvider(hostId1)).posY;
-      ref.read(messageProvider(message.id).notifier).updatePosition(posX, posY);
       ref.read(hostProvider(hostId1).notifier).enqueueMessage(message.id);
 
       toggleMessageMode();
