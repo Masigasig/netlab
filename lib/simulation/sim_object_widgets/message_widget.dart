@@ -61,7 +61,7 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
               )) {
                 ref
                     .read(connectionProvider(message.currentPlaceId).notifier)
-                    .receiveMessage(widget.simObjectId);
+                    .sendMessage(widget.simObjectId);
               }
             },
           )
