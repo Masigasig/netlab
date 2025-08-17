@@ -20,7 +20,12 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
   Widget build(BuildContext context) {
     debugPrint('Device_${widget.simObjectId} Rebuilt');
 
-    final device = ref.watch(provider(widget.simObjectId));
+    final devicePosX = ref.watch(
+      provider(widget.simObjectId).select((device) => device.posX),
+    );
+    final devicePosY = ref.watch(
+      provider(widget.simObjectId).select((device) => device.posY),
+    );
     final isPlaying = ref.watch(playingModeProvider);
 
     Column deviceWithLabel() {
@@ -35,7 +40,7 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
           Material(
             color: Colors.transparent,
             child: Text(
-              device.name,
+              ref.read(provider(widget.simObjectId)).name,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
           ),
@@ -44,8 +49,8 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
     }
 
     return Positioned(
-      left: device.posX - widget.size / 2,
-      top: device.posY - widget.size / 2,
+      left: devicePosX - widget.size / 2,
+      top: devicePosY - widget.size / 2,
       child: GestureDetector(
         onTap: _handleTap,
         child: isPlaying
@@ -58,7 +63,7 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
                 dragAnchorStrategy: pointerDragAnchorStrategy,
                 childWhenDragging: Container(),
                 onDragUpdate: (details) =>
-                    _updatePosition(details, device.posX, device.posY),
+                    _updatePosition(details, devicePosX, devicePosY),
                 child: deviceWithLabel(),
               ),
       ),

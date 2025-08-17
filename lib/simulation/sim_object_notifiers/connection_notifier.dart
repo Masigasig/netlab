@@ -18,16 +18,19 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
     final dstMac = layer[MessageKey.destination.name];
 
     final deviceFrom = getDeviceById(state.macToIdMap[srcMac]!);
-    final deviceTo = getDeviceById(state.macToIdMap[dstMac]!);
+    final deviceTo = dstMac == MacAddressManager.broadcastMacAddress
+        ? getDeviceById(
+            state.macToIdMap.entries.firstWhere((e) => e.key != srcMac).value,
+          )
+        : getDeviceById(state.macToIdMap[dstMac]!);
 
     final distance =
         (Offset(deviceTo.posX, deviceTo.posY) -
                 Offset(deviceFrom.posX, deviceFrom.posY))
             .distance;
 
-    const speed = 100.0; // pixels per second
+    const speed = 300.0; // pixels per second
     final duration = Duration(milliseconds: (distance / speed * 1000).round());
-
     message.updatePosition(deviceTo.posX, deviceTo.posY, duration: duration);
   }
 
@@ -58,6 +61,11 @@ class ConnectionMapNotifier extends SimObjectMapNotifier<Connection> {
     return state.keys.map((id) {
       return ref.read(connectionProvider(id)).toMap();
     }).toList();
+  }
+
+  @override
+  void invalidateSpecificId(String objectId) {
+    ref.invalidate(connectionProvider(objectId));
   }
 }
 

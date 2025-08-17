@@ -7,8 +7,8 @@ final hostProvider = StateNotifierProvider.family<HostNotifier, Host, String>(
 class HostNotifier extends DeviceNotifier<Host> {
   HostNotifier(Ref ref, String id) : super(ref.read(hostMapProvider)[id]!, ref);
 
-  static const _arpTimeout = Duration(seconds: 10);
-  static const _processingInterval = Duration(milliseconds: 100);
+  static const _arpTimeout = Duration(seconds: 50);
+  static const _processingInterval = Duration(milliseconds: 500);
   final Map<String, DateTime> _pendingArpRequests = {};
   Timer? _messageProcessingTimer;
   bool _isProcessingMessages = false;
@@ -206,13 +206,17 @@ class HostNotifier extends DeviceNotifier<Host> {
   void _sendArpReply(String targetMac, String targetIp) {
     final message =
         SimObjectType.message.createSimObject(
+              name: 'ARP Reply',
               srcId: state.id,
-              dstId:
-                  '${DataLinkLayerType.arp.name} ${OperationType.reply.name}',
+              dstId: 'ARP Reply',
             )
             as Message;
 
     messageMapNotifier.addSimObject(message);
+    ref
+        .read(messageWidgetProvider.notifier)
+        .addSimObjectWidget(MessageWidget(simObjectId: message.id));
+    messageNotifier(message.id).updatePosition(state.posX, state.posY);
     messageNotifier(message.id).updateCurrentPlaceId(state.id);
 
     final newArpLayer = {
@@ -236,13 +240,18 @@ class HostNotifier extends DeviceNotifier<Host> {
   void _sendArpRqst(String targetIp) {
     final message =
         SimObjectType.message.createSimObject(
+              name: 'ARP Request',
               srcId: state.id,
-              dstId:
-                  '${DataLinkLayerType.arp.name} ${OperationType.request.name}',
+              dstId: 'ARP Request',
             )
             as Message;
 
     messageMapNotifier.addSimObject(message);
+    ref
+        .read(messageWidgetProvider.notifier)
+        .addSimObjectWidget(MessageWidget(simObjectId: message.id));
+
+    messageNotifier(message.id).updatePosition(state.posX, state.posY);
     messageNotifier(message.id).updateCurrentPlaceId(state.id);
 
     final arpLayer = {
@@ -286,6 +295,11 @@ class HostMapNotifier extends DeviceMapNotifier<Host> {
     return state.keys.map((id) {
       return ref.read(hostProvider(id)).toMap();
     }).toList();
+  }
+
+  @override
+  void invalidateSpecificId(String objectId) {
+    ref.invalidate(hostProvider(objectId));
   }
 }
 

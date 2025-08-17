@@ -1,5 +1,6 @@
 import 'dart:ui' show Offset;
 import 'dart:async' show Timer;
+import 'package:flutter/material.dart' show WidgetsBinding;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/simulation/network_utils.dart';
@@ -83,6 +84,8 @@ abstract class SimObjectMapNotifier<T extends SimObject>
 
   void removeSimObject(String objectId) => state = {...state}..remove(objectId);
 
+  void invalidateSpecificId(String objectId);
+
   void clearState() => state = {};
 
   List<Map<String, dynamic>> exportToList();
@@ -103,6 +106,9 @@ abstract class SimObjectWidgetNotifier<T extends SimObjectWidget>
 
   void addSimObjectWidget(T simObjectWidget) =>
       state = {...state, simObjectWidget.simObjectId: simObjectWidget};
+
+  void removeSimObjectWidget(String simObjectId) =>
+      state = {...state}..remove(simObjectId);
 
   void clearState() => state = {};
 

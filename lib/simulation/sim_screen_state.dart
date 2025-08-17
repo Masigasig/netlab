@@ -17,6 +17,7 @@ final messageModeProvider = StateProvider<bool>((ref) => false);
 final playingModeProvider = StateProvider<bool>((ref) => false);
 final selectedDeviceOnConnProvider = StateProvider<String>((ref) => '');
 final selectedDeviceOnInfoProvider = StateProvider<String>((ref) => '');
+final temporaryMapProvider = StateProvider<Map<String, dynamic>>((ref) => {});
 
 final simScreenState = StateNotifierProvider<SimScreenState, void>(
   (ref) => SimScreenState(ref),
@@ -63,7 +64,7 @@ class SimScreenState extends StateNotifier<void> {
 
   void startSimulation() {
     final messageIds = ref.read(messageMapProvider).keys;
-
+    final hostsIds = <String>{};
     for (final messageId in messageIds) {
       final message = ref.read(messageProvider(messageId));
       final host = ref.read(hostProvider(message.srcId));
@@ -71,6 +72,8 @@ class SimScreenState extends StateNotifier<void> {
       ref
           .read(messageProvider(messageId).notifier)
           .updatePosition(host.posX, host.posY);
+
+      hostsIds.add(message.srcId);
     }
 
     _wireModeNotifier.state = false;
@@ -79,6 +82,10 @@ class SimScreenState extends StateNotifier<void> {
     _selectedDeviceOnInfoNotifier.state = '';
     _selectedDevices.clear();
     _playingModeNotifier.state = true;
+
+    for (final hostId in hostsIds) {
+      ref.read(hostProvider(hostId).notifier).startMessageProcessing();
+    }
   }
 
   void stopSimulation() {

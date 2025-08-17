@@ -29,6 +29,11 @@ class RouterMapNotifier extends DeviceMapNotifier<Router> {
       return ref.read(routerProvider(id)).toMap();
     }).toList();
   }
+
+  @override
+  void invalidateSpecificId(String objectId) {
+    ref.invalidate(routerProvider(objectId));
+  }
 }
 
 final routerWidgetProvider =
