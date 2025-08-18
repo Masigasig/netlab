@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../core/components/gradient_text.dart';
+import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_image.dart';
+import 'package:lottie/lottie.dart';
+import '../../core/components/button.dart' as custom_button;
 
 class SimulatorScreen extends StatelessWidget {
   const SimulatorScreen({super.key});
@@ -6,148 +12,93 @@ class SimulatorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 64.0),
-      color: const Color(0xFF121212),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Title
-            const Text(
-              'Network Simulator',
-              style: TextStyle(
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Description
-            Container(
-              constraints: const BoxConstraints(maxWidth: 800),
-              child: const Text(
-                'Experience hands-on network configuration and troubleshooting in a safe, virtual environment. Build, test, and understand network topologies with our interactive simulator.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white70,
-                  height: 1.6,
-                ),
-              ),
-            ),
-            const SizedBox(height: 48),
-
-            // Feature Grid
-            Container(
-              constraints: const BoxConstraints(maxWidth: 1000),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      color: AppColors.overlay,
+      child: Row(
+        children: [
+          // Left side - Content
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildFeatureCard(
-                    icon: Icons.device_hub,
-                    title: 'Network Devices',
-                    description: 'Routers, switches, and endpoints with real-world configurations',
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const GradientText(
+                        text: 'Explore Network Simulation',
+                        gradientWords: ['Simulation'],
+                        fontSize: 42,
+                        textAlign: TextAlign.start,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Practice network configuration in a safe, virtual lab with our interactive simulator.',
+                        style: GoogleFonts.inter(
+                          fontSize: 18,
+                          color: AppColors.textSecondary,
+                          height: 1.4,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      // File operation buttons
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              // TODO: Save file
+                            },
+                            icon: const Icon(Icons.save_rounded, color: Colors.white),
+                            style: IconButton.styleFrom(
+                              backgroundColor: Colors.white.withOpacity(0.1),
+                              padding: const EdgeInsets.all(12),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            onPressed: () {
+                              // TODO: Load file
+                            },
+                            icon: const Icon(Icons.folder_open_rounded, color: Colors.white),
+                            style: IconButton.styleFrom(
+                              backgroundColor: Colors.white.withOpacity(0.1),
+                              padding: const EdgeInsets.all(12),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 24),
-                  _buildFeatureCard(
-                    icon: Icons.cable,
-                    title: 'Live Connections',
-                    description: 'Create and test network connections in real-time',
-                  ),
-                  const SizedBox(width: 24),
-                  _buildFeatureCard(
-                    icon: Icons.bug_report,
-                    title: 'Troubleshooting',
-                    description: 'Debug network issues with built-in diagnostic tools',
+                  // Bottom start button
+                  custom_button.ButtonStyle(
+                    text: 'Start Simulation',
+                    onPressed: () {
+                      // TODO: Start simulation
+                    },
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 64),
-
-            // Start Button
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Navigate to simulator
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.play_arrow_rounded,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                  SizedBox(width: 12),
-                  Text(
-                    'Start Simulation',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFeatureCard({
-    required IconData icon,
-    required String title,
-    required String description,
-  }) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.1),
-            width: 1,
           ),
-        ),
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              size: 48,
-              color: Colors.blue,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+
+          // Right side - Animation
+          Expanded( 
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Align(
+                alignment: Alignment.center,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 450),
+                  child: Lottie.asset(AppLottie.circle),
+                ),
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white.withOpacity(0.7),
-                height: 1.5,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

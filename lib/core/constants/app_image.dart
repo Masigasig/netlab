@@ -15,6 +15,8 @@ class AppLottie {
   static const String kid2 = '${_base}onboarding_screen/handsy.json';
   static const String floating = '${_base}onboarding_screen/floatings.json';
   static const String particle = '${_base}onboarding_screen/particle.json';
+  static const String explore = '${_base}onboarding_screen/Launch.json';
+  static const String circle = '${_base}onboarding_screen/circle.json';
 
   // navigation icons 
   static const String homeIcon = '${_base}nav_icons/home.json';
