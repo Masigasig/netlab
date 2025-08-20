@@ -19,9 +19,29 @@ final selectedDeviceOnConnProvider = StateProvider<String>((ref) => '');
 final selectedDeviceOnInfoProvider = StateProvider<String>((ref) => '');
 final temporaryMapProvider = StateProvider<Map<String, dynamic>>((ref) => {});
 
+final simLogsProvider = StateNotifierProvider<SimLogsNotifier, List<String>>(
+  (ref) => SimLogsNotifier(),
+);
+
 final simScreenState = StateNotifierProvider<SimScreenState, void>(
   (ref) => SimScreenState(ref),
 );
+
+class SimLogsNotifier extends StateNotifier<List<String>> {
+  final List<String> _logs = [];
+
+  SimLogsNotifier() : super(const []);
+
+  void addLog(String message) {
+    _logs.add(message);
+    state = List.unmodifiable(_logs);
+  }
+
+  void clearLogs() {
+    _logs.clear();
+    state = const [];
+  }
+}
 
 class SimScreenState extends StateNotifier<void> {
   final Ref ref;

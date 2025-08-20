@@ -22,6 +22,11 @@ class HostNotifier extends DeviceNotifier<Host> {
   @override
   void receiveMessage(String messageId) {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
+
+    simLogsNotifier.addLog(
+      'Host ${state.name} received message: ${messageNotifier(messageId).state.name}',
+    );
+
     final dataLinkLayer = messageNotifier(messageId).popLayer();
 
     final type = DataLinkLayerType.values.firstWhere(
