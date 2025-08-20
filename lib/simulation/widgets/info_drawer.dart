@@ -80,6 +80,31 @@ class _InfoDrawerState extends ConsumerState<InfoDrawer> {
                                 '',
                       ),
                     ),
+
+                    Positioned(
+                      top: 8,
+                      right: 40,
+                      child: IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.white),
+                        onPressed: () {
+                          if (selectedDevice.startsWith(
+                            SimObjectType.host.label,
+                          )) {
+                            ref
+                                .read(hostProvider(selectedDevice).notifier)
+                                .removeSelf();
+                          } else if (selectedDevice.startsWith(
+                            SimObjectType.connection.label,
+                          )) {
+                            ref
+                                .read(
+                                  connectionProvider(selectedDevice).notifier,
+                                )
+                                .removeSelf();
+                          }
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
