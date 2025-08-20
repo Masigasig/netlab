@@ -61,7 +61,7 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
           left: mid.dx - 15,
           top: mid.dy - 15,
           child: GestureDetector(
-            onTap: () => debugPrint('midpoint ${widget.simObjectId} tapped'),
+            onTap: _handleTap,
             child: Container(
               width: 30,
               height: 30,
@@ -76,6 +76,16 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
         ),
       ],
     );
+  }
+
+  void _handleTap() {
+    if (ref.read(selectedDeviceOnInfoProvider.notifier).state ==
+        widget.simObjectId) {
+      ref.read(selectedDeviceOnInfoProvider.notifier).state = '';
+    } else {
+      ref.read(selectedDeviceOnInfoProvider.notifier).state =
+          widget.simObjectId;
+    }
   }
 
   StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>

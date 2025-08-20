@@ -19,12 +19,19 @@ class HostNotifier extends DeviceNotifier<Host> {
     super.dispose();
   }
 
+  void removeSelf() {
+    ref.read(hostWidgetProvider.notifier).removeSimObjectWidget(state.id);
+    ref.read(hostMapProvider.notifier).removeSimObject(state.id);
+    ref.read(connectionProvider(state.connectionId).notifier).removeSelf();
+    ref.invalidate(hostProvider(state.id));
+  }
+
   @override
   void receiveMessage(String messageId) {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
 
     simLogsNotifier.addLog(
-      'Host ${state.name} received message: ${messageNotifier(messageId).state.name}',
+      '${state.name} received message: ${messageNotifier(messageId).state.name}',
     );
 
     final dataLinkLayer = messageNotifier(messageId).popLayer();
