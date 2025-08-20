@@ -11,6 +11,7 @@ part 'widgets/device_drawer.dart';
 part 'widgets/widget_stack.dart';
 part 'widgets/grid_painter.dart';
 part 'widgets/info_drawer.dart';
+part 'widgets/simulation_logs.dart';
 
 const double canvasSize = 100_000.0; // put it here for optimazation
 
@@ -75,6 +76,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
           ),
 
           const DeviceDrawer(),
+          const SimulationLogs(),
           const InfoDrawer(),
 
           Positioned(
