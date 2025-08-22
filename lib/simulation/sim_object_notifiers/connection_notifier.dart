@@ -39,7 +39,7 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 
     final deviceNotifier = getDeviceNotifierById(deviceToId);
     deviceToIdMap.remove(messageId);
-    deviceNotifier.receiveMessage(messageId);
+    deviceNotifier.receiveMessage(messageId, state.id);
   }
 
   @override

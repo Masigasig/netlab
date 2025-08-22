@@ -28,7 +28,7 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
     });
   }
 
-  void receiveMessage(String messageId);
+  void receiveMessage(String messageId, String fromConId);
 
   List<Map<String, String>> getAllConnectionInfo();
 

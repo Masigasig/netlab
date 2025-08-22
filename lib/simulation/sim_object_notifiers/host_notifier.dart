@@ -36,7 +36,7 @@ class HostNotifier extends DeviceNotifier<Host> {
   }
 
   @override
-  void receiveMessage(String messageId) {
+  void receiveMessage(String messageId, String fromConId) {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
 
     final dataLinkLayer = messageNotifier(messageId).popLayer();
