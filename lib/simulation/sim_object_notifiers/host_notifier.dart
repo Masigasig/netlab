@@ -83,7 +83,7 @@ class HostNotifier extends DeviceNotifier<Host> {
 
   List<Map<String, String>> getAllConnectionInfo() {
     return [
-      {'name': 'eth0', 'mac': state.macAddress, 'conId': state.connectionId},
+      {'name': 'eth0', 'conId': state.connectionId},
     ];
   }
 
@@ -138,7 +138,7 @@ class HostNotifier extends DeviceNotifier<Host> {
       enqueueMessage(messageId);
     } else {
       _makeIpv4DataLinkLayer(messageId, targetMac);
-      sendMessageToConnection(state.connectionId, messageId);
+      sendMessageToConnection(state.connectionId, messageId, state.id);
     }
 
     _scheduleNextProcessing();
@@ -256,7 +256,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     };
 
     messageNotifier(message.id).pushLayer(newDataLinkLayer);
-    sendMessageToConnection(state.connectionId, message.id);
+    sendMessageToConnection(state.connectionId, message.id, state.id);
   }
 
   void _sendArpRqst(String targetIp) {
@@ -291,7 +291,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     };
 
     messageNotifier(message.id).pushLayer(dataLinkLayer);
-    sendMessageToConnection(state.connectionId, message.id);
+    sendMessageToConnection(state.connectionId, message.id, state.id);
   }
 
   String _getMacFromArpTable(String ipAddress) =>
