@@ -32,7 +32,16 @@ class RouterMapNotifier extends DeviceMapNotifier<Router> {
 
   @override
   void invalidateSpecificId(String objectId) {
-    ref.invalidate(routerProvider(objectId));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.invalidate(routerProvider(objectId));
+    });
+  }
+
+  @override
+  void removeAllState(String objectId) {
+    ref.read(routerWidgetProvider.notifier).removeSimObjectWidget(objectId);
+    removeSimObject(objectId);
+    invalidateSpecificId(objectId);
   }
 }
 

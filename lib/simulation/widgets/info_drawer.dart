@@ -86,23 +86,7 @@ class _InfoDrawerState extends ConsumerState<InfoDrawer> {
                       right: 40,
                       child: IconButton(
                         icon: const Icon(Icons.delete, color: Colors.white),
-                        onPressed: () {
-                          if (selectedDevice.startsWith(
-                            SimObjectType.host.label,
-                          )) {
-                            ref
-                                .read(hostProvider(selectedDevice).notifier)
-                                .removeSelf();
-                          } else if (selectedDevice.startsWith(
-                            SimObjectType.connection.label,
-                          )) {
-                            ref
-                                .read(
-                                  connectionProvider(selectedDevice).notifier,
-                                )
-                                .removeSelf();
-                          }
-                        },
+                        onPressed: () => _handleDelete(selectedDevice),
                       ),
                     ),
                   ],
@@ -113,6 +97,21 @@ class _InfoDrawerState extends ConsumerState<InfoDrawer> {
         ),
       ],
     );
+  }
+
+  void _handleDelete(String deviceId) {
+    if (ref.read(playingModeProvider.notifier).state == true) return;
+
+    final selectedDevice = deviceId;
+    ref.read(selectedDeviceOnInfoProvider.notifier).state = '';
+
+    if (selectedDevice.startsWith(SimObjectType.host.label)) {
+      ref.read(hostProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.connection.label)) {
+      ref.read(connectionProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.message.label)) {
+      ref.read(messageProvider(selectedDevice).notifier).removeSelf();
+    }
   }
 }
 

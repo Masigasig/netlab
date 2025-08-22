@@ -11,38 +11,22 @@ class ConnectionWidget extends SimObjectWidget {
 }
 
 class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
-  late final String _conAId;
-  late final String _conBId;
-  late StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
-  _conAProvider;
-  late StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
-  _conBProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    _conAId = ref.read(connectionProvider(widget.simObjectId)).conAId;
-    _conBId = ref.read(connectionProvider(widget.simObjectId)).conBId;
-
-    _conAProvider = _getDeviceProvider(_conAId);
-    _conBProvider = _getDeviceProvider(_conBId);
-  }
-
   @override
   Widget build(BuildContext context) {
     debugPrint('Connection_${widget.simObjectId} Rebuilt');
-    final conAPosX = ref.watch(
-      _conAProvider(_conAId).select((state) => state.posX),
-    );
-    final conAPosY = ref.watch(
-      _conAProvider(_conAId).select((state) => state.posY),
-    );
-    final conBPosX = ref.watch(
-      _conBProvider(_conBId).select((state) => state.posX),
-    );
-    final conBPosY = ref.watch(
-      _conBProvider(_conBId).select((state) => state.posY),
-    );
+
+    final connection = ref.watch(connectionProvider(widget.simObjectId));
+
+    final conAId = connection.conAId;
+    final conBId = connection.conBId;
+
+    final conAProvider = _getDeviceProvider(conAId);
+    final conBProvider = _getDeviceProvider(conBId);
+
+    final conAPosX = ref.watch(conAProvider(conAId).select((s) => s.posX));
+    final conAPosY = ref.watch(conAProvider(conAId).select((s) => s.posY));
+    final conBPosX = ref.watch(conBProvider(conBId).select((s) => s.posX));
+    final conBPosY = ref.watch(conBProvider(conBId).select((s) => s.posY));
 
     final start = Offset(conAPosX, conAPosY);
     final end = Offset(conBPosX, conBPosY);

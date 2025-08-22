@@ -89,6 +89,8 @@ abstract class SimObjectMapNotifier<T extends SimObject>
 
   void invalidateSpecificId(String objectId);
 
+  void removeAllState(String objectId);
+
   void clearState() => state = {};
 
   List<Map<String, dynamic>> exportToList();

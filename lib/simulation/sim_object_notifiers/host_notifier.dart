@@ -20,10 +20,18 @@ class HostNotifier extends DeviceNotifier<Host> {
   }
 
   void removeSelf() {
-    ref.read(hostWidgetProvider.notifier).removeSimObjectWidget(state.id);
-    ref.read(hostMapProvider.notifier).removeSimObject(state.id);
-    ref.read(connectionProvider(state.connectionId).notifier).removeSelf();
-    ref.invalidate(hostProvider(state.id));
+    if (state.connectionId.isNotEmpty) {
+      connectionNotifier(state.connectionId).removeSelf();
+    }
+
+    if (state.messageIds.isNotEmpty) {
+      final messageIds = state.messageIds;
+      for (final messageId in messageIds) {
+        messageNotifier(messageId).removeSelf();
+      }
+    }
+
+    hostMapNotifier.removeAllState(state.id);
   }
 
   @override
@@ -46,6 +54,12 @@ class HostNotifier extends DeviceNotifier<Host> {
       case DataLinkLayerType.ipv4:
         _receiveIpv4Msg(messageId, dataLinkLayer);
     }
+  }
+
+  void removeMessage(String messageId) {
+    final newMessageIds = List<String>.from(state.messageIds)
+      ..remove(messageId);
+    state = state.copyWith(messageIds: newMessageIds);
   }
 
   void startMessageProcessing() {
@@ -311,7 +325,16 @@ class HostMapNotifier extends DeviceMapNotifier<Host> {
 
   @override
   void invalidateSpecificId(String objectId) {
-    ref.invalidate(hostProvider(objectId));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.invalidate(hostProvider(objectId));
+    });
+  }
+
+  @override
+  void removeAllState(String objectId) {
+    ref.read(hostWidgetProvider.notifier).removeSimObjectWidget(objectId);
+    removeSimObject(objectId);
+    invalidateSpecificId(objectId);
   }
 }
 

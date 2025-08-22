@@ -49,16 +49,14 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 
   void removeSelf() {
     if (state.conAId.startsWith(SimObjectType.host.label)) {
-      ref.read(hostProvider(state.conAId).notifier).updateConnectionId('');
+      hostNotifier(state.conAId).updateConnectionId('');
     }
 
     if (state.conBId.startsWith(SimObjectType.host.label)) {
-      ref.read(hostProvider(state.conBId).notifier).updateConnectionId('');
+      hostNotifier(state.conBId).updateConnectionId('');
     }
 
-    ref.read(connectionWidgetProvider.notifier).removeSimObjectWidget(state.id);
-    ref.read(connectionMapProvider.notifier).removeSimObject(state.id);
-    ref.invalidate(connectionProvider(state.id));
+    connectionMapNotifier.removeAllState(state.id);
   }
 }
 
@@ -79,7 +77,16 @@ class ConnectionMapNotifier extends SimObjectMapNotifier<Connection> {
 
   @override
   void invalidateSpecificId(String objectId) {
-    ref.invalidate(connectionProvider(objectId));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.invalidate(connectionProvider(objectId));
+    });
+  }
+
+  @override
+  void removeAllState(String objectId) {
+    ref.read(connectionWidgetProvider.notifier).removeSimObjectWidget(objectId);
+    removeSimObject(objectId);
+    invalidateSpecificId(objectId);
   }
 }
 

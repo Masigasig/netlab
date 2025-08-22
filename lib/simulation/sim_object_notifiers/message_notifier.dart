@@ -51,6 +51,12 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     ref.read(messageMapProvider.notifier).invalidateSpecificId(state.id);
   }
 
+  void removeSelf() {
+    ref.read(hostProvider(state.srcId).notifier).removeMessage(state.id);
+
+    messageMapNotifier.removeAllState(state.id);
+  }
+
   String getTargetIp() => hostNotifier(state.dstId).state.ipAddress;
 
   void updatePosition(double newX, double newY, {Duration? duration}) {
@@ -75,7 +81,16 @@ class MessageMapNotifier extends SimObjectMapNotifier<Message> {
 
   @override
   void invalidateSpecificId(String objectId) {
-    ref.invalidate(messageProvider(objectId));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.invalidate(messageProvider(objectId));
+    });
+  }
+
+  @override
+  void removeAllState(String objectId) {
+    ref.read(messageWidgetProvider.notifier).removeSimObjectWidget(objectId);
+    removeSimObject(objectId);
+    invalidateSpecificId(objectId);
   }
 }
 
