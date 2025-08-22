@@ -32,7 +32,16 @@ class SwitchMapNotifier extends DeviceMapNotifier<Switch> {
 
   @override
   void invalidateSpecificId(String objectId) {
-    ref.invalidate(switchProvider(objectId));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.invalidate(switchProvider(objectId));
+    });
+  }
+
+  @override
+  void removeAllState(String objectId) {
+    ref.read(switchWidgetProvider.notifier).removeSimObjectWidget(objectId);
+    removeSimObject(objectId);
+    invalidateSpecificId(objectId);
   }
 }
 

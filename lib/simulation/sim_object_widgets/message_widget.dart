@@ -88,5 +88,13 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
           );
   }
 
-  void _handleTap() {}
+  void _handleTap() {
+    if (ref.read(selectedDeviceOnInfoProvider.notifier).state ==
+        widget.simObjectId) {
+      ref.read(selectedDeviceOnInfoProvider.notifier).state = '';
+    } else {
+      ref.read(selectedDeviceOnInfoProvider.notifier).state =
+          widget.simObjectId;
+    }
+  }
 }
