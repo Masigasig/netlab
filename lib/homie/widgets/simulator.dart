@@ -12,7 +12,7 @@ class SimulatorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.overlay,
+      color: AppColors.background,
       child: Row(
         children: [
           // Left side - Content
