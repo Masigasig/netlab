@@ -58,7 +58,6 @@ class Host extends Device {
       'defaultGateway': defaultGateway,
       'macAddress': macAddress,
       'connectionId': connectionId,
-      'arpTable': arpTable,
       'messagesIds': messageIds,
     };
   }
@@ -74,7 +73,6 @@ class Host extends Device {
       defaultGateway: map['defaultGateway']?.toString() ?? '',
       macAddress: map['macAddress'].toString(),
       connectionId: map['connectionId']?.toString() ?? '',
-      arpTable: Map<String, String>.from(map['arpTable'] ?? {}),
       messageIds: List<String>.from(map['messagesIds'] ?? []),
     );
   }

@@ -13,6 +13,17 @@ class RouterNotifier extends DeviceNotifier<Router> {
   void receiveMessage(String messageId) {
     // TODO: implement receiveMessage
   }
+
+  @override
+  List<Map<String, String>> getAllConnectionInfo() {
+    // TODO: implement getAllConnectionInfo
+    throw UnimplementedError();
+  }
+
+  @override
+  void removeSelf() {
+    // TODO: implement removeSelf
+  }
 }
 
 final routerMapProvider =

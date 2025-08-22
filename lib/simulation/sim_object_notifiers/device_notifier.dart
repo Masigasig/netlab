@@ -1,5 +1,20 @@
 part of 'sim_object_notifier.dart';
 
+enum ConnectionInfoKey { name, conId }
+
+enum ConnectionInfoName {
+  port0,
+  port1,
+  port2,
+  port3,
+  port4,
+  port5,
+  eth0,
+  eth1,
+  eth2,
+  eth3,
+}
+
 abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   DeviceNotifier(super.state, super.ref);
 
@@ -14,6 +29,8 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   }
 
   void receiveMessage(String messageId);
+
+  List<Map<String, String>> getAllConnectionInfo();
 
   void updatePosition(double newX, double newY) {
     state = state.copyWith(posX: newX, posY: newY) as T;
