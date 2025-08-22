@@ -10,7 +10,7 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
     : super(ref.read(switchMapProvider)[id]!, ref);
 
   @override
-  void receiveMessage(String messageId) {
+  void receiveMessage(String messageId, String fromConId) {
     // TODO: implement receiveMessage
   }
 

@@ -10,7 +10,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
     : super(ref.read(routerMapProvider)[id]!, ref);
 
   @override
-  void receiveMessage(String messageId) {
+  void receiveMessage(String messageId, String fromConId) {
     // TODO: implement receiveMessage
   }
 
