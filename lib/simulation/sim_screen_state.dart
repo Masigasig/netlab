@@ -126,16 +126,14 @@ class SimScreenState extends StateNotifier<void> {
     _addSimObjAndWidgetToPovider(type, device, widget);
   }
 
-  void createConnection(String deviceId, String macAddress) {
+  void createConnection(String deviceId) {
     if (!_wireModeNotifier.state) return;
 
-    _selectedDevices.add({'id': deviceId, 'mac': macAddress});
+    _selectedDevices.add({'id': deviceId});
 
     if (_selectedDevices.length == 2) {
       final conAId = _selectedDevices[0]['id']!;
       final conBId = _selectedDevices[1]['id']!;
-      final conAmac = _selectedDevices[0]['mac']!;
-      final conBmac = _selectedDevices[1]['mac']!;
 
       if (conAId == conBId) {
         toggleWireMode();
@@ -145,8 +143,6 @@ class SimScreenState extends StateNotifier<void> {
       final connection = SimObjectType.connection.createSimObject(
         conAId: conAId,
         conBId: conBId,
-        conAmac: conAmac,
-        conBmac: conBmac,
       );
 
       final widget = SimObjectType.connection.createSimObjectWidget(
@@ -364,8 +360,6 @@ extension SimObjectTypeX on SimObjectType {
     String name = '',
     double posX = 0,
     double posY = 0,
-    String conAmac = '',
-    String conBmac = '',
     String conAId = '',
     String conBId = '',
     String srcId = '',
@@ -376,8 +370,6 @@ extension SimObjectTypeX on SimObjectType {
     return switch (this) {
       SimObjectType.connection => Connection(
         id: id,
-        conAmac: conAmac,
-        conBmac: conBmac,
         conAId: conAId,
         conBId: conBId,
       ),

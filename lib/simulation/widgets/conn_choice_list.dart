@@ -56,7 +56,6 @@ class _ConnChoiceListState extends ConsumerState<ConnChoiceList> {
 
   Widget _buildConnectionItem(Map<String, String> entry) {
     final name = entry['name']!;
-    final mac = entry['mac']!;
     final isAvailable = entry['conId']!.isEmpty;
 
     return TextButton(
@@ -64,10 +63,7 @@ class _ConnChoiceListState extends ConsumerState<ConnChoiceList> {
           ? () {
               ref
                   .read(simScreenState.notifier)
-                  .createConnection(
-                    ref.read(selectedDeviceOnConnProvider),
-                    mac,
-                  );
+                  .createConnection(ref.read(selectedDeviceOnConnProvider));
               ref.read(selectedDeviceOnConnProvider.notifier).state = '';
             }
           : null,

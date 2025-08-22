@@ -3,9 +3,13 @@ part of 'sim_object_notifier.dart';
 abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   DeviceNotifier(super.state, super.ref);
 
-  void sendMessageToConnection(String connectionId, String messageId) {
+  void sendMessageToConnection(
+    String connectionId,
+    String messageId,
+    String fromId,
+  ) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      connectionNotifier(connectionId).receiveMessage(messageId);
+      connectionNotifier(connectionId).receiveMessage(messageId, fromId);
     });
   }
 

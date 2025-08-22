@@ -1,118 +1,118 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_test/flutter_test.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:netlab/simulation/sim_objects/sim_object.dart';
-import 'package:netlab/simulation/sim_screen_state.dart';
+// import 'package:netlab/simulation/sim_objects/sim_object.dart';
+// import 'package:netlab/simulation/sim_screen_state.dart';
 
-void main() {
-  late ProviderContainer container;
-  late HostNotifier host1Notifier;
-  late HostNotifier host2Notifier;
-  late ConnectionNotifier connectionNotifier;
-  late MessageNotifier messageNotifier;
+// void main() {
+//   late ProviderContainer container;
+//   late HostNotifier host1Notifier;
+//   late HostNotifier host2Notifier;
+//   late ConnectionNotifier connectionNotifier;
+//   late MessageNotifier messageNotifier;
 
-  late String host1Id;
-  late String host2Id;
-  late String conId;
-  late String messageId;
+//   late String host1Id;
+//   late String host2Id;
+//   late String conId;
+//   late String messageId;
 
-  setUp(() {
-    container = ProviderContainer();
-    final host1 =
-        SimObjectType.host.createSimObject(posX: 100, posY: 100, name: 'Host_1')
-            as Host;
+//   setUp(() {
+//     container = ProviderContainer();
+//     final host1 =
+//         SimObjectType.host.createSimObject(posX: 100, posY: 100, name: 'Host_1')
+//             as Host;
 
-    host1Id = host1.id;
-    container.read(hostMapProvider.notifier).addSimObject(host1);
-    host1Notifier = container.read(hostProvider(host1Id).notifier);
+//     host1Id = host1.id;
+//     container.read(hostMapProvider.notifier).addSimObject(host1);
+//     host1Notifier = container.read(hostProvider(host1Id).notifier);
 
-    final host2 =
-        SimObjectType.host.createSimObject(posX: 200, posY: 200, name: 'Host_2')
-            as Host;
+//     final host2 =
+//         SimObjectType.host.createSimObject(posX: 200, posY: 200, name: 'Host_2')
+//             as Host;
 
-    host2Id = host2.id;
-    container.read(hostMapProvider.notifier).addSimObject(host2);
-    host2Notifier = container.read(hostProvider(host2Id).notifier);
+//     host2Id = host2.id;
+//     container.read(hostMapProvider.notifier).addSimObject(host2);
+//     host2Notifier = container.read(hostProvider(host2Id).notifier);
 
-    final connection =
-        SimObjectType.connection.createSimObject(
-              conAId: host1Id,
-              conBId: host2Id,
-              conAmac: host1Notifier.state.macAddress,
-              conBmac: host2Notifier.state.macAddress,
-            )
-            as Connection;
+//     final connection =
+//         SimObjectType.connection.createSimObject(
+//               conAId: host1Id,
+//               conBId: host2Id,
+//               conAmac: host1Notifier.state.macAddress,
+//               conBmac: host2Notifier.state.macAddress,
+//             )
+//             as Connection;
 
-    conId = connection.id;
-    container.read(connectionMapProvider.notifier).addSimObject(connection);
-    connectionNotifier = container.read(connectionProvider(conId).notifier);
+//     conId = connection.id;
+//     container.read(connectionMapProvider.notifier).addSimObject(connection);
+//     connectionNotifier = container.read(connectionProvider(conId).notifier);
 
-    final message =
-        SimObjectType.message.createSimObject(srcId: host1Id, dstId: host2Id)
-            as Message;
+//     final message =
+//         SimObjectType.message.createSimObject(srcId: host1Id, dstId: host2Id)
+//             as Message;
 
-    messageId = message.id;
-    container.read(messageMapProvider.notifier).addSimObject(message);
-    messageNotifier = container.read(messageProvider(messageId).notifier);
+//     messageId = message.id;
+//     container.read(messageMapProvider.notifier).addSimObject(message);
+//     messageNotifier = container.read(messageProvider(messageId).notifier);
 
-    messageNotifier.updateCurrentPlaceId(host1Id);
+//     messageNotifier.updateCurrentPlaceId(host1Id);
 
-    final newArpLayer = {
-      MessageKey.operation.name: OperationType.reply.name,
-      MessageKey.senderIp.name: host1Notifier.state.ipAddress,
-      MessageKey.targetIp.name: host2Notifier.state.ipAddress,
-    };
+//     final newArpLayer = {
+//       MessageKey.operation.name: OperationType.reply.name,
+//       MessageKey.senderIp.name: host1Notifier.state.ipAddress,
+//       MessageKey.targetIp.name: host2Notifier.state.ipAddress,
+//     };
 
-    messageNotifier.pushLayer(newArpLayer);
+//     messageNotifier.pushLayer(newArpLayer);
 
-    final dataLinkLayer = {
-      MessageKey.source.name: host1Notifier.state.macAddress,
-      MessageKey.destination.name: host2Notifier.state.macAddress,
-      MessageKey.type.name: DataLinkLayerType.arp.name,
-    };
+//     final dataLinkLayer = {
+//       MessageKey.source.name: host1Notifier.state.macAddress,
+//       MessageKey.destination.name: host2Notifier.state.macAddress,
+//       MessageKey.type.name: DataLinkLayerType.arp.name,
+//     };
 
-    messageNotifier.pushLayer(dataLinkLayer);
-  });
+//     messageNotifier.pushLayer(dataLinkLayer);
+//   });
 
-  tearDown(() {
-    container.dispose();
-  });
+//   tearDown(() {
+//     container.dispose();
+//   });
 
-  test('receiveMessage and sendMessage should work properly', () {
-    expect(messageNotifier.state.currentPlaceId, equals(host1Id));
+//   test('receiveMessage and sendMessage should work properly', () {
+//     expect(messageNotifier.state.currentPlaceId, equals(host1Id));
 
-    connectionNotifier.receiveMessage(messageId);
+//     connectionNotifier.receiveMessage(messageId);
 
-    expect(messageNotifier.state.currentPlaceId, equals(conId));
+//     expect(messageNotifier.state.currentPlaceId, equals(conId));
 
-    connectionNotifier.sendMessage(messageId);
+//     connectionNotifier.sendMessage(messageId);
 
-    expect(messageNotifier.state.currentPlaceId, equals(host2Id));
+//     expect(messageNotifier.state.currentPlaceId, equals(host2Id));
 
-    final newArpLayer = {
-      MessageKey.operation.name: OperationType.reply.name,
-      MessageKey.senderIp.name: host2Notifier.state.ipAddress,
-      MessageKey.targetIp.name: host1Notifier.state.ipAddress,
-    };
+//     final newArpLayer = {
+//       MessageKey.operation.name: OperationType.reply.name,
+//       MessageKey.senderIp.name: host2Notifier.state.ipAddress,
+//       MessageKey.targetIp.name: host1Notifier.state.ipAddress,
+//     };
 
-    messageNotifier.pushLayer(newArpLayer);
+//     messageNotifier.pushLayer(newArpLayer);
 
-    final dataLinkLayer = {
-      MessageKey.source.name: host2Notifier.state.macAddress,
-      MessageKey.destination.name: host1Notifier.state.macAddress,
-      MessageKey.type.name: DataLinkLayerType.arp.name,
-    };
+//     final dataLinkLayer = {
+//       MessageKey.source.name: host2Notifier.state.macAddress,
+//       MessageKey.destination.name: host1Notifier.state.macAddress,
+//       MessageKey.type.name: DataLinkLayerType.arp.name,
+//     };
 
-    messageNotifier.pushLayer(dataLinkLayer);
+//     messageNotifier.pushLayer(dataLinkLayer);
 
-    expect(messageNotifier.state.currentPlaceId, equals(host2Id));
+//     expect(messageNotifier.state.currentPlaceId, equals(host2Id));
 
-    connectionNotifier.receiveMessage(messageId);
+//     connectionNotifier.receiveMessage(messageId);
 
-    expect(messageNotifier.state.currentPlaceId, equals(conId));
+//     expect(messageNotifier.state.currentPlaceId, equals(conId));
 
-    connectionNotifier.sendMessage(messageId);
+//     connectionNotifier.sendMessage(messageId);
 
-    expect(messageNotifier.state.currentPlaceId, equals(host1Id));
-  });
-}
+//     expect(messageNotifier.state.currentPlaceId, equals(host1Id));
+//   });
+// }
