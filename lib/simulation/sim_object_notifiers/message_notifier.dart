@@ -47,7 +47,9 @@ class MessageNotifier extends SimObjectNotifier<Message> {
   }
 
   void dropMessage(MsgDropReason reason) {
-    print('Dropping message ${state.name} due to ${reason.name}');
+    simLogsNotifier.addLog(
+      'Dropping message ${state.name} due to ${reason.name}',
+    );
     ref.read(messageMapProvider.notifier).invalidateSpecificId(state.id);
   }
 
