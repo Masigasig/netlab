@@ -12,13 +12,16 @@ class PageIndicator extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(itemCount, (index) {
-        return Container(
+        final isActive = index == currentIndex;
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
           margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: index == currentIndex ? 12 : 8,
-          height: index == currentIndex ? 12 : 8,
+          width: isActive ? 24 : 8,
+          height: 8,
           decoration: BoxDecoration(
-            color: index == currentIndex ? AppColors.active : AppColors.inactive,
-            shape: BoxShape.circle,
+            color: isActive ? AppColors.active : AppColors.inactive,
+            borderRadius: BorderRadius.circular(4),
           ),
         );
       }),
