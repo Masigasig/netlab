@@ -53,6 +53,7 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     ref.read(messageMapProvider.notifier).invalidateSpecificId(state.id);
   }
 
+  @override
   void removeSelf() {
     ref.read(hostProvider(state.srcId).notifier).removeMessage(state.id);
 

@@ -111,6 +111,10 @@ class _InfoDrawerState extends ConsumerState<InfoDrawer> {
       ref.read(connectionProvider(selectedDevice).notifier).removeSelf();
     } else if (selectedDevice.startsWith(SimObjectType.message.label)) {
       ref.read(messageProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.switch_.label)) {
+      ref.read(switchProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.router.label)) {
+      ref.read(routerProvider(selectedDevice).notifier).removeSelf();
     }
   }
 }

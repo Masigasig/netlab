@@ -42,13 +42,18 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
     deviceNotifier.receiveMessage(messageId);
   }
 
+  @override
   void removeSelf() {
     if (state.conAId.startsWith(SimObjectType.host.label)) {
       hostNotifier(state.conAId).updateConnectionId('');
+    } else if (state.conAId.startsWith(SimObjectType.switch_.label)) {
+      switchNotifier(state.conAId).removeConIdByConId(state.id);
     }
 
     if (state.conBId.startsWith(SimObjectType.host.label)) {
       hostNotifier(state.conBId).updateConnectionId('');
+    } else if (state.conBId.startsWith(SimObjectType.switch_.label)) {
+      switchNotifier(state.conBId).removeConIdByConId(state.id);
     }
 
     connectionMapNotifier.removeAllState(state.id);

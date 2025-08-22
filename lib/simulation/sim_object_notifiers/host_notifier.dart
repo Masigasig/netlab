@@ -19,6 +19,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     super.dispose();
   }
 
+  @override
   void removeSelf() {
     if (state.connectionId.isNotEmpty) {
       connectionNotifier(state.connectionId).removeSelf();
@@ -81,9 +82,13 @@ class HostNotifier extends DeviceNotifier<Host> {
   void updateConnectionId(String connectionId) =>
       state = state.copyWith(connectionId: connectionId);
 
+  @override
   List<Map<String, String>> getAllConnectionInfo() {
     return [
-      {'name': 'eth0', 'conId': state.connectionId},
+      {
+        ConnectionInfoKey.name.name: ConnectionInfoName.eth0.name,
+        ConnectionInfoKey.conId.name: state.connectionId,
+      },
     ];
   }
 

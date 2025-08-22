@@ -126,14 +126,16 @@ class SimScreenState extends StateNotifier<void> {
     _addSimObjAndWidgetToPovider(type, device, widget);
   }
 
-  void createConnection(String deviceId) {
+  void createConnection(String deviceId, String name) {
     if (!_wireModeNotifier.state) return;
 
-    _selectedDevices.add({'id': deviceId});
+    _selectedDevices.add({'id': deviceId, 'name': name});
 
     if (_selectedDevices.length == 2) {
       final conAId = _selectedDevices[0]['id']!;
+      final conAName = _selectedDevices[0]['name']!;
       final conBId = _selectedDevices[1]['id']!;
+      final conBName = _selectedDevices[1]['name']!;
 
       if (conAId == conBId) {
         toggleWireMode();
@@ -156,7 +158,9 @@ class SimScreenState extends StateNotifier<void> {
       } else if (conAId.startsWith(SimObjectType.router.label)) {
         // ref.read(routerProvider(conAId).notifier).updateConnectionId(connection.id);
       } else if (conAId.startsWith(SimObjectType.switch_.label)) {
-        // ref.read(switchProvider(conAId).notifier).updateConnectionId(connection.id);
+        ref
+            .read(switchProvider(conAId).notifier)
+            .updateConIdByPortName(conAName, connection.id);
       }
 
       if (conBId.startsWith(SimObjectType.host.label)) {
@@ -166,7 +170,9 @@ class SimScreenState extends StateNotifier<void> {
       } else if (conBId.startsWith(SimObjectType.router.label)) {
         // ref.read(routerProvider(conBId).notifier).updateConnectionId(connection.id);
       } else if (conBId.startsWith(SimObjectType.switch_.label)) {
-        // ref.read(switchProvider(conBId).notifier).updateConnectionId(connection.id);
+        ref
+            .read(switchProvider(conBId).notifier)
+            .updateConIdByPortName(conBName, connection.id);
       }
 
       _addSimObjAndWidgetToPovider(

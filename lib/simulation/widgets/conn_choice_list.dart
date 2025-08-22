@@ -28,6 +28,9 @@ class _ConnChoiceListState extends ConsumerState<ConnChoiceList> {
       device = ref.watch(routerProvider(selectedId));
     } else if (selectedId.startsWith(SimObjectType.switch_.label)) {
       device = ref.watch(switchProvider(selectedId));
+      connection = ref
+          .read(switchProvider(selectedId).notifier)
+          .getAllConnectionInfo();
     } else {
       return const Offstage(offstage: true);
     }
@@ -63,7 +66,10 @@ class _ConnChoiceListState extends ConsumerState<ConnChoiceList> {
           ? () {
               ref
                   .read(simScreenState.notifier)
-                  .createConnection(ref.read(selectedDeviceOnConnProvider));
+                  .createConnection(
+                    ref.read(selectedDeviceOnConnProvider),
+                    name,
+                  );
               ref.read(selectedDeviceOnConnProvider.notifier).state = '';
             }
           : null,

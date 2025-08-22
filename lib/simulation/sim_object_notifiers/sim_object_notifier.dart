@@ -75,6 +75,8 @@ abstract class SimObjectNotifier<T extends SimObject> extends StateNotifier<T> {
       throw Exception('Unknown SimObject Provider for : $simObjectId');
     }
   }
+
+  void removeSelf();
 }
 
 abstract class SimObjectMapNotifier<T extends SimObject>
