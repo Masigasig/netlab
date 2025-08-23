@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netlab/core/constants/app_colors.dart';
 
 class StudyScreen extends StatefulWidget {
   const StudyScreen({super.key});
@@ -11,43 +12,28 @@ class _StudyScreenState extends State<StudyScreen> {
   final List<StudyTopic> topics = [
     StudyTopic(
       title: 'Network Fundamentals',
-      description: 'Learn the basics of computer networking',
-      progress: 0.3,
-      modules: [
-        'Introduction to Networks',
-        'OSI Model',
-        'TCP/IP Protocol Suite',
-        'Network Devices',
-      ],
+      description: 'Learn the basics of computer networking and how devices communicate',
+      cardColor: const Color(0xFF6366F1),
+      icon: Icons.network_wifi,
     ),
     StudyTopic(
       title: 'Routing and Switching',
-      description: 'Understanding network routing and switching concepts',
-      progress: 0.0,
-      modules: [
-        'Router Fundamentals',
-        'Switching Basics',
-        'VLANs',
-        'Routing Protocols',
-      ],
+      description: 'Understanding how data moves through networks and switching concepts',
+      cardColor: const Color(0xFF10B981),
+      icon: Icons.router,
     ),
     StudyTopic(
       title: 'Network Security',
-      description: 'Learn about network security principles',
-      progress: 0.0,
-      modules: [
-        'Security Basics',
-        'Firewalls',
-        'Encryption',
-        'Network Threats',
-      ],
+      description: 'Protect networks from threats and learn security best practices',
+      cardColor: const Color(0xFFF59E0B),
+      icon: Icons.security,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -130,14 +116,14 @@ class _StudyScreenState extends State<StudyScreen> {
 class StudyTopic {
   final String title;
   final String description;
-  final double progress;
-  final List<String> modules;
+  final Color cardColor;
+  final IconData icon;
 
   StudyTopic({
     required this.title,
     required this.description,
-    required this.progress,
-    required this.modules,
+    required this.cardColor,
+    required this.icon,
   });
 }
 
@@ -153,65 +139,65 @@ class TopicCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            topic.cardColor,
+            topic.cardColor.withOpacity(0.8),
+          ],
+        ),
       ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            topic.title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            topic.description,
-            style: const TextStyle(
-              fontSize: 13,
-              color: Colors.white70,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${topic.modules.length} Modules',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.white70,
-                ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Icon in a circular background
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withOpacity(0.2),
               ),
-              Text(
-                '${(topic.progress * 100).toInt()}%',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
+              child: Icon(
+                topic.icon,
+                color: Colors.white,
+                size: 28,
               ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: topic.progress,
-              backgroundColor: Colors.white24,
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
-              minHeight: 4,
             ),
-          ),
-        ],
+            
+            const Spacer(),
+            
+            // Title
+            Text(
+              topic.title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            
+            const SizedBox(height: 8),
+            
+            // Description
+            Text(
+              topic.description,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.white.withOpacity(0.8),
+                fontWeight: FontWeight.w400,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
     );
   }
