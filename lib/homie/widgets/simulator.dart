@@ -3,8 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/components/gradient_text.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_image.dart';
-import 'package:lottie/lottie.dart';
+import '../../core/utils/lottie_optimization.dart';
 import '../../core/components/button.dart' as custom_button;
+import 'package:lottie/lottie.dart';
 
 class SimulatorScreen extends StatelessWidget {
   const SimulatorScreen({super.key});
@@ -31,10 +32,10 @@ class SimulatorScreen extends StatelessWidget {
                       const GradientText(
                         text: 'Explore Network Simulation',
                         gradientWords: ['Simulation'],
-                        fontSize: 42,
+                        fontSize: 39,
                         textAlign: TextAlign.start,
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 10),
                       Text(
                         'Practice network configuration in a safe, virtual lab with our interactive simulator.',
                         style: GoogleFonts.inter(
@@ -43,7 +44,7 @@ class SimulatorScreen extends StatelessWidget {
                           height: 1.4,
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 37),
                       // File operation buttons
                       Row(
                         children: [
@@ -91,9 +92,19 @@ class SimulatorScreen extends StatelessWidget {
               padding: const EdgeInsets.all(32.0),
               child: Align(
                 alignment: Alignment.center,
-                child: ConstrainedBox(
+                child: OptimizedLottieWidget(
+                  key: const ValueKey('simulator_animation'),
+                  assetPath: AppLottie.circle,
                   constraints: const BoxConstraints(maxHeight: 450),
-                  child: Lottie.asset(AppLottie.circle),
+                  repeat: true,
+                  animate: true,
+                  frameRate: const FrameRate(30),
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                  backgroundColor: AppColors.textSecondary.withOpacity(0.03),
+                  borderRadius: BorderRadius.circular(16),
+                  errorMessage: 'Simulation animation unavailable',
+                  showStatusText: false,
                 ),
               ),
             ),
