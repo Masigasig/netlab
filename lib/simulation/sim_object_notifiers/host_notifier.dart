@@ -40,16 +40,24 @@ class HostNotifier extends DeviceNotifier<Host> {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
 
     final dataLinkLayer = messageNotifier(messageId).popLayer();
+    final dstMac = dataLinkLayer[MessageKey.destination.name]!;
 
-    final type = DataLinkLayerType.values.firstWhere(
-      (e) => e.name == dataLinkLayer[MessageKey.type.name],
-    );
+    if (dstMac == MacAddressManager.broadcastMacAddress ||
+        dstMac == state.macAddress) {
+      final type = DataLinkLayerType.values.firstWhere(
+        (e) => e.name == dataLinkLayer[MessageKey.type.name],
+      );
 
-    switch (type) {
-      case DataLinkLayerType.arp:
-        _receiveArpMsg(messageId, dataLinkLayer);
-      case DataLinkLayerType.ipv4:
-        _receiveIpv4Msg(messageId, dataLinkLayer);
+      switch (type) {
+        case DataLinkLayerType.arp:
+          _receiveArpMsg(messageId, dataLinkLayer);
+        case DataLinkLayerType.ipv4:
+          _receiveIpv4Msg(messageId, dataLinkLayer);
+      }
+    } else {
+      messageNotifier(
+        messageId,
+      ).dropMessage(MsgDropReason.notIntendedRecipientOfFrame);
     }
   }
 
@@ -86,7 +94,7 @@ class HostNotifier extends DeviceNotifier<Host> {
   List<Map<String, String>> getAllConnectionInfo() {
     return [
       {
-        ConnectionInfoKey.name.name: ConnectionInfoName.eth0.name,
+        ConnectionInfoKey.name.name: Eth.eth0.name,
         ConnectionInfoKey.conId.name: state.connectionId,
       },
     ];
