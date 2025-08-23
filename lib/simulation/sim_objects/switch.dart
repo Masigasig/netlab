@@ -9,6 +9,28 @@ class Switch extends Device {
   final String port5conId;
   final Map<String, String> macTable;
 
+  Map<String, String> get portToConIdMap => {
+    'port0': port0conId,
+    'port1': port1conId,
+    'port2': port2conId,
+    'port3': port3conId,
+    'port4': port4conId,
+    'port5': port5conId,
+  };
+
+  Map<String, String> get conIdToPortMap => {
+    port0conId: 'port0',
+    port1conId: 'port1',
+    port2conId: 'port2',
+    port3conId: 'port3',
+    port4conId: 'port4',
+    port5conId: 'port5',
+  };
+
+  List<String> get activeConnectionIds {
+    return portToConIdMap.values.where((id) => id.isNotEmpty).toList();
+  }
+
   const Switch({
     required super.id,
     required super.name,

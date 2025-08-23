@@ -2,18 +2,9 @@ part of 'sim_object_notifier.dart';
 
 enum ConnectionInfoKey { name, conId }
 
-enum ConnectionInfoName {
-  port0,
-  port1,
-  port2,
-  port3,
-  port4,
-  port5,
-  eth0,
-  eth1,
-  eth2,
-  eth3,
-}
+enum Eth { eth0, eth1, eth2, eth3 }
+
+enum Port { port0, port1, port2, port3, port4, port5 }
 
 abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   DeviceNotifier(super.state, super.ref);

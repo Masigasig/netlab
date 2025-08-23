@@ -9,6 +9,7 @@ enum MessageKey { targetIp, senderIp, operation, destination, source, type }
 enum MsgDropReason {
   ipv4Success,
   ipv4Fail,
+  notIntendedRecipientOfFrame,
   arpReqSuccess,
   arpReqNotMeant,
   arpReplySuccess,
