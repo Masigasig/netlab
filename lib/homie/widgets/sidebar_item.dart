@@ -7,9 +7,7 @@ class SidebarItem extends StatefulWidget {
   final String label;
   final int index;
   final int selectedIndex;
-  final bool isExpanded;
   final Function(int) onTap;
-  final bool isToggleButton;
 
   const SidebarItem({
     super.key,
@@ -18,9 +16,7 @@ class SidebarItem extends StatefulWidget {
     required this.label,
     required this.index,
     required this.selectedIndex,
-    required this.isExpanded,
     required this.onTap,
-    this.isToggleButton = false,
   });
 
   @override
@@ -41,8 +37,7 @@ class _SidebarItemState extends State<SidebarItem>
   void didUpdateWidget(SidebarItem oldWidget) {
     super.didUpdateWidget(oldWidget);
     
-    if (!widget.isToggleButton &&
-        widget.index >= 0 &&
+    if (widget.index >= 0 &&
         widget.index == widget.selectedIndex && 
         widget.index != oldWidget.selectedIndex) {
       _controller.reset();
@@ -60,24 +55,8 @@ class _SidebarItemState extends State<SidebarItem>
   Widget build(BuildContext context) {
     final isSelected = widget.index == widget.selectedIndex;
     
-    // Different styling based on item type
+    // Icon color for all items
     Color iconColor = Colors.white;
-    FontWeight fontWeight = FontWeight.w400;
-    double fontSize = 14;
-    
-    // Header styling (index -1)
-    if (widget.index == -1) {
-      fontWeight = FontWeight.w600;
-      fontSize = 18;
-    }
-    // Toggle button styling
-    else if (widget.isToggleButton) {
-      iconColor = Colors.white70;
-    }
-    // Regular navigation items
-    else if (widget.index >= 0) {
-      fontWeight = isSelected ? FontWeight.w600 : FontWeight.w400;
-    }
 
     return InkWell(
       onTap: (widget.index == -1) ? null : () => widget.onTap(widget.index), // Header not clickable
@@ -102,29 +81,12 @@ class _SidebarItemState extends State<SidebarItem>
             ),
             const SizedBox(width: 10),
             
-            // Icon or Lottie animation
+            // Icon or Lottie animation with uniform 24x24 size
             SizedBox(
               width: 24,
               height: 24,
               child: _buildIcon(iconColor),
             ),
-            
-            // Label
-            if (widget.isExpanded) ...[
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  widget.label,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: fontSize,
-                    fontWeight: fontWeight,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-              ),
-            ],
           ],
         ),
       ),
@@ -137,12 +99,14 @@ class _SidebarItemState extends State<SidebarItem>
         widget.lottiePath!,
         controller: _controller,
         onLoaded: (composition) => _controller.duration = composition.duration,
+        width: 24,
+        height: 24,
         fit: BoxFit.contain,
       );
     }
     
     if (widget.icon != null) {
-      return Icon(widget.icon, color: iconColor, size: 20);
+      return Icon(widget.icon, color: iconColor, size: 24);
     }
     
     return const SizedBox.shrink();

@@ -14,11 +14,6 @@ class Sidebar extends StatefulWidget {
 
 class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
-  bool isExpanded = false;
-
-  void toggleExpand() {
-    setState(() => isExpanded = !isExpanded);
-  }
 
   void onSelect(int index) {
     setState(() => selectedIndex = index);
@@ -36,10 +31,8 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
           ),
         ),
       ),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-        width: isExpanded ? 240 : 70,
+      child: Container(
+        width: 70,
         decoration: const BoxDecoration(color: AppColors.background),
         child: Column(
           children: [
@@ -53,7 +46,6 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                     label: 'Netlab',
                     index: -1,
                     selectedIndex: selectedIndex,
-                    isExpanded: isExpanded,
                     onTap: (_) {},
                   ),
                   const SizedBox(height: 16),
@@ -63,7 +55,6 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                     label: 'Home',
                     index: 0,
                     selectedIndex: selectedIndex,
-                    isExpanded: isExpanded,
                     onTap: onSelect,
                   ),
                   SidebarItem(
@@ -71,7 +62,6 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                     label: 'Simulator',
                     index: 1,
                     selectedIndex: selectedIndex,
-                    isExpanded: isExpanded,
                     onTap: onSelect,
                   ),
                   SidebarItem(
@@ -79,7 +69,6 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                     label: 'Tutorials',
                     index: 2,
                     selectedIndex: selectedIndex,
-                    isExpanded: isExpanded,
                     onTap: onSelect,
                   ),
                   SidebarItem(
@@ -87,21 +76,10 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                     label: 'Study',
                     index: 3,
                     selectedIndex: selectedIndex,
-                    isExpanded: isExpanded,
                     onTap: onSelect,
                   ),
                 ],
               ),
-            ),
-
-            SidebarItem(
-              icon: isExpanded ? Icons.chevron_left : Icons.chevron_right,
-              label: '',
-              index: -2,
-              selectedIndex: selectedIndex,
-              isExpanded: isExpanded,
-              onTap: (_) => toggleExpand(),
-              isToggleButton: true,
             ),
           ],
         ),
