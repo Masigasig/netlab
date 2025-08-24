@@ -1,0 +1,90 @@
+// homie/widgets/study_section/topics/network_fundamentals_content.dart
+import 'package:flutter/material.dart';
+import '../widgets/base_topic_content.dart';
+import '../models/content_module.dart';
+
+class NetworkFundamentalsContent extends BaseTopicContent {
+  const NetworkFundamentalsContent({
+    super.key,
+    required super.topic,
+  });
+
+  @override
+  List<ContentModule> getContentModules() {
+    return [
+      ContentModule(
+        id: 'nf_intro',
+        title: 'Introduction to Networking',
+        description: 'Overview of computer networks and their importance',
+        icon: Icons.school,
+        duration: 15,
+        type: ContentType.video,
+      ),
+      ContentModule(
+        id: 'nf_osi',
+        title: 'OSI Model',
+        description: 'Understanding the 7-layer OSI reference model',
+        icon: Icons.layers,
+        duration: 25,
+        type: ContentType.reading,
+      ),
+      ContentModule(
+        id: 'nf_tcpip',
+        title: 'TCP/IP Protocol Suite',
+        description: 'Deep dive into TCP/IP protocols',
+        icon: Icons.hub,
+        duration: 30,
+        type: ContentType.interactive,
+      ),
+      ContentModule(
+        id: 'nf_addressing',
+        title: 'IP Addressing',
+        description: 'IPv4 and IPv6 addressing schemes',
+        icon: Icons.location_on,
+        duration: 20,
+        type: ContentType.video,
+      ),
+      ContentModule(
+        id: 'nf_subnetting',
+        title: 'Subnetting',
+        description: 'Learn how to divide networks into subnets',
+        icon: Icons.network_check,
+        duration: 35,
+        type: ContentType.lab,
+      ),
+      ContentModule(
+        id: 'nf_quiz',
+        title: 'Network Fundamentals Quiz',
+        description: 'Test your knowledge of networking basics',
+        icon: Icons.quiz,
+        duration: 10,
+        type: ContentType.quiz,
+      ),
+    ];
+  }
+
+  @override
+  void onModuleTap(BuildContext context, ContentModule module) {
+    // Custom navigation for network fundamentals modules
+    switch (module.type) {
+      case ContentType.video:
+        // Navigate to video player
+        break;
+      case ContentType.reading:
+        // Navigate to reading material
+        break;
+      case ContentType.quiz:
+        // Navigate to quiz screen
+        break;
+      case ContentType.lab:
+        // Navigate to lab environment
+        break;
+      case ContentType.interactive:
+        // Navigate to interactive content
+        break;
+    }
+    
+    // For now, show a snackbar
+    super.onModuleTap(context, module);
+  }
+}
