@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:netlab/core/constants/app_colors.dart';
 import '../models/study_topic.dart';
 import '../models/content_module.dart';
-import 'content_module_item.dart';
+import 'components/topic_header.dart';
+import 'components/sidebar_module_list.dart';
+import 'components/welcome_content_view.dart';
+import 'components/module_content_view.dart';
 
-abstract class BaseTopicContent extends StatelessWidget {
+abstract class BaseTopicContent extends StatefulWidget {
   final StudyTopic topic;
 
   const BaseTopicContent({
@@ -13,6 +16,26 @@ abstract class BaseTopicContent extends StatelessWidget {
   });
 
   List<ContentModule> getContentModules();
+  
+  // Virtual method that can be overridden by subclasses
+  void onModuleTap(BuildContext context, ContentModule module) {
+    // Default behavior - show snackbar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Opening: ${module.title}'),
+        backgroundColor: Colors.white.withOpacity(0.2),
+      ),
+    );
+  }
+
+  @override
+  State<BaseTopicContent> createState() => _BaseTopicContentState();
+}
+
+class _BaseTopicContentState extends State<BaseTopicContent> {
+  int? selectedModuleIndex;
+
+  List<ContentModule> getContentModules() => widget.getContentModules();
 
   @override
   Widget build(BuildContext context) {
@@ -21,101 +44,38 @@ abstract class BaseTopicContent extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Custom App Bar
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    topic.cardColor,
-                    topic.cardColor.withOpacity(0.8),
-                  ],
-                ),
-              ),
+            // Top Header Bar
+            TopicHeader(
+              topic: widget.topic,
+              onBackPressed: () => Navigator.pop(context),
+            ),
+            
+            // Main Content Area with Sidebar Layout
+            Expanded(
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                  // Sidebar
+                  SidebarModuleList(
+                    modules: getContentModules(),
+                    selectedModuleIndex: selectedModuleIndex,
+                    topic: widget.topic,
+                    onModuleTap: _onSidebarModuleTap,
                   ),
-                  const SizedBox(width: 16),
-                  Icon(
-                    topic.icon,
-                    color: Colors.white,
-                    size: 32,
-                  ),
-                  const SizedBox(width: 16),
+                  
+                  // Main Content Area
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          topic.title,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          topic.description,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white.withOpacity(0.8),
-                          ),
-                        ),
-                      ],
+                    child: Container(
+                      padding: const EdgeInsets.all(32),
+                      child: selectedModuleIndex != null 
+                          ? ModuleContentView(
+                              module: getContentModules()[selectedModuleIndex!],
+                              topic: widget.topic,
+                            )
+                          : WelcomeContentView(topic: widget.topic),
                     ),
                   ),
                 ],
-              ),
-            ),
-            
-            // Content Area
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Course Content',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          '${getContentModules().length} modules',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white.withOpacity(0.7),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    
-                    // Content modules
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: getContentModules().length,
-                        itemBuilder: (context, index) {
-                          return ContentModuleItem(
-                            module: getContentModules()[index],
-                            onTap: () => onModuleTap(context, getContentModules()[index]),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ],
@@ -124,13 +84,10 @@ abstract class BaseTopicContent extends StatelessWidget {
     );
   }
 
-  void onModuleTap(BuildContext context, ContentModule module) {
-    // Override this method in subclasses for custom behavior
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Opening: ${module.title}'),
-        backgroundColor: Colors.white.withOpacity(0.2),
-      ),
-    );
+  void _onSidebarModuleTap(int index, ContentModule module) {
+    setState(() {
+      selectedModuleIndex = index;
+    });
+    widget.onModuleTap(context, module);
   }
 }

@@ -65,26 +65,40 @@ class NetworkFundamentalsContent extends BaseTopicContent {
 
   @override
   void onModuleTap(BuildContext context, ContentModule module) {
-    // Custom navigation for network fundamentals modules
     switch (module.type) {
       case ContentType.video:
         // Navigate to video player
+        _showModuleMessage(context, 'Opening video player for: ${module.title}');
         break;
       case ContentType.reading:
         // Navigate to reading material
+        _showModuleMessage(context, 'Opening reading material for: ${module.title}');
         break;
       case ContentType.quiz:
         // Navigate to quiz screen
+        _showModuleMessage(context, 'Starting quiz: ${module.title}');
         break;
       case ContentType.lab:
         // Navigate to lab environment
+        _showModuleMessage(context, 'Opening lab environment for: ${module.title}');
         break;
       case ContentType.interactive:
         // Navigate to interactive content
+        _showModuleMessage(context, 'Starting interactive session: ${module.title}');
         break;
     }
-    
-    // For now, show a snackbar
-    super.onModuleTap(context, module);
+  }
+
+  void _showModuleMessage(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: topic.cardColor.withOpacity(0.9),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+    );
   }
 }
