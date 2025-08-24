@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import '../../core/components/gradient_text.dart';
 import '../../core/utils/lottie_optimization.dart';
 import 'package:netlab/core/constants/app_colors.dart';
+import 'package:netlab/core/constants/app_text.dart';
 
 class OnboardingPage extends StatefulWidget {
   final String title;
@@ -26,20 +26,6 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  late final TextStyle _descriptionStyle;
-
-  @override
-  void initState() {
-    super.initState();
-    
-    // Cache text style to avoid recreation
-    _descriptionStyle = GoogleFonts.inter(
-      fontSize: 18,
-      color: AppColors.textSecondary,
-      height: 1.4,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox.expand(
@@ -50,10 +36,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
             color: AppColors.overlay,
           ),
           
-          // Main landscape layout
+          // Main layout
           Row(
             children: [
-              // Left side - Text content
+              // Left side 
               Expanded(
                 flex: 1,
                 child: Padding(
@@ -78,12 +64,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           const SizedBox(height: 16),
                           Text(
                             widget.description,
-                            style: _descriptionStyle,
+                            style: AppTextStyles.secondaryCustom(
+                              fontSize: 18,
+                              color: AppColors.textSecondary,
+                              height: 1.4,
+                            ),
                           ),
                         ],
                       ),
                       
-                      // Bottom widget (if provided)
+                      // Bottom widget
                       if (widget.bottomWidget != null)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
@@ -94,7 +84,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 ),
               ),
 
-              // Right side - Lottie animation using the reusable widget
+              // Right side
               Expanded(
                 flex: 1,
                 child: Padding(
@@ -102,7 +92,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   child: Align(
                     alignment: Alignment.center,
                     child: OptimizedLottieWidget(
-                      key: ValueKey(widget.lottiePath), // Add key to ensure proper widget recycling
+                      key: ValueKey(widget.lottiePath),
                       assetPath: widget.lottiePath,
                       constraints: const BoxConstraints(maxHeight: 450),
                       repeat: true,
@@ -110,10 +100,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       frameRate: const FrameRate(30),
                       fit: BoxFit.contain,
                       alignment: Alignment.center,
-                      backgroundColor: AppColors.textSecondary.withOpacity(0.03),
+                      backgroundColor: AppColors.textSecondary,
                       borderRadius: BorderRadius.circular(16),
                       errorMessage: 'Onboarding animation unavailable',
-                      showStatusText: false, // Hide loading text for cleaner look
+                      showStatusText: false,
                     ),
                   ),
                 ),
