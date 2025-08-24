@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/study_topic.dart';
+import 'package:netlab/core/constants/app_text.dart'; // Import your text styles
 
 class TopicCard extends StatelessWidget {
   final StudyTopic topic;
@@ -65,11 +66,7 @@ class TopicCard extends StatelessWidget {
                   // Title
                   Text(
                     topic.title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    style: AppTextStyles.headerSmall,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -79,9 +76,9 @@ class TopicCard extends StatelessWidget {
                   // Description
                   Text(
                     topic.description,
-                    style: TextStyle(
+                    style: AppTextStyles.secondaryCustom(
                       fontSize: 12,
-                      color: Colors.white.withOpacity(0.8),
+                      color: const Color(0xCCFFFFFF), // Colors.white with ~80% opacity as solid color
                       fontWeight: FontWeight.w400,
                     ),
                     maxLines: 2,

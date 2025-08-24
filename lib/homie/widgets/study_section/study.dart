@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netlab/core/constants/app_colors.dart';
+import 'package:netlab/core/constants/app_text.dart'; // Import your text styles
 import 'models/study_topic.dart';
 import 'widgets/topic_card.dart';
 import 'topics/network_fundamentals_content.dart';
@@ -56,43 +57,22 @@ class _StudyScreenState extends State<StudyScreen> {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           'Study Materials',
-                          style: TextStyle(
+                          style: AppTextStyles.headerLarge.copyWith(
                             fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 3),
                         Text(
                           'Choose a topic to start learning',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white70,
+                          style: AppTextStyles.subtitleMedium.copyWith(
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  // Search Bar
-                  SizedBox(
-                    width: 300,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search topics...',
-                        hintStyle: const TextStyle(color: Colors.white54),
-                        prefixIcon: const Icon(Icons.search, color: Colors.white54),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      ),
-                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ],

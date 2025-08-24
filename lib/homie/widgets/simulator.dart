@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../core/components/gradient_text.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_image.dart';
+import '../../core/constants/app_text.dart'; // Import your text styles
 import '../../core/utils/lottie_optimization.dart';
 import '../../core/components/button.dart' as custom_button;
 import 'package:lottie/lottie.dart';
@@ -38,7 +38,7 @@ class SimulatorScreen extends StatelessWidget {
                       const SizedBox(height: 10),
                       Text(
                         'Practice network configuration in a safe, virtual lab with our interactive simulator.',
-                        style: GoogleFonts.inter(
+                        style: AppTextStyles.secondaryCustom(
                           fontSize: 18,
                           color: AppColors.textSecondary,
                           height: 1.4,
@@ -54,7 +54,7 @@ class SimulatorScreen extends StatelessWidget {
                             },
                             icon: const Icon(Icons.save_rounded, color: Colors.white),
                             style: IconButton.styleFrom(
-                              backgroundColor: Colors.white.withOpacity(0.1),
+                              backgroundColor: Colors.white,
                               padding: const EdgeInsets.all(12),
                             ),
                           ),
@@ -65,7 +65,7 @@ class SimulatorScreen extends StatelessWidget {
                             },
                             icon: const Icon(Icons.folder_open_rounded, color: Colors.white),
                             style: IconButton.styleFrom(
-                              backgroundColor: Colors.white.withOpacity(0.1),
+                              backgroundColor: Colors.white,
                               padding: const EdgeInsets.all(12),
                             ),
                           ),
@@ -101,7 +101,7 @@ class SimulatorScreen extends StatelessWidget {
                   frameRate: const FrameRate(30),
                   fit: BoxFit.contain,
                   alignment: Alignment.center,
-                  backgroundColor: AppColors.textSecondary.withOpacity(0.03),
+                  backgroundColor: AppColors.textSecondary,
                   borderRadius: BorderRadius.circular(16),
                   errorMessage: 'Simulation animation unavailable',
                   showStatusText: false,

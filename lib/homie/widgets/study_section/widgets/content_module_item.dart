@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/content_module.dart';
+import 'package:netlab/core/constants/app_text.dart'; // Import your text styles
 
 class ContentModuleItem extends StatelessWidget {
   final ContentModule module;
@@ -35,16 +36,17 @@ class ContentModuleItem extends StatelessWidget {
         ),
         title: Text(
           module.title,
-          style: const TextStyle(
+          style: AppTextStyles.primaryCustom(
+            fontSize: 16,
             color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
         ),
         subtitle: Text(
           '${module.description} • ${module.duration} min',
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.7),
+          style: AppTextStyles.secondaryCustom(
             fontSize: 12,
+            color: const Color(0xB3FFFFFF), // Colors.white with ~70% opacity as solid color
           ),
         ),
         trailing: Container(
@@ -55,9 +57,9 @@ class ContentModuleItem extends StatelessWidget {
           ),
           child: Text(
             _getTypeLabel(),
-            style: const TextStyle(
-              color: Colors.white,
+            style: AppTextStyles.primaryCustom(
               fontSize: 10,
+              color: Colors.white,
               fontWeight: FontWeight.w500,
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/study_topic.dart';
+import 'package:netlab/core/constants/app_text.dart';
 
 class TopicHeader extends StatelessWidget {
   final StudyTopic topic;
@@ -22,7 +23,7 @@ class TopicHeader extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [
             topic.cardColor,
-            topic.cardColor.withOpacity(0.8),
+            topic.cardColor,
           ],
         ),
       ),
@@ -48,18 +49,11 @@ class TopicHeader extends StatelessWidget {
             children: [
               Text(
                 topic.title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
+                style: AppTextStyles.headerSmall,
               ),
               Text(
                 'Course Content',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white.withOpacity(0.75),
-                ),
+                style: AppTextStyles.subtitleSmall,
               ),
             ],
           ),
