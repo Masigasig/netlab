@@ -19,7 +19,7 @@ class AppColors {
   // UI Element Colors for page indicator
   static const Color active = Colors.blue;
   static const Color inactive = Colors.grey;
-  static const Color divider = Color(0xB38B949E);
+  static const Color divider = Color(0x1AFFFFFF);
   
   // Gradient Colors
   static const List<Color> primaryGradient = [

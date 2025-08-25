@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/content_module.dart';
 import 'module_type_helpers.dart';
+import 'package:netlab/core/constants/app_text.dart';
 
 class SidebarModuleItem extends StatelessWidget {
   final ContentModule module;
@@ -44,19 +45,19 @@ class SidebarModuleItem extends StatelessWidget {
         ),
         title: Text(
           module.title,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Colors.white.withOpacity(0.9),
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+          style: AppTextStyles.primaryCustom(
             fontSize: 13,
+            color: isSelected ? Colors.white : const Color(0xE6FFFFFF), // Colors.white with ~90% opacity as solid color
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
           ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
         subtitle: Text(
           '${module.duration} min',
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.6),
+          style: AppTextStyles.secondaryCustom(
             fontSize: 11,
+            color: const Color(0x99FFFFFF), // Colors.white with ~60% opacity as solid color
           ),
         ),
         trailing: Container(
@@ -67,9 +68,9 @@ class SidebarModuleItem extends StatelessWidget {
           ),
           child: Text(
             ModuleTypeHelpers.getShortTypeLabel(module.type),
-            style: const TextStyle(
-              color: Colors.white,
+            style: AppTextStyles.primaryCustom(
               fontSize: 9,
+              color: Colors.white,
               fontWeight: FontWeight.w600,
             ),
           ),
