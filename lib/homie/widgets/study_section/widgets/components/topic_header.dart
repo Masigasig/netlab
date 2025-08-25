@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/study_topic.dart';
 import 'package:netlab/core/constants/app_text.dart';
+import 'package:netlab/core/constants/app_colors.dart'; // Import your colors
 
 class TopicHeader extends StatelessWidget {
   final StudyTopic topic;
@@ -17,14 +18,13 @@ class TopicHeader extends StatelessWidget {
     return Container(
       height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            topic.cardColor,
-            topic.cardColor,
-          ],
+      decoration: const BoxDecoration(
+        color: AppColors.background, // Use your app background color
+        border: Border(
+          bottom: BorderSide(
+            color: Color(0x1AFFFFFF), // Same opacity as sidebar divider
+            width: 1,
+          ),
         ),
       ),
       child: Row(

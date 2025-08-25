@@ -48,8 +48,8 @@ class TopicCard extends StatelessWidget {
                 children: [
                   // Icon in a circular background
                   Container(
-                    width: 60,
-                    height: 60,
+                    width: 50,
+                    height: 50,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white.withOpacity(0.2),
@@ -57,7 +57,7 @@ class TopicCard extends StatelessWidget {
                     child: Icon(
                       topic.icon,
                       color: Colors.white,
-                      size: 28,
+                      size: 24,
                     ),
                   ),
                   
@@ -71,7 +71,7 @@ class TopicCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
                   
                   // Description
                   Text(
