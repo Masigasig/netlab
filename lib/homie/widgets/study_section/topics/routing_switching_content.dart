@@ -1,4 +1,3 @@
-// homie/widgets/study_section/topics/routing_switching_content.dart
 import 'package:flutter/material.dart';
 import '../widgets/base_topic_content.dart';
 import '../models/content_module.dart';

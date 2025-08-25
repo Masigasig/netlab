@@ -1,4 +1,3 @@
-// homie/widgets/study_section/topics/network_fundamentals_content.dart
 import 'package:flutter/material.dart';
 import '../widgets/base_topic_content.dart';
 import '../models/content_module.dart';
@@ -22,7 +21,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
       ),
       ContentModule(
         id: 'nf_osi',
-        title: 'OSI Model',
+        title: 'Internet',
         description: 'Understanding the 7-layer OSI reference model',
         icon: Icons.layers,
         duration: 25,
@@ -30,15 +29,15 @@ class NetworkFundamentalsContent extends BaseTopicContent {
       ),
       ContentModule(
         id: 'nf_tcpip',
-        title: 'TCP/IP Protocol Suite',
-        description: 'Deep dive into TCP/IP protocols',
+        title: 'Network',
+        description: 'this is network description',
         icon: Icons.hub,
         duration: 30,
         type: ContentType.interactive,
       ),
       ContentModule(
         id: 'nf_addressing',
-        title: 'IP Addressing',
+        title: 'IP Address',
         description: 'IPv4 and IPv6 addressing schemes',
         icon: Icons.location_on,
         duration: 20,
@@ -46,8 +45,8 @@ class NetworkFundamentalsContent extends BaseTopicContent {
       ),
       ContentModule(
         id: 'nf_subnetting',
-        title: 'Subnetting',
-        description: 'Learn how to divide networks into subnets',
+        title: 'OSI Model',
+        description: 'Learn about the 7 layers of the OSI model',
         icon: Icons.network_check,
         duration: 35,
         type: ContentType.lab,

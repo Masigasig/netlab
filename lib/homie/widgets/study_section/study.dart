@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netlab/core/constants/app_colors.dart';
-import 'package:netlab/core/constants/app_text.dart'; // Import your text styles
+import 'package:netlab/core/constants/app_text.dart';
 import 'models/study_topic.dart';
 import 'widgets/topic_card.dart';
 import 'topics/network_fundamentals_content.dart';

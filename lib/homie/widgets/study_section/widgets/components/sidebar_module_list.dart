@@ -20,7 +20,7 @@ class SidebarModuleList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
+      width: 280,
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.05),
         border: Border(
