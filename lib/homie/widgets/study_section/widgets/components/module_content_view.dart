@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../../models/content_module.dart';
 import '../../models/study_topic.dart';
 import 'module_type_helpers.dart';
+//import '../../topics/models/content_block.dart';
+import '../../topics/content/content_renderer.dart';
+import '../../topics/content/content_registry.dart';
 
 class ModuleContentView extends StatelessWidget {
   final ContentModule module;
@@ -94,13 +97,25 @@ class ModuleContentView extends StatelessWidget {
                 color: Colors.white.withOpacity(0.1),
               ),
             ),
-            child: Text(
-              module.description,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white.withOpacity(0.9),
-                height: 1.6,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Module description
+                // Text(
+                //   module.description,
+                //   style: TextStyle(
+                //     fontSize: 16,
+                //     color: Colors.white.withOpacity(0.9),
+                //     height: 1.6,
+                //   ),
+                // ),
+                // const SizedBox(height: 24),
+                
+                // Module content blocks
+                ContentRenderer(
+                  blocks: ContentRegistry.getContent(module.id),
+                ),
+              ],
             ),
           ),
         ],
