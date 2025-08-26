@@ -69,38 +69,4 @@ class RoutingSwitchingContent extends BaseTopicContent {
       ),
     ];
   }
-
-  @override
-  void onModuleTap(BuildContext context, ContentModule module) {
-    switch (module.type) {
-      case ContentType.video:
-        _showModuleMessage(context, 'Loading video tutorial: ${module.title}');
-        break;
-      case ContentType.reading:
-        _showModuleMessage(context, 'Opening study guide: ${module.title}');
-        break;
-      case ContentType.quiz:
-        _showModuleMessage(context, 'Preparing quiz: ${module.title}');
-        break;
-      case ContentType.lab:
-        _showModuleMessage(context, 'Initializing lab environment: ${module.title}');
-        break;
-      case ContentType.interactive:
-        _showModuleMessage(context, 'Starting interactive demo: ${module.title}');
-        break;
-    }
-  }
-
-  void _showModuleMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: topic.cardColor.withOpacity(0.9),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-    );
-  }
 }

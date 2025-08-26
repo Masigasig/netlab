@@ -77,39 +77,4 @@ class NetworkSecurityContent extends BaseTopicContent {
       ),
     ];
   }
-
-  @override
-  void onModuleTap(BuildContext context, ContentModule module) {
-    switch (module.type) {
-      case ContentType.video:
-        _showModuleMessage(context, 'Loading security training video: ${module.title}');
-        break;
-      case ContentType.reading:
-        _showModuleMessage(context, 'Opening security documentation: ${module.title}');
-        break;
-      case ContentType.quiz:
-        _showModuleMessage(context, 'Preparing security assessment: ${module.title}');
-        break;
-      case ContentType.lab:
-        _showModuleMessage(context, 'Starting security lab: ${module.title}');
-        break;
-      case ContentType.interactive:
-        _showModuleMessage(context, 'Loading interactive security demo: ${module.title}');
-        break;
-    }
-  }
-
-  void _showModuleMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: topic.cardColor.withOpacity(0.9),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
 }

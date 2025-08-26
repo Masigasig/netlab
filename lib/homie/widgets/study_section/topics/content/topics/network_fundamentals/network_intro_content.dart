@@ -1,4 +1,4 @@
-import '../models/content_block.dart';
+import '../../models/content_block.dart';
 
 class NetworkIntroContent implements ModuleContent {
   @override
@@ -9,56 +9,36 @@ class NetworkIntroContent implements ModuleContent {
     return [
       ContentBlock(
         type: ContentBlockType.header,
-        title: 'What is a Computer Network?',
-        content: 'Understanding the basics of computer networking',
-      ),
-      ContentBlock(
-        type: ContentBlockType.paragraph,
-        content: 'A computer network is a group of computers and other devices that are connected together to share resources and communicate with each other.',
-      ),
-      ContentBlock(
-        type: ContentBlockType.bulletList,
-        content: [
-          'Share resources like files and printers',
-          'Enable communication between users',
-          'Allow centralized data storage',
-          'Provide access to the internet',
-        ],
-      ),
-      ContentBlock(
-        type: ContentBlockType.note,
-        content: 'Networks can range from small home networks to large enterprise networks that span globally.',
-      ),
-      ContentBlock(
-        type: ContentBlockType.divider,
+        title: 'Understanding the fundamentals of computer networking',
         content: '',
       ),
       ContentBlock(
-        type: ContentBlockType.header,
-        title: 'Types of Networks',
-        content: 'Different categories of networks based on size and scope',
+        type: ContentBlockType.paragraph,
+        content:
+            'Computer Network is a system that connects different devices like computers, servers, printers, so they can share resources and exchange information. '
+            'This makes it possible to do things like sending emails, sharing files, or browse the internet.',
+      ),
+      ContentBlock(
+        type: ContentBlockType.paragraph,
+        content:
+            'So basically networking started with one computer wanting to share data with another. '
+            'It can be simple as two computers connected with a cable.',
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/network_types.png',
-        title: 'Different types of networks and their scope',
+        content: 'assets/images/two_computers_connected.png',
+        title: 'Simple network: Two computers connected with a cable',
       ),
       ContentBlock(
-        type: ContentBlockType.definition,
-        content: [
-          {
-            'term': 'LAN (Local Area Network)',
-            'definition': 'Connects devices in a limited area like home, school, or office building.'
-          },
-          {
-            'term': 'WAN (Wide Area Network)',
-            'definition': 'Connects networks over large geographical distances.'
-          },
-          {
-            'term': 'MAN (Metropolitan Area Network)',
-            'definition': 'Covers a larger area than LAN but smaller than WAN, typically a city.'
-          },
-        ],
+        type: ContentBlockType.paragraph,
+        content:
+            'And it is possible to connect more devices and link multiple networks together with switches, routers, and other devices.',
+      ),
+      ContentBlock(
+        type: ContentBlockType.note,
+        content:
+            'At its core, networking is about “sharring and communication”. '
+            'What began as two computers exchanging data has now scaled into the global Internet that connects billions of devices.',
       ),
     ];
   }
