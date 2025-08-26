@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/content_module.dart';
 import 'package:netlab/core/constants/app_text.dart'; // Import your text styles
+import 'package:netlab/homie/widgets/study_section/widgets/components/module_type_helpers.dart';
 
 class ContentModuleItem extends StatelessWidget {
   final ContentModule module;
@@ -25,11 +26,11 @@ class ContentModuleItem extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: _getTypeColor(),
+            color: ModuleTypeHelpers.getTypeColor(module.type),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
-            module.icon,
+            ModuleTypeHelpers.getActionIcon(module.type),
             color: Colors.white,
             size: 20,
           ),
@@ -46,17 +47,17 @@ class ContentModuleItem extends StatelessWidget {
           '${module.description} • ${module.duration} min',
           style: AppTextStyles.secondaryCustom(
             fontSize: 12,
-            color: const Color(0xB3FFFFFF), // Colors.white with ~70% opacity as solid color
+            color: const Color(0xB3FFFFFF), // white 70%
           ),
         ),
         trailing: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
-            color: _getTypeColor(),
+            color: ModuleTypeHelpers.getTypeColor(module.type),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
-            _getTypeLabel(),
+            ModuleTypeHelpers.getShortTypeLabel(module.type), 
             style: AppTextStyles.primaryCustom(
               fontSize: 10,
               color: Colors.white,
@@ -67,35 +68,5 @@ class ContentModuleItem extends StatelessWidget {
         onTap: onTap,
       ),
     );
-  }
-
-  Color _getTypeColor() {
-    switch (module.type) {
-      case ContentType.video:
-        return Colors.red.withOpacity(0.7);
-      case ContentType.reading:
-        return Colors.blue.withOpacity(0.7);
-      case ContentType.quiz:
-        return Colors.orange.withOpacity(0.7);
-      case ContentType.interactive:
-        return Colors.purple.withOpacity(0.7);
-      case ContentType.lab:
-        return Colors.green.withOpacity(0.7);
-    }
-  }
-
-  String _getTypeLabel() {
-    switch (module.type) {
-      case ContentType.video:
-        return 'VIDEO';
-      case ContentType.reading:
-        return 'READ';
-      case ContentType.quiz:
-        return 'QUIZ';
-      case ContentType.interactive:
-        return 'INTERACTIVE';
-      case ContentType.lab:
-        return 'LAB';
-    }
   }
 }

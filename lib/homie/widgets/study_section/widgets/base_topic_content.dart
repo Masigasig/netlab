@@ -17,16 +17,7 @@ abstract class BaseTopicContent extends StatefulWidget {
 
   List<ContentModule> getContentModules();
   
-  // Virtual method that can be overridden by subclasses
-  void onModuleTap(BuildContext context, ContentModule module) {
-    // Default behavior - show snackbar
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Opening: ${module.title}'),
-        backgroundColor: Colors.white.withOpacity(0.2),
-      ),
-    );
-  }
+  void onModuleTap(BuildContext context, ContentModule module) {}
 
   @override
   State<BaseTopicContent> createState() => _BaseTopicContentState();
