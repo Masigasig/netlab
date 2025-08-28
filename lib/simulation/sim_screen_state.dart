@@ -156,7 +156,9 @@ class SimScreenState extends StateNotifier<void> {
             .read(hostProvider(conAId).notifier)
             .updateConnectionId(connection.id);
       } else if (conAId.startsWith(SimObjectType.router.label)) {
-        // ref.read(routerProvider(conAId).notifier).updateConnectionId(connection.id);
+        ref
+            .read(routerProvider(conAId).notifier)
+            .updateConIdByEthName(conAName, connection.id);
       } else if (conAId.startsWith(SimObjectType.switch_.label)) {
         ref
             .read(switchProvider(conAId).notifier)
@@ -168,7 +170,9 @@ class SimScreenState extends StateNotifier<void> {
             .read(hostProvider(conBId).notifier)
             .updateConnectionId(connection.id);
       } else if (conBId.startsWith(SimObjectType.router.label)) {
-        // ref.read(routerProvider(conBId).notifier).updateConnectionId(connection.id);
+        ref
+            .read(routerProvider(conBId).notifier)
+            .updateConIdByEthName(conBName, connection.id);
       } else if (conBId.startsWith(SimObjectType.switch_.label)) {
         ref
             .read(switchProvider(conBId).notifier)

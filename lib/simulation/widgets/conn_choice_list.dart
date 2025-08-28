@@ -26,6 +26,9 @@ class _ConnChoiceListState extends ConsumerState<ConnChoiceList> {
           .getAllConnectionInfo();
     } else if (selectedId.startsWith(SimObjectType.router.label)) {
       device = ref.watch(routerProvider(selectedId));
+      connection = ref
+          .read(routerProvider(selectedId).notifier)
+          .getAllConnectionInfo();
     } else if (selectedId.startsWith(SimObjectType.switch_.label)) {
       device = ref.watch(switchProvider(selectedId));
       connection = ref
