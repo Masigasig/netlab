@@ -397,6 +397,10 @@ extension SimObjectTypeX on SimObjectType {
         posX: posX,
         posY: posY,
         name: name,
+        eth0MacAddress: MacAddressManager.generateUniqueMacAddress(),
+        eth1MacAddress: MacAddressManager.generateUniqueMacAddress(),
+        eth2MacAddress: MacAddressManager.generateUniqueMacAddress(),
+        eth3MacAddress: MacAddressManager.generateUniqueMacAddress(),
       ),
       SimObjectType.switch_ => Switch(
         id: id,
