@@ -24,6 +24,20 @@ class Router extends Device {
   final Map<String, String> arpTable;
   final Map<String, Map<String, String>> routingTable;
 
+  Map<String, String> get conIdToMacMap => {
+    eth0conId: eth0MacAddress,
+    eth1conId: eth1MacAddress,
+    eth2conId: eth2MacAddress,
+    eth3conId: eth3MacAddress,
+  };
+
+  Map<String, String> get conIdToIpAddMap => {
+    eth0conId: eth0IpAddress,
+    eth1conId: eth1IpAddress,
+    eth2conId: eth2IpAddress,
+    eth3conId: eth3IpAddress,
+  };
+
   const Router({
     required super.id,
     required super.name,
