@@ -9,11 +9,89 @@ class RouterNotifier extends DeviceNotifier<Router> {
   RouterNotifier(Ref ref, String id)
     : super(ref.read(routerMapProvider)[id]!, ref);
 
+  Queue<Map<String, String>> routerQ = Queue();
   // static const _arpTimeout = Duration(seconds: 50);
-  // static const _processingInterval = Duration(milliseconds: 500);
+  static const _processingInterval = Duration(milliseconds: 500);
   final Map<String, DateTime> _pendingArpRequests = {};
-  // Timer? _messageProcessingTimer;
-  // bool _isProcessingMessages = false;
+  Timer? _messageProcessingTimer;
+  bool _isProcessingMessages = false;
+
+  void _startMessageProcessing() {
+    if (_isProcessingMessages) return;
+    _isProcessingMessages = true;
+    _processNextMessage();
+  }
+
+  void _stopMessageProcessing() {
+    _isProcessingMessages = false;
+    _messageProcessingTimer?.cancel();
+  }
+
+  void _scheduleNextProcessing() {
+    _messageProcessingTimer?.cancel();
+    if (!_isProcessingMessages) return;
+    _messageProcessingTimer = Timer(_processingInterval, _processNextMessage);
+  }
+
+  void _processNextMessage() {
+    if (!_isProcessingMessages || routerQ.isEmpty) {
+      _stopMessageProcessing();
+      return;
+    }
+
+    final currentMessage = routerQ.removeFirst();
+    final messageId = currentMessage['messageId']!;
+    final fromConId = currentMessage['fromConId']!;
+
+    if (currentMessage.isEmpty) {
+      _scheduleNextProcessing();
+      return;
+    }
+
+    //TODO: algorithm;
+  }
+
+  String getEthConId(String dstIpAddress) {
+    String currentIp = dstIpAddress;
+    Set<String> visited = {};
+
+    while (true) {
+      String bestMatchNetwork = '';
+      int bestMaskLength = -1;
+
+      state.routingTable.forEach((network, routeInfo) {
+        final subnetMask = routeInfo['subnetMask']!;
+        final maskLength = IPv4AddressManager.getSubnetMaskPrefixLength(
+          subnetMask,
+        );
+        final calculatedNetwork = IPv4AddressManager.getNetworkAddress(
+          currentIp,
+          subnetMask,
+        );
+
+        if (calculatedNetwork == network && maskLength > bestMaskLength) {
+          bestMaskLength = maskLength;
+          bestMatchNetwork = network;
+        }
+      });
+
+      if (bestMatchNetwork.isEmpty) return '';
+
+      final routeInfo = state.routingTable[bestMatchNetwork]!;
+      final type = routeInfo['type']!;
+      final intrfc = routeInfo['interface']!;
+
+      if (type == 'Directed') {
+        return state.ethToConId[intrfc]!;
+      }
+
+      // now if not directed it either static or dynamic that have an ip on the interface
+      if (visited.contains(intrfc)) return ''; //loop detected
+
+      visited.add(intrfc);
+      currentIp = intrfc;
+    }
+  }
 
   @override
   void receiveMessage(String messageId, String fromConId) {
@@ -32,8 +110,15 @@ class RouterNotifier extends DeviceNotifier<Router> {
         case DataLinkLayerType.arp:
           _receiveArpMsg(messageId, fromConId, dataLinkLayer);
         case DataLinkLayerType.ipv4:
-        // handle Ipv4
-        // TODO* implement IPv4 message handling
+          final senderIp = messageNotifier(
+            messageId,
+          ).state.layerStack.last[MessageKey.senderIp.name]!;
+
+          _updateArpTable(senderIp, dataLinkLayer[MessageKey.source.name]!);
+
+          routerQ.add({'messageId': messageId, 'fromConId': fromConId});
+
+          _startMessageProcessing();
       }
     } else {
       messageNotifier(
@@ -107,6 +192,41 @@ class RouterNotifier extends DeviceNotifier<Router> {
     };
 
     messageNotifier(message.id).pushLayer(newDataLinkLayer);
+    sendMessageToConnection(fromConId, message.id, state.id);
+  }
+
+  void _sendArpRqst(String targetIp, String fromConId) {
+    final message =
+        SimObjectType.message.createSimObject(
+              name: 'ARP Request',
+              srcId: state.id,
+              dstId: 'ARP Request',
+            )
+            as Message;
+
+    messageMapNotifier.addSimObject(message);
+    ref
+        .read(messageWidgetProvider.notifier)
+        .addSimObjectWidget(MessageWidget(simObjectId: message.id));
+
+    messageNotifier(message.id).updatePosition(state.posX, state.posY);
+    messageNotifier(message.id).updateCurrentPlaceId(state.id);
+
+    final arpLayer = {
+      MessageKey.operation.name: OperationType.request.name,
+      MessageKey.senderIp.name: state.conIdToIpAddMap[fromConId]!,
+      MessageKey.targetIp.name: targetIp,
+    };
+
+    messageNotifier(message.id).pushLayer(arpLayer);
+
+    final dataLinkLayer = {
+      MessageKey.source.name: state.conIdToMacMap[fromConId]!,
+      MessageKey.destination.name: MacAddressManager.broadcastMacAddress,
+      MessageKey.type.name: DataLinkLayerType.arp.name,
+    };
+
+    messageNotifier(message.id).pushLayer(dataLinkLayer);
     sendMessageToConnection(fromConId, message.id, state.id);
   }
 

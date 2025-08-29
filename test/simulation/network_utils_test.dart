@@ -130,6 +130,46 @@ void main() {
     });
     */
 
+    test('getSubnetMaskPrefixLength returns correct length', () {
+      expect(IPv4AddressManager.getSubnetMaskPrefixLength('/24'), equals(24));
+      expect(IPv4AddressManager.getSubnetMaskPrefixLength('/20'), equals(20));
+      expect(IPv4AddressManager.getSubnetMaskPrefixLength('/14'), equals(14));
+      expect(IPv4AddressManager.getSubnetMaskPrefixLength('/30'), equals(30));
+
+      expect(
+        IPv4AddressManager.getSubnetMaskPrefixLength('0.0.0.0'),
+        equals(0),
+      );
+      expect(
+        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.0.0'),
+        equals(16),
+      );
+      expect(
+        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.0'),
+        equals(24),
+      );
+      expect(
+        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.192'),
+        equals(26),
+      );
+      expect(
+        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.224'),
+        equals(27),
+      );
+      expect(
+        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.240'),
+        equals(28),
+      );
+      expect(
+        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.248'),
+        equals(29),
+      );
+      expect(
+        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.252'),
+        equals(30),
+      );
+    });
+
     test('getNetworkAddress returns correct network address', () {
       expect(
         IPv4AddressManager.getNetworkAddress('203.0.113.55', '/0'),

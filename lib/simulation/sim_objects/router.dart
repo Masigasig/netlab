@@ -23,6 +23,16 @@ class Router extends Device {
 
   final Map<String, String> arpTable;
   final Map<String, Map<String, String>> routingTable;
+  /* Sample of the routing table 
+  {
+    192.168.0.0(network address): {
+      'type': (either Directed, Static, Dynamic),
+      'subnetMask': (/24, or 255.255.255.0)
+      'interface': either 'eth0' or some Ip address
+    },
+  }
+
+  */
 
   Map<String, String> get conIdToMacMap => {
     eth0conId: eth0MacAddress,
@@ -36,6 +46,13 @@ class Router extends Device {
     eth1conId: eth1IpAddress,
     eth2conId: eth2IpAddress,
     eth3conId: eth3IpAddress,
+  };
+
+  Map<String, String> get ethToConId => {
+    'eth0': eth0conId,
+    'eth1': eth1conId,
+    'eth2': eth2conId,
+    'eth3': eth3conId,
   };
 
   const Router({
