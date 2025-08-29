@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:netlab/core/constants/app_text.dart';
+import 'package:netlab/core/constants/app_colors.dart';
 
-class SidebarItem extends StatefulWidget {
+class SidebarItem extends StatelessWidget {
   final IconData? icon;
-  final String? lottiePath;
   final String label;
   final int index;
   final int selectedIndex;
@@ -12,7 +12,6 @@ class SidebarItem extends StatefulWidget {
   const SidebarItem({
     super.key,
     this.icon,
-    this.lottiePath,
     required this.label,
     required this.index,
     required this.selectedIndex,
@@ -20,95 +19,67 @@ class SidebarItem extends StatefulWidget {
   });
 
   @override
-  State<SidebarItem> createState() => _SidebarItemState();
-}
-
-class _SidebarItemState extends State<SidebarItem>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this);
-  }
-
-  @override
-  void didUpdateWidget(SidebarItem oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    
-    if (widget.index >= 0 &&
-        widget.index == widget.selectedIndex && 
-        widget.index != oldWidget.selectedIndex) {
-      _controller.reset();
-      _controller.forward();
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final isSelected = widget.index == widget.selectedIndex;
-    
-    // Icon color for all items
-    Color iconColor = Colors.white;
+    final isSelected = index == selectedIndex;
 
     return InkWell(
-      onTap: (widget.index == -1) ? null : () => widget.onTap(widget.index), // Header not clickable
+      onTap: (index == -1) ? null : () => onTap(index),
       borderRadius: BorderRadius.circular(8),
-      hoverColor: (widget.index == -1) ? Colors.transparent : Colors.white10,
+      hoverColor: (index == -1) ? Colors.transparent : Colors.white10,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
+        margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Selection indicator (only for navigation items)
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 3,
-              height: 32,
-              decoration: BoxDecoration(
-                color: (widget.index >= 0 && isSelected) 
-                    ? Colors.white 
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(width: 10),
-            
-            // Icon or Lottie animation with uniform 24x24 size
             SizedBox(
               width: 24,
               height: 24,
-              child: _buildIcon(iconColor),
+              child: icon != null 
+                  ? (isSelected 
+                      ? ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: AppColors.primaryGradient,
+                          ).createShader(bounds),
+                          child: Icon(icon, color: Colors.white, size: 24),
+                        )
+                      : Icon(icon, color: Colors.white, size: 24))
+                  : const SizedBox.shrink(),
             ),
+            const SizedBox(height: 6),
+            isSelected 
+                ? ShaderMask(
+                    shaderCallback: (bounds) => const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: AppColors.primaryGradient,
+                    ).createShader(bounds),
+                    child: Text(
+                      label,
+                      style: AppTextStyles.caption.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                : Text(
+                    label,
+                    style: AppTextStyles.caption.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildIcon(Color iconColor) {
-    if (widget.lottiePath != null) {
-      return Lottie.asset(
-        widget.lottiePath!,
-        controller: _controller,
-        onLoaded: (composition) => _controller.duration = composition.duration,
-        width: 24,
-        height: 24,
-        fit: BoxFit.contain,
-      );
-    }
-    
-    if (widget.icon != null) {
-      return Icon(widget.icon, color: iconColor, size: 24);
-    }
-    
-    return const SizedBox.shrink();
   }
 }
