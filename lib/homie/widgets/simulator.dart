@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/components/gradient_text.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_image.dart';
-import '../../core/constants/app_text.dart'; // Import your text styles
+import '../../core/constants/app_text.dart';
 import '../../core/utils/lottie_optimization.dart';
 import '../../core/components/button.dart' as custom_button;
 import 'package:lottie/lottie.dart';
@@ -22,9 +22,9 @@ class SimulatorScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(32.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Title and description at the top
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -44,41 +44,129 @@ class SimulatorScreen extends StatelessWidget {
                           height: 1.4,
                         ),
                       ),
-                      const SizedBox(height: 37),
-                      // File operation buttons
-                      Row(
+                    ],
+                  ),
+                  
+                  // Expanded area to center the buttons
+                  Expanded(
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              // TODO: Save file
-                            },
-                            icon: const Icon(Icons.save_rounded, color: Colors.white),
-                            style: IconButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              padding: const EdgeInsets.all(12),
+                          Flexible(
+                            child: Container(
+                              height: 55,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.secondary.withOpacity(0.8),
+                                    AppColors.primary.withOpacity(0.8),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    // TODO: Save file
+                                  },
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 12,
+                                    ),
+                                    child: const Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.save_rounded,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          'Save',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          IconButton(
-                            onPressed: () {
-                              // TODO: Load file
-                            },
-                            icon: const Icon(Icons.folder_open_rounded, color: Colors.white),
-                            style: IconButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              padding: const EdgeInsets.all(12),
+                          const SizedBox(width: 12),
+                          Flexible(
+                            child: Container(
+                              height: 55,
+                              decoration: BoxDecoration(
+                                color: AppColors.textSecondary.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: AppColors.textSecondary.withOpacity(0.3),
+                                  width: 1,
+                                ),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    // TODO: Load file
+                                  },
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 12,
+                                    ),
+                                    child: const Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.folder_open_rounded,
+                                          color: AppColors.textSecondary,
+                                          size: 20,
+                                        ),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          'Load',
+                                          style: TextStyle(
+                                            color: AppColors.textSecondary,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                  // Bottom start button
-                  custom_button.ButtonStyle(
-                    text: 'Start Simulation',
-                    onPressed: () {
-                      // TODO: Start simulation
-                    },
+
+                  // Bottom start button centered
+                  Center(
+                    child: SizedBox(
+                      width: 200,
+                      child: custom_button.ButtonStyle(
+                        text: 'Simulate',
+                        onPressed: () {
+                          // TODO: Start simulation
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),
