@@ -120,6 +120,18 @@ class IPv4AddressManager {
     ].join('.');
   }
 
+  static int getSubnetMaskPrefixLength(String subnet) {
+    if (subnet.startsWith('/')) {
+      return int.parse(subnet.substring(1));
+    }
+
+    return subnet
+        .split('.')
+        .map(int.parse)
+        .map((octet) => octet.toRadixString(2).replaceAll('0', '').length)
+        .reduce((a, b) => a + b);
+  }
+
   static String getNetworkAddress(String ip, String subnet) {
     if (!isValidIp(ip)) return 'Not Valid IP address';
     if (!isValidSubnet(subnet)) return 'Not Valid Subnetmask';
