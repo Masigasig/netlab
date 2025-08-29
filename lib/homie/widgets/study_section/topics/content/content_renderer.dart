@@ -271,7 +271,7 @@ class ContentRenderer extends StatelessWidget {
                 Text(
                   def['definition']!,
                   style: AppTextStyles.withColor(
-                    AppTextStyles.bodyLarge.copyWith(height: 1.6),
+                    AppTextStyles.bodyMedium.copyWith(height: 1.6),
                     Colors.white.withOpacity(0.9),
                   ),
                 ),
@@ -317,28 +317,40 @@ class ContentRenderer extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white.withOpacity(0.1)),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: DataTable(
-          headingTextStyle: AppTextStyles.withColor(
-            AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold),
-            Colors.white,
-          ),
-          dataTextStyle: AppTextStyles.withColor(
-            AppTextStyles.bodyMedium,
-            Colors.white.withOpacity(0.9),
-          ),
-          columns: headers.map((header) => DataColumn(label: Text(header))).toList(),
-          rows: rows.map((row) => 
-            DataRow(
-              cells: row.map((cell) => DataCell(Text(cell))).toList(),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final table = DataTable(
+            headingTextStyle: AppTextStyles.withColor(
+              AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold),
+              Colors.white,
             ),
-          ).toList(),
-        ),
+            dataTextStyle: AppTextStyles.withColor(
+              AppTextStyles.bodyMedium,
+              Colors.white.withOpacity(0.9),
+            ),
+            columns:
+                headers.map((header) => DataColumn(label: Text(header))).toList(),
+            rows: rows
+                .map((row) => DataRow(
+                      cells: row.map((cell) => DataCell(Text(cell))).toList(),
+                    ))
+                .toList(),
+          );
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: constraints.maxWidth,
+              ),
+              child: Center(child: table),
+            ),
+          );
+        },
       ),
     );
   }

@@ -26,7 +26,7 @@ class NetworkIntroContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/two_computers_connected.png',
+        content: 'assets/images/content_image/sample.gif',
         title: 'Simple network: Two computers connected with a cable',
       ),
       ContentBlock(

@@ -7,6 +7,7 @@ import 'topics/network_fundamentals_content.dart';
 import 'topics/routing_switching_content.dart';
 import 'topics/network_security_content.dart';
 import 'widgets/default_topic_content.dart';
+import 'topics/arp.dart';
 
 class StudyScreen extends StatefulWidget {
   const StudyScreen({super.key});
@@ -25,8 +26,8 @@ class _StudyScreenState extends State<StudyScreen> {
       icon: Icons.network_wifi,
     ),
     StudyTopic(
-      id: 'routing_switching',
-      title: 'Routing and Switching',
+      id: 'switching_routing',
+      title: 'Switching and Routing',
       description: 'Understanding how data moves through networks and switching concepts',
       cardColor: const Color(0xFF10B981),
       icon: Icons.router,
@@ -37,6 +38,13 @@ class _StudyScreenState extends State<StudyScreen> {
       description: 'Protect networks from threats and learn security best practices',
       cardColor: const Color(0xFFF59E0B),
       icon: Icons.security,
+    ),
+    StudyTopic(
+      id: 'arp',
+      title: 'ARP',
+      description: 'this is arp btw',
+      cardColor: const Color(0xFF6366F1),
+      icon: Icons.network_wifi,
     ),
   ];
 
@@ -111,11 +119,14 @@ class _StudyScreenState extends State<StudyScreen> {
       case 'network_fundamentals':
         contentScreen = NetworkFundamentalsContent(topic: topic);
         break;
-      case 'routing_switching':
+      case 'switching_routing':
         contentScreen = RoutingSwitchingContent(topic: topic);
         break;
       case 'network_security':
         contentScreen = NetworkSecurityContent(topic: topic);
+        break;
+      case 'arp':
+        contentScreen = ArpContent(topic: topic);
         break;
       default:
         contentScreen = DefaultTopicContent(topic: topic);
