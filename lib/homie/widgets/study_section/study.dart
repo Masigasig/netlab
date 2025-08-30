@@ -5,7 +5,7 @@ import 'models/study_topic.dart';
 import 'widgets/topic_card.dart';
 import 'topics/network_fundamentals_content.dart';
 import 'topics/routing_switching_content.dart';
-import 'topics/network_security_content.dart';
+import 'topics/network_devices.dart';
 import 'widgets/default_topic_content.dart';
 import 'topics/arp.dart';
 
@@ -33,9 +33,9 @@ class _StudyScreenState extends State<StudyScreen> {
       icon: Icons.router,
     ),
     StudyTopic(
-      id: 'network_security',
-      title: 'Network Security',
-      description: 'Protect networks from threats and learn security best practices',
+      id: 'network_devices',
+      title: 'Network Devices',
+      description: 'Learn about different types of network devices and their functions',
       cardColor: const Color(0xFFF59E0B),
       icon: Icons.security,
     ),
@@ -122,8 +122,8 @@ class _StudyScreenState extends State<StudyScreen> {
       case 'switching_routing':
         contentScreen = RoutingSwitchingContent(topic: topic);
         break;
-      case 'network_security':
-        contentScreen = NetworkSecurityContent(topic: topic);
+      case 'network_devices':
+        contentScreen = NetworkDevicesContent(topic: topic);
         break;
       case 'arp':
         contentScreen = ArpContent(topic: topic);

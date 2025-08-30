@@ -20,6 +20,14 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         type: ContentType.reading,
       ),
       ContentModule(
+        id: 'nf_host',
+        title: 'Host',
+        description: '',
+        icon: Icons.layers,
+        duration: 25,
+        type: ContentType.reading,
+      ),
+      ContentModule(
         id: 'nf_internet',
         title: 'Internet',
         description: '',
