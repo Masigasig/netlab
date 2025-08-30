@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import '../widgets/base_topic_content.dart';
 import '../models/content_module.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class RoutingSwitchingContent extends BaseTopicContent {
   const RoutingSwitchingContent({
@@ -15,7 +15,7 @@ class RoutingSwitchingContent extends BaseTopicContent {
         id: 'sr_intro_switching',
         title: 'Introduction to Switching',
         description: '',
-        icon: Icons.alt_route,
+        icon: HugeIcons.strokeRoundedStartUp02,
         duration: 20,
         type: ContentType.video,
       ),
@@ -23,7 +23,7 @@ class RoutingSwitchingContent extends BaseTopicContent {
         id: 'sr_mac_table',
         title: 'MAC Address Table',
         description: '',
-        icon: Icons.table_chart,
+        icon: HugeIcons.strokeRoundedEditTable,
         duration: 25,
         type: ContentType.reading,
       ),
@@ -31,7 +31,7 @@ class RoutingSwitchingContent extends BaseTopicContent {
         id: 'sr_operations',
         title: 'Switch Operations',
         description: '',
-        icon: Icons.route,
+        icon: HugeIcons.strokeRoundedShuffle,
         duration: 35,
         type: ContentType.interactive,
       ),
@@ -39,7 +39,7 @@ class RoutingSwitchingContent extends BaseTopicContent {
         id: 'sr_frame_types',
         title: 'Switch Frame Types',
         description: '',
-        icon: Icons.switch_left,
+        icon: HugeIcons.strokeRoundedExchange01,
         duration: 30,
         type: ContentType.video,
       ),
@@ -47,7 +47,7 @@ class RoutingSwitchingContent extends BaseTopicContent {
         id: 'sr_intro',
         title: 'Introduction to Routing',
         description: '',
-        icon: Icons.lan,
+        icon: HugeIcons.strokeRoundedStartUp02,
         duration: 40,
         type: ContentType.lab,
       ),
@@ -55,7 +55,7 @@ class RoutingSwitchingContent extends BaseTopicContent {
         id: 'sr_host_vs_router',
         title: 'Host vs Router',
         description: '',
-        icon: Icons.quiz,
+        icon: HugeIcons.strokeRoundedGitCompare,
         duration: 15,
         type: ContentType.quiz,
       ),
@@ -63,7 +63,7 @@ class RoutingSwitchingContent extends BaseTopicContent {
         id: 'sr_network_connections',
         title: 'Router Network Connections',
         description: '',
-        icon: Icons.account_tree,
+        icon: HugeIcons.strokeRoundedFlowConnection,
         duration: 25,
         type: ContentType.reading,
       ),
@@ -71,7 +71,7 @@ class RoutingSwitchingContent extends BaseTopicContent {
         id: 'sr_routing_table',
         title: 'Routing Table',
         description: '',
-        icon: Icons.account_tree,
+        icon: HugeIcons.strokeRoundedLayoutTable01,
         duration: 25,
         type: ContentType.reading,
       ),
@@ -79,7 +79,7 @@ class RoutingSwitchingContent extends BaseTopicContent {
         id: 'sr_routing_types',
         title: 'Routing Types',
         description: '',
-        icon: Icons.account_tree,
+        icon: HugeIcons.strokeRoundedRoute01,
         duration: 25,
         type: ContentType.reading,
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_topic_content.dart';
 import '../models/content_module.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class NetworkFundamentalsContent extends BaseTopicContent {
   const NetworkFundamentalsContent({
@@ -13,9 +14,9 @@ class NetworkFundamentalsContent extends BaseTopicContent {
     return [
       ContentModule(
         id: 'nf_intro',
-        title: 'Getting Started with Networking',
+        title: 'Getting to Networking',
         description: '',
-        icon: Icons.school,
+        icon: HugeIcons.strokeRoundedStartUp02,
         duration: 15,
         type: ContentType.reading,
       ),
@@ -23,7 +24,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_host',
         title: 'Host',
         description: '',
-        icon: Icons.layers,
+        icon: HugeIcons.strokeRoundedComputerActivity,
         duration: 25,
         type: ContentType.reading,
       ),
@@ -31,7 +32,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_internet',
         title: 'Internet',
         description: '',
-        icon: Icons.layers,
+        icon: HugeIcons.strokeRoundedInternet,
         duration: 25,
         type: ContentType.reading,
       ),
@@ -39,7 +40,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_network',
         title: 'Network',
         description: '',
-        icon: Icons.hub,
+        icon: HugeIcons.strokeRoundedNeuralNetwork,
         duration: 30,
         type: ContentType.interactive,
       ),
@@ -47,7 +48,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_ip',
         title: 'IP Address',
         description: '',
-        icon: Icons.location_on,
+        icon: HugeIcons.strokeRoundedLocation01,
         duration: 20,
         type: ContentType.video,
       ),
@@ -55,7 +56,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_osi',
         title: 'OSI Model',
         description: '',
-        icon: Icons.network_check,
+        icon: HugeIcons.strokeRoundedLayers02,
         duration: 35,
         type: ContentType.lab,
       ),
