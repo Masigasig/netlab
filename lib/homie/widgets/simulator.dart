@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/components/gradient_text.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_image.dart';
@@ -16,7 +17,6 @@ class SimulatorScreen extends StatelessWidget {
       color: AppColors.background,
       child: Row(
         children: [
-          // Left side - Content
           Expanded(
             flex: 1,
             child: Padding(
@@ -24,7 +24,6 @@ class SimulatorScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Title and description at the top
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -34,7 +33,12 @@ class SimulatorScreen extends StatelessWidget {
                         gradientWords: ['Simulation'],
                         fontSize: 39,
                         textAlign: TextAlign.start,
-                      ),
+                      )
+                      .animate()
+                      .fadeIn(duration: 700.ms, curve: Curves.easeOut)
+                      .blur(begin: const Offset(0, 5), duration: 700.ms, curve: Curves.easeOut)
+                      .slideY(begin: 0.3, duration: 700.ms, curve: Curves.easeOutCubic),
+                      
                       const SizedBox(height: 10),
                       Text(
                         'Practice network configuration in a safe, virtual lab with our interactive simulator.',
@@ -43,11 +47,14 @@ class SimulatorScreen extends StatelessWidget {
                           color: AppColors.textSecondary,
                           height: 1.4,
                         ),
-                      ),
+                      )
+                      .animate()
+                      .fadeIn(duration: 600.ms, delay: 300.ms, curve: Curves.easeOut)
+                      .blur(begin: const Offset(0, 3), duration: 600.ms, delay: 300.ms, curve: Curves.easeOut)
+                      .slideY(begin: 0.2, duration: 600.ms, delay: 300.ms, curve: Curves.easeOut),
                     ],
                   ),
                   
-                  // Expanded area to center the buttons
                   Expanded(
                     child: Center(
                       child: Row(
@@ -87,7 +94,7 @@ class SimulatorScreen extends StatelessWidget {
                                           color: Colors.white,
                                           size: 20,
                                         ),
-                                        const SizedBox(width: 8),
+                                        SizedBox(width: 8),
                                         Text(
                                           'Save',
                                           style: TextStyle(
@@ -102,7 +109,13 @@ class SimulatorScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
+                          )
+                          .animate()
+                          .fadeIn(duration: 500.ms, delay: 600.ms, curve: Curves.easeOut)
+                          .blur(begin: const Offset(0, 2), duration: 500.ms, delay: 600.ms, curve: Curves.easeOut)
+                          .slideY(begin: 0.2, duration: 500.ms, delay: 600.ms, curve: Curves.easeOut)
+                          .scale(begin: const Offset(0.9, 0.9), duration: 500.ms, delay: 600.ms, curve: Curves.easeOutBack),
+                          
                           const SizedBox(width: 12),
                           Flexible(
                             child: Container(
@@ -150,13 +163,17 @@ class SimulatorScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
+                          )
+                          .animate()
+                          .fadeIn(duration: 500.ms, delay: 700.ms, curve: Curves.easeOut)
+                          .blur(begin: const Offset(0, 2), duration: 500.ms, delay: 700.ms, curve: Curves.easeOut)
+                          .slideY(begin: 0.2, duration: 500.ms, delay: 700.ms, curve: Curves.easeOut)
+                          .scale(begin: const Offset(0.9, 0.9), duration: 500.ms, delay: 700.ms, curve: Curves.easeOutBack),
                         ],
                       ),
                     ),
                   ),
 
-                  // Bottom start button centered
                   Center(
                     child: SizedBox(
                       width: 200,
@@ -167,14 +184,18 @@ class SimulatorScreen extends StatelessWidget {
                         },
                       ),
                     ),
-                  ),
+                  )
+                  .animate()
+                  .fadeIn(duration: 600.ms, delay: 900.ms, curve: Curves.easeOut)
+                  .blur(begin: const Offset(0, 3), duration: 600.ms, delay: 900.ms, curve: Curves.easeOut)
+                  .slideY(begin: 0.3, duration: 600.ms, delay: 900.ms, curve: Curves.easeOut)
+                  .scale(begin: const Offset(0.8, 0.8), duration: 600.ms, delay: 900.ms, curve: Curves.easeOutBack),
                 ],
               ),
             ),
           ),
 
-          // Right side - Animation
-          Expanded( 
+          Expanded(
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.all(32.0),
@@ -194,7 +215,12 @@ class SimulatorScreen extends StatelessWidget {
                   errorMessage: 'Simulation animation unavailable',
                   showStatusText: false,
                 ),
-              ),
+              )
+              .animate()
+              .fadeIn(duration: 800.ms, delay: 500.ms, curve: Curves.easeOut)
+              .blur(begin: const Offset(0, 4), duration: 800.ms, delay: 500.ms, curve: Curves.easeOut)
+              .scale(begin: const Offset(0.7, 0.7), duration: 800.ms, delay: 500.ms, curve: Curves.easeOutBack)
+              .slideY(begin: 0.2, duration: 800.ms, delay: 500.ms, curve: Curves.easeOutCubic),
             ),
           ),
         ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/study_topic.dart';
 import 'package:netlab/core/constants/app_text.dart';
-import 'package:netlab/core/constants/app_colors.dart'; // Import your colors
+import 'package:netlab/core/constants/app_colors.dart';
 
 class TopicHeader extends StatelessWidget {
   final StudyTopic topic;

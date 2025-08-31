@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../../models/content_module.dart';
 import 'module_type_helpers.dart';
 import 'package:netlab/core/constants/app_text.dart';
@@ -7,16 +8,21 @@ class SidebarModuleItem extends StatelessWidget {
   final ContentModule module;
   final bool isSelected;
   final VoidCallback onTap;
+  final int index;
 
   const SidebarModuleItem({
     super.key,
     required this.module,
     required this.isSelected,
     required this.onTap,
+    required this.index, // Add this parameter
   });
 
   @override
   Widget build(BuildContext context) {
+
+    final animationDelay = index * 80;
+    
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
       decoration: BoxDecoration(
@@ -77,6 +83,30 @@ class SidebarModuleItem extends StatelessWidget {
         ),
         onTap: onTap,
       ),
+    )
+    .animate()
+    .fadeIn(
+      duration: 500.ms,
+      delay: animationDelay.ms,
+      curve: Curves.easeOut,
+    )
+    .blur(
+      begin: const Offset(1, 0), // Subtle horizontal blur
+      duration: 500.ms,
+      delay: animationDelay.ms,
+      curve: Curves.easeOut,
+    )
+    .slideX(
+      begin: -0.2, // Slide in from left (negative for left side)
+      duration: 500.ms,
+      delay: animationDelay.ms,
+      curve: Curves.easeOutCubic,
+    )
+    .scale(
+      begin: const Offset(0.96, 0.96), // Very subtle scale
+      duration: 500.ms,
+      delay: animationDelay.ms,
+      curve: Curves.easeOut,
     );
   }
 }

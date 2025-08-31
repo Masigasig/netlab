@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netlab/core/constants/app_colors.dart';
-import 'package:netlab/core/components/gradient_border.dart'; // Import your new widget
+import 'package:netlab/core/components/gradient_border.dart';
 
 class ButtonStyle extends StatelessWidget {
   final String text;

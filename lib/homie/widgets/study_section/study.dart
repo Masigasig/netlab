@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:netlab/core/constants/app_colors.dart';
 import 'package:netlab/core/constants/app_text.dart';
 import 'models/study_topic.dart';
@@ -59,7 +60,7 @@ class _StudyScreenState extends State<StudyScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header row with search
+              // Header row with search - animated
               Row(
                 children: [
                   // Title and subtitle
@@ -73,14 +74,24 @@ class _StudyScreenState extends State<StudyScreen> {
                             fontSize: 28,
                             fontWeight: FontWeight.w600,
                           ),
-                        ),
+                        )
+                        .animate()
+                        .fadeIn(duration: 600.ms, curve: Curves.easeOut)
+                        .blur(begin: const Offset(0, 4), duration: 600.ms, curve: Curves.easeOut)
+                        .slideY(begin: 0.3, duration: 600.ms, curve: Curves.easeOutCubic),
+                        
                         const SizedBox(height: 3),
+                        
                         Text(
                           'Choose a topic to start learning',
                           style: AppTextStyles.subtitleMedium.copyWith(
                             color: AppColors.textSecondary,
                           ),
-                        ),
+                        )
+                        .animate()
+                        .fadeIn(duration: 500.ms, delay: 200.ms, curve: Curves.easeOut)
+                        .blur(begin: const Offset(0, 2), duration: 500.ms, delay: 200.ms, curve: Curves.easeOut)
+                        .slideY(begin: 0.2, duration: 500.ms, delay: 200.ms, curve: Curves.easeOut),
                       ],
                     ),
                   ),
@@ -88,7 +99,7 @@ class _StudyScreenState extends State<StudyScreen> {
               ),
               const SizedBox(height: 24),
 
-              // Topics Grid
+              // Topics Grid with staggered card animations
               Expanded(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -99,9 +110,43 @@ class _StudyScreenState extends State<StudyScreen> {
                   ),
                   itemCount: topics.length,
                   itemBuilder: (context, index) {
+                    // Calculate staggered delay based on position
+                    final baseDelay = 400 + (index * 150); // 150ms between each card
+                    
                     return TopicCard(
                       topic: topics[index],
                       onTap: () => _navigateToTopicContent(context, topics[index]),
+                    )
+                    .animate()
+                    .fadeIn(
+                      duration: 700.ms,
+                      delay: baseDelay.ms,
+                      curve: Curves.easeOut,
+                    )
+                    .blur(
+                      begin: const Offset(0, 3),
+                      duration: 700.ms,
+                      delay: baseDelay.ms,
+                      curve: Curves.easeOut,
+                    )
+                    .scale(
+                      begin: const Offset(0.8, 0.8),
+                      duration: 700.ms,
+                      delay: baseDelay.ms,
+                      curve: Curves.easeOutBack,
+                    )
+                    .slideY(
+                      begin: 0.3,
+                      duration: 700.ms,
+                      delay: baseDelay.ms,
+                      curve: Curves.easeOutCubic,
+                    )
+                    // Add a subtle rotation for more dynamic feel
+                    .rotate(
+                      begin: 0.02, // Very subtle rotation
+                      duration: 700.ms,
+                      delay: baseDelay.ms,
+                      curve: Curves.easeOut,
                     );
                   },
                 ),

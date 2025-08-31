@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'widgets/onboarding_page.dart';
 import 'widgets/page_indicator.dart';
 import '../core/components/button.dart' as custom_button;
@@ -15,8 +16,8 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController();
   int _currentPage = 0;
+  bool _isAnimating = false;
 
   final List<Map<String, String>> _pages = [
     {
@@ -31,65 +32,64 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     },
     {
       'title': 'Simulate. Learn. Repeat.',
-      'description': 'Simulate basic networking scenarios to reinforce classroom concepts. Whether you’re a beginner or teaching others, learning is just a tap away.',
+      'description': 'Simulate basic networking scenarios to reinforce classroom concepts. Whether you\'re a beginner or teaching others, learning is just a tap away.',
       'lottie': AppLottie.kid2,
     },
   ];
 
-  void _nextPage() {
+  void _nextPage() async {
+    if (_isAnimating) return;
+    
     if (_currentPage < _pages.length - 1) {
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-      );
+      setState(() => _isAnimating = true);
+
+      await Future.delayed(const Duration(milliseconds: 200));
+      
+      setState(() {
+        _currentPage++;
+        _isAnimating = false;
+      });
     } else {
-      // ✅ Navigate to home when the last page is reached
-      context.go('/home'); // Make sure '/home' is registered in GoRouter
+      context.go('/homie');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final currentPageData = _pages[_currentPage];
+    
     return Scaffold(
       body: GlobalAnimatedBackground(
         child: Stack(
           children: [
             Positioned.fill(
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: _pages.length,
-                onPageChanged: (index) =>
-                    setState(() => _currentPage = index),
-                itemBuilder: (context, index) {
-                  final page = _pages[index];
-                  return OnboardingPage(
-                    title: page['title']!,
-                    description: page['description']!,
-                    lottiePath: page['lottie']!,
-                    bottomWidget: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        custom_button.ButtonStyle(
-                          text: index == _pages.length - 1
-                              ? 'Get Started'
-                              : 'Next',
-                          onPressed: _nextPage,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            // ✅ Skip to home screen directly
-                            context.go('/homie');
-                          },
-                          child: const Text(
-                            'Skip',
-                            style: TextStyle(color: AppColors.textPrimary),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                      ],
+              child: OnboardingPage(
+                key: ValueKey<int>(_currentPage),
+                title: currentPageData['title']!,
+                description: currentPageData['description']!,
+                lottiePath: currentPageData['lottie']!,
+                pageIndex: _currentPage,
+                bottomWidget: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    custom_button.ButtonStyle(
+                      text: _currentPage == _pages.length - 1
+                          ? 'Get Started'
+                          : 'Next',
+                      onPressed: _nextPage,
                     ),
-                  );
-                },
+                    TextButton(
+                      onPressed: () {
+                        context.go('/homie');
+                      },
+                      child: const Text(
+                        'Skip',
+                        style: TextStyle(color: AppColors.textPrimary),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                ),
               ),
             ),
             Positioned(
@@ -100,7 +100,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: PageIndicator(
                   currentIndex: _currentPage,
                   itemCount: _pages.length,
-                ),
+                ).animate(key: ValueKey('indicator_$_currentPage'))
+                .fadeIn(duration: 400.ms, delay: 800.ms)
+                .slideY(begin: 0.1, duration: 400.ms, delay: 800.ms, curve: Curves.easeOut),
               ),
             ),
           ],

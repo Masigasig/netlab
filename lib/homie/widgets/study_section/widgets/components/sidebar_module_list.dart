@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../../models/study_topic.dart';
 import '../../models/content_module.dart';
 import 'sidebar_module_item.dart';
@@ -33,7 +34,6 @@ class SidebarModuleList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Sidebar Header
           Container(
             padding: const EdgeInsets.all(20),
             child: Row(
@@ -46,7 +46,12 @@ class SidebarModuleList extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
-                ),
+                )
+                .animate()
+                .fadeIn(duration: 500.ms, curve: Curves.easeOut)
+                .blur(begin: const Offset(0, 2), duration: 500.ms, curve: Curves.easeOut)
+                .slideX(begin: -0.3, duration: 500.ms, curve: Curves.easeOutCubic),
+                
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
@@ -61,12 +66,14 @@ class SidebarModuleList extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
+                )
+                .animate()
+                .fadeIn(duration: 400.ms, delay: 200.ms, curve: Curves.easeOut)
+                .scale(begin: const Offset(0.8, 0.8), duration: 400.ms, delay: 200.ms, curve: Curves.easeOutBack),
               ],
             ),
           ),
-          
-          // Sidebar Content
+
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -75,6 +82,7 @@ class SidebarModuleList extends StatelessWidget {
                 return SidebarModuleItem(
                   module: modules[index],
                   isSelected: selectedModuleIndex == index,
+                  index: index,
                   onTap: () => onModuleTap(index, modules[index]),
                 );
               },

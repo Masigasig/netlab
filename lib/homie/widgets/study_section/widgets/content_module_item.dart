@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/content_module.dart';
-import 'package:netlab/core/constants/app_text.dart'; // Import your text styles
+import 'package:netlab/core/constants/app_text.dart';
 import 'package:netlab/homie/widgets/study_section/widgets/components/module_type_helpers.dart';
 
 class ContentModuleItem extends StatelessWidget {

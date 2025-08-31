@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/study_topic.dart';
-import 'package:netlab/core/constants/app_text.dart'; // Import your text styles
+import 'package:netlab/core/constants/app_text.dart';
 
 class TopicCard extends StatelessWidget {
   final StudyTopic topic;
