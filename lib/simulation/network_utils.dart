@@ -120,16 +120,16 @@ class IPv4AddressManager {
     ].join('.');
   }
 
-  static int getSubnetMaskPrefixLength(String subnet) {
-    if (subnet.startsWith('/')) {
-      return int.parse(subnet.substring(1));
-    }
-
-    return subnet
+  static String subnetToCidr(String subnetMask) {
+    if (subnetMask.startsWith('/')) return subnetMask;
+    final bits = subnetMask
         .split('.')
         .map(int.parse)
-        .map((octet) => octet.toRadixString(2).replaceAll('0', '').length)
-        .reduce((a, b) => a + b);
+        .map((octet) => octet.toRadixString(2))
+        .join();
+
+    final prefixLength = bits.replaceAll('0', '').length;
+    return '/$prefixLength';
   }
 
   static String getNetworkAddress(String ip, String subnet) {

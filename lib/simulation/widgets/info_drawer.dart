@@ -40,6 +40,8 @@ class _InfoDrawerState extends ConsumerState<InfoDrawer> {
 
     if (selectedDevice.startsWith(SimObjectType.host.label)) {
       deviceInfoWidget = _HostInfoTable(hostId: selectedDevice);
+    } else if (selectedDevice.startsWith(SimObjectType.router.label)) {
+      deviceInfoWidget = _RouterInfoTable(routerId: selectedDevice);
     } else {
       deviceInfoWidget = const Offstage(offstage: true);
     }
@@ -189,6 +191,222 @@ class _HostInfoTable extends ConsumerWidget {
   }
 }
 
+class _InterfaceData {
+  final String routerId;
+  final String name;
+  final String ipAddress;
+  final String subnetMask;
+  final String macAddress;
+
+  const _InterfaceData({
+    required this.routerId,
+    required this.name,
+    required this.ipAddress,
+    required this.subnetMask,
+    required this.macAddress,
+  });
+}
+
+class _RouterInfoTable extends ConsumerWidget {
+  final String routerId;
+  const _RouterInfoTable({required this.routerId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider(routerId));
+
+    final List<_InterfaceData> interfaces = [
+      _InterfaceData(
+        routerId: routerId,
+        name: Eth.eth0.name,
+        ipAddress: router.eth0IpAddress,
+        subnetMask: router.eth0SubnetMask,
+        macAddress: router.eth0MacAddress,
+      ),
+      _InterfaceData(
+        routerId: routerId,
+        name: Eth.eth1.name,
+        ipAddress: router.eth1IpAddress,
+        subnetMask: router.eth1SubnetMask,
+        macAddress: router.eth1MacAddress,
+      ),
+      _InterfaceData(
+        routerId: routerId,
+        name: Eth.eth2.name,
+        ipAddress: router.eth2IpAddress,
+        subnetMask: router.eth2SubnetMask,
+        macAddress: router.eth2MacAddress,
+      ),
+      _InterfaceData(
+        routerId: routerId,
+        name: Eth.eth3.name,
+        ipAddress: router.eth3IpAddress,
+        subnetMask: router.eth3SubnetMask,
+        macAddress: router.eth3MacAddress,
+      ),
+    ];
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Row(
+          children: [
+            Expanded(child: _InterfaceCard(data: interfaces[0])),
+            const SizedBox(width: 12),
+            Expanded(child: _InterfaceCard(data: interfaces[1])),
+          ],
+        ),
+        const SizedBox(height: 12),
+
+        Row(
+          children: [
+            Expanded(child: _InterfaceCard(data: interfaces[2])),
+            const SizedBox(width: 12),
+            Expanded(child: _InterfaceCard(data: interfaces[3])),
+          ],
+        ),
+        const SizedBox(height: 12),
+
+        ArpTableWidget(arpTable: router.arpTable),
+        const SizedBox(height: 16),
+        RoutingTableWidget(routingTable: router.routingTable),
+      ],
+    );
+  }
+}
+
+class _InterfaceCard extends ConsumerStatefulWidget {
+  final _InterfaceData data;
+
+  const _InterfaceCard({required this.data});
+
+  @override
+  _InterfaceCardState createState() => _InterfaceCardState();
+}
+
+class _InterfaceCardState extends ConsumerState<_InterfaceCard> {
+  bool _isEditing = false;
+  late TextEditingController _ipController;
+  late TextEditingController _maskController;
+
+  @override
+  void initState() {
+    super.initState();
+    _ipController = TextEditingController(text: widget.data.ipAddress);
+    _maskController = TextEditingController(text: widget.data.subnetMask);
+  }
+
+  @override
+  void dispose() {
+    _ipController.dispose();
+    _maskController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          widget.data.name,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        const Text("IP:"),
+
+        _isEditing
+            ? TextField(
+                controller: _ipController,
+                decoration: const InputDecoration(
+                  isDense: true,
+                  border: OutlineInputBorder(),
+                ),
+              )
+            : Text(widget.data.ipAddress),
+
+        const SizedBox(height: 8),
+        const Text("Subnet Mask:"),
+
+        _isEditing
+            ? TextField(
+                controller: _maskController,
+                decoration: const InputDecoration(
+                  isDense: true,
+                  border: OutlineInputBorder(),
+                ),
+              )
+            : Text(widget.data.subnetMask),
+
+        const SizedBox(height: 8),
+        const Text("MAC Address:"),
+        Text(widget.data.macAddress),
+
+        const SizedBox(height: 8),
+
+        Align(
+          alignment: Alignment.centerRight,
+          child: ElevatedButton(
+            onPressed: () {
+              if (_isEditing) {
+                // Save changes
+                // Note: In a real app, you would also update the state in the provider
+                final networkAddress = IPv4AddressManager.getNetworkAddress(
+                  _ipController.text,
+                  _maskController.text,
+                );
+
+                final subnetMask = IPv4AddressManager.subnetToCidr(
+                  _maskController.text,
+                );
+
+                bool isInRoutingTable = ref
+                    .read(routerProvider(widget.data.routerId))
+                    .routingTable
+                    .containsKey(networkAddress + subnetMask);
+                // print(ref.read(routerProvider(widget.data.routerId)).routingTable);
+
+                if (IPv4AddressManager.isValidIp(_ipController.text) &&
+                    IPv4AddressManager.isValidSubnet(_maskController.text) &&
+                    !isInRoutingTable) {
+                  ref
+                      .read(routerProvider(widget.data.routerId).notifier)
+                      .updateIpByEthName(widget.data.name, _ipController.text);
+
+                  ref
+                      .read(routerProvider(widget.data.routerId).notifier)
+                      .updateSubnetMaskByEthName(
+                        widget.data.name,
+                        _maskController.text,
+                      );
+
+                  ref
+                      .read(routerProvider(widget.data.routerId).notifier)
+                      .addRoutingEntry(
+                        networkAddress,
+                        'Directed',
+                        _maskController.text,
+                        widget.data.name,
+                      );
+                }
+
+                setState(() {
+                  _isEditing = false;
+                });
+              } else {
+                setState(() {
+                  _isEditing = true;
+                });
+              }
+            },
+            child: Text(_isEditing ? "Save" : "Edit"),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _ReadOnlyRow extends StatelessWidget {
   final String label;
   final String value;
@@ -325,6 +543,46 @@ class ArpTableWidget extends StatelessWidget {
           rows: entries.map((entry) {
             return DataRow(
               cells: [DataCell(Text(entry.key)), DataCell(Text(entry.value))],
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class RoutingTableWidget extends StatelessWidget {
+  final Map<String, Map<String, String>> routingTable;
+
+  const RoutingTableWidget({required this.routingTable, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final entries = routingTable.entries.toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Routing Table",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        DataTable(
+          columns: const [
+            DataColumn(label: Text("Type")),
+            DataColumn(label: Text("Network")),
+            DataColumn(label: Text("Interface")),
+          ],
+          rows: entries.map((entry) {
+            final network = entry.key;
+            final details = entry.value;
+            return DataRow(
+              cells: [
+                DataCell(Text(details['type'] ?? '')),
+                DataCell(Text(network)),
+                DataCell(Text(details['interface'] ?? '')),
+              ],
             );
           }).toList(),
         ),
