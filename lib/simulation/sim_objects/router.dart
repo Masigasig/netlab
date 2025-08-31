@@ -25,9 +25,8 @@ class Router extends Device {
   final Map<String, Map<String, String>> routingTable;
   /* Sample of the routing table 
   {
-    192.168.0.0(network address): {
+    192.168.0.0/24(network address + subnet mask): {
       'type': (either Directed, Static, Dynamic),
-      'subnetMask': (/24, or 255.255.255.0)
       'interface': either 'eth0' or some Ip address
     },
   }

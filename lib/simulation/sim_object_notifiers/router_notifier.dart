@@ -59,19 +59,19 @@ class RouterNotifier extends DeviceNotifier<Router> {
       String bestMatchNetwork = '';
       int bestMaskLength = -1;
 
-      state.routingTable.forEach((network, routeInfo) {
-        final subnetMask = routeInfo['subnetMask']!;
-        final maskLength = IPv4AddressManager.getSubnetMaskPrefixLength(
-          subnetMask,
-        );
+      state.routingTable.forEach((networkWithMask, routeInfo) {
+        final parts = networkWithMask.split('/');
+        final networkAddr = parts[0];
+        final maskLength = int.parse(parts[1]);
+
         final calculatedNetwork = IPv4AddressManager.getNetworkAddress(
           currentIp,
-          subnetMask,
+          '/$maskLength',
         );
 
-        if (calculatedNetwork == network && maskLength > bestMaskLength) {
+        if (calculatedNetwork == networkAddr && maskLength > bestMaskLength) {
           bestMaskLength = maskLength;
-          bestMatchNetwork = network;
+          bestMatchNetwork = networkWithMask;
         }
       });
 
@@ -236,6 +236,24 @@ class RouterNotifier extends DeviceNotifier<Router> {
     state = state.copyWith(arpTable: newArpTable);
   }
 
+  void addRoutingEntry(
+    String network,
+    String type,
+    String subnetMask,
+    String intfc,
+  ) {
+    final newRoutingTable = Map<String, Map<String, String>>.from(
+      state.routingTable,
+    );
+    final subnetInCidr = IPv4AddressManager.subnetToCidr(subnetMask);
+
+    newRoutingTable[network + subnetInCidr] = {
+      'type': type,
+      'interface': intfc,
+    };
+    state = state.copyWith(routingTable: newRoutingTable);
+  }
+
   @override
   List<Map<String, String>> getAllConnectionInfo() {
     return [
@@ -293,6 +311,42 @@ class RouterNotifier extends DeviceNotifier<Router> {
         break;
       case Eth.eth3:
         state = state.copyWith(eth3conId: newConId);
+        break;
+    }
+  }
+
+  void updateIpByEthName(String ethName, String newIp) {
+    final eth = Eth.values.firstWhere((e) => e.name == ethName);
+    switch (eth) {
+      case Eth.eth0:
+        state = state.copyWith(eth0IpAddress: newIp);
+        break;
+      case Eth.eth1:
+        state = state.copyWith(eth1IpAddress: newIp);
+        break;
+      case Eth.eth2:
+        state = state.copyWith(eth2IpAddress: newIp);
+        break;
+      case Eth.eth3:
+        state = state.copyWith(eth3IpAddress: newIp);
+        break;
+    }
+  }
+
+  void updateSubnetMaskByEthName(String ethName, String newSubnetMask) {
+    final eth = Eth.values.firstWhere((e) => e.name == ethName);
+    switch (eth) {
+      case Eth.eth0:
+        state = state.copyWith(eth0SubnetMask: newSubnetMask);
+        break;
+      case Eth.eth1:
+        state = state.copyWith(eth1SubnetMask: newSubnetMask);
+        break;
+      case Eth.eth2:
+        state = state.copyWith(eth2SubnetMask: newSubnetMask);
+        break;
+      case Eth.eth3:
+        state = state.copyWith(eth3SubnetMask: newSubnetMask);
         break;
     }
   }

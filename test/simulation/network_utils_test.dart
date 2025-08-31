@@ -130,44 +130,49 @@ void main() {
     });
     */
 
-    test('getSubnetMaskPrefixLength returns correct length', () {
-      expect(IPv4AddressManager.getSubnetMaskPrefixLength('/24'), equals(24));
-      expect(IPv4AddressManager.getSubnetMaskPrefixLength('/20'), equals(20));
-      expect(IPv4AddressManager.getSubnetMaskPrefixLength('/14'), equals(14));
-      expect(IPv4AddressManager.getSubnetMaskPrefixLength('/30'), equals(30));
+    test('subnetToCidr converts dotted mask to CIDR', () {
+      final testCases = {
+        '128.0.0.0': '/1',
+        '192.0.0.0': '/2',
+        '224.0.0.0': '/3',
+        '240.0.0.0': '/4',
+        '248.0.0.0': '/5',
+        '252.0.0.0': '/6',
+        '254.0.0.0': '/7',
+        '255.0.0.0': '/8',
+        '255.128.0.0': '/9',
+        '255.192.0.0': '/10',
+        '255.224.0.0': '/11',
+        '255.240.0.0': '/12',
+        '255.248.0.0': '/13',
+        '255.252.0.0': '/14',
+        '255.254.0.0': '/15',
+        '255.255.0.0': '/16',
+        '255.255.128.0': '/17',
+        '255.255.192.0': '/18',
+        '255.255.224.0': '/19',
+        '255.255.240.0': '/20',
+        '255.255.248.0': '/21',
+        '255.255.252.0': '/22',
+        '255.255.254.0': '/23',
+        '255.255.255.0': '/24',
+        '255.255.255.128': '/25',
+        '255.255.255.192': '/26',
+        '255.255.255.224': '/27',
+        '255.255.255.240': '/28',
+        '255.255.255.248': '/29',
+        '255.255.255.252': '/30',
+        '255.255.255.254': '/31',
+        '255.255.255.255': '/32',
+      };
 
-      expect(
-        IPv4AddressManager.getSubnetMaskPrefixLength('0.0.0.0'),
-        equals(0),
-      );
-      expect(
-        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.0.0'),
-        equals(16),
-      );
-      expect(
-        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.0'),
-        equals(24),
-      );
-      expect(
-        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.192'),
-        equals(26),
-      );
-      expect(
-        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.224'),
-        equals(27),
-      );
-      expect(
-        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.240'),
-        equals(28),
-      );
-      expect(
-        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.248'),
-        equals(29),
-      );
-      expect(
-        IPv4AddressManager.getSubnetMaskPrefixLength('255.255.255.252'),
-        equals(30),
-      );
+      for (final entry in testCases.entries) {
+        expect(
+          IPv4AddressManager.subnetToCidr(entry.key),
+          equals(entry.value),
+          reason: 'Failed for ${entry.key}',
+        );
+      }
     });
 
     test('getNetworkAddress returns correct network address', () {
