@@ -42,6 +42,10 @@ class _InfoDrawerState extends ConsumerState<InfoDrawer> {
       deviceInfoWidget = _HostInfoTable(hostId: selectedDevice);
     } else if (selectedDevice.startsWith(SimObjectType.router.label)) {
       deviceInfoWidget = _RouterInfoTable(routerId: selectedDevice);
+    } else if (selectedDevice.startsWith(SimObjectType.switch_.label)) {
+      deviceInfoWidget = _SwitchInfoTable(switchId: selectedDevice);
+    } else if (selectedDevice.startsWith(SimObjectType.message.label)) {
+      deviceInfoWidget = _MessageInfoTable(messageId: selectedDevice);
     } else {
       deviceInfoWidget = const Offstage(offstage: true);
     }
@@ -593,6 +597,121 @@ class _EditableRowState extends State<_EditableRow> {
                   ),
                 ],
               ),
+      ],
+    );
+  }
+}
+
+class _SwitchInfoTable extends ConsumerWidget {
+  final String switchId;
+
+  const _SwitchInfoTable({required this.switchId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final switchDevice = ref.watch(switchProvider(switchId));
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        const Text(
+          "MAC Table",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        DataTable(
+          columns: const [
+            DataColumn(label: Text("Port")),
+            DataColumn(label: Text("MAC Address")),
+          ],
+          rows: switchDevice.macTable.entries.map((entry) {
+            return DataRow(
+              cells: [DataCell(Text(entry.key)), DataCell(Text(entry.value))],
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class _MessageInfoTable extends ConsumerWidget {
+  final String messageId;
+
+  const _MessageInfoTable({required this.messageId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final message = ref.watch(messageProvider(messageId));
+
+    final stack = message.layerStack;
+
+    // Find the latest IP and MAC layers
+    final ipLayer = stack.reversed.firstWhere(
+      (layer) =>
+          layer.containsKey(MessageKey.senderIp.name) &&
+          layer.containsKey(MessageKey.targetIp.name),
+      orElse: () => {},
+    );
+
+    final macLayer = stack.reversed.firstWhere(
+      (layer) =>
+          layer.containsKey(MessageKey.source.name) &&
+          layer.containsKey(MessageKey.destination.name),
+      orElse: () => {},
+    );
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Text(
+          "Message: ${message.name}",
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          "From: ${ref.read(hostProvider(message.srcId)).name} → "
+          "${ref.read(hostProvider(message.dstId)).name}",
+          style: const TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 16),
+        const Text(
+          "Current Stack",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+
+        if (macLayer.isNotEmpty)
+          Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blueGrey, width: 2),
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.blueGrey.withValues(alpha: 0.1),
+            ),
+            child: Text(
+              "MAC: ${macLayer[MessageKey.source.name] ?? 'N/A'} → "
+              "${macLayer[MessageKey.destination.name] ?? 'N/A'}",
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+
+        if (ipLayer.isNotEmpty)
+          Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blueGrey, width: 2),
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.blueGrey.withValues(alpha: 0.1),
+            ),
+            child: Text(
+              "IP: ${ipLayer[MessageKey.senderIp.name] ?? 'N/A'} → "
+              "${ipLayer[MessageKey.targetIp.name] ?? 'N/A'}",
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
       ],
     );
   }
