@@ -10,7 +10,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
     : super(ref.read(routerMapProvider)[id]!, ref);
 
   Queue<Map<String, String>> routerQ = Queue();
-  // static const _arpTimeout = Duration(seconds: 50);
+  static const _arpTimeout = Duration(seconds: 50);
   static const _processingInterval = Duration(milliseconds: 500);
   final Map<String, DateTime> _pendingArpRequests = {};
   Timer? _messageProcessingTimer;
@@ -40,16 +40,107 @@ class RouterNotifier extends DeviceNotifier<Router> {
     }
 
     final currentMessage = routerQ.removeFirst();
-    final messageId = currentMessage['messageId']!;
-    final fromConId = currentMessage['fromConId']!;
-
     if (currentMessage.isEmpty) {
       _scheduleNextProcessing();
       return;
     }
 
-    //TODO: algorithm;
+    final messageId = currentMessage['messageId']!;
+    final fromConId = currentMessage['fromConId']!;
+
+    final targetIp = messageNotifier(
+      messageId,
+    ).state.layerStack.last[MessageKey.targetIp.name]!;
+
+    final connectionId = getEthConId(targetIp);
+
+    if (connectionId.isEmpty) {
+      messageNotifier(messageId).dropMessage(MsgDropReason.noRouteForPacket);
+      return;
+    }
+
+    final interfaceIp = state.conIdToIpAddMap[connectionId]!;
+    final interfaceMask = state.conIdToSubNetMap[connectionId]!;
+    final isLocal = IPv4AddressManager.isInSameNetwork(
+      interfaceIp,
+      interfaceMask,
+      targetIp,
+    );
+
+    final arpTargetIp = isLocal
+        ? targetIp
+        : _getNextHopIpForStaticRoute(targetIp);
+
+    if (_pendingArpRequests.containsKey(arpTargetIp)) {
+      if (_isArpTimedOut(arpTargetIp)) {
+        _pendingArpRequests.remove(arpTargetIp);
+        messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
+      } else {
+        routerQ.add({'messageId': messageId, 'fromConId': fromConId});
+      }
+      _scheduleNextProcessing();
+      return;
+    }
+
+    final targetMac = _getMacFromArpTable(arpTargetIp);
+
+    if (targetMac.isEmpty) {
+      _pendingArpRequests[arpTargetIp] = DateTime.now();
+      _sendArpRqst(arpTargetIp, connectionId);
+      routerQ.add({'messageId': messageId, 'fromConId': fromConId});
+    } else {
+      _makeIpv4DataLinkLayer(messageId, targetMac, connectionId);
+      sendMessageToConnection(connectionId, messageId, state.id);
+    }
+
+    _scheduleNextProcessing();
   }
+
+  String _getNextHopIpForStaticRoute(String targetIp) {
+    String bestMatchNetwork = '';
+    int bestMaskLength = -1;
+
+    state.routingTable.forEach((networkWithMask, routeInfo) {
+      final parts = networkWithMask.split('/');
+      final maskLength = int.parse(parts[1]);
+      final calculatedNetwork = IPv4AddressManager.getNetworkAddress(
+        targetIp,
+        '/$maskLength',
+      );
+
+      if (calculatedNetwork == parts[0] && maskLength > bestMaskLength) {
+        bestMaskLength = maskLength;
+        bestMatchNetwork = networkWithMask;
+      }
+    });
+
+    return bestMatchNetwork.isNotEmpty
+        ? state.routingTable[bestMatchNetwork]!['interface']!
+        : '';
+  }
+
+  void _makeIpv4DataLinkLayer(
+    String messageId,
+    String targetMac,
+    String fromConId,
+  ) {
+    final dataLinkLayer = {
+      MessageKey.source.name: state.conIdToMacMap[fromConId]!,
+      MessageKey.destination.name: targetMac,
+      MessageKey.type.name: DataLinkLayerType.ipv4.name,
+    };
+
+    messageNotifier(messageId).pushLayer(dataLinkLayer);
+  }
+
+  bool _isArpTimedOut(String targetIp) {
+    final requestTime = _pendingArpRequests[targetIp];
+    if (requestTime == null) return false;
+    return DateTime.now().difference(requestTime) > _arpTimeout;
+  }
+
+  String _getMacFromArpTable(String ipAddress) =>
+      state.arpTable[ipAddress] ?? '';
 
   String getEthConId(String dstIpAddress) {
     String currentIp = dstIpAddress;

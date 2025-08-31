@@ -28,12 +28,29 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
       messageProvider(widget.simObjectId).select((msg) => msg.duration),
     );
 
-    final hostPosX = ref.watch(
-      hostProvider(message.srcId).select((host) => host.posX),
-    );
-    final hostPosY = ref.watch(
-      hostProvider(message.srcId).select((host) => host.posY),
-    );
+    double originPosX;
+    double originPosY;
+
+    if (message.srcId.startsWith(SimObjectType.router.label)) {
+      originPosX = ref.watch(
+        routerProvider(message.srcId).select((router) => router.posX),
+      );
+    } else {
+      originPosX = ref.watch(
+        hostProvider(message.srcId).select((host) => host.posX),
+      );
+    }
+
+    if (message.srcId.startsWith(SimObjectType.router.label)) {
+      originPosY = ref.watch(
+        routerProvider(message.srcId).select((router) => router.posY),
+      );
+    } else {
+      originPosY = ref.watch(
+        hostProvider(message.srcId).select((host) => host.posY),
+      );
+    }
+
     final isPlaying = ref.watch(playingModeProvider);
 
     Column messageWithLabel() {
@@ -79,8 +96,8 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
             },
           )
         : Positioned(
-            left: hostPosX - widget.size / 2,
-            top: hostPosY - widget.size / 2 - 25,
+            left: originPosX - widget.size / 2,
+            top: originPosY - widget.size / 2 - 25,
             child: GestureDetector(
               onTap: _handleTap,
               child: messageWithLabel(),

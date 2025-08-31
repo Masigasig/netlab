@@ -14,6 +14,7 @@ enum MsgDropReason {
   arpReqNotMeant,
   arpReplySuccess,
   arpReqTimeout,
+  noRouteForPacket,
 }
 
 final messageProvider =

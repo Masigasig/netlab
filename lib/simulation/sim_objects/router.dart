@@ -47,6 +47,13 @@ class Router extends Device {
     eth3conId: eth3IpAddress,
   };
 
+  Map<String, String> get conIdToSubNetMap => {
+    eth0conId: eth0SubnetMask,
+    eth1conId: eth1SubnetMask,
+    eth2conId: eth2SubnetMask,
+    eth3conId: eth3SubnetMask,
+  };
+
   Map<String, String> get ethToConId => {
     'eth0': eth0conId,
     'eth1': eth1conId,
@@ -176,9 +183,14 @@ class Router extends Device {
       eth2conId: map['eth2conId']?.toString() ?? '',
       eth3conId: map['eth3conId']?.toString() ?? '',
 
-      routingTable: Map<String, Map<String, String>>.from(
-        map['routingTable'] ?? {},
-      ),
+      routingTable:
+          (map['routingTable'] as Map?)?.map(
+            (key, value) => MapEntry(
+              key.toString(),
+              Map<String, String>.from(value as Map),
+            ),
+          ) ??
+          {},
     );
   }
 }
