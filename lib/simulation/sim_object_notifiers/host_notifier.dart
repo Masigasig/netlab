@@ -122,17 +122,6 @@ class HostNotifier extends DeviceNotifier<Host> {
       messageId,
     ).state.layerStack.last[MessageKey.targetIp.name]!;
 
-    if (_pendingArpRequests.containsKey(targetIp)) {
-      if (_isArpTimedOut(targetIp)) {
-        _pendingArpRequests.remove(targetIp);
-        messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
-      } else {
-        enqueueMessage(messageId);
-      }
-      _scheduleNextProcessing();
-      return;
-    }
-
     final isTargetInDifferentNetwork = !IPv4AddressManager.isInSameNetwork(
       state.ipAddress,
       state.subnetMask,
@@ -143,10 +132,21 @@ class HostNotifier extends DeviceNotifier<Host> {
         ? state.defaultGateway
         : targetIp;
 
+    if (_pendingArpRequests.containsKey(lookupIp)) {
+      if (_isArpTimedOut(lookupIp)) {
+        _pendingArpRequests.remove(lookupIp);
+        messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
+      } else {
+        enqueueMessage(messageId);
+      }
+      _scheduleNextProcessing();
+      return;
+    }
+
     final targetMac = _getMacFromArpTable(lookupIp);
 
     if (targetMac.isEmpty) {
-      _pendingArpRequests[targetIp] = DateTime.now();
+      _pendingArpRequests[lookupIp] = DateTime.now();
       _sendArpRqst(lookupIp);
       enqueueMessage(messageId);
     } else {

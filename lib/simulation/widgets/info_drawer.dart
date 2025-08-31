@@ -270,7 +270,87 @@ class _RouterInfoTable extends ConsumerWidget {
         ArpTableWidget(arpTable: router.arpTable),
         const SizedBox(height: 16),
         RoutingTableWidget(routingTable: router.routingTable),
+        const SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: () => _showAddStaticRouteDialog(context, ref, routerId),
+          child: const Text("Add Static Route"),
+        ),
       ],
+    );
+  }
+
+  void _showAddStaticRouteDialog(
+    BuildContext context,
+    WidgetRef ref,
+    String routerId,
+  ) {
+    final networkController = TextEditingController();
+    final subnetMaskController = TextEditingController();
+    final interfaceController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Add Static Route"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: networkController,
+                decoration: const InputDecoration(
+                  labelText: "Network Address",
+                  hintText: "e.g., 192.168.1.0",
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: subnetMaskController,
+                decoration: const InputDecoration(
+                  labelText: "Subnet Mask",
+                  hintText: "e.g., 255.255.255.0",
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: interfaceController,
+                decoration: const InputDecoration(
+                  labelText: "Interface",
+                  hintText: "e.g., eth0",
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                final network = networkController.text;
+                final subnetMask = subnetMaskController.text;
+                final interface = interfaceController.text;
+
+                if (network.isNotEmpty &&
+                    subnetMask.isNotEmpty &&
+                    interface.isNotEmpty) {
+                  ref
+                      .read(routerProvider(routerId).notifier)
+                      .addRoutingEntry(
+                        network,
+                        "Static",
+                        subnetMask,
+                        interface,
+                      );
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text("Add"),
+            ),
+          ],
+        );
+      },
     );
   }
 }
