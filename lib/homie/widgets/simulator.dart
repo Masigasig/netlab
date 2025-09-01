@@ -7,6 +7,7 @@ import '../../core/constants/app_text.dart';
 import '../../core/utils/lottie_optimization.dart';
 import '../../core/components/button.dart' as custom_button;
 import 'package:lottie/lottie.dart';
+import 'package:go_router/go_router.dart';
 
 class SimulatorScreen extends StatelessWidget {
   const SimulatorScreen({super.key});
@@ -183,7 +184,7 @@ class SimulatorScreen extends StatelessWidget {
                         child: custom_button.ButtonStyle(
                           text: 'Simulate',
                           onPressed: () {
-                            // TODO: Start simulation
+                            context.go('/simulation');
                           },
                         ),
                       ),

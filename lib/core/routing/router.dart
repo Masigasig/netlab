@@ -15,12 +15,10 @@ final router = GoRouter(
     GoRoute(
       path: '/homie',
       builder: (context, state) => const HomieScreen(),
-      routes: [
-        GoRoute(
-          path: 'simulation',
-          builder: (context, state) => const SimulationScreen(),
-        ),
-      ],
+    ),
+    GoRoute(
+      path: '/simulation',
+      builder: (context, state) => const SimulationScreen(),
     ),
   ],
 );
