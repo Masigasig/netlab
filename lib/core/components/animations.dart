@@ -33,18 +33,31 @@ class AnimationPresets {
       .scale(begin: const Offset(0.9, 0.9), duration: duration, delay: delay.ms, curve: Curves.easeOut);
   }
 
-  /// Card/Button entrance animation
+  /// Card/Button entrance animation with optional rotation
   static Animate cardEntrance({
     required Widget child,
     int delay = 0,
     Duration duration = const Duration(milliseconds: 600),
     double scaleFrom = 0.8,
+    double rotationAmount = 0.0, // Add rotation parameter
   }) {
-    return child.animate()
+    final baseAnimation = child.animate()
       .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
       .blur(begin: const Offset(0, 3), duration: duration, delay: delay.ms, curve: Curves.easeOut)
       .scale(begin: Offset(scaleFrom, scaleFrom), duration: duration, delay: delay.ms, curve: Curves.easeOutBack)
       .slideY(begin: 0.2, duration: duration, delay: delay.ms, curve: Curves.easeOutCubic);
+    
+    // Add rotation if specified
+    if (rotationAmount != 0.0) {
+      return baseAnimation.rotate(
+        begin: rotationAmount,
+        duration: duration,
+        delay: delay.ms,
+        curve: Curves.easeOut,
+      );
+    }
+    
+    return baseAnimation;
   }
 
   /// Staggered list item animation (slides from right)

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'widgets/onboarding_page.dart';
 import 'widgets/page_indicator.dart';
 import '../core/components/button.dart' as custom_button;
+import '../core/components/animations.dart';
 import 'package:netlab/core/constants/app_image.dart';
 import 'widgets/bg.dart';
 import 'package:go_router/go_router.dart';
@@ -97,12 +97,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               left: 0,
               right: 0,
               child: Center(
-                child: PageIndicator(
-                  currentIndex: _currentPage,
-                  itemCount: _pages.length,
-                ).animate(key: ValueKey('indicator_$_currentPage'))
-                .fadeIn(duration: 400.ms, delay: 800.ms)
-                .slideY(begin: 0.1, duration: 400.ms, delay: 800.ms, curve: Curves.easeOut),
+                child: AnimationPresets.pageIndicator(
+                  child: PageIndicator(
+                    currentIndex: _currentPage,
+                    itemCount: _pages.length,
+                  ),
+                  delay: 800,
+                  duration: const Duration(milliseconds: 400),
+                ),
               ),
             ),
           ],

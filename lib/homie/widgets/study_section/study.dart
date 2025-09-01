@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:netlab/core/constants/app_colors.dart';
 import 'package:netlab/core/constants/app_text.dart';
+import 'package:netlab/core/components/animations.dart';
 import 'models/study_topic.dart';
 import 'widgets/topic_card.dart';
 import 'topics/network_fundamentals_content.dart';
@@ -68,30 +68,30 @@ class _StudyScreenState extends State<StudyScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Study Materials',
-                          style: AppTextStyles.headerLarge.copyWith(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
+                        AnimationPresets.titleFadeIn(
+                          child: Text(
+                            'Study Materials',
+                            style: AppTextStyles.headerLarge.copyWith(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        )
-                        .animate()
-                        .fadeIn(duration: 600.ms, curve: Curves.easeOut)
-                        .blur(begin: const Offset(0, 4), duration: 600.ms, curve: Curves.easeOut)
-                        .slideY(begin: 0.3, duration: 600.ms, curve: Curves.easeOutCubic),
+                          delay: 0,
+                          duration: const Duration(milliseconds: 600),
+                        ),
                         
                         const SizedBox(height: 3),
                         
-                        Text(
-                          'Choose a topic to start learning',
-                          style: AppTextStyles.subtitleMedium.copyWith(
-                            color: AppColors.textSecondary,
+                        AnimationPresets.textFadeIn(
+                          child: Text(
+                            'Choose a topic to start learning',
+                            style: AppTextStyles.subtitleMedium.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
                           ),
-                        )
-                        .animate()
-                        .fadeIn(duration: 500.ms, delay: 200.ms, curve: Curves.easeOut)
-                        .blur(begin: const Offset(0, 2), duration: 500.ms, delay: 200.ms, curve: Curves.easeOut)
-                        .slideY(begin: 0.2, duration: 500.ms, delay: 200.ms, curve: Curves.easeOut),
+                          delay: 200,
+                          duration: const Duration(milliseconds: 500),
+                        ),
                       ],
                     ),
                   ),
@@ -110,43 +110,15 @@ class _StudyScreenState extends State<StudyScreen> {
                   ),
                   itemCount: topics.length,
                   itemBuilder: (context, index) {
-                    // Calculate staggered delay based on position
-                    final baseDelay = 400 + (index * 150); // 150ms between each card
-                    
-                    return TopicCard(
-                      topic: topics[index],
-                      onTap: () => _navigateToTopicContent(context, topics[index]),
-                    )
-                    .animate()
-                    .fadeIn(
-                      duration: 700.ms,
-                      delay: baseDelay.ms,
-                      curve: Curves.easeOut,
-                    )
-                    .blur(
-                      begin: const Offset(0, 3),
-                      duration: 700.ms,
-                      delay: baseDelay.ms,
-                      curve: Curves.easeOut,
-                    )
-                    .scale(
-                      begin: const Offset(0.8, 0.8),
-                      duration: 700.ms,
-                      delay: baseDelay.ms,
-                      curve: Curves.easeOutBack,
-                    )
-                    .slideY(
-                      begin: 0.3,
-                      duration: 700.ms,
-                      delay: baseDelay.ms,
-                      curve: Curves.easeOutCubic,
-                    )
-                    // Add a subtle rotation for more dynamic feel
-                    .rotate(
-                      begin: 0.02, // Very subtle rotation
-                      duration: 700.ms,
-                      delay: baseDelay.ms,
-                      curve: Curves.easeOut,
+                    return AnimationPresets.cardEntrance(
+                      child: TopicCard(
+                        topic: topics[index],
+                        onTap: () => _navigateToTopicContent(context, topics[index]),
+                      ),
+                      delay: 400 + (index * 150), // Staggered delay: 400ms + 150ms per card
+                      duration: const Duration(milliseconds: 700),
+                      scaleFrom: 0.8,
+                      rotationAmount: 0.02, // Very subtle rotation for dynamic feel
                     );
                   },
                 ),

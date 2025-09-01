@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import '../../models/study_topic.dart';
 import '../../models/content_module.dart';
+import 'package:netlab/core/components/animations.dart';
 import 'sidebar_module_item.dart';
 
 class SidebarModuleList extends StatelessWidget {
@@ -39,37 +39,39 @@ class SidebarModuleList extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Modules',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                )
-                .animate()
-                .fadeIn(duration: 500.ms, curve: Curves.easeOut)
-                .blur(begin: const Offset(0, 2), duration: 500.ms, curve: Curves.easeOut)
-                .slideX(begin: -0.3, duration: 500.ms, curve: Curves.easeOutCubic),
-                
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: topic.cardColor.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    '${modules.length}',
+                AnimationPresets.iconSlide(
+                  child: const Text(
+                    'Modules',
                     style: TextStyle(
-                      fontSize: 12,
-                      color: topic.cardColor,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
-                )
-                .animate()
-                .fadeIn(duration: 400.ms, delay: 200.ms, curve: Curves.easeOut)
-                .scale(begin: const Offset(0.8, 0.8), duration: 400.ms, delay: 200.ms, curve: Curves.easeOutBack),
+                  delay: 0,
+                  duration: const Duration(milliseconds: 500),
+                  slideFrom: -0.3,
+                ),
+                
+                AnimationPresets.buttonBounce(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: topic.cardColor.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '${modules.length}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: topic.cardColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  delay: 200,
+                  duration: const Duration(milliseconds: 400),
+                ),
               ],
             ),
           ),
