@@ -5,13 +5,9 @@ import 'package:netlab/core/components/gradient_border.dart';
 class ButtonStyle extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  
-  const ButtonStyle({
-    super.key,
-    required this.text,
-    required this.onPressed,
-  });
-  
+
+  const ButtonStyle({super.key, required this.text, required this.onPressed});
+
   @override
   Widget build(BuildContext context) {
     return AnimatedGradientBorder(

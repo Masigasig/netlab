@@ -20,10 +20,8 @@ import 'topics/network_devices/bridge.dart';
 import 'topics/network_devices/switch.dart';
 import 'topics/network_devices/router.dart';
 
-
 class ContentRegistry {
   static final Map<String, ModuleContent> _contents = {
-
     // network fundamentals
     'nf_intro': NetworkIntroContent(),
     'nf_host': HostContent(),

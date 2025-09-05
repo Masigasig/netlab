@@ -7,49 +7,49 @@ import 'package:netlab/core/constants/app_colors.dart';
 class OptimizedLottieWidget extends StatefulWidget {
   /// Path to the Lottie asset file
   final String assetPath;
-  
+
   /// Width of the Lottie animation
   final double? width;
-  
+
   /// Height of the Lottie animation
   final double? height;
-  
+
   /// BoxConstraints for the Lottie animation
   final BoxConstraints? constraints;
-  
+
   /// How to fit the animation within its bounds
   final BoxFit fit;
-  
+
   /// Alignment of the animation
   final Alignment alignment;
-  
+
   /// Whether the animation should repeat
   final bool repeat;
-  
+
   /// Whether the animation should reverse after completing
   final bool reverse;
-  
+
   /// Whether the animation should start automatically
   final bool animate;
-  
+
   /// Frame rate for the animation (null = device refresh rate)
   final FrameRate? frameRate;
-  
+
   /// Custom loading widget (optional)
   final Widget? loadingWidget;
-  
+
   /// Custom error widget (optional)
   final Widget? errorWidget;
-  
+
   /// Background color for loading/error states
   final Color? backgroundColor;
-  
+
   /// Border radius for loading/error states
   final BorderRadius? borderRadius;
-  
+
   /// Show loading/error text
   final bool showStatusText;
-  
+
   /// Custom error message
   final String? errorMessage;
 
@@ -79,7 +79,6 @@ class OptimizedLottieWidget extends StatefulWidget {
 
 class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  
   late final Future<LottieComposition> _compositionFuture;
   AnimationController? _animationController;
 
@@ -90,13 +89,13 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
   void initState() {
     super.initState();
     _compositionFuture = _loadComposition();
-    
+
     // Create animation controller if needed for manual control
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3), // Default duration
     );
-    
+
     if (widget.animate) {
       _animationController?.forward();
     }
@@ -114,7 +113,7 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
   @override
   void didUpdateWidget(OptimizedLottieWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.animate != oldWidget.animate) {
       if (widget.animate) {
         if (widget.repeat) {
@@ -140,14 +139,14 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    
+
     Widget lottieWidget = FutureBuilder<LottieComposition>(
       future: _compositionFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return _buildLoadingState();
         }
-        
+
         if (snapshot.hasError || !snapshot.hasData) {
           return _buildErrorState();
         }
@@ -176,15 +175,19 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
   Widget _buildLottieAnimation(LottieComposition composition) {
     // Set the animation duration based on composition
     _animationController?.duration = composition.duration;
-    
-    if (widget.animate && widget.repeat && _animationController?.status != AnimationStatus.forward) {
+
+    if (widget.animate &&
+        widget.repeat &&
+        _animationController?.status != AnimationStatus.forward) {
       _animationController?.repeat();
     }
 
     return RepaintBoundary(
       child: Lottie(
         composition: composition,
-        controller: widget.repeat ? null : _animationController, // Only use controller for non-repeating animations
+        controller: widget.repeat
+            ? null
+            : _animationController, // Only use controller for non-repeating animations
         width: widget.width,
         height: widget.height,
         fit: widget.fit,
@@ -192,7 +195,9 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
         repeat: widget.repeat,
         reverse: widget.reverse,
         animate: widget.animate,
-        frameRate: widget.frameRate ?? const FrameRate(30), // Limit to 30fps for better performance
+        frameRate:
+            widget.frameRate ??
+            const FrameRate(30), // Limit to 30fps for better performance
         options: LottieOptions(
           enableApplyingOpacityToLayers: false, // Better performance
         ),
@@ -209,10 +214,10 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        color: widget.backgroundColor ?? 
-               AppColors.textSecondary.withOpacity(0.05),
-        borderRadius: widget.borderRadius ?? 
-                      BorderRadius.circular(12),
+        color:
+            widget.backgroundColor ??
+            AppColors.textSecondary.withValues(alpha: 0.05),
+        borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -224,7 +229,7 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
             child: CircularProgressIndicator(
               strokeWidth: 2,
               valueColor: AlwaysStoppedAnimation<Color>(
-                AppColors.textSecondary.withOpacity(0.5),
+                AppColors.textSecondary.withValues(alpha: 0.5),
               ),
             ),
           ),
@@ -234,7 +239,7 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
               'Loading animation...',
               style: GoogleFonts.inter(
                 fontSize: 12,
-                color: AppColors.textSecondary.withOpacity(0.6),
+                color: AppColors.textSecondary.withValues(alpha: 0.6),
               ),
             ),
           ],
@@ -252,10 +257,10 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
       width: widget.width,
       height: widget.height,
       decoration: BoxDecoration(
-        color: widget.backgroundColor ?? 
-               AppColors.textSecondary.withOpacity(0.05),
-        borderRadius: widget.borderRadius ?? 
-                      BorderRadius.circular(12),
+        color:
+            widget.backgroundColor ??
+            AppColors.textSecondary.withValues(alpha: 0.05),
+        borderRadius: widget.borderRadius ?? BorderRadius.circular(12),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -264,7 +269,7 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
           Icon(
             Icons.animation_outlined,
             size: 48,
-            color: AppColors.textSecondary.withOpacity(0.4),
+            color: AppColors.textSecondary.withValues(alpha: 0.4),
           ),
           if (widget.showStatusText) ...[
             const SizedBox(height: 8),
@@ -273,7 +278,7 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 fontSize: 12,
-                color: AppColors.textSecondary.withOpacity(0.6),
+                color: AppColors.textSecondary.withValues(alpha: 0.6),
               ),
             ),
           ],
@@ -293,9 +298,7 @@ class _OptimizedLottieWidgetState extends State<OptimizedLottieWidget>
 class LottieHelper {
   /// Preload multiple Lottie animations
   static Future<void> preloadAssets(List<String> assetPaths) async {
-    await Future.wait(
-      assetPaths.map((path) => AssetLottie(path).load()),
-    );
+    await Future.wait(assetPaths.map((path) => AssetLottie(path).load()));
   }
 
   /// Create a simple Lottie widget with default settings
@@ -316,10 +319,7 @@ class LottieHelper {
   }
 
   /// Create a loading Lottie animation
-  static Widget loading({
-    required String assetPath,
-    double size = 50,
-  }) {
+  static Widget loading({required String assetPath, double size = 50}) {
     return OptimizedLottieWidget(
       assetPath: assetPath,
       width: size,

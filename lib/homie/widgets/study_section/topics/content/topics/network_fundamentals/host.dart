@@ -7,11 +7,7 @@ class HostContent implements ModuleContent {
   @override
   List<ContentBlock> getContent() {
     return [
-      ContentBlock(
-        type: ContentBlockType.header,
-        title: 'Host',
-        content: '',
-      ),
+      ContentBlock(type: ContentBlockType.header, title: 'Host', content: ''),
       ContentBlock(
         type: ContentBlockType.paragraph,
         content:

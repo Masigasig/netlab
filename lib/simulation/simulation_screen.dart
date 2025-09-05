@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_math/vector_math_64.dart' show Vector4;
+import 'package:vector_math/vector_math_64.dart' show Vector4, Vector3;
 
 import 'package:netlab/core/constants/app_image.dart';
 import 'package:netlab/core/utils/file_service.dart';
@@ -157,8 +157,8 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
     return Matrix4.identity()
-      ..translate(size.width / 2, size.height / 2)
-      ..translate(-canvasSize / 2, -canvasSize / 2);
+      ..translateByVector3(Vector3(size.width / 2, size.height / 2, 0.0))
+      ..translateByVector3(Vector3(-canvasSize / 2, -canvasSize / 2, 0.0));
   }
 
   Future<void> _saveSimulation() async {

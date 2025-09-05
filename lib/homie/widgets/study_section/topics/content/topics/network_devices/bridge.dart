@@ -7,11 +7,7 @@ class BridgeContent implements ModuleContent {
   @override
   List<ContentBlock> getContent() {
     return [
-      ContentBlock(
-        type: ContentBlockType.header,
-        title: 'Bridge',
-        content: '',
-      ),
+      ContentBlock(type: ContentBlockType.header, title: 'Bridge', content: ''),
       ContentBlock(
         type: ContentBlockType.paragraph,
         content:
@@ -31,7 +27,8 @@ class BridgeContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.note,
-        content: 'Unlike hubs, bridges can filter traffic based on MAC addresses.',
+        content:
+            'Unlike hubs, bridges can filter traffic based on MAC addresses.',
       ),
     ];
   }

@@ -12,39 +12,42 @@ class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
+  OnboardingScreenState createState() => OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class OnboardingScreenState extends State<OnboardingScreen> {
   int _currentPage = 0;
   bool _isAnimating = false;
 
   final List<Map<String, String>> _pages = [
     {
       'title': 'Welcome to NetLab!',
-      'description': 'Discover how computer networks work — no cables, no configurations. Just simple, hands-on learning built for students and educators.',
+      'description':
+          'Discover how computer networks work — no cables, no configurations. Just simple, hands-on learning built for students and educators.',
       'lottie': AppLottie.kid,
     },
     {
       'title': 'Build & Connect Your Network.',
-      'description': 'Use drag-and-drop tools to create network topologies. Connect routers, switches, and PCs to visualize how real networks function.',
+      'description':
+          'Use drag-and-drop tools to create network topologies. Connect routers, switches, and PCs to visualize how real networks function.',
       'lottie': AppLottie.floating,
     },
     {
       'title': 'Simulate. Learn. Repeat.',
-      'description': 'Simulate basic networking scenarios to reinforce classroom concepts. Whether you\'re a beginner or teaching others, learning is just a tap away.',
+      'description':
+          'Simulate basic networking scenarios to reinforce classroom concepts. Whether you\'re a beginner or teaching others, learning is just a tap away.',
       'lottie': AppLottie.kid2,
     },
   ];
 
   void _nextPage() async {
     if (_isAnimating) return;
-    
+
     if (_currentPage < _pages.length - 1) {
       setState(() => _isAnimating = true);
 
       await Future.delayed(const Duration(milliseconds: 200));
-      
+
       setState(() {
         _currentPage++;
         _isAnimating = false;
@@ -57,7 +60,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final currentPageData = _pages[_currentPage];
-    
+
     return Scaffold(
       body: GlobalAnimatedBackground(
         child: Stack(

@@ -34,9 +34,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return SizedBox.expand(
       child: Stack(
         children: [
-          Container(
-            color: AppColors.overlay,
-          ),
+          Container(color: AppColors.overlay),
           Row(
             children: [
               Expanded(
@@ -63,9 +61,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             delay: 0,
                             duration: const Duration(milliseconds: 700),
                           ),
-                          
+
                           const SizedBox(height: 16),
-                          
+
                           AnimationPresets.textFadeIn(
                             child: Text(
                               widget.description,
@@ -80,7 +78,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           ),
                         ],
                       ),
-                      
+
                       if (widget.bottomWidget != null)
                         AnimationPresets.buttonBounce(
                           child: Padding(
@@ -101,21 +99,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   child: Align(
                     alignment: Alignment.center,
                     child: AnimationPresets.mediaEntrance(
-                      child: Container(
-                        child: OptimizedLottieWidget(
-                          key: ValueKey(widget.lottiePath),
-                          assetPath: widget.lottiePath,
-                          constraints: const BoxConstraints(maxHeight: 450),
-                          repeat: true,
-                          animate: true,
-                          frameRate: const FrameRate(30),
-                          fit: BoxFit.contain,
-                          alignment: Alignment.center,
-                          backgroundColor: AppColors.textSecondary,
-                          borderRadius: BorderRadius.circular(16),
-                          errorMessage: 'Onboarding animation unavailable',
-                          showStatusText: false,
-                        ),
+                      child: OptimizedLottieWidget(
+                        key: ValueKey(widget.lottiePath),
+                        assetPath: widget.lottiePath,
+                        constraints: const BoxConstraints(maxHeight: 450),
+                        repeat: true,
+                        animate: true,
+                        frameRate: const FrameRate(30),
+                        fit: BoxFit.contain,
+                        alignment: Alignment.center,
+                        backgroundColor: AppColors.textSecondary,
+                        borderRadius: BorderRadius.circular(16),
+                        errorMessage: 'Onboarding animation unavailable',
+                        showStatusText: false,
                       ),
                       delay: 500,
                       duration: const Duration(milliseconds: 800),

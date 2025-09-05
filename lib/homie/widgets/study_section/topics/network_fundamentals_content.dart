@@ -4,10 +4,7 @@ import '../models/content_module.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class NetworkFundamentalsContent extends BaseTopicContent {
-  const NetworkFundamentalsContent({
-    super.key,
-    required super.topic,
-  });
+  const NetworkFundamentalsContent({super.key, required super.topic});
 
   @override
   List<ContentModule> getContentModules() {

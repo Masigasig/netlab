@@ -7,11 +7,7 @@ class RouterContent implements ModuleContent {
   @override
   List<ContentBlock> getContent() {
     return [
-      ContentBlock(
-        type: ContentBlockType.header,
-        title: 'Router',
-        content: '',
-      ),
+      ContentBlock(type: ContentBlockType.header, title: 'Router', content: ''),
       ContentBlock(
         type: ContentBlockType.paragraph,
         content:
@@ -26,9 +22,7 @@ class RouterContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.bulletList,
-        content: [
-          'Gateway – each host’s way out of its local network.',
-        ],
+        content: ['Gateway – each host’s way out of its local network.'],
       ),
       ContentBlock(
         type: ContentBlockType.image,

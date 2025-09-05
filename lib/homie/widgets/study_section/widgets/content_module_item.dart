@@ -1,4 +1,4 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../models/content_module.dart';
 import 'package:netlab/core/constants/app_text.dart';
 import 'package:netlab/homie/widgets/study_section/widgets/components/module_type_helpers.dart';
@@ -18,7 +18,7 @@ class ContentModuleItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
@@ -57,7 +57,7 @@ class ContentModuleItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
-            ModuleTypeHelpers.getShortTypeLabel(module.type), 
+            ModuleTypeHelpers.getShortTypeLabel(module.type),
             style: AppTextStyles.primaryCustom(
               fontSize: 10,
               color: Colors.white,

@@ -34,8 +34,9 @@ class GradientText extends StatelessWidget {
     );
 
     // Create gradient shader once for reuse
-    final gradientShader = LinearGradient(colors: gradientColors)
-        .createShader(const Rect.fromLTWH(0, 0, 300, 70));
+    final gradientShader = LinearGradient(
+      colors: gradientColors,
+    ).createShader(const Rect.fromLTWH(0, 0, 300, 70));
 
     return RichText(
       textAlign: textAlign,
@@ -48,20 +49,21 @@ class GradientText extends StatelessWidget {
 
   List<TextSpan> _buildTextSpans(TextStyle baseStyle, Shader gradientShader) {
     final words = text.split(' ');
-    
+
     return words.asMap().entries.map((entry) {
       final index = entry.key;
       final word = entry.value;
       final isLast = index == words.length - 1;
-      
+
       // Clean word by removing punctuation for comparison
       final cleanWord = word.replaceAll(RegExp(r'[^\w]'), '');
-      final isGradient = gradientWords.any((gw) => 
-          gw.toLowerCase() == cleanWord.toLowerCase());
-      
+      final isGradient = gradientWords.any(
+        (gw) => gw.toLowerCase() == cleanWord.toLowerCase(),
+      );
+
       return TextSpan(
         text: word + (isLast ? '' : ' '),
-        style: isGradient 
+        style: isGradient
             ? baseStyle.copyWith(foreground: Paint()..shader = gradientShader)
             : null,
       );

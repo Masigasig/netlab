@@ -24,12 +24,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            color: AppColors.divider,
-            width: 1.0,
-          ),
-        ),
+        border: Border(right: BorderSide(color: AppColors.divider, width: 1.0)),
       ),
       child: Container(
         width: 70,
@@ -51,13 +46,13 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                 ),
               ),
             ),
-            
+
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               height: 1,
-              color: AppColors.divider.withOpacity(0.3),
+              color: AppColors.divider.withValues(alpha: 0.3),
             ),
-            
+
             const SizedBox(height: 8),
 
             Expanded(

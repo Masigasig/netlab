@@ -6,11 +6,7 @@ class TopicCard extends StatelessWidget {
   final StudyTopic topic;
   final VoidCallback onTap;
 
-  const TopicCard({
-    super.key,
-    required this.topic,
-    required this.onTap,
-  });
+  const TopicCard({super.key, required this.topic, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +19,11 @@ class TopicCard extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              topic.cardColor,
-              topic.cardColor.withOpacity(0.8),
-            ],
+            colors: [topic.cardColor, topic.cardColor.withValues(alpha: 0.8)],
           ),
           boxShadow: [
             BoxShadow(
-              color: topic.cardColor.withOpacity(0.3),
+              color: topic.cardColor.withValues(alpha: 0.3),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -51,15 +44,11 @@ class TopicCard extends StatelessWidget {
                     height: 50,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                     ),
-                    child: Icon(
-                      topic.icon,
-                      color: Colors.white,
-                      size: 24,
-                    ),
+                    child: Icon(topic.icon, color: Colors.white, size: 24),
                   ),
-                  
+
                   const Spacer(),
 
                   Text(
@@ -68,9 +57,9 @@ class TopicCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  
+
                   const SizedBox(height: 6),
-                  
+
                   Text(
                     topic.description,
                     style: AppTextStyles.secondaryCustom(

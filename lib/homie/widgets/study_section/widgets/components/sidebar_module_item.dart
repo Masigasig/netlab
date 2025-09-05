@@ -24,12 +24,12 @@ class SidebarModuleItem extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 4),
         decoration: BoxDecoration(
-          color: isSelected 
-              ? Colors.white.withOpacity(0.1) 
+          color: isSelected
+              ? Colors.white.withValues(alpha: 0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
-          border: isSelected 
-              ? Border.all(color: Colors.white.withOpacity(0.2)) 
+          border: isSelected
+              ? Border.all(color: Colors.white.withValues(alpha: 0.2))
               : null,
         ),
         child: ListTile(
@@ -41,11 +41,7 @@ class SidebarModuleItem extends StatelessWidget {
               color: ModuleTypeHelpers.getTypeColor(module.type),
               borderRadius: BorderRadius.circular(6),
             ),
-            child: Icon(
-              module.icon,
-              color: Colors.white,
-              size: 16,
-            ),
+            child: Icon(module.icon, color: Colors.white, size: 16),
           ),
           title: Text(
             module.title,

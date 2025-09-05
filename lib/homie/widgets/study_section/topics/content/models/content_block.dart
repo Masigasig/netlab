@@ -13,7 +13,7 @@ enum ContentBlockType {
   quiz,
   video,
   codeOutput,
-  divider
+  divider,
 }
 
 class ContentBlock {

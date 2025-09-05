@@ -3,10 +3,7 @@ import '../models/content_module.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class RoutingSwitchingContent extends BaseTopicContent {
-  const RoutingSwitchingContent({
-    super.key,
-    required super.topic,
-  });
+  const RoutingSwitchingContent({super.key, required super.topic});
 
   @override
   List<ContentModule> getContentModules() {

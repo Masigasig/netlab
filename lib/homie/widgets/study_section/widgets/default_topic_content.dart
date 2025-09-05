@@ -3,10 +3,7 @@ import 'base_topic_content.dart';
 import '../models/content_module.dart';
 
 class DefaultTopicContent extends BaseTopicContent {
-  const DefaultTopicContent({
-    super.key,
-    required super.topic,
-  });
+  const DefaultTopicContent({super.key, required super.topic});
 
   @override
   List<ContentModule> getContentModules() {
@@ -14,7 +11,8 @@ class DefaultTopicContent extends BaseTopicContent {
       ContentModule(
         id: 'coming_soon',
         title: 'Coming Soon',
-        description: 'This content is currently under development and will be available soon',
+        description:
+            'This content is currently under development and will be available soon',
         icon: Icons.construction,
         duration: 0,
         type: ContentType.reading,
@@ -30,7 +28,8 @@ class DefaultTopicContent extends BaseTopicContent {
       ContentModule(
         id: 'placeholder_2',
         title: 'Future Updates',
-        description: 'More interactive content will be added in upcoming releases',
+        description:
+            'More interactive content will be added in upcoming releases',
         icon: Icons.update,
         duration: 0,
         type: ContentType.interactive,
@@ -42,12 +41,12 @@ class DefaultTopicContent extends BaseTopicContent {
   void onModuleTap(BuildContext context, ContentModule module) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('This content is coming soon! Stay tuned for updates.'),
-        backgroundColor: topic.cardColor.withOpacity(0.9),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+        content: const Text(
+          'This content is coming soon! Stay tuned for updates.',
         ),
+        backgroundColor: topic.cardColor.withValues(alpha: 0.9),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         action: SnackBarAction(
           label: 'OK',
           textColor: Colors.white,

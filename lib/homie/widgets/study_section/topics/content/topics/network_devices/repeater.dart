@@ -29,7 +29,8 @@ class RepeaterContent implements ModuleContent {
       ContentBlock(
         type: ContentBlockType.image,
         content: 'assets/images/content_image/repeater_example.png',
-        title: 'A repeater extends network signal strength across longer distances',
+        title:
+            'A repeater extends network signal strength across longer distances',
       ),
       ContentBlock(
         type: ContentBlockType.note,

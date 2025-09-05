@@ -23,21 +23,24 @@ class _StudyScreenState extends State<StudyScreen> {
     StudyTopic(
       id: 'network_fundamentals',
       title: 'Network Fundamentals',
-      description: 'Learn the basics of computer networking and how devices communicate',
+      description:
+          'Learn the basics of computer networking and how devices communicate',
       cardColor: const Color(0xFF6366F1),
       icon: HugeIcons.strokeRoundedWifi01,
     ),
     StudyTopic(
       id: 'switching_routing',
       title: 'Switching and Routing',
-      description: 'Understanding how data moves through networks and switching concepts',
+      description:
+          'Understanding how data moves through networks and switching concepts',
       cardColor: const Color(0xFF10B981),
       icon: HugeIcons.strokeRoundedRouter,
     ),
     StudyTopic(
       id: 'network_devices',
       title: 'Network Devices',
-      description: 'Learn about different types of network devices and their functions',
+      description:
+          'Learn about different types of network devices and their functions',
       cardColor: const Color(0xFFF59E0B),
       icon: HugeIcons.strokeRoundedComputerPhoneSync,
     ),
@@ -77,9 +80,9 @@ class _StudyScreenState extends State<StudyScreen> {
                           delay: 0,
                           duration: const Duration(milliseconds: 600),
                         ),
-                        
+
                         const SizedBox(height: 3),
-                        
+
                         AnimationPresets.textFadeIn(
                           child: Text(
                             'Choose a topic to start learning',
@@ -110,7 +113,8 @@ class _StudyScreenState extends State<StudyScreen> {
                     return AnimationPresets.cardEntrance(
                       child: TopicCard(
                         topic: topics[index],
-                        onTap: () => _navigateToTopicContent(context, topics[index]),
+                        onTap: () =>
+                            _navigateToTopicContent(context, topics[index]),
                       ),
                       delay: 400 + (index * 150),
                       duration: const Duration(milliseconds: 700),
@@ -129,7 +133,7 @@ class _StudyScreenState extends State<StudyScreen> {
 
   void _navigateToTopicContent(BuildContext context, StudyTopic topic) {
     Widget contentScreen;
-    
+
     switch (topic.id) {
       case 'network_fundamentals':
         contentScreen = NetworkFundamentalsContent(topic: topic);

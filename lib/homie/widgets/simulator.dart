@@ -39,9 +39,9 @@ class SimulatorScreen extends StatelessWidget {
                         delay: 0,
                         duration: const Duration(milliseconds: 700),
                       ),
-                      
+
                       const SizedBox(height: 10),
-                      
+
                       AnimationPresets.textFadeIn(
                         child: Text(
                           'Practice network configuration in a safe, virtual lab with our interactive simulator.',
@@ -56,7 +56,7 @@ class SimulatorScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
+
                   Expanded(
                     child: Center(
                       child: Row(
@@ -69,8 +69,10 @@ class SimulatorScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      AppColors.secondary.withOpacity(0.8),
-                                      AppColors.primary.withOpacity(0.8),
+                                      AppColors.secondary.withValues(
+                                        alpha: 0.8,
+                                      ),
+                                      AppColors.primary.withValues(alpha: 0.8),
                                     ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
@@ -81,7 +83,7 @@ class SimulatorScreen extends StatelessWidget {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: () {
-                                      // TODO: Save file
+                                      //? Will Remove
                                     },
                                     borderRadius: BorderRadius.circular(12),
                                     child: Container(
@@ -90,7 +92,8 @@ class SimulatorScreen extends StatelessWidget {
                                         vertical: 12,
                                       ),
                                       child: const Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Icon(
                                             Icons.save_rounded,
@@ -117,18 +120,22 @@ class SimulatorScreen extends StatelessWidget {
                             duration: const Duration(milliseconds: 500),
                             scaleFrom: 0.9,
                           ),
-                          
+
                           const SizedBox(width: 12),
-                          
+
                           AnimationPresets.cardEntrance(
                             child: Flexible(
                               child: Container(
                                 height: 55,
                                 decoration: BoxDecoration(
-                                  color: AppColors.textSecondary.withOpacity(0.1),
+                                  color: AppColors.textSecondary.withValues(
+                                    alpha: 0.1,
+                                  ),
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: AppColors.textSecondary.withOpacity(0.3),
+                                    color: AppColors.textSecondary.withValues(
+                                      alpha: 0.3,
+                                    ),
                                     width: 1,
                                   ),
                                 ),
@@ -136,7 +143,7 @@ class SimulatorScreen extends StatelessWidget {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: () {
-                                      // TODO: Load file
+                                      //? Will Remove
                                     },
                                     borderRadius: BorderRadius.circular(12),
                                     child: Container(
@@ -145,7 +152,8 @@ class SimulatorScreen extends StatelessWidget {
                                         vertical: 12,
                                       ),
                                       child: const Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Icon(
                                             Icons.folder_open_rounded,

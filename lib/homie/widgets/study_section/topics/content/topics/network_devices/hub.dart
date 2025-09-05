@@ -7,11 +7,7 @@ class HubContent implements ModuleContent {
   @override
   List<ContentBlock> getContent() {
     return [
-      ContentBlock(
-        type: ContentBlockType.header,
-        title: 'Hub',
-        content: '',
-      ),
+      ContentBlock(type: ContentBlockType.header, title: 'Hub', content: ''),
       ContentBlock(
         type: ContentBlockType.paragraph,
         content:

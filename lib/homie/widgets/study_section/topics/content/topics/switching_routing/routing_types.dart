@@ -27,7 +27,7 @@ class RoutingTypesContent implements ModuleContent {
             'definition':
                 '  This is automatically created whenever a router is physically connected to a network. '
                 'If a router has an interface plugged into a network and is assigned an IP address in that network’s address space, '
-                'the router immediately knows that network exists and adds an entry for it in the routing table.'
+                'the router immediately knows that network exists and adds an entry for it in the routing table.',
           },
         ],
       ),
@@ -45,7 +45,7 @@ class RoutingTypesContent implements ModuleContent {
                 '  A static route is created when a network administrator manually tells the router how to reach a particular network. '
                 'This is like leaving written instructions in the router’s map: “If you want to reach Network X, send the packet to Router Y.” '
                 'Static routes are useful in smaller networks with simple, stable connections. '
-                'However, they require manual setup and maintenance. If the network changes, the administrator must update or remove the static routes to avoid sending packets into a dead end.'
+                'However, they require manual setup and maintenance. If the network changes, the administrator must update or remove the static routes to avoid sending packets into a dead end.',
           },
         ],
       ),
@@ -62,7 +62,7 @@ class RoutingTypesContent implements ModuleContent {
             'definition':
                 '  Dynamic routes are created when routers automatically exchange information about the networks they know. '
                 'Instead of requiring a person to configure them, the routers essentially “talk” to each other and share their maps of the network. '
-                'This makes dynamic routing highly scalable for large or constantly changing networks, such as the internet.'
+                'This makes dynamic routing highly scalable for large or constantly changing networks, such as the internet.',
           },
         ],
       ),

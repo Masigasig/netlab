@@ -25,12 +25,12 @@ class SwitchingFrameTypesContent implements ModuleContent {
             'term': 'Unicast Frame',
             'definition':
                 '  One-to-one communication. Flooding happens only until the switch learns where the device is. '
-                'Once the destination MAC is known (in the MAC table), the switch forwards directly to that port.'
+                'Once the destination MAC is known (in the MAC table), the switch forwards directly to that port.',
           },
           {
             'term': 'Broadcast Frame',
             'definition':
-                '  One-to-all communication. The switch always floods the frame to all ports, regardless of its MAC Address Table.'
+                '  One-to-all communication. The switch always floods the frame to all ports, regardless of its MAC Address Table.',
           },
         ],
       ),

@@ -12,10 +12,21 @@ class AnimationPresets {
     double slideDistance = 0.2,
     double blurAmount = 3.0,
   }) {
-    return child.animate()
-      .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .blur(begin: Offset(0, blurAmount), duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .slideY(begin: slideDistance, duration: duration, delay: delay.ms, curve: Curves.easeOut);
+    return child
+        .animate()
+        .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
+        .blur(
+          begin: Offset(0, blurAmount),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        )
+        .slideY(
+          begin: slideDistance,
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        );
   }
 
   /// Large title animation with scale effect
@@ -24,11 +35,27 @@ class AnimationPresets {
     int delay = 0,
     Duration duration = const Duration(milliseconds: 700),
   }) {
-    return child.animate()
-      .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .blur(begin: const Offset(0, 4), duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .slideY(begin: 0.3, duration: duration, delay: delay.ms, curve: Curves.easeOutCubic)
-      .scale(begin: const Offset(0.9, 0.9), duration: duration, delay: delay.ms, curve: Curves.easeOut);
+    return child
+        .animate()
+        .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
+        .blur(
+          begin: const Offset(0, 4),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        )
+        .slideY(
+          begin: 0.3,
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOutCubic,
+        )
+        .scale(
+          begin: const Offset(0.9, 0.9),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        );
   }
 
   /// Card/Button entrance animation with optional rotation
@@ -39,12 +66,28 @@ class AnimationPresets {
     double scaleFrom = 0.8,
     double rotationAmount = 0.0,
   }) {
-    final baseAnimation = child.animate()
-      .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .blur(begin: const Offset(0, 3), duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .scale(begin: Offset(scaleFrom, scaleFrom), duration: duration, delay: delay.ms, curve: Curves.easeOutBack)
-      .slideY(begin: 0.2, duration: duration, delay: delay.ms, curve: Curves.easeOutCubic);
-    
+    final baseAnimation = child
+        .animate()
+        .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
+        .blur(
+          begin: const Offset(0, 3),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        )
+        .scale(
+          begin: Offset(scaleFrom, scaleFrom),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOutBack,
+        )
+        .slideY(
+          begin: 0.2,
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOutCubic,
+        );
+
     // Add rotation if specified
     if (rotationAmount != 0.0) {
       return baseAnimation.rotate(
@@ -54,7 +97,7 @@ class AnimationPresets {
         curve: Curves.easeOut,
       );
     }
-    
+
     return baseAnimation;
   }
 
@@ -66,11 +109,27 @@ class AnimationPresets {
     Duration duration = const Duration(milliseconds: 600),
   }) {
     final delay = index * staggerDelay;
-    return child.animate()
-      .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .blur(begin: const Offset(2, 0), duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .slideX(begin: 0.3, duration: duration, delay: delay.ms, curve: Curves.easeOutCubic)
-      .scale(begin: const Offset(0.95, 0.95), duration: duration, delay: delay.ms, curve: Curves.easeOut);
+    return child
+        .animate()
+        .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
+        .blur(
+          begin: const Offset(2, 0),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        )
+        .slideX(
+          begin: 0.3,
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOutCubic,
+        )
+        .scale(
+          begin: const Offset(0.95, 0.95),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        );
   }
 
   /// Staggered list item animation (slides from left) - for sidebars
@@ -81,11 +140,27 @@ class AnimationPresets {
     Duration duration = const Duration(milliseconds: 500),
   }) {
     final delay = index * staggerDelay;
-    return child.animate()
-      .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .blur(begin: const Offset(1, 0), duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .slideX(begin: -0.2, duration: duration, delay: delay.ms, curve: Curves.easeOutCubic)
-      .scale(begin: const Offset(0.96, 0.96), duration: duration, delay: delay.ms, curve: Curves.easeOut);
+    return child
+        .animate()
+        .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
+        .blur(
+          begin: const Offset(1, 0),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        )
+        .slideX(
+          begin: -0.2,
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOutCubic,
+        )
+        .scale(
+          begin: const Offset(0.96, 0.96),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        );
   }
 
   /// Lottie/Image animation with scale and slide
@@ -94,11 +169,27 @@ class AnimationPresets {
     int delay = 500,
     Duration duration = const Duration(milliseconds: 800),
   }) {
-    return child.animate()
-      .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .blur(begin: const Offset(0, 4), duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .scale(begin: const Offset(0.7, 0.7), duration: duration, delay: delay.ms, curve: Curves.easeOutBack)
-      .slideY(begin: 0.2, duration: duration, delay: delay.ms, curve: Curves.easeOutCubic);
+    return child
+        .animate()
+        .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
+        .blur(
+          begin: const Offset(0, 4),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        )
+        .scale(
+          begin: const Offset(0.7, 0.7),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOutBack,
+        )
+        .slideY(
+          begin: 0.2,
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOutCubic,
+        );
   }
 
   /// Icon slide animation
@@ -108,9 +199,15 @@ class AnimationPresets {
     Duration duration = const Duration(milliseconds: 400),
     double slideFrom = -0.3,
   }) {
-    return child.animate()
-      .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .slideX(begin: slideFrom, duration: duration, delay: delay.ms, curve: Curves.easeOut);
+    return child
+        .animate()
+        .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
+        .slideX(
+          begin: slideFrom,
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        );
   }
 
   /// Button with bounce effect
@@ -119,11 +216,27 @@ class AnimationPresets {
     int delay = 0,
     Duration duration = const Duration(milliseconds: 600),
   }) {
-    return child.animate()
-      .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .blur(begin: const Offset(0, 2), duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .slideY(begin: 0.3, duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .scale(begin: const Offset(0.8, 0.8), duration: duration, delay: delay.ms, curve: Curves.easeOutBack);
+    return child
+        .animate()
+        .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
+        .blur(
+          begin: const Offset(0, 2),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        )
+        .slideY(
+          begin: 0.3,
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        )
+        .scale(
+          begin: const Offset(0.8, 0.8),
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOutBack,
+        );
   }
 
   /// Page indicator animation
@@ -132,8 +245,14 @@ class AnimationPresets {
     int delay = 800,
     Duration duration = const Duration(milliseconds: 400),
   }) {
-    return child.animate()
-      .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
-      .slideY(begin: 0.1, duration: duration, delay: delay.ms, curve: Curves.easeOut);
+    return child
+        .animate()
+        .fadeIn(duration: duration, delay: delay.ms, curve: Curves.easeOut)
+        .slideY(
+          begin: 0.1,
+          duration: duration,
+          delay: delay.ms,
+          curve: Curves.easeOut,
+        );
   }
 }

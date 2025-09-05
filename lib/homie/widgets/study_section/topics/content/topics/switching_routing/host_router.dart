@@ -22,14 +22,14 @@ class RoutingHostVsRouterContent implements ModuleContent {
                 'Every host has an IP address and a MAC address to send and receive data. '
                 'However, a host only deals with traffic directly addressed to it. '
                 'If a packet arrives with a different destination IP, the host ignores or drops it. '
-                'In short, hosts are endpoints in communication, not devices that forward traffic.'
+                'In short, hosts are endpoints in communication, not devices that forward traffic.',
           },
           {
             'term': 'Router',
             'definition':
                 '  A router also has an IP address and a MAC address, but its main job is very different. '
                 'Routers forward packets that are not addressed to themselves. '
-                'Instead of dropping packets destined for another network, a router works to pass them along toward their correct destination.'
+                'Instead of dropping packets destined for another network, a router works to pass them along toward their correct destination.',
           },
         ],
       ),

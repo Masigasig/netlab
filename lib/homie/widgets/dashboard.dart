@@ -31,7 +31,7 @@ class DashboardScreen extends StatelessWidget {
                     'Continue your network learning journey',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withValues(alpha: .7),
                     ),
                   ),
                 ],
@@ -39,7 +39,7 @@ class DashboardScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.05),
+                  color: Colors.white.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Row(
@@ -101,7 +101,7 @@ class DashboardScreen extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.05),
+                      color: Colors.white.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Column(
@@ -129,7 +129,8 @@ class DashboardScreen extends StatelessWidget {
                               _buildActivityItem(
                                 icon: Icons.bug_report,
                                 title: 'Troubleshooting',
-                                description: 'Solved routing issue in simulation',
+                                description:
+                                    'Solved routing issue in simulation',
                                 time: '5 hours ago',
                                 color: Colors.green,
                               ),
@@ -153,7 +154,7 @@ class DashboardScreen extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.05),
+                      color: Colors.white.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Column(
@@ -168,11 +169,7 @@ class DashboardScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        _buildProgressItem(
-                          'Network Basics',
-                          0.8,
-                          Colors.blue,
-                        ),
+                        _buildProgressItem('Network Basics', 0.8, Colors.blue),
                         const SizedBox(height: 16),
                         _buildProgressItem(
                           'Routing & Switching',
@@ -209,7 +206,7 @@ class DashboardScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.05),
+          color: Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -220,7 +217,7 @@ class DashboardScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(icon, color: color),
@@ -237,7 +234,7 @@ class DashboardScreen extends StatelessWidget {
               title,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.white.withOpacity(0.7),
+                color: Colors.white.withValues(alpha: 0.7),
               ),
             ),
             const SizedBox(height: 8),
@@ -277,7 +274,7 @@ class DashboardScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: color, size: 20),
@@ -300,7 +297,7 @@ class DashboardScreen extends StatelessWidget {
                   description,
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -311,7 +308,7 @@ class DashboardScreen extends StatelessWidget {
             time,
             style: TextStyle(
               fontSize: 12,
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha: 0.5),
             ),
           ),
         ],
@@ -328,10 +325,7 @@ class DashboardScreen extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-              ),
+              style: const TextStyle(fontSize: 14, color: Colors.white),
             ),
             Text(
               '${(progress * 100).toInt()}%',
@@ -348,7 +342,7 @@ class DashboardScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: progress,
-            backgroundColor: color.withOpacity(0.1),
+            backgroundColor: color.withValues(alpha: 0.1),
             valueColor: AlwaysStoppedAnimation<Color>(color),
             minHeight: 8,
           ),

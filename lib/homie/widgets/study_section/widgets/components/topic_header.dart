@@ -20,12 +20,7 @@ class TopicHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: const BoxDecoration(
         color: AppColors.background,
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0x1AFFFFFF),
-            width: 1,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: Color(0x1AFFFFFF), width: 1)),
       ),
       child: Row(
         children: [
@@ -47,14 +42,8 @@ class TopicHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                topic.title,
-                style: AppTextStyles.headerSmall,
-              ),
-              Text(
-                'Course Content',
-                style: AppTextStyles.subtitleSmall,
-              ),
+              Text(topic.title, style: AppTextStyles.headerSmall),
+              Text('Course Content', style: AppTextStyles.subtitleSmall),
             ],
           ),
         ],

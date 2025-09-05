@@ -5,10 +5,7 @@ import 'package:netlab/core/constants/app_text.dart';
 class ContentRenderer extends StatelessWidget {
   final List<ContentBlock> blocks;
 
-  const ContentRenderer({
-    super.key,
-    required this.blocks,
-  });
+  const ContentRenderer({super.key, required this.blocks});
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +59,11 @@ class ContentRenderer extends StatelessWidget {
             block.content,
             style: AppTextStyles.withColor(
               AppTextStyles.subtitleLarge,
-              Colors.white.withOpacity(0.7),
+              Colors.white.withValues(alpha: 0.7),
             ), // Using subtitle style with white color
           ),
         ],
-       // const SizedBox(height: 16),
+        // const SizedBox(height: 16),
       ],
     );
   }
@@ -78,7 +75,7 @@ class ContentRenderer extends StatelessWidget {
         block.content,
         style: AppTextStyles.withColor(
           AppTextStyles.bodyMedium,
-          Colors.white.withOpacity(0.9),
+          Colors.white.withValues(alpha: 0.9),
         ), // Using body style with custom color
       ),
     );
@@ -89,30 +86,34 @@ class ContentRenderer extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: (block.content as List<String>).map((item) => Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '• ',
-                style: AppTextStyles.withColor(
-                  AppTextStyles.bodyMedium,
-                  Colors.white.withOpacity(0.9),
+        children: (block.content as List<String>)
+            .map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '• ',
+                      style: AppTextStyles.withColor(
+                        AppTextStyles.bodyMedium,
+                        Colors.white.withValues(alpha: 0.9),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        item,
+                        style: AppTextStyles.withColor(
+                          AppTextStyles.bodyMedium.copyWith(height: 1.6),
+                          Colors.white.withValues(alpha: 0.9),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Expanded(
-                child: Text(
-                  item,
-                  style: AppTextStyles.withColor(
-                    AppTextStyles.bodyMedium.copyWith(height: 1.6),
-                    Colors.white.withOpacity(0.9),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        )).toList(),
+            )
+            .toList(),
       ),
     );
   }
@@ -123,33 +124,39 @@ class ContentRenderer extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: items.asMap().entries.map((entry) => Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 24,
-                child: Text(
-                  '${entry.key + 1}.',
-                  style: AppTextStyles.withColor(
-                    AppTextStyles.bodyLarge,
-                    Colors.white.withOpacity(0.9),
-                  ),
+        children: items
+            .asMap()
+            .entries
+            .map(
+              (entry) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 24,
+                      child: Text(
+                        '${entry.key + 1}.',
+                        style: AppTextStyles.withColor(
+                          AppTextStyles.bodyLarge,
+                          Colors.white.withValues(alpha: 0.9),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        entry.value,
+                        style: AppTextStyles.withColor(
+                          AppTextStyles.bodyLarge.copyWith(height: 1.6),
+                          Colors.white.withValues(alpha: 0.9),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Expanded(
-                child: Text(
-                  entry.value,
-                  style: AppTextStyles.withColor(
-                    AppTextStyles.bodyLarge.copyWith(height: 1.6),
-                    Colors.white.withOpacity(0.9),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        )).toList(),
+            )
+            .toList(),
       ),
     );
   }
@@ -159,9 +166,9 @@ class ContentRenderer extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.3),
+        color: Colors.black.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.white.withOpacity(0.1)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +178,7 @@ class ContentRenderer extends StatelessWidget {
               block.title,
               style: AppTextStyles.withColor(
                 AppTextStyles.subtitleMedium,
-                Colors.white.withOpacity(0.7),
+                Colors.white.withValues(alpha: 0.7),
               ),
             ),
             const SizedBox(height: 8),
@@ -182,9 +189,7 @@ class ContentRenderer extends StatelessWidget {
               fontSize: 14,
               color: Colors.white,
               fontWeight: FontWeight.w400,
-            ).copyWith(
-              fontFamily: 'monospace',
-            ),
+            ).copyWith(fontFamily: 'monospace'),
           ),
         ],
       ),
@@ -196,9 +201,9 @@ class ContentRenderer extends StatelessWidget {
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.1),
+        color: Colors.blue.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: Colors.blue.withOpacity(0.3)),
+        border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,7 +211,7 @@ class ContentRenderer extends StatelessWidget {
           Icon(
             Icons.info_outline,
             size: 18,
-            color: Colors.blue.withOpacity(0.9),
+            color: Colors.blue.withValues(alpha: 0.9),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -214,7 +219,7 @@ class ContentRenderer extends StatelessWidget {
               block.content,
               style: AppTextStyles.withColor(
                 AppTextStyles.bodyMedium.copyWith(height: 1.5),
-                Colors.white.withOpacity(0.9),
+                Colors.white.withValues(alpha: 0.9),
               ),
             ),
           ),
@@ -223,27 +228,29 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-
   Widget _buildWarning(ContentBlock block) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16, top: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0.1),
+        color: Colors.orange.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+        border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.warning_amber_rounded, color: Colors.orange.withOpacity(0.9)),
+          Icon(
+            Icons.warning_amber_rounded,
+            color: Colors.orange.withValues(alpha: 0.9),
+          ),
           const SizedBox(width: 16),
           Expanded(
             child: Text(
               block.content,
               style: AppTextStyles.withColor(
                 AppTextStyles.bodyLarge.copyWith(height: 1.6),
-                Colors.white.withOpacity(0.9),
+                Colors.white.withValues(alpha: 0.9),
               ),
             ),
           ),
@@ -257,28 +264,27 @@ class ContentRenderer extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: (block.content as List<Map<String, String>>).map((def) => 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  def['term']!,
-                  style: AppTextStyles.headerSmall,
+        children: (block.content as List<Map<String, String>>)
+            .map(
+              (def) => Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(def['term']!, style: AppTextStyles.headerSmall),
+                    const SizedBox(height: 4),
+                    Text(
+                      def['definition']!,
+                      style: AppTextStyles.withColor(
+                        AppTextStyles.bodyMedium.copyWith(height: 1.6),
+                        Colors.white.withValues(alpha: 0.9),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  def['definition']!,
-                  style: AppTextStyles.withColor(
-                    AppTextStyles.bodyMedium.copyWith(height: 1.6),
-                    Colors.white.withOpacity(0.9),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ).toList(),
+              ),
+            )
+            .toList(),
       ),
     );
   }
@@ -291,10 +297,7 @@ class ContentRenderer extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              block.content,
-              fit: BoxFit.cover,
-            ),
+            child: Image.asset(block.content, fit: BoxFit.cover),
           ),
           if (block.title.isNotEmpty) ...[
             const SizedBox(height: 8),
@@ -302,7 +305,7 @@ class ContentRenderer extends StatelessWidget {
               block.title,
               style: AppTextStyles.withColor(
                 AppTextStyles.caption.copyWith(fontStyle: FontStyle.italic),
-                Colors.white.withOpacity(0.7),
+                Colors.white.withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -319,7 +322,7 @@ class ContentRenderer extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white.withOpacity(0.1)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: LayoutBuilder(
@@ -331,22 +334,23 @@ class ContentRenderer extends StatelessWidget {
             ),
             dataTextStyle: AppTextStyles.withColor(
               AppTextStyles.bodyMedium,
-              Colors.white.withOpacity(0.9),
+              Colors.white.withValues(alpha: 0.9),
             ),
-            columns:
-                headers.map((header) => DataColumn(label: Text(header))).toList(),
+            columns: headers
+                .map((header) => DataColumn(label: Text(header)))
+                .toList(),
             rows: rows
-                .map((row) => DataRow(
-                      cells: row.map((cell) => DataCell(Text(cell))).toList(),
-                    ))
+                .map(
+                  (row) => DataRow(
+                    cells: row.map((cell) => DataCell(Text(cell))).toList(),
+                  ),
+                )
                 .toList(),
           );
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minWidth: constraints.maxWidth,
-              ),
+              constraints: BoxConstraints(minWidth: constraints.maxWidth),
               child: Center(child: table),
             ),
           );
@@ -358,10 +362,7 @@ class ContentRenderer extends StatelessWidget {
   Widget _buildDivider(ContentBlock block) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
-      child: Container(
-        height: 1,
-        color: Colors.white.withOpacity(0.1),
-      ),
+      child: Container(height: 1, color: Colors.white.withValues(alpha: 0.1)),
     );
   }
 }

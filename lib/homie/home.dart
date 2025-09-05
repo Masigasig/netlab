@@ -34,12 +34,8 @@ class _HomieScreenState extends State<HomieScreen> {
       backgroundColor: const Color(0xFF121212),
       body: Row(
         children: [
-          Sidebar(
-            onItemSelected: _onSidebarTap,
-          ),
-          Expanded(
-            child: pages[selectedIndex],
-          ),
+          Sidebar(onItemSelected: _onSidebarTap),
+          Expanded(child: pages[selectedIndex]),
         ],
       ),
     );

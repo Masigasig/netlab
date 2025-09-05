@@ -9,7 +9,7 @@ class AnimatedGradientBorder extends StatefulWidget {
   final List<Color>? gradientColors;
   final Duration animationDuration;
   final bool isAnimated;
-  
+
   const AnimatedGradientBorder({
     super.key,
     required this.child,
@@ -19,7 +19,7 @@ class AnimatedGradientBorder extends StatefulWidget {
     this.animationDuration = const Duration(seconds: 2),
     this.isAnimated = true,
   });
-  
+
   @override
   State<AnimatedGradientBorder> createState() => _AnimatedGradientBorderState();
 }
@@ -27,7 +27,7 @@ class AnimatedGradientBorder extends StatefulWidget {
 class _AnimatedGradientBorderState extends State<AnimatedGradientBorder>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
-  
+
   @override
   void initState() {
     super.initState();
@@ -35,12 +35,12 @@ class _AnimatedGradientBorderState extends State<AnimatedGradientBorder>
       duration: widget.animationDuration,
       vsync: this,
     );
-    
+
     if (widget.isAnimated) {
       _animationController.repeat();
     }
   }
-  
+
   @override
   void didUpdateWidget(AnimatedGradientBorder oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -57,20 +57,25 @@ class _AnimatedGradientBorderState extends State<AnimatedGradientBorder>
       _animationController.duration = widget.animationDuration;
     }
   }
-  
+
   @override
   void dispose() {
     _animationController.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final colors = widget.gradientColors ?? AppColors.extendedGradient;
-    final innerRadius = (widget.borderRadius - widget.borderWidth).clamp(0.0, double.infinity);
-    
+    final innerRadius = (widget.borderRadius - widget.borderWidth).clamp(
+      0.0,
+      double.infinity,
+    );
+
     return AnimatedBuilder(
-      animation: widget.isAnimated ? _animationController : kAlwaysCompleteAnimation,
+      animation: widget.isAnimated
+          ? _animationController
+          : kAlwaysCompleteAnimation,
       builder: (context, _) {
         return IntrinsicWidth(
           child: IntrinsicHeight(
@@ -80,7 +85,7 @@ class _AnimatedGradientBorderState extends State<AnimatedGradientBorder>
                 gradient: SweepGradient(
                   startAngle: 0.0,
                   endAngle: 2 * pi,
-                  transform: widget.isAnimated 
+                  transform: widget.isAnimated
                       ? GradientRotation(2 * pi * _animationController.value)
                       : null,
                   colors: colors,

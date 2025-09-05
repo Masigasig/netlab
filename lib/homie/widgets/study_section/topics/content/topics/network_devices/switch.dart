@@ -7,11 +7,7 @@ class SwitchContent implements ModuleContent {
   @override
   List<ContentBlock> getContent() {
     return [
-      ContentBlock(
-        type: ContentBlockType.header,
-        title: 'Switch',
-        content: '',
-      ),
+      ContentBlock(type: ContentBlockType.header, title: 'Switch', content: ''),
       ContentBlock(
         type: ContentBlockType.paragraph,
         content:
@@ -32,7 +28,8 @@ class SwitchContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.note,
-        content: 'Switches are smarter than hubs — they forward data only where it belongs.',
+        content:
+            'Switches are smarter than hubs — they forward data only where it belongs.',
       ),
     ];
   }

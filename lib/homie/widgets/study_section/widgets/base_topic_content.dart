@@ -10,13 +10,10 @@ import 'components/module_content_view.dart';
 abstract class BaseTopicContent extends StatefulWidget {
   final StudyTopic topic;
 
-  const BaseTopicContent({
-    super.key,
-    required this.topic,
-  });
+  const BaseTopicContent({super.key, required this.topic});
 
   List<ContentModule> getContentModules();
-  
+
   void onModuleTap(BuildContext context, ContentModule module) {}
 
   @override
@@ -39,7 +36,7 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
               topic: widget.topic,
               onBackPressed: () => Navigator.pop(context),
             ),
-            
+
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,11 +47,11 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
                     topic: widget.topic,
                     onModuleTap: _onSidebarModuleTap,
                   ),
-                  
+
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.all(32),
-                      child: selectedModuleIndex != null 
+                      child: selectedModuleIndex != null
                           ? ModuleContentView(
                               module: getContentModules()[selectedModuleIndex!],
                               topic: widget.topic,

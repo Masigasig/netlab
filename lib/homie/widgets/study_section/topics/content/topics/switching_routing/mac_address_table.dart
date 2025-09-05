@@ -24,7 +24,7 @@ class SwitchingMacTableContent implements ModuleContent {
           ['Port 3', '8A:00:AA:23:B3:4E', 'Host A'],
         ],
         additionalData: {
-          'headers': ['Port', 'MAC Address', 'Device']
+          'headers': ['Port', 'MAC Address', 'Device'],
         },
       ),
       ContentBlock(

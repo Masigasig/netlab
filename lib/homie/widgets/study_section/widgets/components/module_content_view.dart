@@ -31,11 +31,7 @@ class ModuleContentView extends StatelessWidget {
                   color: ModuleTypeHelpers.getTypeColor(module.type),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  module.icon,
-                  color: Colors.white,
-                  size: 24,
-                ),
+                child: Icon(module.icon, color: Colors.white, size: 24),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -54,7 +50,10 @@ class ModuleContentView extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: ModuleTypeHelpers.getTypeColor(module.type),
                             borderRadius: BorderRadius.circular(4),
@@ -73,7 +72,7 @@ class ModuleContentView extends StatelessWidget {
                           '${module.duration} minutes',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white.withOpacity(0.7),
+                            color: Colors.white.withValues(alpha: 0.7),
                           ),
                         ),
                       ],
@@ -83,24 +82,20 @@ class ModuleContentView extends StatelessWidget {
               ),
             ],
           ),
-          
+
           const SizedBox(height: 24),
 
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.05),
+              color: Colors.white.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.1),
-              ),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ContentRenderer(
-                  blocks: ContentRegistry.getContent(module.id),
-                ),
+                ContentRenderer(blocks: ContentRegistry.getContent(module.id)),
               ],
             ),
           ),

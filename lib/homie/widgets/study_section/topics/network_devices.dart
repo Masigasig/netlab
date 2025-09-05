@@ -3,10 +3,7 @@ import '../models/content_module.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class NetworkDevicesContent extends BaseTopicContent {
-  const NetworkDevicesContent({
-    super.key,
-    required super.topic,
-  });
+  const NetworkDevicesContent({super.key, required super.topic});
 
   @override
   List<ContentModule> getContentModules() {

@@ -35,21 +35,21 @@ class SidebarItem extends StatelessWidget {
             SizedBox(
               width: 24,
               height: 24,
-              child: icon != null 
-                  ? (isSelected 
-                      ? ShaderMask(
-                          shaderCallback: (bounds) => const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: AppColors.primaryGradient,
-                          ).createShader(bounds),
-                          child: Icon(icon, color: Colors.white, size: 24),
-                        )
-                      : Icon(icon, color: Colors.white, size: 24))
+              child: icon != null
+                  ? (isSelected
+                        ? ShaderMask(
+                            shaderCallback: (bounds) => const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: AppColors.primaryGradient,
+                            ).createShader(bounds),
+                            child: Icon(icon, color: Colors.white, size: 24),
+                          )
+                        : Icon(icon, color: Colors.white, size: 24))
                   : const SizedBox.shrink(),
             ),
             const SizedBox(height: 6),
-            isSelected 
+            isSelected
                 ? ShaderMask(
                     shaderCallback: (bounds) => const LinearGradient(
                       begin: Alignment.topLeft,

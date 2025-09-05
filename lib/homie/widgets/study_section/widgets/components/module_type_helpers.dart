@@ -5,15 +5,15 @@ class ModuleTypeHelpers {
   static Color getTypeColor(ContentType type) {
     switch (type) {
       case ContentType.video:
-        return Colors.red.withOpacity(0.7);
+        return Colors.red.withValues(alpha: 0.7);
       case ContentType.reading:
-        return Colors.blue.withOpacity(0.7);
+        return Colors.blue.withValues(alpha: 0.7);
       case ContentType.quiz:
-        return Colors.orange.withOpacity(0.7);
+        return Colors.orange.withValues(alpha: 0.7);
       case ContentType.interactive:
-        return Colors.purple.withOpacity(0.7);
+        return Colors.purple.withValues(alpha: 0.7);
       case ContentType.lab:
-        return Colors.green.withOpacity(0.7);
+        return Colors.green.withValues(alpha: 0.7);
     }
   }
 

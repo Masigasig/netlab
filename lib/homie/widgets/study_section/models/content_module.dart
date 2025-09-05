@@ -18,10 +18,4 @@ class ContentModule {
   });
 }
 
-enum ContentType {
-  video,
-  reading,
-  quiz,
-  interactive,
-  lab
-}
+enum ContentType { video, reading, quiz, interactive, lab }

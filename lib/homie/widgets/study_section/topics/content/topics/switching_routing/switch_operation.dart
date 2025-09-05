@@ -24,19 +24,19 @@ class SwitchingOperationsContent implements ModuleContent {
             'term': 'Learn',
             'definition':
                 '  When the switch receives a frame (Layer 2 packet), it looks at the source MAC Address. '
-                    'It records the MAC address and the port it came from. This way, it builds its MAC Address Table.'
+                'It records the MAC address and the port it came from. This way, it builds its MAC Address Table.',
           },
           {
             'term': 'Flood',
             'definition':
                 '  If the switch does not know the destination MAC address, it sends the frame to all ports (except the incoming port). '
-                    'This ensures the correct destination receives it. Other devices also see it but ignore it if it is not for them.'
+                'This ensures the correct destination receives it. Other devices also see it but ignore it if it is not for them.',
           },
           {
             'term': 'Forward',
             'definition':
                 '  If the switch already knows the destination MAC’s port (from its table), it sends the frame directly to that port only. '
-                    'This makes communication efficient, private, and fast.'
+                'This makes communication efficient, private, and fast.',
           },
         ],
       ),

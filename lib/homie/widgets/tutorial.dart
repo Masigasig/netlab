@@ -125,10 +125,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
               const SizedBox(height: 4),
               const Text(
                 'Learn how to use the Netlab simulator effectively',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.white70),
               ),
               const SizedBox(height: 24),
 
@@ -141,7 +138,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                     Container(
                       width: 240,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.05),
+                        color: Colors.white.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: ListView.builder(
@@ -151,7 +148,8 @@ class _TutorialScreenState extends State<TutorialScreen> {
                           return SectionItem(
                             section: sections[index],
                             isSelected: selectedSectionIndex == index,
-                            onTap: () => setState(() => selectedSectionIndex = index),
+                            onTap: () =>
+                                setState(() => selectedSectionIndex = index),
                           );
                         },
                       ),
@@ -182,16 +180,19 @@ class _TutorialScreenState extends State<TutorialScreen> {
                           const SizedBox(height: 16),
                           Expanded(
                             child: GridView.builder(
-                              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 300,
-                                crossAxisSpacing: 16,
-                                mainAxisSpacing: 16,
-                                childAspectRatio: 1.2,
-                              ),
-                              itemCount: sections[selectedSectionIndex].lessons.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 300,
+                                    crossAxisSpacing: 16,
+                                    mainAxisSpacing: 16,
+                                    childAspectRatio: 1.2,
+                                  ),
+                              itemCount:
+                                  sections[selectedSectionIndex].lessons.length,
                               itemBuilder: (context, index) {
                                 return LessonCard(
-                                  lesson: sections[selectedSectionIndex].lessons[index],
+                                  lesson: sections[selectedSectionIndex]
+                                      .lessons[index],
                                 );
                               },
                             ),
@@ -258,7 +259,9 @@ class SectionItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.blue.withOpacity(0.2) : Colors.transparent,
+          color: isSelected
+              ? Colors.blue.withValues(alpha: 0.2)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected ? Colors.blue : Colors.transparent,
@@ -281,7 +284,9 @@ class SectionItem extends StatelessWidget {
               section.description,
               style: TextStyle(
                 fontSize: 12,
-                color: isSelected ? Colors.blue.withOpacity(0.7) : Colors.white70,
+                color: isSelected
+                    ? Colors.blue.withValues(alpha: 0.7)
+                    : Colors.white70,
               ),
             ),
           ],
@@ -294,17 +299,14 @@ class SectionItem extends StatelessWidget {
 class LessonCard extends StatelessWidget {
   final TutorialLesson lesson;
 
-  const LessonCard({
-    super.key,
-    required this.lesson,
-  });
+  const LessonCard({super.key, required this.lesson});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
       ),
       clipBehavior: Clip.antiAlias,
       child: Column(
@@ -315,7 +317,7 @@ class LessonCard extends StatelessWidget {
             aspectRatio: 16 / 9,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.05),
+                color: Colors.white.withValues(alpha: 0.05),
                 image: DecorationImage(
                   image: AssetImage(lesson.thumbnail),
                   fit: BoxFit.cover,
@@ -350,7 +352,7 @@ class LessonCard extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.2),
+                          color: Colors.blue.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -367,10 +369,7 @@ class LessonCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     lesson.description,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white70,
-                    ),
+                    style: const TextStyle(fontSize: 12, color: Colors.white70),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -388,7 +387,7 @@ class LessonCard extends StatelessWidget {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.05),
+                              color: Colors.white.withValues(alpha: 0.05),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
