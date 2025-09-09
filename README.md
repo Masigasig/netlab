@@ -49,7 +49,12 @@ Excalidraw Notes:
     Luto ni allan
         https://excalidraw.com/#json=gv6gncOqVMgkt6lthZ3F5,i8dpEYkjw-hR3CaGYLGLQQ
     Note sa Mechanics ng simulator:
-        https://excalidraw.com/#json=NERDPqduFITz7P18ZuuWV,Ut5OvvDjVYka2F2yWrCxEA
+        https://excalidraw.com/#json=qs16GfnYCkcK83BrMZ5q_,VxgJQlCwFXIhecGRbP1ZJA
+    Color Pallete:
+        https://excalidraw.com/#json=E7hUGyqdQD0eGazwsx5hD,FmNb_mWiDESaI4Mr7lqlrg
+    Final UI:
+        https://excalidraw.com/#json=dpUP5eWpvFd2yntS7vOaB,75qYBIyHknsrnnTs0bWWYg
+
 
 WorkFlow and shit for our productivity and collaboration :
     Forked our repo first then bala kana kung ano gawin mo don sa repo mo tas pag uupload nyo na yung changes sa
