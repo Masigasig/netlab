@@ -290,16 +290,52 @@ class AppThemes {
   );
 }
 
-// Theme mode provider
+// Theme mode provider with three options
 final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>(
   (ref) => ThemeModeNotifier(),
 );
 
 class ThemeModeNotifier extends StateNotifier<ThemeMode> {
-  ThemeModeNotifier() : super(ThemeMode.light);
+  ThemeModeNotifier() : super(ThemeMode.system);
+
+  void setThemeMode(ThemeMode mode) {
+    state = mode;
+  }
 
   void toggleTheme() {
-    state = state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    switch (state) {
+      case ThemeMode.light:
+        state = ThemeMode.dark;
+        break;
+      case ThemeMode.dark:
+        state = ThemeMode.system;
+        break;
+      case ThemeMode.system:
+        state = ThemeMode.light;
+        break;
+    }
+  }
+
+  String get currentThemeName {
+    switch (state) {
+      case ThemeMode.light:
+        return 'Light';
+      case ThemeMode.dark:
+        return 'Dark';
+      case ThemeMode.system:
+        return 'System';
+    }
+  }
+
+  IconData get currentThemeIcon {
+    switch (state) {
+      case ThemeMode.light:
+        return Icons.light_mode;
+      case ThemeMode.dark:
+        return Icons.dark_mode;
+      case ThemeMode.system:
+        return Icons.brightness_auto;
+    }
   }
 }
 
@@ -380,16 +416,50 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
-    final isDarkMode = themeMode == ThemeMode.dark;
+    final themeNotifier = ref.read(themeModeProvider.notifier);
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Custom Theme Demo'),
         actions: [
-          IconButton(
-            icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
-            onPressed: () => ref.read(themeModeProvider.notifier).toggleTheme(),
+          PopupMenuButton<ThemeMode>(
+            icon: Icon(themeNotifier.currentThemeIcon),
+            onSelected: (ThemeMode mode) {
+              themeNotifier.setThemeMode(mode);
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<ThemeMode>>[
+              const PopupMenuItem<ThemeMode>(
+                value: ThemeMode.light,
+                child: Row(
+                  children: [
+                    Icon(Icons.light_mode),
+                    SizedBox(width: 8),
+                    Text('Light'),
+                  ],
+                ),
+              ),
+              const PopupMenuItem<ThemeMode>(
+                value: ThemeMode.dark,
+                child: Row(
+                  children: [
+                    Icon(Icons.dark_mode),
+                    SizedBox(width: 8),
+                    Text('Dark'),
+                  ],
+                ),
+              ),
+              const PopupMenuItem<ThemeMode>(
+                value: ThemeMode.system,
+                child: Row(
+                  children: [
+                    Icon(Icons.brightness_auto),
+                    SizedBox(width: 8),
+                    Text('System'),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -406,29 +476,57 @@ class HomeScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Current Theme: ${isDarkMode ? 'Custom Dark' : 'Custom Light'}',
+                      'Current Theme: ${themeNotifier.currentThemeName}',
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'This demonstrates custom ThemeData with personalized colors, typography, and component styles.',
+                      'This demonstrates custom ThemeData with personalized colors, typography, and component styles. Choose between Light, Dark, or System theme.',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(height: 16),
                     Row(
                       children: [
                         ElevatedButton(
-                          onPressed: () => ref
-                              .read(themeModeProvider.notifier)
-                              .toggleTheme(),
-                          child: const Text('Toggle Theme'),
+                          onPressed: () => themeNotifier.toggleTheme(),
+                          child: const Text('Cycle Theme'),
                         ),
                         const SizedBox(width: 12),
-                        Switch(
-                          value: isDarkMode,
-                          onChanged: (_) => ref
-                              .read(themeModeProvider.notifier)
-                              .toggleTheme(),
+                        Text(
+                          'Tap the icon in app bar for options',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    // Theme selection buttons
+                    Row(
+                      children: [
+                        _ThemeButton(
+                          mode: ThemeMode.light,
+                          label: 'Light',
+                          icon: Icons.light_mode,
+                          currentMode: themeMode,
+                          onPressed: () =>
+                              themeNotifier.setThemeMode(ThemeMode.light),
+                        ),
+                        const SizedBox(width: 8),
+                        _ThemeButton(
+                          mode: ThemeMode.dark,
+                          label: 'Dark',
+                          icon: Icons.dark_mode,
+                          currentMode: themeMode,
+                          onPressed: () =>
+                              themeNotifier.setThemeMode(ThemeMode.dark),
+                        ),
+                        const SizedBox(width: 8),
+                        _ThemeButton(
+                          mode: ThemeMode.system,
+                          label: 'System',
+                          icon: Icons.brightness_auto,
+                          currentMode: themeMode,
+                          onPressed: () =>
+                              themeNotifier.setThemeMode(ThemeMode.system),
                         ),
                       ],
                     ),
@@ -563,8 +661,63 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => ref.read(themeModeProvider.notifier).toggleTheme(),
-        child: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
+        onPressed: () => themeNotifier.toggleTheme(),
+        child: Icon(themeNotifier.currentThemeIcon),
+      ),
+    );
+  }
+}
+
+class _ThemeButton extends StatelessWidget {
+  final ThemeMode mode;
+  final ThemeMode currentMode;
+  final String label;
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  const _ThemeButton({
+    required this.mode,
+    required this.currentMode,
+    required this.label,
+    required this.icon,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isSelected = mode == currentMode;
+
+    return Expanded(
+      child: OutlinedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(
+          icon,
+          size: 18,
+          color: isSelected
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSurface,
+        ),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurface,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+          ),
+        ),
+        style: OutlinedButton.styleFrom(
+          backgroundColor: isSelected
+              // ignore: deprecated_member_use
+              ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+              : null,
+          side: BorderSide(
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.outline,
+            width: isSelected ? 2 : 1,
+          ),
+        ),
       ),
     );
   }
