@@ -41,7 +41,7 @@ class AppThemes {
       secondary: cyanAccent,
       onSecondary: textLight,
       surface: deepNavy,
-      surfaceContainerHigh: slateCard,
+      surfaceContainerLow: slateCard,
       onSurface: textLight,
       onSurfaceVariant: borderGray,
     ),

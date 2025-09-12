@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Container(
-              color: Theme.of(context).colorScheme.surfaceContainerHigh,
+              color: Theme.of(context).colorScheme.surface,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
