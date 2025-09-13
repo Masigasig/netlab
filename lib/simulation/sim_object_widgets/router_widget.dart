@@ -13,6 +13,6 @@ class RouterWidget extends DeviceWidget {
 
 class _RouterDeviceState extends _DeviceWidgetState<RouterWidget> {
   @override
-  StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
+  NotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
   get provider => routerProvider;
 }

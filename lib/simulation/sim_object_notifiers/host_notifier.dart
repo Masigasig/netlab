@@ -1,23 +1,31 @@
 part of 'sim_object_notifier.dart';
 
-final hostProvider = StateNotifierProvider.family<HostNotifier, Host, String>(
-  (ref, id) => HostNotifier(ref, id),
+final hostProvider = NotifierProvider.family<HostNotifier, Host, String>(
+  HostNotifier.new,
 );
 
 class HostNotifier extends DeviceNotifier<Host> {
-  HostNotifier(Ref ref, String id) : super(ref.read(hostMapProvider)[id]!, ref);
+  final String arg;
+  HostNotifier(this.arg);
+
+  @override
+  Host build() {
+    _pendingArpRequests.clear();
+    _messageProcessingTimer?.cancel();
+    _messageProcessingTimer = null;
+    _isProcessingMessages = false;
+
+    ref.onDispose(() {
+      _messageProcessingTimer?.cancel();
+    });
+    return ref.read(hostMapProvider)[arg]!;
+  }
 
   static const _arpTimeout = Duration(seconds: 50);
   static const _processingInterval = Duration(milliseconds: 500);
   final Map<String, DateTime> _pendingArpRequests = {};
   Timer? _messageProcessingTimer;
   bool _isProcessingMessages = false;
-
-  @override
-  void dispose() {
-    _messageProcessingTimer?.cancel();
-    super.dispose();
-  }
 
   @override
   void removeSelf() {
@@ -317,14 +325,11 @@ class HostNotifier extends DeviceNotifier<Host> {
   }
 }
 
-final hostMapProvider =
-    StateNotifierProvider<HostMapNotifier, Map<String, Host>>(
-      (ref) => HostMapNotifier(ref),
-    );
+final hostMapProvider = NotifierProvider<HostMapNotifier, Map<String, Host>>(
+  HostMapNotifier.new,
+);
 
 class HostMapNotifier extends DeviceMapNotifier<Host> {
-  HostMapNotifier(super.ref);
-
   @override
   List<Map<String, dynamic>> exportToList() {
     return state.keys.map((id) {
@@ -348,8 +353,8 @@ class HostMapNotifier extends DeviceMapNotifier<Host> {
 }
 
 final hostWidgetProvider =
-    StateNotifierProvider<HostWidgetNotifier, Map<String, HostWidget>>(
-      (ref) => HostWidgetNotifier(),
+    NotifierProvider<HostWidgetNotifier, Map<String, HostWidget>>(
+      HostWidgetNotifier.new,
     );
 
 class HostWidgetNotifier extends DeviceWidgetNotifier<HostWidget> {}

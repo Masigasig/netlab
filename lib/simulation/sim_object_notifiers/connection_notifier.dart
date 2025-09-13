@@ -1,13 +1,19 @@
 part of 'sim_object_notifier.dart';
 
 final connectionProvider =
-    StateNotifierProvider.family<ConnectionNotifier, Connection, String>(
-      (ref, id) => ConnectionNotifier(ref, id),
+    NotifierProvider.family<ConnectionNotifier, Connection, String>(
+      ConnectionNotifier.new,
     );
 
 class ConnectionNotifier extends SimObjectNotifier<Connection> {
-  ConnectionNotifier(Ref ref, String id)
-    : super(ref.read(connectionMapProvider)[id]!, ref);
+  final String arg;
+  ConnectionNotifier(this.arg);
+
+  @override
+  Connection build() {
+    deviceToIdMap.clear();
+    return ref.read(connectionMapProvider)[arg]!;
+  }
 
   Map<String, String> deviceToIdMap = {};
 
@@ -65,13 +71,11 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 }
 
 final connectionMapProvider =
-    StateNotifierProvider<ConnectionMapNotifier, Map<String, Connection>>(
-      (ref) => ConnectionMapNotifier(ref),
+    NotifierProvider<ConnectionMapNotifier, Map<String, Connection>>(
+      ConnectionMapNotifier.new,
     );
 
 class ConnectionMapNotifier extends SimObjectMapNotifier<Connection> {
-  ConnectionMapNotifier(super.ref);
-
   @override
   List<Map<String, dynamic>> exportToList() {
     return state.keys.map((id) {
@@ -95,10 +99,9 @@ class ConnectionMapNotifier extends SimObjectMapNotifier<Connection> {
 }
 
 final connectionWidgetProvider =
-    StateNotifierProvider<
-      ConnectionWidgetNotifier,
-      Map<String, ConnectionWidget>
-    >((ref) => ConnectionWidgetNotifier());
+    NotifierProvider<ConnectionWidgetNotifier, Map<String, ConnectionWidget>>(
+      ConnectionWidgetNotifier.new,
+    );
 
 class ConnectionWidgetNotifier
     extends SimObjectWidgetNotifier<ConnectionWidget> {}

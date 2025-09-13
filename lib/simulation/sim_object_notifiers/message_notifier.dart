@@ -18,13 +18,18 @@ enum MsgDropReason {
 }
 
 final messageProvider =
-    StateNotifierProvider.family<MessageNotifier, Message, String>(
-      (ref, id) => MessageNotifier(ref, id),
+    NotifierProvider.family<MessageNotifier, Message, String>(
+      MessageNotifier.new,
     );
 
 class MessageNotifier extends SimObjectNotifier<Message> {
-  MessageNotifier(Ref ref, String id)
-    : super(ref.read(messageMapProvider)[id]!, ref);
+  final String arg;
+  MessageNotifier(this.arg);
+
+  @override
+  Message build() {
+    return ref.read(messageMapProvider)[arg]!;
+  }
 
   void updateCurrentPlaceId(String newPlace) {
     state = state.copyWith(currentPlaceId: newPlace);
@@ -70,13 +75,11 @@ class MessageNotifier extends SimObjectNotifier<Message> {
 }
 
 final messageMapProvider =
-    StateNotifierProvider<MessageMapNotifier, Map<String, Message>>(
-      (ref) => MessageMapNotifier(ref),
+    NotifierProvider<MessageMapNotifier, Map<String, Message>>(
+      MessageMapNotifier.new,
     );
 
 class MessageMapNotifier extends SimObjectMapNotifier<Message> {
-  MessageMapNotifier(super.ref);
-
   @override
   List<Map<String, dynamic>> exportToList() {
     return state.keys.map((id) {
@@ -100,8 +103,8 @@ class MessageMapNotifier extends SimObjectMapNotifier<Message> {
 }
 
 final messageWidgetProvider =
-    StateNotifierProvider<MessageWidgetNotifier, Map<String, MessageWidget>>(
-      (ref) => MessageWidgetNotifier(),
+    NotifierProvider<MessageWidgetNotifier, Map<String, MessageWidget>>(
+      MessageWidgetNotifier.new,
     );
 
 class MessageWidgetNotifier extends SimObjectWidgetNotifier<MessageWidget> {}

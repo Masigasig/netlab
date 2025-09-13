@@ -73,7 +73,9 @@ class _ConnChoiceListState extends ConsumerState<ConnChoiceList> {
                     ref.read(selectedDeviceOnConnProvider),
                     name,
                   );
-              ref.read(selectedDeviceOnConnProvider.notifier).state = '';
+              ref
+                  .read(selectedDeviceOnConnProvider.notifier)
+                  .clearSelectedDevice();
             }
           : null,
       style: TextButton.styleFrom(minimumSize: const Size(120, 40)),

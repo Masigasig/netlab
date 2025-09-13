@@ -17,10 +17,9 @@ part 'message_notifier.dart';
 part 'router_notifier.dart';
 part 'switch_notifier.dart';
 
-abstract class SimObjectNotifier<T extends SimObject> extends StateNotifier<T> {
-  final Ref ref;
-
-  SimObjectNotifier(super.state, this.ref);
+abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
+  @override
+  T build();
 
   SimLogsNotifier get simLogsNotifier => ref.read(simLogsProvider.notifier);
 
@@ -81,10 +80,9 @@ abstract class SimObjectNotifier<T extends SimObject> extends StateNotifier<T> {
 }
 
 abstract class SimObjectMapNotifier<T extends SimObject>
-    extends StateNotifier<Map<String, T>> {
-  final Ref ref;
-
-  SimObjectMapNotifier(this.ref) : super({});
+    extends Notifier<Map<String, T>> {
+  @override
+  Map<String, T> build() => {};
 
   void addSimObject(T simObject) => state = {...state, simObject.id: simObject};
 
@@ -109,8 +107,9 @@ abstract class SimObjectMapNotifier<T extends SimObject>
 }
 
 abstract class SimObjectWidgetNotifier<T extends SimObjectWidget>
-    extends StateNotifier<Map<String, T>> {
-  SimObjectWidgetNotifier() : super({});
+    extends Notifier<Map<String, T>> {
+  @override
+  Map<String, T> build() => {};
 
   void addSimObjectWidget(T simObjectWidget) =>
       state = {...state, simObjectWidget.simObjectId: simObjectWidget};

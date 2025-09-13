@@ -1,13 +1,25 @@
 part of 'sim_object_notifier.dart';
 
-final routerProvider =
-    StateNotifierProvider.family<RouterNotifier, Router, String>(
-      (ref, id) => RouterNotifier(ref, id),
-    );
+final routerProvider = NotifierProvider.family<RouterNotifier, Router, String>(
+  RouterNotifier.new,
+);
 
 class RouterNotifier extends DeviceNotifier<Router> {
-  RouterNotifier(Ref ref, String id)
-    : super(ref.read(routerMapProvider)[id]!, ref);
+  final String arg;
+  RouterNotifier(this.arg);
+
+  @override
+  Router build() {
+    routerQ.clear();
+    _pendingArpRequests.clear();
+    _messageProcessingTimer?.cancel();
+    _messageProcessingTimer = null;
+    _isProcessingMessages = false;
+    ref.onDispose(() {
+      _messageProcessingTimer?.cancel();
+    });
+    return ref.read(routerMapProvider)[arg]!;
+  }
 
   Queue<Map<String, String>> routerQ = Queue();
   static const _arpTimeout = Duration(seconds: 50);
@@ -456,13 +468,11 @@ class RouterNotifier extends DeviceNotifier<Router> {
 }
 
 final routerMapProvider =
-    StateNotifierProvider<RouterMapNotifier, Map<String, Router>>(
-      (ref) => RouterMapNotifier(ref),
+    NotifierProvider<RouterMapNotifier, Map<String, Router>>(
+      RouterMapNotifier.new,
     );
 
 class RouterMapNotifier extends DeviceMapNotifier<Router> {
-  RouterMapNotifier(super.ref);
-
   @override
   List<Map<String, dynamic>> exportToList() {
     return state.keys.map((id) {
@@ -486,8 +496,8 @@ class RouterMapNotifier extends DeviceMapNotifier<Router> {
 }
 
 final routerWidgetProvider =
-    StateNotifierProvider<RouterWidgetNotifier, Map<String, RouterWidget>>(
-      (ref) => RouterWidgetNotifier(),
+    NotifierProvider<RouterWidgetNotifier, Map<String, RouterWidget>>(
+      RouterWidgetNotifier.new,
     );
 
 class RouterWidgetNotifier extends DeviceWidgetNotifier<RouterWidget> {}

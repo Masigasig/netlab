@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+
 import '../widgets/base_topic_content.dart';
 import '../models/content_module.dart';
-import 'package:hugeicons/hugeicons.dart';
+// import 'package:hugeicons/hugeicons.dart';
 
 class NetworkDevicesContent extends BaseTopicContent {
   const NetworkDevicesContent({super.key, required super.topic});
@@ -12,7 +14,7 @@ class NetworkDevicesContent extends BaseTopicContent {
         id: 'nd_repeater',
         title: 'Repeater',
         description: '',
-        icon: HugeIcons.strokeRoundedRepeat,
+        icon: Icons.repeat, // HugeIcons.strokeRoundedRepeat,
         duration: 18,
         type: ContentType.video,
       ),
@@ -20,7 +22,7 @@ class NetworkDevicesContent extends BaseTopicContent {
         id: 'nd_hub',
         title: 'Hub',
         description: '',
-        icon: HugeIcons.strokeRoundedArrowAllDirection,
+        icon: Icons.hub, // HugeIcons.strokeRoundedArrowAllDirection,
         duration: 22,
         type: ContentType.reading,
       ),
@@ -28,7 +30,7 @@ class NetworkDevicesContent extends BaseTopicContent {
         id: 'nd_bridge',
         title: 'Bridge',
         description: '',
-        icon: HugeIcons.strokeRoundedLink03,
+        icon: Icons.link, // HugeIcons.strokeRoundedLink03,
         duration: 28,
         type: ContentType.interactive,
       ),
@@ -36,7 +38,8 @@ class NetworkDevicesContent extends BaseTopicContent {
         id: 'nd_switch',
         title: 'Switch',
         description: '',
-        icon: HugeIcons.strokeRoundedCurvyLeftRightDirection,
+        icon: Icons
+            .switch_access_shortcut, // HugeIcons.strokeRoundedCurvyLeftRightDirection,
         duration: 35,
         type: ContentType.lab,
       ),
@@ -44,7 +47,7 @@ class NetworkDevicesContent extends BaseTopicContent {
         id: 'nd_router',
         title: 'Router',
         description: '',
-        icon: HugeIcons.strokeRoundedRouter02,
+        icon: Icons.router, // HugeIcons.strokeRoundedRouter02,
         duration: 25,
         type: ContentType.reading,
       ),

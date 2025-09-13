@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/base_topic_content.dart';
 import '../models/content_module.dart';
-import 'package:hugeicons/hugeicons.dart';
+// import 'package:hugeicons/hugeicons.dart';
 
 class NetworkFundamentalsContent extends BaseTopicContent {
   const NetworkFundamentalsContent({super.key, required super.topic});
@@ -13,7 +13,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_intro',
         title: 'Getting to Networking',
         description: '',
-        icon: HugeIcons.strokeRoundedStartUp02,
+        icon: Icons.start, // HugeIcons.strokeRoundedStartUp02,
         duration: 15,
         type: ContentType.reading,
       ),
@@ -21,7 +21,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_host',
         title: 'Host',
         description: '',
-        icon: HugeIcons.strokeRoundedComputerActivity,
+        icon: Icons.computer, // HugeIcons.strokeRoundedComputerActivity,
         duration: 25,
         type: ContentType.reading,
       ),
@@ -29,7 +29,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_internet',
         title: 'Internet',
         description: '',
-        icon: HugeIcons.strokeRoundedInternet,
+        icon: Icons.public, // HugeIcons.strokeRoundedInternet,
         duration: 25,
         type: ContentType.reading,
       ),
@@ -37,7 +37,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_network',
         title: 'Network',
         description: '',
-        icon: HugeIcons.strokeRoundedNeuralNetwork,
+        icon: Icons.network_check, // HugeIcons.strokeRoundedNeuralNetwork,
         duration: 30,
         type: ContentType.interactive,
       ),
@@ -45,7 +45,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_ip',
         title: 'IP Address',
         description: '',
-        icon: HugeIcons.strokeRoundedLocation01,
+        icon: Icons.location_on, // HugeIcons.strokeRoundedLocation01,
         duration: 20,
         type: ContentType.video,
       ),
@@ -53,7 +53,7 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         id: 'nf_osi',
         title: 'OSI Model',
         description: '',
-        icon: HugeIcons.strokeRoundedLayers02,
+        icon: Icons.layers, // HugeIcons.strokeRoundedLayers02,
         duration: 35,
         type: ContentType.lab,
       ),

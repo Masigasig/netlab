@@ -63,16 +63,12 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
   }
 
   void _handleTap() {
-    if (ref.read(selectedDeviceOnInfoProvider.notifier).state ==
-        widget.simObjectId) {
-      ref.read(selectedDeviceOnInfoProvider.notifier).state = '';
-    } else {
-      ref.read(selectedDeviceOnInfoProvider.notifier).state =
-          widget.simObjectId;
-    }
+    ref
+        .read(selectedDeviceOnInfoProvider.notifier)
+        .setSelectedDevice(widget.simObjectId);
   }
 
-  StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
+  NotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
   _getDeviceProvider(String deviceId) {
     if (deviceId.startsWith(SimObjectType.host.label)) {
       return hostProvider;

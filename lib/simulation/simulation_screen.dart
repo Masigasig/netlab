@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector4, Vector3;
 
 import 'package:netlab/core/constants/app_image.dart';
@@ -81,9 +82,9 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
           const InfoDrawer(),
 
           Positioned(
-            top: 10,
-            left: 0,
-            right: 0,
+            top: 0,
+            bottom: 0,
+            right: 10,
             child: Center(
               child: _SimulationControls(
                 onCenter: _centerViewAnimated,
@@ -108,20 +109,19 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 
   void _playSimulation() {
     final data = ref.read(simScreenState.notifier).exportSimulation();
-    ref.read(temporaryMapProvider.notifier).state = data;
+    ref.read(temporaryMapProvider.notifier).setMap(data);
     ref.read(simScreenState.notifier).startSimulation();
   }
 
   void _stopSimulation() {
-    final data = ref.read(temporaryMapProvider.notifier).state;
-
+    final data = ref.read(temporaryMapProvider);
     ref.read(simScreenState.notifier).clearAllState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(simScreenState.notifier).invalidateProviders();
-      ref.read(simScreenState.notifier).importSimulation(data);
-    });
+    ref.read(simScreenState.notifier).importSimulation(data);
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   // ref.read(simScreenState.notifier).invalidateProviders();
+    // });
 
-    ref.read(temporaryMapProvider.notifier).state = {};
+    ref.read(temporaryMapProvider.notifier).clearMap();
     ref.read(simScreenState.notifier).stopSimulation();
   }
 
@@ -171,10 +171,10 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     final data = await FileService.loadFile();
     if (data != null) {
       ref.read(simScreenState.notifier).clearAllState();
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(simScreenState.notifier).invalidateProviders();
-        ref.read(simScreenState.notifier).importSimulation(data);
-      });
+      ref.read(simScreenState.notifier).importSimulation(data);
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   // ref.read(simScreenState.notifier).invalidateProviders();
+      // });
     }
   }
 }
@@ -198,40 +198,69 @@ class _SimulationControls extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isPlaying = ref.watch(playingModeProvider);
 
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Play / Stop button
-        FloatingActionButton.small(
-          onPressed: isPlaying ? onStop : onPlay,
-          heroTag: isPlaying ? 'stop' : 'play',
-          child: Icon(isPlaying ? Icons.stop : Icons.play_arrow),
-        ),
-        const SizedBox(width: 10),
+        // Simulation Logs button
+        // FloatingActionButton.small(
+        //   onPressed: () {
+        //     // find the SimulationLogsState and toggle it
+        //     // This is a bit hacky but works for now
+        //     final state = context.findAncestorStateOfType<_SimulationLogsState>();
+        //     state?._toggleDrawer();
+        //   },
+        //   heroTag: 'logs',
+        //   child: const Icon(HugeIcons.strokeRoundedComputer),
+        // ),
 
         // Center button (always enabled)
         FloatingActionButton.small(
           onPressed: onCenter,
           heroTag: 'center',
-          child: const Icon(Icons.center_focus_strong),
+          child: HugeIcon(
+            icon: HugeIcons.strokeRoundedKeyframeAlignCenter,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
-        const SizedBox(width: 10),
+
+        const SizedBox(height: 10),
+
+        // Play / Stop button
+        FloatingActionButton.small(
+          onPressed: isPlaying ? onStop : onPlay,
+          heroTag: isPlaying ? 'stop' : 'play',
+          child: HugeIcon(
+            icon: isPlaying
+                ? HugeIcons.strokeRoundedStop
+                : HugeIcons.strokeRoundedPlay,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
+
+        const SizedBox(height: 10),
 
         // Save button (disabled when playing)
         FloatingActionButton.small(
           onPressed: isPlaying ? null : onSave,
           heroTag: 'save',
           backgroundColor: isPlaying ? Colors.grey.shade400 : null,
-          child: const Icon(Icons.save),
+          child: HugeIcon(
+            icon: HugeIcons.strokeRoundedFileDownload,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
-        const SizedBox(width: 10),
+
+        const SizedBox(height: 10),
 
         // Load button (disabled when playing)
         FloatingActionButton.small(
           onPressed: isPlaying ? null : onLoad,
           heroTag: 'load',
           backgroundColor: isPlaying ? Colors.grey.shade400 : null,
-          child: const Icon(Icons.folder_open),
+          child: HugeIcon(
+            icon: HugeIcons.strokeRoundedFileUpload,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
       ],
     );

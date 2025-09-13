@@ -13,6 +13,6 @@ class HostWidget extends DeviceWidget {
 
 class _HostDeviceState extends _DeviceWidgetState<HostWidget> {
   @override
-  StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
+  NotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
   get provider => hostProvider;
 }

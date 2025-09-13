@@ -1,24 +1,29 @@
 part of 'sim_object_notifier.dart';
 
-final switchProvider =
-    StateNotifierProvider.family<SwitchNotifier, Switch, String>(
-      (ref, id) => SwitchNotifier(ref, id),
-    );
+final switchProvider = NotifierProvider.family<SwitchNotifier, Switch, String>(
+  SwitchNotifier.new,
+);
 
 class SwitchNotifier extends DeviceNotifier<Switch> {
-  SwitchNotifier(Ref ref, String id)
-    : super(ref.read(switchMapProvider)[id]!, ref);
+  final String arg;
+  SwitchNotifier(this.arg);
+
+  @override
+  Switch build() {
+    switchQ.clear();
+    _messageProcessingTimer?.cancel();
+    _messageProcessingTimer = null;
+    _isProcessingMessages = false;
+    ref.onDispose(() {
+      _messageProcessingTimer?.cancel();
+    });
+    return ref.read(switchMapProvider)[arg]!;
+  }
 
   Queue<Map<String, String>> switchQ = Queue();
   static const _processingInterval = Duration(milliseconds: 500);
   Timer? _messageProcessingTimer;
   bool _isProcessingMessages = false;
-
-  @override
-  void dispose() {
-    _messageProcessingTimer?.cancel();
-    super.dispose();
-  }
 
   @override
   void receiveMessage(String messageId, String fromConId) {
@@ -232,13 +237,11 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
 }
 
 final switchMapProvider =
-    StateNotifierProvider<SwitchMapNotifier, Map<String, Switch>>(
-      (ref) => SwitchMapNotifier(ref),
+    NotifierProvider<SwitchMapNotifier, Map<String, Switch>>(
+      SwitchMapNotifier.new,
     );
 
 class SwitchMapNotifier extends DeviceMapNotifier<Switch> {
-  SwitchMapNotifier(super.ref);
-
   @override
   List<Map<String, dynamic>> exportToList() {
     return state.keys.map((id) {
@@ -262,8 +265,8 @@ class SwitchMapNotifier extends DeviceMapNotifier<Switch> {
 }
 
 final switchWidgetProvider =
-    StateNotifierProvider<SwitchWidgetNotifier, Map<String, SwitchWidget>>(
-      (ref) => SwitchWidgetNotifier(),
+    NotifierProvider<SwitchWidgetNotifier, Map<String, SwitchWidget>>(
+      SwitchWidgetNotifier.new,
     );
 
 class SwitchWidgetNotifier extends DeviceWidgetNotifier<SwitchWidget> {}

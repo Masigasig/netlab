@@ -53,7 +53,7 @@ class SideBar extends StatelessWidget {
 }
 
 class NavItem extends StatefulWidget {
-  final IconData icon;
+  final List<List<dynamic>> icon;
   final String label;
   final bool isActive;
   final VoidCallback onTap;
@@ -87,11 +87,14 @@ class _NavItemState extends State<NavItem> {
             mainAxisSize: MainAxisSize.min,
             children: [
               widget.isActive
-                  ? Icon(
-                      widget.icon,
+                  ? HugeIcon(
+                      icon: widget.icon,
                       color: Theme.of(context).colorScheme.secondary,
                     )
-                  : Icon(widget.icon),
+                  : HugeIcon(
+                      icon: widget.icon,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
 
               Text(
                 widget.label,

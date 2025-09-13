@@ -79,11 +79,9 @@ class _InfoDrawerState extends ConsumerState<InfoDrawer> {
                       right: 8,
                       child: IconButton(
                         icon: const Icon(Icons.close, color: Colors.white),
-                        onPressed: () =>
-                            ref
-                                    .read(selectedDeviceOnInfoProvider.notifier)
-                                    .state =
-                                '',
+                        onPressed: () => ref
+                            .read(selectedDeviceOnInfoProvider.notifier)
+                            .clearSelectedDevice(),
                       ),
                     ),
 
@@ -106,10 +104,10 @@ class _InfoDrawerState extends ConsumerState<InfoDrawer> {
   }
 
   void _handleDelete(String deviceId) {
-    if (ref.read(playingModeProvider.notifier).state == true) return;
+    if (ref.read(playingModeProvider)) return;
 
     final selectedDevice = deviceId;
-    ref.read(selectedDeviceOnInfoProvider.notifier).state = '';
+    ref.read(selectedDeviceOnInfoProvider.notifier).clearSelectedDevice();
 
     if (selectedDevice.startsWith(SimObjectType.host.label)) {
       ref.read(hostProvider(selectedDevice).notifier).removeSelf();

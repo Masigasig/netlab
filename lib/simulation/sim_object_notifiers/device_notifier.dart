@@ -7,8 +7,6 @@ enum Eth { eth0, eth1, eth2, eth3 }
 enum Port { port0, port1, port2, port3, port4, port5 }
 
 abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
-  DeviceNotifier(super.state, super.ref);
-
   void sendMessageToConnection(
     String connectionId,
     String messageId,
@@ -29,9 +27,7 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
 }
 
 abstract class DeviceMapNotifier<T extends Device>
-    extends SimObjectMapNotifier<T> {
-  DeviceMapNotifier(super.ref);
-}
+    extends SimObjectMapNotifier<T> {}
 
 abstract class DeviceWidgetNotifier<T extends DeviceWidget>
     extends SimObjectWidgetNotifier<T> {}

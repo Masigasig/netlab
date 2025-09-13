@@ -60,28 +60,30 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 children: [
                   SidebarItem(
-                    icon: HugeIcons.strokeRoundedHome02,
+                    icon: Icons.home, //HugeIcons.strokeRoundedHome02,
                     label: 'Home',
                     index: 0,
                     selectedIndex: selectedIndex,
                     onTap: onSelect,
                   ),
                   SidebarItem(
-                    icon: HugeIcons.strokeRoundedBlockGame,
+                    icon: Icons
+                        .videogame_asset, //HugeIcons.strokeRoundedBlockGame,
                     label: 'Simulate',
                     index: 1,
                     selectedIndex: selectedIndex,
                     onTap: onSelect,
                   ),
                   SidebarItem(
-                    icon: HugeIcons.strokeRoundedMessageQuestion,
+                    icon: Icons
+                        .help_outline, //HugeIcons.strokeRoundedMessageQuestion,
                     label: 'Help',
                     index: 2,
                     selectedIndex: selectedIndex,
                     onTap: onSelect,
                   ),
                   SidebarItem(
-                    icon: HugeIcons.strokeRoundedBookEdit,
+                    icon: Icons.book, //HugeIcons.strokeRoundedBookEdit,
                     label: 'Study',
                     index: 3,
                     selectedIndex: selectedIndex,

@@ -9,7 +9,7 @@ import 'topics/routing_switching_content.dart';
 import 'topics/network_devices.dart';
 import 'widgets/default_topic_content.dart';
 import 'topics/arp.dart';
-import 'package:hugeicons/hugeicons.dart';
+// import 'package:hugeicons/hugeicons.dart';
 
 class StudyScreen extends StatefulWidget {
   const StudyScreen({super.key});
@@ -26,7 +26,7 @@ class _StudyScreenState extends State<StudyScreen> {
       description:
           'Learn the basics of computer networking and how devices communicate',
       cardColor: const Color(0xFF6366F1),
-      icon: HugeIcons.strokeRoundedWifi01,
+      icon: Icons.wifi, //HugeIcons.strokeRoundedWifi01,
     ),
     StudyTopic(
       id: 'switching_routing',
@@ -34,7 +34,7 @@ class _StudyScreenState extends State<StudyScreen> {
       description:
           'Understanding how data moves through networks and switching concepts',
       cardColor: const Color(0xFF10B981),
-      icon: HugeIcons.strokeRoundedRouter,
+      icon: Icons.router, //HugeIcons.strokeRoundedRouter,
     ),
     StudyTopic(
       id: 'network_devices',
@@ -42,7 +42,7 @@ class _StudyScreenState extends State<StudyScreen> {
       description:
           'Learn about different types of network devices and their functions',
       cardColor: const Color(0xFFF59E0B),
-      icon: HugeIcons.strokeRoundedComputerPhoneSync,
+      icon: Icons.computer, //HugeIcons.strokeRoundedComputerPhoneSync,
     ),
     StudyTopic(
       id: 'arp',

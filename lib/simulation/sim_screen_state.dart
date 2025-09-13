@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show WidgetsBinding;
 import 'package:ulid/ulid.dart' show Ulid;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,25 +13,156 @@ export 'package:netlab/simulation/sim_object_notifiers/sim_object_notifier.dart'
 export 'package:netlab/simulation/sim_objects/sim_object.dart'
     show SimObjectType;
 
-final wireModeProvider = StateProvider<bool>((ref) => false);
-final messageModeProvider = StateProvider<bool>((ref) => false);
-final playingModeProvider = StateProvider<bool>((ref) => false);
-final selectedDeviceOnConnProvider = StateProvider<String>((ref) => '');
-final selectedDeviceOnInfoProvider = StateProvider<String>((ref) => '');
-final temporaryMapProvider = StateProvider<Map<String, dynamic>>((ref) => {});
-
-final simLogsProvider = StateNotifierProvider<SimLogsNotifier, List<String>>(
-  (ref) => SimLogsNotifier(),
+final wireModeProvider = NotifierProvider<WireModeNotifier, bool>(
+  WireModeNotifier.new,
 );
 
-final simScreenState = StateNotifierProvider<SimScreenState, void>(
-  (ref) => SimScreenState(ref),
+class WireModeNotifier extends Notifier<bool> {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void setFalse() {
+    state = false;
+  }
+
+  void setTrue() {
+    state = true;
+  }
+
+  void toggle() {
+    state = !state;
+  }
+}
+
+final messageModeProvider = NotifierProvider<MessageModeNotifier, bool>(
+  MessageModeNotifier.new,
 );
 
-class SimLogsNotifier extends StateNotifier<List<String>> {
+class MessageModeNotifier extends Notifier<bool> {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void setFalse() {
+    state = false;
+  }
+
+  void setTrue() {
+    state = true;
+  }
+
+  void toggle() {
+    state = !state;
+  }
+}
+
+final playingModeProvider = NotifierProvider<PlayingModeNotifier, bool>(
+  PlayingModeNotifier.new,
+);
+
+class PlayingModeNotifier extends Notifier<bool> {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void setFalse() {
+    state = false;
+  }
+
+  void setTrue() {
+    state = true;
+  }
+
+  void toggle() {
+    state = !state;
+  }
+}
+
+final selectedDeviceOnConnProvider =
+    NotifierProvider<SelectedDeviceOnConnNotifier, String>(
+      SelectedDeviceOnConnNotifier.new,
+    );
+
+class SelectedDeviceOnConnNotifier extends Notifier<String> {
+  @override
+  String build() {
+    return '';
+  }
+
+  void setSelectedDevice(String deviceId) {
+    if (state == deviceId) {
+      state = '';
+    } else {
+      state = deviceId;
+    }
+  }
+
+  void clearSelectedDevice() {
+    state = '';
+  }
+}
+
+final selectedDeviceOnInfoProvider =
+    NotifierProvider<SelectedDeviceOnInfoNotifier, String>(
+      SelectedDeviceOnInfoNotifier.new,
+    );
+
+class SelectedDeviceOnInfoNotifier extends Notifier<String> {
+  @override
+  String build() {
+    return '';
+  }
+
+  void setSelectedDevice(String deviceId) {
+    if (state == deviceId) {
+      state = '';
+    } else {
+      state = deviceId;
+    }
+  }
+
+  void clearSelectedDevice() {
+    state = '';
+  }
+}
+
+final temporaryMapProvider =
+    NotifierProvider<TemporaryMapNotifier, Map<String, dynamic>>(
+      TemporaryMapNotifier.new,
+    );
+
+class TemporaryMapNotifier extends Notifier<Map<String, dynamic>> {
+  @override
+  Map<String, dynamic> build() => {};
+
+  void setMap(Map<String, dynamic> newMap) {
+    state = newMap;
+  }
+
+  void clearMap() {
+    state = {};
+  }
+}
+
+final simLogsProvider = NotifierProvider<SimLogsNotifier, List<String>>(
+  SimLogsNotifier.new,
+);
+
+final simScreenState = NotifierProvider<SimScreenState, void>(
+  SimScreenState.new,
+);
+
+class SimLogsNotifier extends Notifier<List<String>> {
   final List<String> _logs = [];
 
-  SimLogsNotifier() : super(const []);
+  @override
+  List<String> build() {
+    return const [];
+  }
 
   void addLog(String message) {
     _logs.add(message);
@@ -43,22 +175,21 @@ class SimLogsNotifier extends StateNotifier<List<String>> {
   }
 }
 
-class SimScreenState extends StateNotifier<void> {
-  final Ref ref;
+class SimScreenState extends Notifier<void> {
   final List<Map<String, String>> _selectedDevices = [];
   final Map<SimObjectType, int> _typeCounters = {};
 
-  SimScreenState(this.ref) : super(null);
+  @override
+  void build() {}
 
-  StateController<bool> get _wireModeNotifier =>
-      ref.read(wireModeProvider.notifier);
-  StateController<bool> get _messageModeNotifier =>
+  WireModeNotifier get _wireModeNotifier => ref.read(wireModeProvider.notifier);
+  MessageModeNotifier get _messageModeNotifier =>
       ref.read(messageModeProvider.notifier);
-  StateController<bool> get _playingModeNotifier =>
+  PlayingModeNotifier get _playingModeNotifier =>
       ref.read(playingModeProvider.notifier);
-  StateController<String> get _selectedDeviceOnConnNotifier =>
+  SelectedDeviceOnConnNotifier get _selectedDeviceOnConnNotifier =>
       ref.read(selectedDeviceOnConnProvider.notifier);
-  StateController<String> get _selectedDeviceOnInfoNotifier =>
+  SelectedDeviceOnInfoNotifier get _selectedDeviceOnInfoNotifier =>
       ref.read(selectedDeviceOnInfoProvider.notifier);
 
   ConnectionMapNotifier get _connectionMapNotifier =>
@@ -96,12 +227,12 @@ class SimScreenState extends StateNotifier<void> {
       hostsIds.add(message.srcId);
     }
 
-    _wireModeNotifier.state = false;
-    _messageModeNotifier.state = false;
-    _selectedDeviceOnConnNotifier.state = '';
-    _selectedDeviceOnInfoNotifier.state = '';
+    _wireModeNotifier.setFalse();
+    _messageModeNotifier.setFalse();
+    _selectedDeviceOnConnNotifier.clearSelectedDevice();
+    _selectedDeviceOnInfoNotifier.clearSelectedDevice();
     _selectedDevices.clear();
-    _playingModeNotifier.state = true;
+    _playingModeNotifier.setTrue();
 
     for (final hostId in hostsIds) {
       ref.read(hostProvider(hostId).notifier).startMessageProcessing();
@@ -226,16 +357,16 @@ class SimScreenState extends StateNotifier<void> {
   }
 
   void toggleWireMode() {
-    _wireModeNotifier.state = !_wireModeNotifier.state;
-    _messageModeNotifier.state = false;
-    _selectedDeviceOnConnNotifier.state = '';
+    _wireModeNotifier.toggle();
+    _messageModeNotifier.setFalse();
+    _selectedDeviceOnConnNotifier.clearSelectedDevice();
     _selectedDevices.clear();
   }
 
   void toggleMessageMode() {
-    _messageModeNotifier.state = !_messageModeNotifier.state;
-    _wireModeNotifier.state = false;
-    _selectedDeviceOnConnNotifier.state = '';
+    _messageModeNotifier.toggle();
+    _wireModeNotifier.setFalse();
+    _selectedDeviceOnConnNotifier.clearSelectedDevice();
     _selectedDevices.clear();
   }
 
@@ -285,6 +416,12 @@ class SimScreenState extends StateNotifier<void> {
     _selectedDevices.clear();
     _wireModeNotifier.state = false;
 
+    final connectionIds = ref.read(connectionMapProvider).keys;
+    final hostIds = ref.read(hostMapProvider).keys;
+    final routerIds = ref.read(routerMapProvider).keys;
+    final switchIds = ref.read(switchMapProvider).keys;
+    final messageIds = ref.read(messageMapProvider).keys;
+
     _connectionWidgetNotifier.clearState();
     _messageWidgetNotifier.clearState();
     _hostWidgetNotifier.clearState();
@@ -296,15 +433,53 @@ class SimScreenState extends StateNotifier<void> {
     _hostMapNotifier.clearState();
     _switchMapNotifier.clearState();
     _routerMapNotifier.clearState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      for (final id in connectionIds) {
+        ref.invalidate(connectionProvider(id));
+      }
+      for (final id in hostIds) {
+        ref.invalidate(hostProvider(id));
+      }
+      for (final id in routerIds) {
+        ref.invalidate(routerProvider(id));
+      }
+      for (final id in switchIds) {
+        ref.invalidate(switchProvider(id));
+      }
+      for (final id in messageIds) {
+        ref.invalidate(messageProvider(id));
+      }
+    });
   }
 
-  void invalidateProviders() {
-    ref.invalidate(connectionProvider);
-    ref.invalidate(hostProvider);
-    ref.invalidate(routerProvider);
-    ref.invalidate(switchProvider);
-    ref.invalidate(messageProvider);
-  }
+  // void invalidateProviders() {
+  //   ref.invalidate(connectionProvider);
+  //   ref.invalidate(hostProvider);
+  //   ref.invalidate(routerProvider);
+  //   ref.invalidate(switchProvider);
+  //   ref.invalidate(messageProvider);
+
+  //   // for (final id in ref.read(connectionMapProvider).keys.toList()) {
+  //   //   ref.invalidate(connectionProvider(id));
+  //   // }
+
+  //   // for (final id in ref.read(hostMapProvider).keys.toList()) {
+  //   //   ref.invalidate(hostProvider(id));
+  //   // }
+
+  //   // for (final id in ref.read(routerMapProvider).keys.toList()) {
+  //   //   ref.invalidate(routerProvider(id));
+  //   // }
+
+  //   // for (final id in ref.read(switchMapProvider).keys.toList()) {
+  //   //   ref.invalidate(switchProvider(id));
+  //   // }
+
+  //   // for (final id in ref.read(messageMapProvider).keys.toList()) {
+  //   //   ref.invalidate(messageProvider(id));
+  //   // }
+  // }
 
   int _getNextCounter(SimObjectType type) {
     _typeCounters[type] = (_typeCounters[type] ?? 0) + 1;

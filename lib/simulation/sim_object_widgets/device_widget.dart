@@ -13,8 +13,7 @@ abstract class DeviceWidget extends SimObjectWidget {
 
 abstract class _DeviceWidgetState<T extends DeviceWidget>
     extends _SimObjectWidgetState<T> {
-  StateNotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String>
-  get provider;
+  NotifierProviderFamily<DeviceNotifier<dynamic>, dynamic, String> get provider;
 
   @override
   Widget build(BuildContext context) {
@@ -72,23 +71,15 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
 
   void _handleTap() {
     if (ref.read(wireModeProvider)) {
-      if (ref.read(selectedDeviceOnConnProvider.notifier).state ==
-          widget.simObjectId) {
-        ref.read(selectedDeviceOnConnProvider.notifier).state = '';
-      } else {
-        ref.read(selectedDeviceOnConnProvider.notifier).state =
-            widget.simObjectId;
-      }
+      ref
+          .read(selectedDeviceOnConnProvider.notifier)
+          .setSelectedDevice(widget.simObjectId);
     } else if (ref.read(messageModeProvider)) {
       ref.read(simScreenState.notifier).createMessage(widget.simObjectId);
     } else {
-      if (ref.read(selectedDeviceOnInfoProvider.notifier).state ==
-          widget.simObjectId) {
-        ref.read(selectedDeviceOnInfoProvider.notifier).state = '';
-      } else {
-        ref.read(selectedDeviceOnInfoProvider.notifier).state =
-            widget.simObjectId;
-      }
+      ref
+          .read(selectedDeviceOnInfoProvider.notifier)
+          .setSelectedDevice(widget.simObjectId);
     }
   }
 
