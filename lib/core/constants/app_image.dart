@@ -8,6 +8,7 @@ class AppImage {
   static const String connection = '$_base/connection.png';
 }
 
+//? TODO: Should we move this?
 class AppLottie {
   static const _base = 'assets/images/lottie/';
 

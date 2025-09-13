@@ -71,6 +71,7 @@ class NavItem extends StatefulWidget {
 }
 
 class _NavItemState extends State<NavItem> {
+  //* TODO: Implement hover effect
   // bool _isHovered = false;
 
   @override

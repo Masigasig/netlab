@@ -20,8 +20,8 @@ class _DeviceWidgetStack extends ConsumerWidget {
     final widgets = ref.watch(provider);
 
     return SizedBox(
-      width: canvasSize,
-      height: canvasSize,
+      width: SimulationScreen.canvasSize,
+      height: SimulationScreen.canvasSize,
       child: Stack(children: [...widgets.values]),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:netlab/core/routing/router.dart' show routeObserver;
 import 'package:vector_math/vector_math_64.dart' show Vector4, Vector3;
 
 import 'package:netlab/core/constants/app_image.dart';
@@ -14,9 +15,8 @@ part 'widgets/grid_painter.dart';
 part 'widgets/info_drawer.dart';
 part 'widgets/simulation_logs.dart';
 
-const double canvasSize = 100_000.0; // put it here for optimazation
-
 class SimulationScreen extends ConsumerStatefulWidget {
+  static const canvasSize = 100_000.0;
   const SimulationScreen({super.key});
 
   @override
@@ -25,7 +25,7 @@ class SimulationScreen extends ConsumerStatefulWidget {
 }
 
 class _SimulationScreenState extends ConsumerState<SimulationScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, RouteAware {
   final _transformationController = TransformationController();
   late AnimationController _animationController;
 
@@ -44,6 +44,27 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final route = ModalRoute.of(context);
+    if (route is PageRoute) {
+      routeObserver.subscribe(this, route);
+    }
+  }
+
+  @override
+  void didPushNext() {
+    _cleanupSimulation();
+    super.didPushNext();
+  }
+
+  @override
+  void didPop() {
+    _cleanupSimulation();
+    super.didPop();
+  }
+
+  @override
   Widget build(BuildContext context) {
     debugPrint('SimulationScreen Widget Rebuilt');
     return Scaffold(
@@ -59,7 +80,10 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                   children: [
                     CustomPaint(
                       painter: _GridPainter(),
-                      size: Size(canvasSize, canvasSize),
+                      size: Size(
+                        SimulationScreen.canvasSize,
+                        SimulationScreen.canvasSize,
+                      ),
                     ),
 
                     _DeviceWidgetStack(type: SimObjectType.connection),
@@ -102,9 +126,21 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 
   @override
   void dispose() {
+    _cleanupSimulation();
+    routeObserver.unsubscribe(this);
     _animationController.dispose();
     _transformationController.dispose();
     super.dispose();
+  }
+
+  void _cleanupSimulation() {
+    final isPlaying = ref.read(playingModeProvider);
+    if (isPlaying) {
+      // Using addPostFrameCallback to avoid state modifications during build
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _stopSimulation();
+      });
+    }
   }
 
   void _playSimulation() {
@@ -117,10 +153,6 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     final data = ref.read(temporaryMapProvider);
     ref.read(simScreenState.notifier).clearAllState();
     ref.read(simScreenState.notifier).importSimulation(data);
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   // ref.read(simScreenState.notifier).invalidateProviders();
-    // });
-
     ref.read(temporaryMapProvider.notifier).clearMap();
     ref.read(simScreenState.notifier).stopSimulation();
   }
@@ -159,7 +191,13 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     final size = renderBox.size;
     return Matrix4.identity()
       ..translateByVector3(Vector3(size.width / 2, size.height / 2, 0.0))
-      ..translateByVector3(Vector3(-canvasSize / 2, -canvasSize / 2, 0.0));
+      ..translateByVector3(
+        Vector3(
+          -SimulationScreen.canvasSize / 2,
+          -SimulationScreen.canvasSize / 2,
+          0.0,
+        ),
+      );
   }
 
   Future<void> _saveSimulation() async {
@@ -172,9 +210,6 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     if (data != null) {
       ref.read(simScreenState.notifier).clearAllState();
       ref.read(simScreenState.notifier).importSimulation(data);
-      // WidgetsBinding.instance.addPostFrameCallback((_) {
-      //   // ref.read(simScreenState.notifier).invalidateProviders();
-      // });
     }
   }
 }
