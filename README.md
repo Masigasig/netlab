@@ -27,6 +27,7 @@ Useful commands:
     dart fix --apply - will fix the problem in your flutter analyze if it can auto fix it.
 
     dart format . - format you code in dart way xd.
+    dart run custom_lint - check your riverpod code xd
 
     flutter test - run all test in ~/test folder.
     flutter test test/sample_test.dart  - run a specific test.
