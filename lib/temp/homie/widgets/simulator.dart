@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/components/gradient_text.dart';
 import '../../core/components/animations.dart';
 import '../../core/constants/app_colors.dart';
-import '../../../core/constants/app_image.dart';
+import '../../core/constants/app_image.dart';
 import '../../core/constants/app_text.dart';
 import '../../core/utils/lottie_optimization.dart';
 import '../../core/components/button.dart' as custom_button;

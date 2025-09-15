@@ -3,7 +3,7 @@ import 'widgets/onboarding_page.dart';
 import 'widgets/page_indicator.dart';
 import '../core/components/button.dart' as custom_button;
 import '../core/components/animations.dart';
-import 'package:netlab/core/constants/app_image.dart';
+import 'package:netlab/temp/core/constants/app_image.dart';
 import 'widgets/bg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:netlab/temp/core/constants/app_colors.dart';

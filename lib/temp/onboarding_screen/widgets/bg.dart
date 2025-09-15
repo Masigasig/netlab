@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:netlab/core/constants/app_image.dart';
+import 'package:netlab/temp/core/constants/app_image.dart';
 import 'package:netlab/temp/core/constants/app_colors.dart';
 
 class GlobalAnimatedBackground extends StatelessWidget {
