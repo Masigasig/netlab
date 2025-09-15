@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:netlab/simulation/sim_objects/sim_object.dart';
-import 'package:netlab/simulation/network_utils.dart';
+import 'package:netlab/temp/simulation/sim_objects/sim_object.dart';
+import 'package:netlab/temp/simulation/network_utils.dart';
 
 void main() {
   group('Connection Test', () {

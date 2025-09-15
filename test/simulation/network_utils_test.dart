@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:netlab/simulation/network_utils.dart';
+import 'package:netlab/temp/simulation/network_utils.dart';
 
 void main() {
   group('MacAddressManager', () {

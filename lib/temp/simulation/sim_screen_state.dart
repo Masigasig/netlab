@@ -2,15 +2,15 @@ import 'package:flutter/material.dart' show WidgetsBinding;
 import 'package:ulid/ulid.dart' show Ulid;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:netlab/simulation/sim_objects/sim_object.dart';
-import 'package:netlab/simulation/sim_object_widgets/sim_object_widget.dart';
-import 'package:netlab/simulation/sim_object_notifiers/sim_object_notifier.dart';
+import 'package:netlab/temp/simulation/sim_objects/sim_object.dart';
+import 'package:netlab/temp/simulation/sim_object_widgets/sim_object_widget.dart';
+import 'package:netlab/temp/simulation/sim_object_notifiers/sim_object_notifier.dart';
 
-import 'package:netlab/simulation/network_utils.dart';
+import 'package:netlab/temp/simulation/network_utils.dart';
 
-export 'package:netlab/simulation/network_utils.dart';
-export 'package:netlab/simulation/sim_object_notifiers/sim_object_notifier.dart';
-export 'package:netlab/simulation/sim_objects/sim_object.dart'
+export 'package:netlab/temp/simulation/network_utils.dart';
+export 'package:netlab/temp/simulation/sim_object_notifiers/sim_object_notifier.dart';
+export 'package:netlab/temp/simulation/sim_objects/sim_object.dart'
     show SimObjectType;
 
 final wireModeProvider = NotifierProvider<WireModeNotifier, bool>(

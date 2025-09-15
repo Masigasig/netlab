@@ -4,7 +4,7 @@ import 'package:netlab/core/components/app_layout.dart';
 
 import 'package:netlab/home/home_screen.dart';
 import 'package:netlab/settings/setting_screen.dart';
-import 'package:netlab/simulation/simulation_screen.dart';
+import 'package:netlab/temp/simulation/simulation_screen.dart';
 
 import 'package:flutter/material.dart'
     show PageRoute, RouteObserver, NavigatorState, GlobalKey;

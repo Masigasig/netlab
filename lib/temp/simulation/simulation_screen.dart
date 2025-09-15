@@ -6,7 +6,7 @@ import 'package:vector_math/vector_math_64.dart' show Vector4, Vector3;
 import 'package:netlab/core/routing/go_router.dart' show routeObserver;
 import 'package:netlab/core/constants/app_image.dart';
 import 'package:netlab/core/utils/file_service.dart';
-import 'package:netlab/simulation/sim_screen_state.dart';
+import 'package:netlab/temp/simulation/sim_screen_state.dart';
 
 part 'widgets/conn_choice_list.dart';
 part 'widgets/device_drawer.dart';
