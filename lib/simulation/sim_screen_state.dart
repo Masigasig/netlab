@@ -397,18 +397,19 @@ class SimScreenState extends Notifier<void> {
     final switchList = List.from(data['switches']);
     final hostList = List.from(data['hosts']);
     final connectionList = List.from(data['connections']);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _routerMapNotifier.importFromList(routerList);
+      _messageMapNotifier.importFromList(messageList);
+      _switchMapNotifier.importFromList(switchList);
+      _hostMapNotifier.importFromList(hostList);
+      _connectionMapNotifier.importFromList(connectionList);
 
-    _routerMapNotifier.importFromList(routerList);
-    _messageMapNotifier.importFromList(messageList);
-    _switchMapNotifier.importFromList(switchList);
-    _hostMapNotifier.importFromList(hostList);
-    _connectionMapNotifier.importFromList(connectionList);
-
-    _routerWidgetNotifier.importFromList(routerList);
-    _messageWidgetNotifier.importFromList(messageList);
-    _switchWidgetNotifier.importFromList(switchList);
-    _hostWidgetNotifier.importFromList(hostList);
-    _connectionWidgetNotifier.importFromList(connectionList);
+      _routerWidgetNotifier.importFromList(routerList);
+      _messageWidgetNotifier.importFromList(messageList);
+      _switchWidgetNotifier.importFromList(switchList);
+      _hostWidgetNotifier.importFromList(hostList);
+      _connectionWidgetNotifier.importFromList(connectionList);
+    });
   }
 
   void clearAllState() {
@@ -427,12 +428,6 @@ class SimScreenState extends Notifier<void> {
     _hostWidgetNotifier.clearState();
     _switchWidgetNotifier.clearState();
     _routerWidgetNotifier.clearState();
-
-    _connectionMapNotifier.clearState();
-    _messageMapNotifier.clearState();
-    _hostMapNotifier.clearState();
-    _switchMapNotifier.clearState();
-    _routerMapNotifier.clearState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       for (final id in connectionIds) {

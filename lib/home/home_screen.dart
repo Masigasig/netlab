@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
+import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/home/widgets/menu_button.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
             icon: Icons.play_circle_fill,
             label: 'Open Simulation',
             onPressed: () {
-              context.go('/simulation');
+              context.go(Routes.simulation);
             },
           ),
         ),

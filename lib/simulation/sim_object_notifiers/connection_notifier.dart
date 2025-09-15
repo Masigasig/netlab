@@ -11,7 +11,9 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 
   @override
   Connection build() {
-    deviceToIdMap.clear();
+    ref.onDispose(() {
+      deviceToIdMap.clear();
+    });
     return ref.read(connectionMapProvider)[arg]!;
   }
 

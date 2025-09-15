@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:netlab/core/routing/router.dart';
+import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/core/components/app_theme.dart';
 
 void main() {

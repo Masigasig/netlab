@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:netlab/core/routing/router.dart' show routeObserver;
 import 'package:vector_math/vector_math_64.dart' show Vector4, Vector3;
 
+import 'package:netlab/core/routing/go_router.dart' show routeObserver;
 import 'package:netlab/core/constants/app_image.dart';
 import 'package:netlab/core/utils/file_service.dart';
 import 'package:netlab/simulation/sim_screen_state.dart';
@@ -126,7 +126,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 
   @override
   void dispose() {
-    _cleanupSimulation();
+    // _cleanupSimulation();
     routeObserver.unsubscribe(this);
     _animationController.dispose();
     _transformationController.dispose();
