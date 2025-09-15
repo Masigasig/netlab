@@ -8,6 +8,7 @@ class AppLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('AppLayout Widget rebuilt');
     return Scaffold(
       body: Row(
         children: [
@@ -24,6 +25,7 @@ class SideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('SideBar Widget rebuilt');
     final String currentLocation = GoRouterState.of(context).uri.path;
 
     return Container(
@@ -76,6 +78,7 @@ class _NavItemState extends State<NavItem> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('NavItem Widget rebuilt: ${widget.label}');
     return MouseRegion(
       // onEnter: (_) => setState(() => _isHovered = true),
       // onExit: (_) => setState(() => _isHovered = false),

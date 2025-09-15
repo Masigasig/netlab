@@ -45,6 +45,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: Routes.simulationRelative,
+              //* This makes the simulation screen open as a full screen dialog over the AppLayout
               parentNavigatorKey: _rootNavigatorKey,
               builder: (context, state) => const SimulationScreen(),
             ),

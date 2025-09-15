@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+//* TODO: Finalize color scheme
 class AppThemes {
   static const Color primaryBlue = Color(0xFF3B82F6);
   static const Color cyanAccent = Color(0xFF06B6D4);

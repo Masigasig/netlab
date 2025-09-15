@@ -1,6 +1,6 @@
 import 'dart:io' show File, Platform;
 import 'dart:convert' show jsonEncode, jsonDecode, utf8;
-import 'dart:typed_data';
+import 'dart:typed_data' show Uint8List;
 import 'package:file_picker/file_picker.dart' show FilePicker, FileType;
 import 'package:universal_html/html.dart' as html;
 import 'package:flutter/foundation.dart' show kIsWeb;

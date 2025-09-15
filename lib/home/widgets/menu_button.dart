@@ -14,6 +14,7 @@ class MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('MenuButton Widget rebuilt');
     return ElevatedButton.icon(
       onPressed: onPressed,
       icon: Icon(icon),

@@ -7,6 +7,7 @@ class SettingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint('SettingScreen Widget rebuilt');
     final themeMode = ref.watch(themeModeProvider);
     final themeNotifier = ref.read(themeModeProvider.notifier);
 

@@ -8,7 +8,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('HomeScreen Widget rebuilt');
+    debugPrint(
+      'HomeScreen Widget rebuilt',
+    ); //* Put a debugPrint in build method so you can track rebuilds
     return Scaffold(
       appBar: AppBar(title: const Text('NetLab Home')),
       body: Center(
