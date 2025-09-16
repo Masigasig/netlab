@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_public_notifier_properties
 import 'dart:ui' show Offset;
 import 'dart:async' show Timer;
 import 'dart:collection' show Queue;

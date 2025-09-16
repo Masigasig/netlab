@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(
@@ -22,7 +23,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
 // providing a `parentNavigatorKey`.
 
 void main() {
-  runApp(ShellRouteExampleApp());
+  runApp(ProviderScope(child: ShellRouteExampleApp()));
 }
 
 /// An example demonstrating how to use [ShellRoute]

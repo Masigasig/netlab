@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_public_notifier_properties
 part of 'sim_object_notifier.dart';
 
 final switchProvider = NotifierProvider.family<SwitchNotifier, Switch, String>(
