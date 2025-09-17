@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:netlab/temp/core/constants/app_colors.dart';
-import 'package:netlab/temp/core/constants/app_text.dart';
-import 'package:netlab/temp/core/components/animations.dart';
 import 'models/study_topic.dart';
 import 'widgets/topic_card.dart';
 import 'topics/network_fundamentals_content.dart';
@@ -9,7 +6,6 @@ import 'topics/routing_switching_content.dart';
 import 'topics/network_devices.dart';
 import 'widgets/default_topic_content.dart';
 import 'topics/arp.dart';
-// import 'package:hugeicons/hugeicons.dart';
 
 class StudyScreen extends StatefulWidget {
   const StudyScreen({super.key});
@@ -23,109 +19,223 @@ class _StudyScreenState extends State<StudyScreen> {
     StudyTopic(
       id: 'network_fundamentals',
       title: 'Network Fundamentals',
-      description:
+      subtitle:
           'Learn the basics of computer networking and how devices communicate',
+      description:
+          'Master the essential concepts of network topology, addressing, and protocols that form the backbone of modern communications.',
       cardColor: const Color(0xFF6366F1),
-      icon: Icons.wifi, //HugeIcons.strokeRoundedWifi01,
+      lessonCount: 8,
+      readTime: '12 min read',
+      isCompleted: false,
+      progress: 0,
     ),
     StudyTopic(
       id: 'switching_routing',
       title: 'Switching and Routing',
-      description:
+      subtitle:
           'Understanding how data moves through networks and switching concepts',
+      description:
+          'Step-by-step walkthrough of routing protocols, switch configuration, and network path determination.',
       cardColor: const Color(0xFF10B981),
-      icon: Icons.router, //HugeIcons.strokeRoundedRouter,
+      lessonCount: 10,
+      readTime: '15 min read',
+      isCompleted: true,
+      progress: 100,
     ),
     StudyTopic(
       id: 'network_devices',
       title: 'Network Devices',
+      subtitle: 'Learn about different types of network devices and their functions',
       description:
-          'Learn about different types of network devices and their functions',
+          'Comprehensive guide to routers, switches, hubs, and other networking equipment used in modern infrastructure.',
       cardColor: const Color(0xFFF59E0B),
-      icon: Icons.computer, //HugeIcons.strokeRoundedComputerPhoneSync,
+      lessonCount: 6,
+      readTime: '10 min read',
+      isCompleted: false,
+      progress: 35,
     ),
     StudyTopic(
       id: 'arp',
-      title: 'ARP',
-      description: 'this is arp btw',
-      cardColor: const Color(0xFF6366F1),
-      icon: Icons.network_wifi,
+      title: 'Address Resolution Protocol',
+      subtitle: 'Understanding ARP and network address mapping',
+      description:
+          'Deep dive into how ARP works, ARP tables, and troubleshooting address resolution issues.',
+      cardColor: const Color(0xFF8B5CF6),
+      lessonCount: 4,
+      readTime: '8 min read',
+      isCompleted: false,
+      progress: 0,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: cs.surfaceContainerLow,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
+        child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              // Hero Header
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(32, 80, 32, 60),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Learn Networking\nFundamentals',
+                      style: TextStyle(
+                        fontSize: 42,
+                        fontWeight: FontWeight.w600,
+                        color: cs.onSurface,
+                        height: 1.2,
+                        letterSpacing: -1.0,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Container(
+                      constraints: const BoxConstraints(maxWidth: 500),
+                      child: Text(
+                        'Master the essentials of networking with clear, practical explanations designed to build a strong foundation without the unnecessary complexity.',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: cs.onSurfaceVariant,
+                          height: 1.5,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    _buildQuickStats(context),
+                  ],
+                ),
+              ),
+
+              // Topics List
+              ...topics.map(
+                (topic) => TopicCard(
+                  topic: topic,
+                  onTap: () => _navigateToTopicContent(context, topic),
+                ),
+              ),
+
+              const SizedBox(height: 100),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuickStats(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    int totalTopics = topics.length;
+    int completedTopics = topics.where((t) => t.isCompleted).length;
+    int totalReadTime = topics.fold(
+      0,
+      (sum, topic) => sum + int.parse(topic.readTime.split(' ')[0]),
+    );
+
+    return Container(
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: cs.primaryContainer,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: cs.outlineVariant,
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: cs.shadow.withOpacity(0.15),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            // Progress
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AnimationPresets.titleFadeIn(
-                          child: Text(
-                            'Study Materials',
-                            style: AppTextStyles.headerLarge.copyWith(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          delay: 0,
-                          duration: const Duration(milliseconds: 600),
-                        ),
-
-                        const SizedBox(height: 3),
-
-                        AnimationPresets.textFadeIn(
-                          child: Text(
-                            'Choose a topic to start learning',
-                            style: AppTextStyles.subtitleMedium.copyWith(
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                          delay: 200,
-                          duration: const Duration(milliseconds: 500),
-                        ),
-                      ],
+                  Text(
+                    'Progress',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: cs.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '$completedTopics of $totalTopics',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                      color: cs.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'topics completed',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: cs.onSurface.withOpacity(0.7),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+            ),
 
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 300,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 1.5,
-                  ),
-                  itemCount: topics.length,
-                  itemBuilder: (context, index) {
-                    return AnimationPresets.cardEntrance(
-                      child: TopicCard(
-                        topic: topics[index],
-                        onTap: () =>
-                            _navigateToTopicContent(context, topics[index]),
+            Container(width: 1, color: cs.outlineVariant),
+
+            // Study Time
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 32),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Study Time',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: cs.onSurfaceVariant,
                       ),
-                      delay: 400 + (index * 150),
-                      duration: const Duration(milliseconds: 700),
-                      scaleFrom: 0.8,
-                      rotationAmount: 0.02,
-                    );
-                  },
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${totalReadTime} min',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                        color: cs.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'total content',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: cs.onSurface.withOpacity(0.7),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

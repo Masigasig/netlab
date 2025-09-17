@@ -47,6 +47,12 @@ class SideBar extends StatelessWidget {
               isActive: currentLocation == '/settings',
               onTap: () => context.go('/settings'),
             ),
+            NavItem(
+              icon: HugeIcons.strokeRoundedSettings01,
+              label: 'Study',
+              isActive: currentLocation == '/study',
+              onTap: () => context.go('/study'),
+            ),
           ],
         ),
       ),
