@@ -147,6 +147,7 @@ class _PlayPauseButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint('PlayPuaseButton Rebuilt');
     final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
 
     return _ControlButton(
@@ -169,6 +170,7 @@ class _LogPanelButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint('LogPanelButton Rebuilt');
     final isOpen = ref.watch(simScreenProvider.select((s) => s.isLogPanelOpen));
 
     return _ControlButton(
@@ -194,6 +196,7 @@ class _DisabledWhenPlayingButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint('DisabledWhenPlayingButton Rebuilt');
     final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
 
     return _ControlButton(

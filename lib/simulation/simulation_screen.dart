@@ -6,8 +6,9 @@ import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/simulation/model/sim_objects/sim_object.dart'
     show SimObjectType;
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
-import 'package:netlab/simulation/widgets/grid_painter.dart';
 import 'package:netlab/simulation/widgets/control_button.dart';
+import 'package:netlab/simulation/widgets/grid_painter.dart';
+import 'package:netlab/simulation/widgets/loop_animator.dart';
 
 class SimulationScreen extends ConsumerStatefulWidget {
   static const canvasSize = Size(100_000.0, 100_000.0);
@@ -71,6 +72,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     return Scaffold(
       body: Stack(
         children: [
+          const LoopAnimator(),
           DragTarget<SimObjectType>(
             builder: (context, candidateData, rejectedData) {
               return InteractiveViewer(
@@ -159,10 +161,12 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
   }
 
   void _onExit() {
-    if (ref.read(simScreenProvider).isPlaying) {
-      ref.read(simScreenProvider.notifier).stopSimulation();
-    }
-    ref.read(simScreenProvider.notifier).closeDevicePanel();
-    ref.read(simScreenProvider.notifier).closeLogPanel();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (ref.read(simScreenProvider).isPlaying) {
+        ref.read(simScreenProvider.notifier).stopSimulation();
+      }
+      ref.read(simScreenProvider.notifier).closeDevicePanel();
+      ref.read(simScreenProvider.notifier).closeLogPanel();
+    });
   }
 }
