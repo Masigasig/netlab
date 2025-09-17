@@ -5,11 +5,7 @@ class TopicCard extends StatefulWidget {
   final StudyTopic topic;
   final VoidCallback onTap;
 
-  const TopicCard({
-    super.key,
-    required this.topic,
-    required this.onTap,
-  });
+  const TopicCard({super.key, required this.topic, required this.onTap});
 
   @override
   State<TopicCard> createState() => _TopicCardState();
@@ -38,13 +34,12 @@ class _TopicCardState extends State<TopicCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: cs.outlineVariant,
-                      width: 1,
-                    ),
+                    border: Border.all(color: cs.outlineVariant, width: 1),
                     borderRadius: BorderRadius.circular(20),
                     color: cs.surfaceContainerLow,
                   ),
@@ -66,6 +61,7 @@ class _TopicCardState extends State<TopicCard> {
                       color: cs.secondaryContainer,
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
+                        // ignore: deprecated_member_use
                         color: cs.secondaryContainer.withOpacity(0.5),
                         width: 1,
                       ),
@@ -135,6 +131,7 @@ class _TopicCardState extends State<TopicCard> {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
+                // ignore: deprecated_member_use
                 color: cs.onSurface.withOpacity(0.7),
               ),
             ),
@@ -161,8 +158,10 @@ class _TopicCardState extends State<TopicCard> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: cs.primary,
                   foregroundColor: cs.onPrimary,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 28,
+                    vertical: 16,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -171,8 +170,8 @@ class _TopicCardState extends State<TopicCard> {
                   widget.topic.isCompleted
                       ? 'Review'
                       : widget.topic.progress > 0
-                          ? 'Continue'
-                          : 'Start',
+                      ? 'Continue'
+                      : 'Start',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'models/study_topic.dart';
 import 'widgets/topic_card.dart';
@@ -45,7 +47,8 @@ class _StudyScreenState extends State<StudyScreen> {
     StudyTopic(
       id: 'network_devices',
       title: 'Network Devices',
-      subtitle: 'Learn about different types of network devices and their functions',
+      subtitle:
+          'Learn about different types of network devices and their functions',
       description:
           'Comprehensive guide to routers, switches, hubs, and other networking equipment used in modern infrastructure.',
       cardColor: const Color(0xFFF59E0B),
@@ -146,10 +149,7 @@ class _StudyScreenState extends State<StudyScreen> {
       decoration: BoxDecoration(
         color: cs.primaryContainer,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: cs.outlineVariant,
-          width: 1,
-        ),
+        border: Border.all(color: cs.outlineVariant, width: 1),
         boxShadow: [
           BoxShadow(
             color: cs.shadow.withOpacity(0.15),
@@ -215,7 +215,7 @@ class _StudyScreenState extends State<StudyScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '${totalReadTime} min',
+                      '$totalReadTime min',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,

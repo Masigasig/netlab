@@ -1,17 +1,22 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Ethereal Blues Demo',
       theme: ThemeData(
         // Primary colors - Ethereal Blue theme
-        primarySwatch: MaterialColor(0xFF3B82F6, {
+        primarySwatch: const MaterialColor(0xFF3B82F6, {
           50: Color(0xFFFAFBFF),
           100: Color(0xFFE0F2FE),
           200: Color(0xFFBAE6FD),
@@ -23,75 +28,87 @@ class MyApp extends StatelessWidget {
           800: Color(0xFF075985),
           900: Color(0xFF0C4A6E),
         }),
-        
+
         // Background colors
-        scaffoldBackgroundColor: Color(0xFFFAFBFF), // Almost white blue
-        cardColor: Color(0xFFFFFFFF),
-        
+        scaffoldBackgroundColor: const Color(0xFFFAFBFF), // Almost white blue
+        cardColor: const Color(0xFFFFFFFF),
+
         // Text colors
-        textTheme: TextTheme(
-          headlineLarge: TextStyle(color: Color(0xFF1E293B), fontWeight: FontWeight.bold),
-          headlineMedium: TextStyle(color: Color(0xFF1E293B), fontWeight: FontWeight.w600),
+        textTheme: const TextTheme(
+          headlineLarge: TextStyle(
+            color: Color(0xFF1E293B),
+            fontWeight: FontWeight.bold,
+          ),
+          headlineMedium: TextStyle(
+            color: Color(0xFF1E293B),
+            fontWeight: FontWeight.w600,
+          ),
           bodyLarge: TextStyle(color: Color(0xFF1E293B)),
           bodyMedium: TextStyle(color: Color(0xFF64748B)),
-          labelLarge: TextStyle(color: Color(0xFFFFFFFF), fontWeight: FontWeight.w500),
+          labelLarge: TextStyle(
+            color: Color(0xFFFFFFFF),
+            fontWeight: FontWeight.w500,
+          ),
         ),
-        
+
         // Component themes
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFFFFFFFF),
           foregroundColor: Color(0xFF1E293B),
           elevation: 1,
           shadowColor: Color(0xFFE0F2FE),
         ),
-        
+
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF3B82F6),
-            foregroundColor: Color(0xFFFFFFFF),
+            backgroundColor: const Color(0xFF3B82F6),
+            foregroundColor: const Color(0xFFFFFFFF),
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
           ),
         ),
-        
+
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-            foregroundColor: Color(0xFF3B82F6),
-            side: BorderSide(color: Color(0xFFE0F2FE)),
+            foregroundColor: const Color(0xFF3B82F6),
+            side: const BorderSide(color: Color(0xFFE0F2FE)),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
           ),
         ),
-        
+
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Color(0xFFE0F2FE)),
+            borderSide: const BorderSide(color: Color(0xFFE0F2FE)),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Color(0xFFE0F2FE)),
+            borderSide: const BorderSide(color: Color(0xFFE0F2FE)),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Color(0xFF3B82F6), width: 2),
+            borderSide: const BorderSide(color: Color(0xFF3B82F6), width: 2),
           ),
-          fillColor: Color(0xFFFFFFFF),
+          fillColor: const Color(0xFFFFFFFF),
           filled: true,
-          labelStyle: TextStyle(color: Color(0xFF64748B)),
-          hintStyle: TextStyle(color: Color(0xFF64748B)),
+          labelStyle: const TextStyle(color: Color(0xFF64748B)),
+          hintStyle: const TextStyle(color: Color(0xFF64748B)),
         ),
       ),
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -102,44 +119,46 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ethereal Blues'),
+        title: const Text('Ethereal Blues'),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications_none),
+            icon: const Icon(Icons.notifications_none),
             onPressed: () {},
           ),
           CircleAvatar(
             radius: 16,
-            backgroundColor: Color(0xFF3B82F6).withOpacity(0.1),
-            child: Icon(
+            backgroundColor: const Color(0xFF3B82F6).withOpacity(0.1),
+            child: const Icon(
               Icons.person_outline,
               size: 20,
               color: Color(0xFF3B82F6),
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Hero section with ethereal gradient
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(28),
+              padding: const EdgeInsets.all(28),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xFF3B82F6).withOpacity(0.08),
-                    Color(0xFF06B6D4).withOpacity(0.04),
+                    const Color(0xFF3B82F6).withOpacity(0.08),
+                    const Color(0xFF06B6D4).withOpacity(0.04),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Color(0xFFE0F2FE).withOpacity(0.5)),
+                border: Border.all(
+                  color: const Color(0xFFE0F2FE).withOpacity(0.5),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,26 +166,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Color(0xFF3B82F6),
+                          color: const Color(0xFF3B82F6),
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: Color(0xFF3B82F6).withOpacity(0.3),
+                              color: const Color(0xFF3B82F6).withOpacity(0.3),
                               blurRadius: 12,
-                              offset: Offset(0, 4),
+                              offset: const Offset(0, 4),
                             ),
                           ],
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.waves,
                           color: Colors.white,
                           size: 28,
                         ),
                       ),
-                      SizedBox(width: 20),
-                      Expanded(
+                      const SizedBox(width: 20),
+                      const Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -194,51 +213,75 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            
-            SizedBox(height: 32),
-            
+
+            const SizedBox(height: 32),
+
             // Color palette showcase
             Text(
               'Ethereal Blues Palette',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            SizedBox(height: 16),
-            
+            const SizedBox(height: 16),
+
             Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Color(0xFFFFFFFF),
+                color: const Color(0xFFFFFFFF),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Color(0xFFE0F2FE)),
+                border: Border.all(color: const Color(0xFFE0F2FE)),
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xFF3B82F6).withOpacity(0.04),
+                    color: const Color(0xFF3B82F6).withOpacity(0.04),
                     blurRadius: 8,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   ),
                 ],
               ),
               child: Column(
                 children: [
-                  _buildColorRow('Primary Blue', Color(0xFF3B82F6), '#3B82F6'),
-                  _buildColorRow('Cyan Accent', Color(0xFF06B6D4), '#06B6D4'),
-                  _buildColorRow('Light Sky', Color(0xFFE0F2FE), '#E0F2FE'),
-                  _buildColorRow('Ocean White', Color(0xFFFAFBFF), '#FAFBFF'),
-                  _buildColorRow('Text Primary', Color(0xFF1E293B), '#1E293B'),
-                  _buildColorRow('Text Secondary', Color(0xFF64748B), '#64748B'),
+                  _buildColorRow(
+                    'Primary Blue',
+                    const Color(0xFF3B82F6),
+                    '#3B82F6',
+                  ),
+                  _buildColorRow(
+                    'Cyan Accent',
+                    const Color(0xFF06B6D4),
+                    '#06B6D4',
+                  ),
+                  _buildColorRow(
+                    'Light Sky',
+                    const Color(0xFFE0F2FE),
+                    '#E0F2FE',
+                  ),
+                  _buildColorRow(
+                    'Ocean White',
+                    const Color(0xFFFAFBFF),
+                    '#FAFBFF',
+                  ),
+                  _buildColorRow(
+                    'Text Primary',
+                    const Color(0xFF1E293B),
+                    '#1E293B',
+                  ),
+                  _buildColorRow(
+                    'Text Secondary',
+                    const Color(0xFF64748B),
+                    '#64748B',
+                  ),
                 ],
               ),
             ),
-            
-            SizedBox(height: 32),
-            
+
+            const SizedBox(height: 32),
+
             // Floating status cards
             Text(
               'Analytics Overview',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            SizedBox(height: 16),
-            
+            const SizedBox(height: 16),
+
             Row(
               children: [
                 Expanded(
@@ -246,25 +289,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Wave Interactions',
                     '2,847',
                     Icons.trending_up,
-                    Color(0xFF3B82F6),
+                    const Color(0xFF3B82F6),
                     '+15.3%',
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: _buildFloatingCard(
                     'Flow Rate',
                     '94.2%',
                     Icons.water_drop,
-                    Color(0xFF06B6D4),
+                    const Color(0xFF06B6D4),
                     '+2.1%',
                   ),
                 ),
               ],
             ),
-            
-            SizedBox(height: 16),
-            
+
+            const SizedBox(height: 16),
+
             Row(
               children: [
                 Expanded(
@@ -274,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icons.blur_on,
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: _buildGlassCard(
                     'Peaceful Users',
@@ -284,43 +327,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            
-            SizedBox(height: 32),
-            
+
+            const SizedBox(height: 32),
+
             // Ethereal action buttons
             Text(
               'Serene Actions',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            SizedBox(height: 16),
-            
+            const SizedBox(height: 16),
+
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.add_circle_outline),
-                    label: Text('Create Flow'),
+                    icon: const Icon(Icons.add_circle_outline),
+                    label: const Text('Create Flow'),
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 18),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       elevation: 0,
-                      shadowColor: Color(0xFF3B82F6).withOpacity(0.3),
+                      shadowColor: const Color(0xFF3B82F6).withOpacity(0.3),
                     ),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.auto_awesome),
-                    label: Text('Begin Journey'),
+                    icon: const Icon(Icons.auto_awesome),
+                    label: const Text('Begin Journey'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF06B6D4),
-                      foregroundColor: Color(0xFFFFFFFF),
-                      padding: EdgeInsets.symmetric(vertical: 18),
+                      backgroundColor: const Color(0xFF06B6D4),
+                      foregroundColor: const Color(0xFFFFFFFF),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -330,45 +373,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            
-            SizedBox(height: 16),
-            
+
+            const SizedBox(height: 16),
+
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
                 onPressed: () {},
-                icon: Icon(Icons.cloud_upload_outlined),
-                label: Text('Upload to Cloud'),
+                icon: const Icon(Icons.cloud_upload_outlined),
+                label: const Text('Upload to Cloud'),
                 style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 18),
+                  padding: const EdgeInsets.symmetric(vertical: 18),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  side: BorderSide(color: Color(0xFFE0F2FE)),
+                  side: const BorderSide(color: Color(0xFFE0F2FE)),
                 ),
               ),
             ),
-            
-            SizedBox(height: 32),
-            
+
+            const SizedBox(height: 32),
+
             // Dreamy form section
             Text(
               'Create Your Experience',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            SizedBox(height: 16),
-            
+            const SizedBox(height: 16),
+
             Container(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Color(0xFFFFFFFF),
+                color: const Color(0xFFFFFFFF),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Color(0xFFE0F2FE)),
+                border: Border.all(color: const Color(0xFFE0F2FE)),
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xFF3B82F6).withOpacity(0.06),
+                    color: const Color(0xFF3B82F6).withOpacity(0.06),
                     blurRadius: 20,
-                    offset: Offset(0, 8),
+                    offset: const Offset(0, 8),
                   ),
                 ],
               ),
@@ -378,50 +421,57 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: InputDecoration(
                       labelText: 'Experience Name',
                       hintText: 'Name your ethereal journey',
-                      prefixIcon: Icon(Icons.waves, color: Color(0xFF3B82F6)),
+                      prefixIcon: const Icon(
+                        Icons.waves,
+                        color: Color(0xFF3B82F6),
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextField(
                     decoration: InputDecoration(
                       labelText: 'Description',
-                      hintText: 'Describe the serene atmosphere you want to create',
-                      prefixIcon: Icon(Icons.edit_note, color: Color(0xFF06B6D4)),
+                      hintText:
+                          'Describe the serene atmosphere you want to create',
+                      prefixIcon: const Icon(
+                        Icons.edit_note,
+                        color: Color(0xFF06B6D4),
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     maxLines: 3,
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   Row(
                     children: [
                       Expanded(
                         child: OutlinedButton(
                           onPressed: () {},
-                          child: Text('Save Draft'),
                           style: OutlinedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 18),
+                            padding: const EdgeInsets.symmetric(vertical: 18),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
+                          child: const Text('Save Draft'),
                         ),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: Text('Launch Experience'),
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 18),
+                            padding: const EdgeInsets.symmetric(vertical: 18),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
+                          child: const Text('Launch Experience'),
                         ),
                       ),
                     ],
@@ -429,19 +479,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            
-            SizedBox(height: 24),
+
+            const SizedBox(height: 24),
           ],
         ),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Color(0xFFFFFFFF),
+          color: const Color(0xFFFFFFFF),
           boxShadow: [
             BoxShadow(
-              color: Color(0xFF3B82F6).withOpacity(0.08),
+              color: const Color(0xFF3B82F6).withOpacity(0.08),
               blurRadius: 12,
-              offset: Offset(0, -4),
+              offset: const Offset(0, -4),
             ),
           ],
         ),
@@ -450,10 +500,10 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: (index) => setState(() => _selectedIndex = index),
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,
-          selectedItemColor: Color(0xFF3B82F6),
-          unselectedItemColor: Color(0xFF64748B),
+          selectedItemColor: const Color(0xFF3B82F6),
+          unselectedItemColor: const Color(0xFF64748B),
           elevation: 0,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.waves),
               activeIcon: Icon(Icons.waves),
@@ -479,10 +529,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  
+
   Widget _buildColorRow(String name, Color color, String hex) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
           Container(
@@ -491,24 +541,24 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Color(0xFFE0F2FE)),
+              border: Border.all(color: const Color(0xFFE0F2FE)),
               boxShadow: [
                 BoxShadow(
                   color: color.withOpacity(0.2),
                   blurRadius: 8,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF1E293B),
                     fontWeight: FontWeight.w500,
                     fontSize: 15,
@@ -516,7 +566,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Text(
                   hex,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF64748B),
                     fontSize: 13,
                     fontFamily: 'monospace',
@@ -529,10 +579,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  
-  Widget _buildFloatingCard(String title, String value, IconData icon, Color color, String change) {
+
+  Widget _buildFloatingCard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+    String change,
+  ) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [color, color.withOpacity(0.8)],
@@ -544,7 +600,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BoxShadow(
             color: color.withOpacity(0.3),
             blurRadius: 16,
-            offset: Offset(0, 8),
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -554,16 +610,19 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             children: [
               Icon(icon, color: Colors.white.withOpacity(0.9), size: 24),
-              Spacer(),
+              const Spacer(),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
                   change,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
@@ -572,16 +631,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 32,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             title,
             style: TextStyle(
@@ -593,29 +652,29 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  
+
   Widget _buildGlassCard(String title, String value, IconData icon) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Color(0xFFE0F2FE).withOpacity(0.3),
+        color: const Color(0xFFE0F2FE).withOpacity(0.3),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Color(0xFFE0F2FE).withOpacity(0.5)),
+        border: Border.all(color: const Color(0xFFE0F2FE).withOpacity(0.5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, color: Color(0xFF3B82F6), size: 24),
-              Spacer(),
+              Icon(icon, color: const Color(0xFF3B82F6), size: 24),
+              const Spacer(),
               Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Color(0xFF3B82F6).withOpacity(0.1),
+                  color: const Color(0xFF3B82F6).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.more_horiz,
                   color: Color(0xFF3B82F6),
                   size: 16,
@@ -623,22 +682,19 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xFF1E293B),
               fontSize: 32,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             title,
-            style: TextStyle(
-              color: Color(0xFF64748B),
-              fontSize: 14,
-            ),
+            style: const TextStyle(color: Color(0xFF64748B), fontSize: 14),
           ),
         ],
       ),

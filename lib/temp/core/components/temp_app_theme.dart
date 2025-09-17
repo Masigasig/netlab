@@ -4,30 +4,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class AppThemes {
   // Light Theme Color Swatch
   static const MaterialColor lightSwatch = MaterialColor(0xFF3B82F6, {
-    50: Color(0xFFFAFBFF),   // Ocean White
-    100: Color(0xFFE0F2FE),  // Light Sky
-    200: Color(0xFFBAE6FD),  // Pale Blue
-    300: Color(0xFF7DD3FC),  // Sky Blue
-    400: Color(0xFF38BDF8),  // Cyan Light
-    500: Color(0xFF3B82F6),  // Primary Blue (base color)
-    600: Color(0xFF0284C7),  // Blue Accent
-    700: Color(0xFF0369A1),  // Deep Cyan
-    800: Color(0xFF075985),  // Teal Navy
-    900: Color(0xFF0C4A6E),  // Deep Slate Blue
+    50: Color(0xFFFAFBFF), // Ocean White
+    100: Color(0xFFE0F2FE), // Light Sky
+    200: Color(0xFFBAE6FD), // Pale Blue
+    300: Color(0xFF7DD3FC), // Sky Blue
+    400: Color(0xFF38BDF8), // Cyan Light
+    500: Color(0xFF3B82F6), // Primary Blue (base color)
+    600: Color(0xFF0284C7), // Blue Accent
+    700: Color(0xFF0369A1), // Deep Cyan
+    800: Color(0xFF075985), // Teal Navy
+    900: Color(0xFF0C4A6E), // Deep Slate Blue
   });
 
   // Dark Theme Color Swatch
   static const MaterialColor darkSwatch = MaterialColor(0xFF60A5FA, {
-    50: Color(0xFF0F172A),   // Dark Navy
-    100: Color(0xFF1E293B),  // Slate
-    200: Color(0xFF334155),  // Border Gray
-    300: Color(0xFF475569),  // Dim Gray
-    400: Color(0xFF64748B),  // Muted Gray
-    500: Color(0xFF60A5FA),  // Light Blue (base color)
-    600: Color(0xFF3B82F6),  // Blue Accent
-    700: Color(0xFF2563EB),  // Strong Blue
-    800: Color(0xFF1D4ED8),  // Deep Blue
-    900: Color(0xFF1E40AF),  // Indigo
+    50: Color(0xFF0F172A), // Dark Navy
+    100: Color(0xFF1E293B), // Slate
+    200: Color(0xFF334155), // Border Gray
+    300: Color(0xFF475569), // Dim Gray
+    400: Color(0xFF64748B), // Muted Gray
+    500: Color(0xFF60A5FA), // Light Blue (base color)
+    600: Color(0xFF3B82F6), // Blue Accent
+    700: Color(0xFF2563EB), // Strong Blue
+    800: Color(0xFF1D4ED8), // Deep Blue
+    900: Color(0xFF1E40AF), // Indigo
   });
 
   // Additional accent colors
@@ -62,7 +62,8 @@ class AppThemes {
       surfaceContainerLow: lightSwatch[100]!,
       surfaceContainer: lightSwatch[200]!,
       surfaceContainerHigh: lightSwatch[300]!,
-      surfaceContainerHighest: lightSwatch[400]!, // use this instead of surfaceVariant
+      surfaceContainerHighest:
+          lightSwatch[400]!, // use this instead of surfaceVariant
       // optional helpful tones:
       surfaceBright: lightSwatch[50]!,
       surfaceDim: lightSwatch[900]!,
