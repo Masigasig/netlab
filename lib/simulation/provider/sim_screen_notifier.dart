@@ -12,7 +12,11 @@ class SimScreenNotifier extends Notifier<SimScreen> {
   }
 
   void playSimulation() {
-    state = state.copyWith(isPlaying: true, isDevicePanelOpen: false);
+    state = state.copyWith(
+      isPlaying: true,
+      isDevicePanelOpen: false,
+      isLogPanelOpen: false,
+    );
   }
 
   void stopSimulation() {
@@ -25,5 +29,13 @@ class SimScreenNotifier extends Notifier<SimScreen> {
 
   void closeDevicePanel() {
     state = state.copyWith(isDevicePanelOpen: false);
+  }
+
+  void openLogPanel() {
+    state = state.copyWith(isLogPanelOpen: true);
+  }
+
+  void closeLogPanel() {
+    state = state.copyWith(isLogPanelOpen: false);
   }
 }

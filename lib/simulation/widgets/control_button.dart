@@ -34,38 +34,22 @@ class UtilityControls extends StatelessWidget {
               onPressed: onExit,
             ),
 
-            Consumer(
-              builder: (context, ref, _) {
-                final isPlaying = ref.watch(
-                  simScreenProvider.select((simScreen) => simScreen.isPlaying),
-                );
+            _DisabledWhenPlayingButton(
+              onPressed: onSave,
+              icon: HugeIcon(
+                icon: HugeIcons.strokeRoundedFileDownload,
 
-                return _ControlButton(
-                  icon: HugeIcon(
-                    icon: HugeIcons.strokeRoundedFileDownload,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                  onPressed: isPlaying ? null : onSave,
-                  isDisabled: isPlaying,
-                );
-              },
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
             ),
 
-            Consumer(
-              builder: (context, ref, _) {
-                final isPlaying = ref.watch(
-                  simScreenProvider.select((simScreen) => simScreen.isPlaying),
-                );
+            _DisabledWhenPlayingButton(
+              onPressed: onSave,
+              icon: HugeIcon(
+                icon: HugeIcons.strokeRoundedFileUpload,
 
-                return _ControlButton(
-                  icon: HugeIcon(
-                    icon: HugeIcons.strokeRoundedFileUpload,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                  onPressed: isPlaying ? null : onLoad,
-                  isDisabled: isPlaying,
-                );
-              },
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
             ),
           ],
         ),
@@ -76,17 +60,18 @@ class UtilityControls extends StatelessWidget {
 
 class SimulationControls extends StatelessWidget {
   final VoidCallback onOpenLogs;
-  final VoidCallback onStop;
+  final VoidCallback onCloseLogs;
   final VoidCallback onPlay;
+  final VoidCallback onStop;
   final VoidCallback onCenterView;
 
   const SimulationControls({
     super.key,
-
     required this.onOpenLogs,
-    required this.onCenterView,
+    required this.onCloseLogs,
     required this.onStop,
     required this.onPlay,
+    required this.onCenterView,
   });
 
   @override
@@ -102,35 +87,9 @@ class SimulationControls extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
-            Consumer(
-              builder: (context, ref, _) {
-                return _ControlButton(
-                  icon: HugeIcon(
-                    icon: HugeIcons.strokeRoundedComputerTerminal01,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                  onPressed: onOpenLogs,
-                );
-              },
-            ),
+            _LogPanelButton(onOpen: onOpenLogs, onClose: onCloseLogs),
 
-            Consumer(
-              builder: (context, ref, _) {
-                final isPlaying = ref.watch(
-                  simScreenProvider.select((simScreen) => simScreen.isPlaying),
-                );
-
-                return _ControlButton(
-                  icon: HugeIcon(
-                    icon: isPlaying
-                        ? HugeIcons.strokeRoundedStop
-                        : HugeIcons.strokeRoundedPlay,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                  onPressed: isPlaying ? onStop : onPlay,
-                );
-              },
-            ),
+            _PlayPauseButton(onPlay: onPlay, onStop: onStop),
 
             _ControlButton(
               icon: HugeIcon(
@@ -176,6 +135,71 @@ class AddDeviceButton extends ConsumerWidget {
         ),
         onPressed: isDevicePanelOpen ? onClose : onOpen,
       ),
+    );
+  }
+}
+
+class _PlayPauseButton extends ConsumerWidget {
+  final VoidCallback onPlay;
+  final VoidCallback onStop;
+
+  const _PlayPauseButton({required this.onPlay, required this.onStop});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
+
+    return _ControlButton(
+      icon: HugeIcon(
+        icon: isPlaying
+            ? HugeIcons.strokeRoundedStop
+            : HugeIcons.strokeRoundedPlay,
+        color: Theme.of(context).colorScheme.onPrimary,
+      ),
+      onPressed: isPlaying ? onStop : onPlay,
+    );
+  }
+}
+
+class _LogPanelButton extends ConsumerWidget {
+  final VoidCallback onOpen;
+  final VoidCallback onClose;
+
+  const _LogPanelButton({required this.onOpen, required this.onClose});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isOpen = ref.watch(simScreenProvider.select((s) => s.isLogPanelOpen));
+
+    return _ControlButton(
+      icon: HugeIcon(
+        icon: isOpen
+            ? HugeIcons.strokeRoundedMultiplicationSign
+            : HugeIcons.strokeRoundedComputerTerminal01,
+        color: Theme.of(context).colorScheme.onPrimary,
+      ),
+      onPressed: isOpen ? onClose : onOpen,
+    );
+  }
+}
+
+class _DisabledWhenPlayingButton extends ConsumerWidget {
+  final VoidCallback onPressed;
+  final Widget icon;
+
+  const _DisabledWhenPlayingButton({
+    required this.onPressed,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
+
+    return _ControlButton(
+      icon: icon,
+      onPressed: isPlaying ? null : onPressed,
+      isDisabled: isPlaying,
     );
   }
 }

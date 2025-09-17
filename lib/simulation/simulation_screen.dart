@@ -47,24 +47,19 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 
   @override
   void didPushNext() {
-    if (ref.read(simScreenProvider).isPlaying) {
-      _stopSimulation();
-    }
-    _closeDevicePanel();
+    _onExit();
     super.didPushNext();
   }
 
   @override
   void didPop() {
-    if (ref.read(simScreenProvider).isPlaying) {
-      _stopSimulation();
-    }
-    _closeDevicePanel();
+    _onExit();
     super.didPop();
   }
 
   @override
   void dispose() {
+    routeObserver.unsubscribe(this);
     _animationController.dispose();
     _transformationController.dispose();
     super.dispose();
@@ -97,7 +92,12 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
             onAcceptWithDetails: (details) => {},
           ),
 
-          AddDeviceButton(onOpen: _openDevicePanel, onClose: _closeDevicePanel),
+          AddDeviceButton(
+            onOpen: () =>
+                ref.read(simScreenProvider.notifier).openDevicePanel(),
+            onClose: () =>
+                ref.read(simScreenProvider.notifier).closeDevicePanel(),
+          ),
 
           UtilityControls(
             onExit: () => GoRouter.of(context).pop(),
@@ -106,9 +106,12 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
           ),
 
           SimulationControls(
-            onOpenLogs: _openLogs,
-            onStop: _stopSimulation,
-            onPlay: _playSimulation,
+            onOpenLogs: () =>
+                ref.read(simScreenProvider.notifier).openLogPanel(),
+            onCloseLogs: () =>
+                ref.read(simScreenProvider.notifier).closeLogPanel(),
+            onPlay: () => ref.read(simScreenProvider.notifier).playSimulation(),
+            onStop: () => ref.read(simScreenProvider.notifier).stopSimulation(),
             onCenterView: _centerViewAnimated,
           ),
         ],
@@ -147,18 +150,6 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
       ..forward(from: 0);
   }
 
-  void _openLogs() {
-    //* TODO: OpenLogs
-  }
-
-  void _stopSimulation() {
-    ref.read(simScreenProvider.notifier).stopSimulation();
-  }
-
-  void _playSimulation() {
-    ref.read(simScreenProvider.notifier).playSimulation();
-  }
-
   void _loadSimulation() {
     //* TODO: loadSimulation
   }
@@ -167,11 +158,11 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     //* TODO: SaveSimulation
   }
 
-  void _openDevicePanel() {
-    ref.read(simScreenProvider.notifier).openDevicePanel();
-  }
-
-  void _closeDevicePanel() {
+  void _onExit() {
+    if (ref.read(simScreenProvider).isPlaying) {
+      ref.read(simScreenProvider.notifier).stopSimulation();
+    }
     ref.read(simScreenProvider.notifier).closeDevicePanel();
+    ref.read(simScreenProvider.notifier).closeLogPanel();
   }
 }

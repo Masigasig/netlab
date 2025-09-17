@@ -3,6 +3,7 @@ class SimScreen {
   final bool isWireModeOn;
   final bool isMessageModeOn;
   final bool isDevicePanelOpen;
+  final bool isLogPanelOpen;
   final String selectedDeviceOnConn;
   final String selectedDeviceOnInfo;
 
@@ -11,6 +12,7 @@ class SimScreen {
     this.isWireModeOn = false,
     this.isMessageModeOn = false,
     this.isDevicePanelOpen = false,
+    this.isLogPanelOpen = false,
     this.selectedDeviceOnConn = '',
     this.selectedDeviceOnInfo = '',
   });
@@ -20,6 +22,7 @@ class SimScreen {
     bool? isWireModeOn,
     bool? isMessageModeOn,
     bool? isDevicePanelOpen,
+    bool? isLogPanelOpen,
     String? selectedDeviceOnConn,
     String? selectedDeviceOnInfo,
   }) {
@@ -28,6 +31,7 @@ class SimScreen {
       isWireModeOn: isWireModeOn ?? this.isWireModeOn,
       isMessageModeOn: isMessageModeOn ?? this.isMessageModeOn,
       isDevicePanelOpen: isDevicePanelOpen ?? this.isDevicePanelOpen,
+      isLogPanelOpen: isLogPanelOpen ?? this.isLogPanelOpen,
       selectedDeviceOnConn: selectedDeviceOnConn ?? this.selectedDeviceOnConn,
       selectedDeviceOnInfo: selectedDeviceOnInfo ?? this.selectedDeviceOnInfo,
     );
