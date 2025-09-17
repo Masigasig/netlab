@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3;
 
-import 'package:netlab/simulation/model/sim_object.dart' show SimObjectType;
+import 'package:netlab/core/routing/go_router.dart';
+import 'package:netlab/simulation/model/sim_objects/sim_object.dart'
+    show SimObjectType;
+import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/simulation/widgets/grid_painter.dart';
-import 'package:netlab/simulation/widgets/simulation_controls.dart';
+import 'package:netlab/simulation/widgets/control_button.dart';
 
 class SimulationScreen extends ConsumerStatefulWidget {
   static const canvasSize = Size(100_000.0, 100_000.0);
@@ -15,7 +18,7 @@ class SimulationScreen extends ConsumerStatefulWidget {
 }
 
 class _SimulationScreenState extends ConsumerState<SimulationScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, RouteAware {
   final _transformationController = TransformationController();
   late final AnimationController _animationController;
 
@@ -31,6 +34,40 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _transformationController.value = _getCenteredMatrix();
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final route = ModalRoute.of(context);
+    if (route is PageRoute) {
+      routeObserver.subscribe(this, route);
+    }
+  }
+
+  @override
+  void didPushNext() {
+    if (ref.read(simScreenProvider).isPlaying) {
+      _stopSimulation();
+    }
+    _closeDevicePanel();
+    super.didPushNext();
+  }
+
+  @override
+  void didPop() {
+    if (ref.read(simScreenProvider).isPlaying) {
+      _stopSimulation();
+    }
+    _closeDevicePanel();
+    super.didPop();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _transformationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -60,9 +97,19 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
             onAcceptWithDetails: (details) => {},
           ),
 
+          AddDeviceButton(onOpen: _openDevicePanel, onClose: _closeDevicePanel),
+
+          UtilityControls(
+            onExit: () => GoRouter.of(context).pop(),
+            onSave: _saveSimulation,
+            onLoad: _loadSimulation,
+          ),
+
           SimulationControls(
+            onOpenLogs: _openLogs,
+            onStop: _stopSimulation,
+            onPlay: _playSimulation,
             onCenterView: _centerViewAnimated,
-            onExit: () => Navigator.of(context).pop(),
           ),
         ],
       ),
@@ -98,5 +145,33 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     _animationController
       ..addListener(() => _transformationController.value = animation.value)
       ..forward(from: 0);
+  }
+
+  void _openLogs() {
+    //* TODO: OpenLogs
+  }
+
+  void _stopSimulation() {
+    ref.read(simScreenProvider.notifier).stopSimulation();
+  }
+
+  void _playSimulation() {
+    ref.read(simScreenProvider.notifier).playSimulation();
+  }
+
+  void _loadSimulation() {
+    //* TODO: loadSimulation
+  }
+
+  void _saveSimulation() {
+    //* TODO: SaveSimulation
+  }
+
+  void _openDevicePanel() {
+    ref.read(simScreenProvider.notifier).openDevicePanel();
+  }
+
+  void _closeDevicePanel() {
+    ref.read(simScreenProvider.notifier).closeDevicePanel();
   }
 }

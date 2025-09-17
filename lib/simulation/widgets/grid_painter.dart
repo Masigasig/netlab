@@ -13,7 +13,6 @@ class GridPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    debugPrint('GridPainter rebuilt');
     final center = Offset(size.width / 2, size.height / 2);
 
     final axisPaint = Paint()
@@ -53,5 +52,5 @@ class GridPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant GridPainter oldDelegate) => false;
 }
