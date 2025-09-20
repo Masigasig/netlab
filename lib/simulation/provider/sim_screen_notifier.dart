@@ -16,6 +16,10 @@ class SimScreenNotifier extends Notifier<SimScreen> {
       isPlaying: true,
       isDevicePanelOpen: false,
       isLogPanelOpen: false,
+      isConnectionModeOn: false,
+      isMessageModeOn: false,
+      selectedDeviceOnConn: '',
+      selectedDeviceOnInfo: '',
     );
   }
 
@@ -37,5 +41,13 @@ class SimScreenNotifier extends Notifier<SimScreen> {
 
   void closeLogPanel() {
     state = state.copyWith(isLogPanelOpen: false);
+  }
+
+  void toggleConnectionMode() {
+    state = state.copyWith(isConnectionModeOn: !state.isConnectionModeOn);
+  }
+
+  void toggleMessageMode() {
+    state = state.copyWith(isMessageModeOn: !state.isMessageModeOn);
   }
 }

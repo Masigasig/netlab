@@ -1,6 +1,6 @@
 class SimScreen {
   final bool isPlaying;
-  final bool isWireModeOn;
+  final bool isConnectionModeOn;
   final bool isMessageModeOn;
   final bool isDevicePanelOpen;
   final bool isLogPanelOpen;
@@ -9,7 +9,7 @@ class SimScreen {
 
   const SimScreen({
     this.isPlaying = false,
-    this.isWireModeOn = false,
+    this.isConnectionModeOn = false,
     this.isMessageModeOn = false,
     this.isDevicePanelOpen = false,
     this.isLogPanelOpen = false,
@@ -19,7 +19,7 @@ class SimScreen {
 
   SimScreen copyWith({
     bool? isPlaying,
-    bool? isWireModeOn,
+    bool? isConnectionModeOn,
     bool? isMessageModeOn,
     bool? isDevicePanelOpen,
     bool? isLogPanelOpen,
@@ -28,7 +28,7 @@ class SimScreen {
   }) {
     return SimScreen(
       isPlaying: isPlaying ?? this.isPlaying,
-      isWireModeOn: isWireModeOn ?? this.isWireModeOn,
+      isConnectionModeOn: isConnectionModeOn ?? this.isConnectionModeOn,
       isMessageModeOn: isMessageModeOn ?? this.isMessageModeOn,
       isDevicePanelOpen: isDevicePanelOpen ?? this.isDevicePanelOpen,
       isLogPanelOpen: isLogPanelOpen ?? this.isLogPanelOpen,
