@@ -221,18 +221,21 @@ class _ControlButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrint('Icon ${icon.toString()}');
-    return IconButton(
-      onPressed: onPressed,
-      icon: icon,
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(
-          isDisabled
+    return SizedBox(
+      height: 40,
+      width: 40,
+      child: ElevatedButton(
+        onPressed: isDisabled ? null : onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isDisabled
               ? Colors.grey.shade400
               : Theme.of(context).colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: EdgeInsets.zero,
         ),
-        shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
+        child: icon,
       ),
     );
   }
