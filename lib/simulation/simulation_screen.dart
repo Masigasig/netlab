@@ -8,6 +8,7 @@ import 'package:netlab/simulation/model/sim_objects/sim_object.dart'
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/simulation/widgets/control_button.dart';
 import 'package:netlab/simulation/widgets/grid_painter.dart';
+import 'package:netlab/simulation/widgets/log_panel.dart';
 import 'package:netlab/simulation/widgets/loop_animator.dart';
 
 class SimulationScreen extends ConsumerStatefulWidget {
@@ -93,6 +94,8 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
             },
             onAcceptWithDetails: (details) => {},
           ),
+
+          const LogPanel(),
 
           AddDeviceButton(
             onOpen: () =>
