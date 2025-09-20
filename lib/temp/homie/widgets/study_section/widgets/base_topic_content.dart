@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:netlab/temp/core/constants/app_colors.dart';
 import '../models/study_topic.dart';
 import '../models/content_module.dart';
 import 'components/topic_header.dart';
@@ -27,8 +26,10 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: cs.surface, // 🔹 theme-based background
       body: SafeArea(
         child: Column(
           children: [
@@ -51,6 +52,7 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.all(32),
+                      color: cs.surface, // 🔹 ensures surface consistency
                       child: selectedModuleIndex != null
                           ? ModuleContentView(
                               module: getContentModules()[selectedModuleIndex!],

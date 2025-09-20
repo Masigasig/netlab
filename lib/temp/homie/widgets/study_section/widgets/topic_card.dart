@@ -19,10 +19,12 @@ class _TopicCardState extends State<TopicCard> {
     return Card(
       margin: const EdgeInsets.fromLTRB(32, 0, 32, 24),
       elevation: 0,
-      color: cs.primaryContainer,
+       // ignore: deprecated_member_use
+      color: cs.surfaceContainerLow.withOpacity(0.7),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: cs.outlineVariant, width: 1),
+         // ignore: deprecated_member_use
+        side: BorderSide(color: cs.primary.withOpacity(0.1), width: 1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -39,16 +41,17 @@ class _TopicCardState extends State<TopicCard> {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    border: Border.all(color: cs.outlineVariant, width: 1),
+                    // border: Border.all(color: cs.surfaceContainerLow, width: 1),
                     borderRadius: BorderRadius.circular(20),
-                    color: cs.surfaceContainerLow,
+                     // ignore: deprecated_member_use
+                    color: cs.primary.withOpacity(0.2),
                   ),
                   child: Text(
                     '${widget.topic.lessonCount} lessons',
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: cs.onSurfaceVariant,
+                      fontWeight: FontWeight.w700,
+                      color: cs.primary,
                     ),
                   ),
                 ),
@@ -119,7 +122,8 @@ class _TopicCardState extends State<TopicCard> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: cs.onSurfaceVariant,
+                 // ignore: deprecated_member_use
+                color: cs.onSurface.withOpacity(0.7),
               ),
             ),
 
@@ -132,7 +136,7 @@ class _TopicCardState extends State<TopicCard> {
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 // ignore: deprecated_member_use
-                color: cs.onSurface.withOpacity(0.7),
+                color: cs.onSurface.withOpacity(0.5),
               ),
             ),
 
@@ -144,7 +148,8 @@ class _TopicCardState extends State<TopicCard> {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
-                color: cs.onSurfaceVariant,
+                 // ignore: deprecated_member_use
+                color: cs.onSurface.withOpacity(0.5),
               ),
             ),
 
@@ -156,14 +161,14 @@ class _TopicCardState extends State<TopicCard> {
               child: ElevatedButton(
                 onPressed: widget.onTap,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: cs.primary,
-                  foregroundColor: cs.onPrimary,
+                  backgroundColor: cs.primaryContainer,
+                  foregroundColor: cs.onPrimaryContainer,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 28,
                     vertical: 16,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(32),
                   ),
                 ),
                 child: Text(

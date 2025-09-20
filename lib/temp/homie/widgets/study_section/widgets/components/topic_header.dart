@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/study_topic.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
-import 'package:netlab/temp/core/constants/app_colors.dart';
 
 class TopicHeader extends StatelessWidget {
   final StudyTopic topic;
@@ -15,12 +14,19 @@ class TopicHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Container(
       height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        border: Border(bottom: BorderSide(color: Color(0x1AFFFFFF), width: 1)),
+      decoration: BoxDecoration(
+        color: cs.surface, // 🔹 background matches theme surface
+        border: Border(
+          bottom: BorderSide(
+            color: cs.outline.withOpacity(0.15), // 🔹 subtle divider
+            width: 1,
+          ),
+        ),
       ),
       child: Row(
         children: [
@@ -30,9 +36,9 @@ class TopicHeader extends StatelessWidget {
               width: 32,
               height: 32,
               alignment: Alignment.center,
-              child: const Icon(
+              child: Icon(
                 Icons.arrow_back_ios,
-                color: Colors.white,
+                color: cs.onSurface, // 🔹 adapts to theme
                 size: 18,
               ),
             ),
@@ -42,8 +48,18 @@ class TopicHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(topic.title, style: AppTextStyles.headerSmall),
-              Text('Course Content', style: AppTextStyles.subtitleSmall),
+              Text(
+                topic.title,
+                style: AppTextStyles.headerSmall.copyWith(
+                  color: cs.onSurface, // 🔹 title adapts
+                ),
+              ),
+              Text(
+                'Course Content',
+                style: AppTextStyles.subtitleSmall.copyWith(
+                  color: cs.onSurface.withOpacity(0.7), // 🔹 subtitle softer
+                ),
+              ),
             ],
           ),
         ],

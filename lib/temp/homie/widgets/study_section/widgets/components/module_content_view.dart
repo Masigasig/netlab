@@ -17,6 +17,8 @@ class ModuleContentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +33,7 @@ class ModuleContentView extends StatelessWidget {
                   color: ModuleTypeHelpers.getTypeColor(module.type),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(module.icon, color: Colors.white, size: 24),
+                child: Icon(module.icon, color: cs.onPrimary, size: 24),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -40,10 +42,10 @@ class ModuleContentView extends StatelessWidget {
                   children: [
                     Text(
                       module.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: cs.onSurface, // 🔹 adapts to theme
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -60,8 +62,8 @@ class ModuleContentView extends StatelessWidget {
                           ),
                           child: Text(
                             ModuleTypeHelpers.getTypeLabel(module.type),
-                            style: const TextStyle(
-                              color: Colors.white,
+                            style: TextStyle(
+                              color: cs.onPrimary, // 🔹 readable always
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
                             ),
@@ -72,7 +74,7 @@ class ModuleContentView extends StatelessWidget {
                           '${module.duration} minutes',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white.withValues(alpha: 0.7),
+                            color: cs.onSurfaceVariant, // 🔹 softer
                           ),
                         ),
                       ],
@@ -88,9 +90,11 @@ class ModuleContentView extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.05),
+              color: cs.surfaceContainerLow, // 🔹 matches theme
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+              border: Border.all(
+                color: cs.outline.withOpacity(0.15), // 🔹 subtle border
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -20,16 +20,16 @@ class SidebarModuleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return AnimationPresets.listItemSlideLeft(
       child: Container(
         margin: const EdgeInsets.only(bottom: 4),
         decoration: BoxDecoration(
-          color: isSelected
-              ? Colors.white.withValues(alpha: 0.1)
-              : Colors.transparent,
+          color: isSelected ? cs.primary.withOpacity(0.08) : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: isSelected
-              ? Border.all(color: Colors.white.withValues(alpha: 0.2))
+              ? Border.all(color: cs.primary.withOpacity(0.2))
               : null,
         ),
         child: ListTile(
@@ -41,13 +41,13 @@ class SidebarModuleItem extends StatelessWidget {
               color: ModuleTypeHelpers.getTypeColor(module.type),
               borderRadius: BorderRadius.circular(6),
             ),
-            child: Icon(module.icon, color: Colors.white, size: 16),
+            child: Icon(module.icon, color: cs.onPrimary, size: 16),
           ),
           title: Text(
             module.title,
             style: AppTextStyles.primaryCustom(
               fontSize: 13,
-              color: isSelected ? Colors.white : const Color(0xE6FFFFFF),
+              color: isSelected ? cs.onSurface.withOpacity(0.9): cs.onSurface.withOpacity(0.8),
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
             ),
             maxLines: 2,
@@ -57,7 +57,7 @@ class SidebarModuleItem extends StatelessWidget {
             '${module.duration} min',
             style: AppTextStyles.secondaryCustom(
               fontSize: 11,
-              color: const Color(0x99FFFFFF),
+              color: cs.onSurfaceVariant.withOpacity(0.7),
             ),
           ),
           trailing: Container(
@@ -70,7 +70,7 @@ class SidebarModuleItem extends StatelessWidget {
               ModuleTypeHelpers.getShortTypeLabel(module.type),
               style: AppTextStyles.primaryCustom(
                 fontSize: 9,
-                color: Colors.white,
+                color: cs.onPrimary,
                 fontWeight: FontWeight.w600,
               ),
             ),

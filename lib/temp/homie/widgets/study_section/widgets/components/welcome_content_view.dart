@@ -10,6 +10,8 @@ class WelcomeContentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -17,12 +19,13 @@ class WelcomeContentView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // Title
             AnimationPresets.titleFadeIn(
               child: Text(
                 'Welcome to ${topic.title}',
                 style: AppTextStyles.headerMedium.copyWith(
                   fontSize: 26,
-                  color: Colors.white,
+                  color: cs.onSurface.withOpacity(0.9), // 🔹 adaptive text color
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -32,12 +35,13 @@ class WelcomeContentView extends StatelessWidget {
 
             const SizedBox(height: 16),
 
+            // Description
             AnimationPresets.textFadeIn(
               child: Text(
                 topic.description,
                 style: AppTextStyles.bodyMedium.copyWith(
                   fontSize: 16,
-                  color: Colors.white.withValues(alpha: 0.85),
+                  color: cs.onSurface.withOpacity(0.7), // 🔹 softer theme-based text
                   height: 1.6,
                 ),
                 textAlign: TextAlign.center,
@@ -48,6 +52,7 @@ class WelcomeContentView extends StatelessWidget {
 
             const SizedBox(height: 32),
 
+            // Info box
             AnimationPresets.cardEntrance(
               child: Container(
                 padding: const EdgeInsets.symmetric(
@@ -55,8 +60,11 @@ class WelcomeContentView extends StatelessWidget {
                   vertical: 14,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
+                  color: cs.surfaceContainerLow, // 🔹 themed background
                   borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: cs.outline.withOpacity(0.15),
+                  ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -65,7 +73,7 @@ class WelcomeContentView extends StatelessWidget {
                     AnimationPresets.iconSlide(
                       child: Icon(
                         Icons.arrow_back,
-                        color: Colors.white.withValues(alpha: 0.7),
+                        color: cs.onSurfaceVariant, // 🔹 softer icon
                         size: 18,
                       ),
                       delay: 800,
@@ -80,7 +88,7 @@ class WelcomeContentView extends StatelessWidget {
                         'Select a module from the sidebar to begin',
                         style: AppTextStyles.bodySmall.copyWith(
                           fontSize: 14,
-                          color: Colors.white.withValues(alpha: 0.85),
+                          color: cs.onSurface.withOpacity(0.7), // 🔹 adaptive
                         ),
                       ),
                       delay: 900,

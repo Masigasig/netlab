@@ -20,13 +20,15 @@ class SidebarModuleList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Container(
       width: 280,
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
+        color: cs.surface, // 🔹 background uses surface
         border: Border(
           right: BorderSide(
-            color: Colors.white.withValues(alpha: 0.1),
+            color: cs.outline.withOpacity(0.1),
             width: 1,
           ),
         ),
@@ -40,19 +42,18 @@ class SidebarModuleList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AnimationPresets.iconSlide(
-                  child: const Text(
+                  child: Text(
                     'Modules',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: cs.onSurface.withOpacity(0.9),
                     ),
                   ),
                   delay: 0,
                   duration: const Duration(milliseconds: 500),
                   slideFrom: -0.3,
                 ),
-
                 AnimationPresets.buttonBounce(
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -60,7 +61,7 @@ class SidebarModuleList extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: topic.cardColor.withValues(alpha: 0.2),
+                      color: topic.cardColor.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -78,7 +79,6 @@ class SidebarModuleList extends StatelessWidget {
               ],
             ),
           ),
-
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 12),

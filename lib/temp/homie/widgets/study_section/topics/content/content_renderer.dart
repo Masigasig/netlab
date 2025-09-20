@@ -9,79 +9,76 @@ class ContentRenderer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: blocks.map((block) => _renderBlock(block)).toList(),
+      children: blocks.map((block) => _renderBlock(context, block, cs)).toList(),
     );
   }
 
-  Widget _renderBlock(ContentBlock block) {
+  Widget _renderBlock(BuildContext context, ContentBlock block, ColorScheme cs) {
     switch (block.type) {
       case ContentBlockType.header:
-        return _buildHeader(block);
+        return _buildHeader(block, cs);
       case ContentBlockType.paragraph:
-        return _buildParagraph(block);
+        return _buildParagraph(block, cs);
       case ContentBlockType.bulletList:
-        return _buildBulletList(block);
+        return _buildBulletList(block, cs);
       case ContentBlockType.numberedList:
-        return _buildNumberedList(block);
+        return _buildNumberedList(block, cs);
       case ContentBlockType.definition:
-        return _buildDefinitionList(block);
+        return _buildDefinitionList(block, cs);
       case ContentBlockType.note:
-        return _buildNote(block);
+        return _buildNote(block, cs);
       case ContentBlockType.warning:
-        return _buildWarning(block);
+        return _buildWarning(block, cs);
       case ContentBlockType.code:
-        return _buildCode(block);
+        return _buildCode(block, cs);
       case ContentBlockType.image:
-        return _buildImage(block);
+        return _buildImage(block, cs);
       case ContentBlockType.table:
-        return _buildTable(block);
+        return _buildTable(block, cs);
       case ContentBlockType.divider:
-        return _buildDivider(block);
+        return _buildDivider(block, cs);
       default:
         return const SizedBox.shrink();
     }
   }
 
-  Widget _buildHeader(ContentBlock block) {
+  // ---- BLOCK TYPES ---- //
+
+  Widget _buildHeader(ContentBlock block, ColorScheme cs) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
-        Text(
-          block.title,
-          style: AppTextStyles.headerMedium, // Using your header style
-        ),
+        Text(block.title, style: AppTextStyles.headerMedium.copyWith(color: cs.onSurface)),
         if (block.content is String) ...[
           const SizedBox(height: 8),
           Text(
             block.content,
-            style: AppTextStyles.withColor(
-              AppTextStyles.subtitleLarge,
-              Colors.white.withValues(alpha: 0.7),
-            ), // Using subtitle style with white color
+            style: AppTextStyles.subtitleLarge.copyWith(color: cs.onSurface.withOpacity(0.7)),
           ),
         ],
-        // const SizedBox(height: 16),
       ],
     );
   }
 
-  Widget _buildParagraph(ContentBlock block) {
+  Widget _buildParagraph(ContentBlock block, ColorScheme cs) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Text(
         block.content,
-        style: AppTextStyles.withColor(
-          AppTextStyles.bodyMedium,
-          Colors.white.withValues(alpha: 0.9),
-        ), // Using body style with custom color
+        style: AppTextStyles.bodyMedium.copyWith(
+          color: cs.onSurface.withOpacity(0.9),
+          height: 1.6,
+        ),
       ),
     );
   }
 
-  Widget _buildBulletList(ContentBlock block) {
+  Widget _buildBulletList(ContentBlock block, ColorScheme cs) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, bottom: 16),
       child: Column(
@@ -93,19 +90,13 @@ class ContentRenderer extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '• ',
-                      style: AppTextStyles.withColor(
-                        AppTextStyles.bodyMedium,
-                        Colors.white.withValues(alpha: 0.9),
-                      ),
-                    ),
+                    Text('• ', style: AppTextStyles.bodyMedium.copyWith(color: cs.onSurface.withOpacity(0.9))),
                     Expanded(
                       child: Text(
                         item,
-                        style: AppTextStyles.withColor(
-                          AppTextStyles.bodyMedium.copyWith(height: 1.6),
-                          Colors.white.withValues(alpha: 0.9),
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: cs.onSurface.withOpacity(0.9),
+                          height: 1.6,
                         ),
                       ),
                     ),
@@ -118,57 +109,52 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildNumberedList(ContentBlock block) {
+  Widget _buildNumberedList(ContentBlock block, ColorScheme cs) {
     final items = block.content as List<String>;
     return Padding(
       padding: const EdgeInsets.only(left: 16, bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: items
-            .asMap()
-            .entries
-            .map(
-              (entry) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 24,
-                      child: Text(
-                        '${entry.key + 1}.',
-                        style: AppTextStyles.withColor(
-                          AppTextStyles.bodyLarge,
-                          Colors.white.withValues(alpha: 0.9),
-                        ),
+        children: items.asMap().entries.map(
+          (entry) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 24,
+                    child: Text(
+                      '${entry.key + 1}.',
+                      style: AppTextStyles.bodyLarge.copyWith(color: cs.onSurface.withOpacity(0.9)),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      entry.value,
+                      style: AppTextStyles.bodyLarge.copyWith(
+                        color: cs.onSurface.withOpacity(0.9),
+                        height: 1.6,
                       ),
                     ),
-                    Expanded(
-                      child: Text(
-                        entry.value,
-                        style: AppTextStyles.withColor(
-                          AppTextStyles.bodyLarge.copyWith(height: 1.6),
-                          Colors.white.withValues(alpha: 0.9),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            )
-            .toList(),
+            );
+          },
+        ).toList(),
       ),
     );
   }
 
-  Widget _buildCode(ContentBlock block) {
+  Widget _buildCode(ContentBlock block, ColorScheme cs) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.3),
+        color: cs.surfaceVariant.withOpacity(0.2),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        border: Border.all(color: cs.outline.withOpacity(0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,10 +162,7 @@ class ContentRenderer extends StatelessWidget {
           if (block.title.isNotEmpty) ...[
             Text(
               block.title,
-              style: AppTextStyles.withColor(
-                AppTextStyles.subtitleMedium,
-                Colors.white.withValues(alpha: 0.7),
-              ),
+              style: AppTextStyles.subtitleMedium.copyWith(color: cs.onSurface.withOpacity(0.7)),
             ),
             const SizedBox(height: 8),
           ],
@@ -187,7 +170,7 @@ class ContentRenderer extends StatelessWidget {
             block.content,
             style: AppTextStyles.custom(
               fontSize: 14,
-              color: Colors.white,
+              color: cs.onSurface,
               fontWeight: FontWeight.w400,
             ).copyWith(fontFamily: 'monospace'),
           ),
@@ -196,30 +179,26 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildNote(ContentBlock block) {
+  Widget _buildNote(ContentBlock block, ColorScheme cs) {
     return Container(
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.blue.withValues(alpha: 0.1),
+        color: cs.primary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
+        border: Border.all(color: cs.primary.withOpacity(0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.info_outline,
-            size: 18,
-            color: Colors.blue.withValues(alpha: 0.9),
-          ),
+          Icon(Icons.info_outline, size: 18, color: cs.primary),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               block.content,
-              style: AppTextStyles.withColor(
-                AppTextStyles.bodyMedium.copyWith(height: 1.5),
-                Colors.white.withValues(alpha: 0.9),
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: cs.onSurface.withOpacity(0.9),
+                height: 1.5,
               ),
             ),
           ),
@@ -228,29 +207,26 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildWarning(ContentBlock block) {
+  Widget _buildWarning(ContentBlock block, ColorScheme cs) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16, top: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.orange.withValues(alpha: 0.1),
+        color: cs.error.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+        border: Border.all(color: cs.error.withOpacity(0.3)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.warning_amber_rounded,
-            color: Colors.orange.withValues(alpha: 0.9),
-          ),
+          Icon(Icons.warning_amber_rounded, color: cs.error),
           const SizedBox(width: 16),
           Expanded(
             child: Text(
               block.content,
-              style: AppTextStyles.withColor(
-                AppTextStyles.bodyLarge.copyWith(height: 1.6),
-                Colors.white.withValues(alpha: 0.9),
+              style: AppTextStyles.bodyLarge.copyWith(
+                color: cs.onSurface.withOpacity(0.9),
+                height: 1.6,
               ),
             ),
           ),
@@ -259,7 +235,7 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildDefinitionList(ContentBlock block) {
+  Widget _buildDefinitionList(ContentBlock block, ColorScheme cs) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, bottom: 16),
       child: Column(
@@ -271,13 +247,13 @@ class ContentRenderer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(def['term']!, style: AppTextStyles.headerSmall),
+                    Text(def['term']!, style: AppTextStyles.headerSmall.copyWith(color: cs.onSurface)),
                     const SizedBox(height: 4),
                     Text(
                       def['definition']!,
-                      style: AppTextStyles.withColor(
-                        AppTextStyles.bodyMedium.copyWith(height: 1.6),
-                        Colors.white.withValues(alpha: 0.9),
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: cs.onSurface.withOpacity(0.9),
+                        height: 1.6,
                       ),
                     ),
                   ],
@@ -289,7 +265,7 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildImage(ContentBlock block) {
+  Widget _buildImage(ContentBlock block, ColorScheme cs) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
@@ -303,9 +279,9 @@ class ContentRenderer extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               block.title,
-              style: AppTextStyles.withColor(
-                AppTextStyles.caption.copyWith(fontStyle: FontStyle.italic),
-                Colors.white.withValues(alpha: 0.7),
+              style: AppTextStyles.caption.copyWith(
+                fontStyle: FontStyle.italic,
+                color: cs.onSurface.withOpacity(0.7),
               ),
             ),
           ],
@@ -314,7 +290,7 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildTable(ContentBlock block) {
+  Widget _buildTable(ContentBlock block, ColorScheme cs) {
     final headers = (block.additionalData?['headers'] as List<String>?) ?? [];
     final rows = block.content as List<List<String>>;
 
@@ -322,23 +298,20 @@ class ContentRenderer extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        border: Border.all(color: cs.outline.withOpacity(0.2)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
           final table = DataTable(
-            headingTextStyle: AppTextStyles.withColor(
-              AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold),
-              Colors.white,
+            headingTextStyle: AppTextStyles.bodyMedium.copyWith(
+              fontWeight: FontWeight.bold,
+              color: cs.onSurface,
             ),
-            dataTextStyle: AppTextStyles.withColor(
-              AppTextStyles.bodyMedium,
-              Colors.white.withValues(alpha: 0.9),
+            dataTextStyle: AppTextStyles.bodyMedium.copyWith(
+              color: cs.onSurface.withOpacity(0.9),
             ),
-            columns: headers
-                .map((header) => DataColumn(label: Text(header)))
-                .toList(),
+            columns: headers.map((header) => DataColumn(label: Text(header))).toList(),
             rows: rows
                 .map(
                   (row) => DataRow(
@@ -359,10 +332,10 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider(ContentBlock block) {
+  Widget _buildDivider(ContentBlock block, ColorScheme cs) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
-      child: Container(height: 1, color: Colors.white.withValues(alpha: 0.1)),
+      child: Divider(color: cs.outline.withOpacity(0.3), thickness: 1),
     );
   }
 }
