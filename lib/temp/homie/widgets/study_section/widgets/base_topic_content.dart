@@ -6,6 +6,7 @@ import 'components/sidebar_module_list.dart';
 import 'components/welcome_content_view.dart';
 import 'components/module_content_view.dart';
 
+// ignore_for_file: deprecated_member_use
 abstract class BaseTopicContent extends StatefulWidget {
   final StudyTopic topic;
 
@@ -29,7 +30,7 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: cs.surface, // 🔹 theme-based background
+      backgroundColor: cs.surface,
       body: SafeArea(
         child: Column(
           children: [
@@ -52,7 +53,7 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.all(32),
-                      color: cs.surface, // 🔹 ensures surface consistency
+                      color: cs.surface,
                       child: selectedModuleIndex != null
                           ? ModuleContentView(
                               module: getContentModules()[selectedModuleIndex!],

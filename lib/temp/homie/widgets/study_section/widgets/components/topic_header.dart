@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/study_topic.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
+// ignore_for_file: deprecated_member_use
 class TopicHeader extends StatelessWidget {
   final StudyTopic topic;
   final VoidCallback onBackPressed;
@@ -20,12 +21,9 @@ class TopicHeader extends StatelessWidget {
       height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: cs.surface, // 🔹 background matches theme surface
+        color: cs.surface,
         border: Border(
-          bottom: BorderSide(
-            color: cs.outline.withOpacity(0.15), // 🔹 subtle divider
-            width: 1,
-          ),
+          bottom: BorderSide(color: cs.outline.withOpacity(0.15), width: 1),
         ),
       ),
       child: Row(
@@ -36,11 +34,7 @@ class TopicHeader extends StatelessWidget {
               width: 32,
               height: 32,
               alignment: Alignment.center,
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: cs.onSurface, // 🔹 adapts to theme
-                size: 18,
-              ),
+              child: Icon(Icons.arrow_back_ios, color: cs.onSurface, size: 18),
             ),
           ),
           const SizedBox(width: 20),
@@ -50,14 +44,12 @@ class TopicHeader extends StatelessWidget {
             children: [
               Text(
                 topic.title,
-                style: AppTextStyles.headerSmall.copyWith(
-                  color: cs.onSurface, // 🔹 title adapts
-                ),
+                style: AppTextStyles.headerSmall.copyWith(color: cs.onSurface),
               ),
               Text(
                 'Course Content',
                 style: AppTextStyles.subtitleSmall.copyWith(
-                  color: cs.onSurface.withOpacity(0.7), // 🔹 subtitle softer
+                  color: cs.onSurface.withOpacity(0.7),
                 ),
               ),
             ],

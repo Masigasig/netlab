@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'models/content_block.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
+// ignore_for_file: deprecated_member_use
 class ContentRenderer extends StatelessWidget {
   final List<ContentBlock> blocks;
 
@@ -13,11 +14,17 @@ class ContentRenderer extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: blocks.map((block) => _renderBlock(context, block, cs)).toList(),
+      children: blocks
+          .map((block) => _renderBlock(context, block, cs))
+          .toList(),
     );
   }
 
-  Widget _renderBlock(BuildContext context, ContentBlock block, ColorScheme cs) {
+  Widget _renderBlock(
+    BuildContext context,
+    ContentBlock block,
+    ColorScheme cs,
+  ) {
     switch (block.type) {
       case ContentBlockType.header:
         return _buildHeader(block, cs);
@@ -53,12 +60,17 @@ class ContentRenderer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
-        Text(block.title, style: AppTextStyles.headerMedium.copyWith(color: cs.onSurface)),
+        Text(
+          block.title,
+          style: AppTextStyles.headerMedium.copyWith(color: cs.onSurface),
+        ),
         if (block.content is String) ...[
           const SizedBox(height: 8),
           Text(
             block.content,
-            style: AppTextStyles.subtitleLarge.copyWith(color: cs.onSurface.withOpacity(0.7)),
+            style: AppTextStyles.subtitleLarge.copyWith(
+              color: cs.onSurface.withOpacity(0.7),
+            ),
           ),
         ],
       ],
@@ -90,7 +102,12 @@ class ContentRenderer extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('• ', style: AppTextStyles.bodyMedium.copyWith(color: cs.onSurface.withOpacity(0.9))),
+                    Text(
+                      '• ',
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: cs.onSurface.withOpacity(0.9),
+                      ),
+                    ),
                     Expanded(
                       child: Text(
                         item,
@@ -115,34 +132,34 @@ class ContentRenderer extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: items.asMap().entries.map(
-          (entry) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 24,
-                    child: Text(
-                      '${entry.key + 1}.',
-                      style: AppTextStyles.bodyLarge.copyWith(color: cs.onSurface.withOpacity(0.9)),
+        children: items.asMap().entries.map((entry) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 24,
+                  child: Text(
+                    '${entry.key + 1}.',
+                    style: AppTextStyles.bodyLarge.copyWith(
+                      color: cs.onSurface.withOpacity(0.9),
                     ),
                   ),
-                  Expanded(
-                    child: Text(
-                      entry.value,
-                      style: AppTextStyles.bodyLarge.copyWith(
-                        color: cs.onSurface.withOpacity(0.9),
-                        height: 1.6,
-                      ),
+                ),
+                Expanded(
+                  child: Text(
+                    entry.value,
+                    style: AppTextStyles.bodyLarge.copyWith(
+                      color: cs.onSurface.withOpacity(0.9),
+                      height: 1.6,
                     ),
                   ),
-                ],
-              ),
-            );
-          },
-        ).toList(),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
       ),
     );
   }
@@ -162,7 +179,9 @@ class ContentRenderer extends StatelessWidget {
           if (block.title.isNotEmpty) ...[
             Text(
               block.title,
-              style: AppTextStyles.subtitleMedium.copyWith(color: cs.onSurface.withOpacity(0.7)),
+              style: AppTextStyles.subtitleMedium.copyWith(
+                color: cs.onSurface.withOpacity(0.7),
+              ),
             ),
             const SizedBox(height: 8),
           ],
@@ -247,7 +266,12 @@ class ContentRenderer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(def['term']!, style: AppTextStyles.headerSmall.copyWith(color: cs.onSurface)),
+                    Text(
+                      def['term']!,
+                      style: AppTextStyles.headerSmall.copyWith(
+                        color: cs.onSurface,
+                      ),
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       def['definition']!,
@@ -311,7 +335,9 @@ class ContentRenderer extends StatelessWidget {
             dataTextStyle: AppTextStyles.bodyMedium.copyWith(
               color: cs.onSurface.withOpacity(0.9),
             ),
-            columns: headers.map((header) => DataColumn(label: Text(header))).toList(),
+            columns: headers
+                .map((header) => DataColumn(label: Text(header)))
+                .toList(),
             rows: rows
                 .map(
                   (row) => DataRow(

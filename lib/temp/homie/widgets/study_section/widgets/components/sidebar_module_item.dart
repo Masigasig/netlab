@@ -4,6 +4,7 @@ import 'package:netlab/temp/core/components/animations.dart';
 import 'module_type_helpers.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
+// ignore_for_file: deprecated_member_use
 class SidebarModuleItem extends StatelessWidget {
   final ContentModule module;
   final bool isSelected;
@@ -47,7 +48,9 @@ class SidebarModuleItem extends StatelessWidget {
             module.title,
             style: AppTextStyles.primaryCustom(
               fontSize: 13,
-              color: isSelected ? cs.onSurface.withOpacity(0.9): cs.onSurface.withOpacity(0.8),
+              color: isSelected
+                  ? cs.onSurface.withOpacity(0.9)
+                  : cs.onSurface.withOpacity(0.8),
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
             ),
             maxLines: 2,

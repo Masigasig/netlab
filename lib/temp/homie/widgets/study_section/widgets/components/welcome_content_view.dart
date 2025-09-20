@@ -3,6 +3,7 @@ import '../../models/study_topic.dart';
 import 'package:netlab/temp/core/components/animations.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
+// ignore_for_file: deprecated_member_use
 class WelcomeContentView extends StatelessWidget {
   final StudyTopic topic;
 
@@ -25,7 +26,7 @@ class WelcomeContentView extends StatelessWidget {
                 'Welcome to ${topic.title}',
                 style: AppTextStyles.headerMedium.copyWith(
                   fontSize: 26,
-                  color: cs.onSurface.withOpacity(0.9), // 🔹 adaptive text color
+                  color: cs.onSurface.withOpacity(0.9),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -41,7 +42,7 @@ class WelcomeContentView extends StatelessWidget {
                 topic.description,
                 style: AppTextStyles.bodyMedium.copyWith(
                   fontSize: 16,
-                  color: cs.onSurface.withOpacity(0.7), // 🔹 softer theme-based text
+                  color: cs.onSurface.withOpacity(0.7),
                   height: 1.6,
                 ),
                 textAlign: TextAlign.center,
@@ -60,11 +61,9 @@ class WelcomeContentView extends StatelessWidget {
                   vertical: 14,
                 ),
                 decoration: BoxDecoration(
-                  color: cs.surfaceContainerLow, // 🔹 themed background
+                  color: cs.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: cs.outline.withOpacity(0.15),
-                  ),
+                  border: Border.all(color: cs.outline.withOpacity(0.15)),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -73,7 +72,7 @@ class WelcomeContentView extends StatelessWidget {
                     AnimationPresets.iconSlide(
                       child: Icon(
                         Icons.arrow_back,
-                        color: cs.onSurfaceVariant, // 🔹 softer icon
+                        color: cs.onSurfaceVariant,
                         size: 18,
                       ),
                       delay: 800,
@@ -88,7 +87,7 @@ class WelcomeContentView extends StatelessWidget {
                         'Select a module from the sidebar to begin',
                         style: AppTextStyles.bodySmall.copyWith(
                           fontSize: 14,
-                          color: cs.onSurface.withOpacity(0.7), // 🔹 adaptive
+                          color: cs.onSurface.withOpacity(0.7),
                         ),
                       ),
                       delay: 900,

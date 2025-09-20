@@ -19,11 +19,11 @@ class _TopicCardState extends State<TopicCard> {
     return Card(
       margin: const EdgeInsets.fromLTRB(32, 0, 32, 24),
       elevation: 0,
-       // ignore: deprecated_member_use
+      // ignore: deprecated_member_use
       color: cs.surfaceContainerLow.withOpacity(0.7),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-         // ignore: deprecated_member_use
+        // ignore: deprecated_member_use
         side: BorderSide(color: cs.primary.withOpacity(0.1), width: 1),
       ),
       child: Padding(
@@ -43,7 +43,7 @@ class _TopicCardState extends State<TopicCard> {
                   decoration: BoxDecoration(
                     // border: Border.all(color: cs.surfaceContainerLow, width: 1),
                     borderRadius: BorderRadius.circular(20),
-                     // ignore: deprecated_member_use
+                    // ignore: deprecated_member_use
                     color: cs.primary.withOpacity(0.2),
                   ),
                   child: Text(
@@ -122,7 +122,7 @@ class _TopicCardState extends State<TopicCard> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                 // ignore: deprecated_member_use
+                // ignore: deprecated_member_use
                 color: cs.onSurface.withOpacity(0.7),
               ),
             ),
@@ -148,7 +148,7 @@ class _TopicCardState extends State<TopicCard> {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
-                 // ignore: deprecated_member_use
+                // ignore: deprecated_member_use
                 color: cs.onSurface.withOpacity(0.5),
               ),
             ),

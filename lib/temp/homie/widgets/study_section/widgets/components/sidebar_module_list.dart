@@ -3,6 +3,7 @@ import '../../models/study_topic.dart';
 import '../../models/content_module.dart';
 import 'package:netlab/temp/core/components/animations.dart';
 import 'sidebar_module_item.dart';
+// ignore_for_file: deprecated_member_use
 
 class SidebarModuleList extends StatelessWidget {
   final List<ContentModule> modules;
@@ -25,12 +26,9 @@ class SidebarModuleList extends StatelessWidget {
     return Container(
       width: 280,
       decoration: BoxDecoration(
-        color: cs.surface, // 🔹 background uses surface
+        color: cs.surface,
         border: Border(
-          right: BorderSide(
-            color: cs.outline.withOpacity(0.1),
-            width: 1,
-          ),
+          right: BorderSide(color: cs.outline.withOpacity(0.1), width: 1),
         ),
       ),
       child: Column(

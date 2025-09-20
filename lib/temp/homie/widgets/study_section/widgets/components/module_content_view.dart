@@ -5,6 +5,7 @@ import 'module_type_helpers.dart';
 import '../../topics/content/content_renderer.dart';
 import '../../topics/content/content_registry.dart';
 
+// ignore_for_file: deprecated_member_use
 class ModuleContentView extends StatelessWidget {
   final ContentModule module;
   final StudyTopic topic;
@@ -45,7 +46,7 @@ class ModuleContentView extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: cs.onSurface, // 🔹 adapts to theme
+                        color: cs.onSurface,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -63,7 +64,7 @@ class ModuleContentView extends StatelessWidget {
                           child: Text(
                             ModuleTypeHelpers.getTypeLabel(module.type),
                             style: TextStyle(
-                              color: cs.onPrimary, // 🔹 readable always
+                              color: cs.onPrimary,
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
                             ),
@@ -74,7 +75,7 @@ class ModuleContentView extends StatelessWidget {
                           '${module.duration} minutes',
                           style: TextStyle(
                             fontSize: 14,
-                            color: cs.onSurfaceVariant, // 🔹 softer
+                            color: cs.onSurfaceVariant,
                           ),
                         ),
                       ],
@@ -90,11 +91,9 @@ class ModuleContentView extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: cs.surfaceContainerLow, // 🔹 matches theme
+              color: cs.surfaceContainerLow,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: cs.outline.withOpacity(0.15), // 🔹 subtle border
-              ),
+              border: Border.all(color: cs.outline.withOpacity(0.15)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

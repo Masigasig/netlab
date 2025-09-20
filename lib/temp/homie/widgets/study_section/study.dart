@@ -135,120 +135,119 @@ class _StudyScreenState extends State<StudyScreen> {
   }
 
   Widget _buildQuickStats(BuildContext context) {
-  final cs = Theme.of(context).colorScheme;
+    final cs = Theme.of(context).colorScheme;
 
-  int totalTopics = topics.length;
-  int completedTopics = topics.where((t) => t.isCompleted).length;
-  int totalReadTime = topics.fold(
-    0,
-    (sum, topic) => sum + int.parse(topic.readTime.split(' ')[0]),
-  );
+    int totalTopics = topics.length;
+    int completedTopics = topics.where((t) => t.isCompleted).length;
+    int totalReadTime = topics.fold(
+      0,
+      (sum, topic) => sum + int.parse(topic.readTime.split(' ')[0]),
+    );
 
-  return Row(
-    children: [
-      // Progress Card
-      Expanded(
-        child: Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: cs.primary,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: cs.primary.withOpacity(0.15),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Progress',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: cs.onPrimary, // ✅ matches primary background
+    return Row(
+      children: [
+        // Progress Card
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: cs.primary,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: cs.primary.withOpacity(0.15),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '$completedTopics of $totalTopics',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  color: cs.onPrimary, // ✅ adaptive
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Progress',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: cs.onPrimary, // ✅ matches primary background
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'topics completed',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onPrimary.withOpacity(0.9), // ✅ adaptive
+                const SizedBox(height: 8),
+                Text(
+                  '$completedTopics of $totalTopics',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: cs.onPrimary, // ✅ adaptive
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
-
-      const SizedBox(width: 16),
-
-      // Study Time Card
-      Expanded(
-        child: Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: cs.secondary,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: cs.shadow.withOpacity(0.15),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Study Time',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: cs.onSecondary, // ✅ matches secondary background
+                const SizedBox(height: 4),
+                Text(
+                  'topics completed',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: cs.onPrimary.withOpacity(0.9), // ✅ adaptive
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '$totalReadTime min',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  color: cs.onSecondary, // ✅ adaptive
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'total content',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: cs.onSecondary.withOpacity(0.9), // ✅ adaptive
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    ],
-  );
-}
 
+        const SizedBox(width: 16),
+
+        // Study Time Card
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: cs.secondary,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: cs.shadow.withOpacity(0.15),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Study Time',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: cs.onSecondary, // ✅ matches secondary background
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '$totalReadTime min',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: cs.onSecondary, // ✅ adaptive
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'total content',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: cs.onSecondary.withOpacity(0.9), // ✅ adaptive
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   void _navigateToTopicContent(BuildContext context, StudyTopic topic) {
     Widget contentScreen;
