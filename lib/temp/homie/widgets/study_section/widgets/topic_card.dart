@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/study_topic.dart';
+import 'package:netlab/core/components/app_theme.dart';
 
 class TopicCard extends StatefulWidget {
   final StudyTopic topic;
@@ -158,17 +159,13 @@ class _TopicCardState extends State<TopicCard> {
             // Start button (right aligned)
             Align(
               alignment: Alignment.centerRight,
-              child: ElevatedButton(
+              child: OutlinedButton(
                 onPressed: widget.onTap,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: cs.primaryContainer,
-                  foregroundColor: cs.onPrimaryContainer,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 28,
-                    vertical: 16,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
+                style: AppButtonStyles.opacityButton(context).copyWith(
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
                   ),
                 ),
                 child: Text(
@@ -178,8 +175,8 @@ class _TopicCardState extends State<TopicCard> {
                       ? 'Continue'
                       : 'Start',
                   style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),

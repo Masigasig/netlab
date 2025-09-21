@@ -85,7 +85,7 @@ class _StudyScreenState extends State<StudyScreen> {
               // Hero Header
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(32, 80, 32, 60),
+                padding: const EdgeInsets.fromLTRB(32, 32, 32, 32),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -126,7 +126,7 @@ class _StudyScreenState extends State<StudyScreen> {
                 ),
               ),
 
-              const SizedBox(height: 100),
+              const SizedBox(height: 10),
             ],
           ),
         ),
@@ -206,7 +206,7 @@ class _StudyScreenState extends State<StudyScreen> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: cs.shadow.withOpacity(0.15),
+                  color: cs.secondary.withOpacity(0.15),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),

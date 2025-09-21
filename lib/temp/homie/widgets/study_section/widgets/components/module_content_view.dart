@@ -91,7 +91,7 @@ class ModuleContentView extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: cs.surfaceContainerLow,
+              color: cs.surfaceContainerLow.withAlpha(100),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: cs.outline.withOpacity(0.15)),
             ),

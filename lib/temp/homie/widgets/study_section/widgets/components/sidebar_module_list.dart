@@ -26,7 +26,7 @@ class SidebarModuleList extends StatelessWidget {
     return Container(
       width: 280,
       decoration: BoxDecoration(
-        color: cs.surface,
+        color: cs.surfaceContainerLow.withAlpha(100),
         border: Border(
           right: BorderSide(color: cs.outline.withOpacity(0.1), width: 1),
         ),
