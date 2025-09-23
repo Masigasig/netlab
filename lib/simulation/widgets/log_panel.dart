@@ -132,7 +132,7 @@ class _DeviceLogState extends ConsumerState<_DeviceLog> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Text(
-                        log,
+                        log.message,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontFamily: 'monospace',
@@ -238,7 +238,7 @@ class _SystemLogState extends ConsumerState<_SystemLog> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Text(
-                        log,
+                        log.message,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontFamily: 'monospace',

@@ -1,22 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:netlab/simulation/model/log_entry.dart';
 
 final simObjectLogProvider =
-    NotifierProvider.family<SimObjectLogNotifier, List<String>, String>(
+    NotifierProvider.family<SimObjectLogNotifier, List<LogEntry>, String>(
       SimObjectLogNotifier.new,
     );
 
-final systemLogProvider = NotifierProvider<SystemLogNotifier, List<String>>(
+final systemLogProvider = NotifierProvider<SystemLogNotifier, List<LogEntry>>(
   SystemLogNotifier.new,
 );
 
-class SimObjectLogNotifier extends Notifier<List<String>> {
+class SimObjectLogNotifier extends Notifier<List<LogEntry>> {
   final String simObjId;
   SimObjectLogNotifier(this.simObjId);
 
   final List<String> _logs = [];
 
   @override
-  List<String> build() {
+  List<LogEntry> build() {
     ref.onDispose(() {
       _logs.clear();
     });
@@ -34,11 +35,11 @@ class SimObjectLogNotifier extends Notifier<List<String>> {
   }
 }
 
-class SystemLogNotifier extends Notifier<List<String>> {
+class SystemLogNotifier extends Notifier<List<LogEntry>> {
   final List<String> _logs = [];
 
   @override
-  List<String> build() {
+  List<LogEntry> build() {
     ref.onDispose(() {
       _logs.clear();
     });
