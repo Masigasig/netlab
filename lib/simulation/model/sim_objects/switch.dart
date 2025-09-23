@@ -1,16 +1,16 @@
 part of 'sim_object.dart';
 
-class Host extends Device {
-  const Host({
+class Switch extends Device {
+  Switch({
     required super.id,
     required super.name,
     required super.posX,
     required super.posY,
-  }) : super(type: SimObjectType.host);
+  }) : super(type: SimObjectType.switch_);
 
   @override
-  Host copyWith({String? name, double? posX, double? posY}) {
-    return Host(
+  Switch copyWith({String? name, double? posX, double? posY}) {
+    return Switch(
       id: id,
       name: name ?? this.name,
       posX: posX ?? this.posX,
@@ -23,8 +23,8 @@ class Host extends Device {
     return {...super.toMap()};
   }
 
-  factory Host.fromMap(Map<String, dynamic> map) {
-    return Host(
+  factory Switch.fromMap(Map<String, dynamic> map) {
+    return Switch(
       id: map['id'].toString(),
       name: map['name'].toString(),
       posX: map['posX'].toDouble(),
