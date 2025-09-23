@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:netlab/simulation/model/sim_screen.dart';
+import 'package:netlab/simulation/provider/sim_clock.dart';
 
 final simScreenProvider = NotifierProvider<SimScreenNotifier, SimScreen>(
   SimScreenNotifier.new,
@@ -12,6 +14,8 @@ class SimScreenNotifier extends Notifier<SimScreen> {
   }
 
   void playSimulation() {
+    ref.read(simClockProvider.notifier).start();
+
     state = state.copyWith(
       isPlaying: true,
       isDevicePanelOpen: false,
@@ -24,6 +28,8 @@ class SimScreenNotifier extends Notifier<SimScreen> {
   }
 
   void stopSimulation() {
+    ref.read(simClockProvider.notifier).reset();
+
     state = state.copyWith(isPlaying: false);
   }
 
