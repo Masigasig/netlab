@@ -8,6 +8,7 @@ import 'topics/routing_switching_content.dart';
 import 'topics/network_devices.dart';
 import 'widgets/default_topic_content.dart';
 import 'topics/arp.dart';
+import 'package:netlab/core/components/app_theme.dart';
 
 class StudyScreen extends StatefulWidget {
   const StudyScreen({super.key});
@@ -135,8 +136,6 @@ class _StudyScreenState extends State<StudyScreen> {
   }
 
   Widget _buildQuickStats(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
     int totalTopics = topics.length;
     int completedTopics = topics.where((t) => t.isCompleted).length;
     int totalReadTime = topics.fold(
@@ -148,50 +147,12 @@ class _StudyScreenState extends State<StudyScreen> {
       children: [
         // Progress Card
         Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: cs.primary,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: cs.primary.withOpacity(0.15),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Progress',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: cs.onPrimary, // ✅ matches primary background
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '$completedTopics of $totalTopics',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: cs.onPrimary, // ✅ adaptive
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'topics completed',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: cs.onPrimary.withOpacity(0.9), // ✅ adaptive
-                  ),
-                ),
-              ],
-            ),
+          child: AppStyles.statsCard(
+            context: context,
+            title: 'Progress',
+            value: '$completedTopics of $totalTopics',
+            subtitle: 'topics completed',
+            isPrimary: true,
           ),
         ),
 
@@ -199,50 +160,12 @@ class _StudyScreenState extends State<StudyScreen> {
 
         // Study Time Card
         Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: cs.secondary,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: cs.secondary.withOpacity(0.15),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Study Time',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: cs.onSecondary, // ✅ matches secondary background
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '$totalReadTime min',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: cs.onSecondary, // ✅ adaptive
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'total content',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: cs.onSecondary.withOpacity(0.9), // ✅ adaptive
-                  ),
-                ),
-              ],
-            ),
+          child: AppStyles.statsCard(
+            context: context,
+            title: 'Study Time',
+            value: '$totalReadTime min',
+            subtitle: 'total content',
+            isPrimary: false,
           ),
         ),
       ],

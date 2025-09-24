@@ -5,6 +5,7 @@ import 'button_style.dart';
 
 export 'app_color.dart';
 export 'button_style.dart';
+export 'app_styles.dart';
 
 class AppThemes {
   static ThemeData get lightTheme => ThemeData(

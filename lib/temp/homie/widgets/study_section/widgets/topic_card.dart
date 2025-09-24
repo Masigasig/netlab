@@ -17,173 +17,150 @@ class _TopicCardState extends State<TopicCard> {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
-    return Card(
-      margin: const EdgeInsets.fromLTRB(32, 0, 32, 24),
-      elevation: 0,
-      // ignore: deprecated_member_use
-      color: cs.surfaceContainerLow.withOpacity(0.7),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        // ignore: deprecated_member_use
-        side: BorderSide(color: cs.primary.withOpacity(0.1), width: 1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Lessons count + Progress
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    // border: Border.all(color: cs.surfaceContainerLow, width: 1),
-                    borderRadius: BorderRadius.circular(20),
-                    // ignore: deprecated_member_use
-                    color: cs.primary.withOpacity(0.2),
-                  ),
-                  child: Text(
-                    '${widget.topic.lessonCount} lessons',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: cs.primary,
-                    ),
-                  ),
-                ),
-
-                // Progress / Completion
-                if (widget.topic.isCompleted)
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: cs.secondaryContainer,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        // ignore: deprecated_member_use
-                        color: cs.secondaryContainer.withOpacity(0.5),
-                        width: 1,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.check,
-                      size: 16,
-                      color: cs.onSecondaryContainer,
-                    ),
-                  )
-                else if (widget.topic.progress > 0)
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: CircularProgressIndicator(
-                          value: widget.topic.progress / 100,
-                          strokeWidth: 3,
-                          backgroundColor: cs.surfaceContainerLowest,
-                          valueColor: AlwaysStoppedAnimation<Color>(cs.primary),
-                        ),
-                      ),
-                      Text(
-                        '${widget.topic.progress.round()}%',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          color: cs.onSurface,
-                        ),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            // Title
-            Text(
-              widget.topic.title,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: cs.onSurface,
+    return Container(
+      margin: AppStyles.cardMargin,
+      padding: AppStyles.cardPadding,
+      decoration: AppStyles.surfaceCard(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Lessons count + Progress
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Lessons count chipbadge
+              AppStyles.chipBadge(
+                context: context,
+                text: '${widget.topic.lessonCount} lessons',
+                icon: Icons.book_outlined,
               ),
+
+              _buildProgressIndicator(),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+
+          // Title
+          Text(
+            widget.topic.title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: cs.onSurface,
             ),
+          ),
 
-            const SizedBox(height: 8),
+          const SizedBox(height: 8),
 
-            // Subtitle
-            Text(
-              widget.topic.subtitle,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                // ignore: deprecated_member_use
-                color: cs.onSurface.withOpacity(0.7),
-              ),
+          // Subtitle
+          Text(
+            widget.topic.subtitle,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: cs.onSurface.withAlpha(179),
             ),
+          ),
 
-            const SizedBox(height: 16),
+          const SizedBox(height: 16),
 
-            // Description
-            Text(
-              widget.topic.description,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                // ignore: deprecated_member_use
-                color: cs.onSurface.withOpacity(0.5),
-              ),
+          // Description
+          Text(
+            widget.topic.description,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+              color: cs.onSurface.withAlpha(128),
             ),
+          ),
 
-            const SizedBox(height: 20),
+          const SizedBox(height: 20),
 
-            // Metadata row
-            Text(
-              widget.topic.readTime,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                // ignore: deprecated_member_use
-                color: cs.onSurface.withOpacity(0.5),
-              ),
+          // Metadata row
+          Text(
+            widget.topic.readTime,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: cs.onSurface.withAlpha(128),
             ),
+          ),
 
-            const SizedBox(height: 24),
+          const SizedBox(height: 24),
 
-            // Start button (right aligned)
-            Align(
-              alignment: Alignment.centerRight,
-              child: OutlinedButton(
-                onPressed: widget.onTap,
-                style: AppButtonStyles.opacityButton(context).copyWith(
-                  shape: WidgetStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32),
-                    ),
-                  ),
-                ),
-                child: Text(
-                  widget.topic.isCompleted
-                      ? 'Review'
-                      : widget.topic.progress > 0
-                      ? 'Continue'
-                      : 'Start',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
+          // Start button (right aligned)
+          Align(
+            alignment: Alignment.centerRight,
+            child: OutlinedButton(
+              onPressed: widget.onTap,
+              style: AppButtonStyles.opacityButton(context).copyWith(
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32),
                   ),
                 ),
               ),
+              child: Text(
+                widget.topic.isCompleted
+                    ? 'Review'
+                    : widget.topic.progress > 0
+                    ? 'Continue'
+                    : 'Start',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _buildProgressIndicator() {
+    final cs = Theme.of(context).colorScheme;
+
+    if (widget.topic.isCompleted) {
+      // Completed badge
+      return AppStyles.badge(
+        context: context,
+        text: '',
+        type: BadgeType.secondary,
+        icon: Icon(
+          Icons.check,
+          size: 16,
+          color: cs.onSecondaryContainer,
+        ),
+      );
+    } else if (widget.topic.progress > 0) {
+      // Progress indicator
+      return Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(
+            width: 40,
+            height: 40,
+            child: CircularProgressIndicator(
+              value: widget.topic.progress / 100,
+              strokeWidth: 3,
+              backgroundColor: cs.surfaceContainerLowest,
+              valueColor: AlwaysStoppedAnimation<Color>(cs.primary),
+            ),
+          ),
+          Text(
+            '${widget.topic.progress.round()}%',
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+              color: cs.onSurface,
+            ),
+          ),
+        ],
+      );
+    }
+    
+    return const SizedBox.shrink();
   }
 }
