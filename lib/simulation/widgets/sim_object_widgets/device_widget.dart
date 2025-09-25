@@ -68,7 +68,9 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
     );
   }
 
-  void _handleTap() {}
+  void _handleTap() {
+    //* TODO: hanleTap on Device
+  }
 
   void _updatePosition(DragUpdateDetails details, double posX, double posY) {
     final renderBox = context.findRenderObject() as RenderBox;
