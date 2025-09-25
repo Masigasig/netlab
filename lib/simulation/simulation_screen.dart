@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 import 'package:netlab/core/routing/go_router.dart';
-import 'package:netlab/simulation/model/sim_objects/sim_object.dart'
-    show SimObjectType;
+
+import 'package:netlab/simulation/core/sim_object_type.dart';
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/simulation/widgets/control_button.dart';
 import 'package:netlab/simulation/widgets/device_panel.dart';

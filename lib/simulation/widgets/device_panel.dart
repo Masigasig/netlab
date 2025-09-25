@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/core/constants/app_image.dart';
-import 'package:netlab/simulation/model/sim_objects/sim_object.dart'
-    show SimObjectType, Label;
+import 'package:netlab/simulation/core/sim_object_type.dart';
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 
 class DevicePanel extends ConsumerWidget {
