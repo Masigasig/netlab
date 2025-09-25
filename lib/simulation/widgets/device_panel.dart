@@ -81,10 +81,10 @@ class _DeviceSpawner extends ConsumerWidget {
           data: type,
           dragAnchorStrategy: pointerDragAnchorStrategy,
           feedback: Transform.translate(
-            offset: Offset(-size / 2, -size / 2),
+            offset: Offset(-size / 2 - 15, -size / 2 - 15),
             child: SizedBox(
-              width: size + 20, //? enlarge effect so it looks they're above
-              height: size + 20,
+              width: size + 30, //? enlarge effect so it looks they're above
+              height: size + 30,
               child: Image.asset(imagePath, fit: BoxFit.contain),
             ),
           ),

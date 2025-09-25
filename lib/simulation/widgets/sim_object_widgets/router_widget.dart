@@ -8,4 +8,8 @@ class RouterWidget extends DeviceWidget {
   ConsumerState<RouterWidget> createState() => _RouterWidgetState();
 }
 
-class _RouterWidgetState extends _DeviceWidgetState<RouterWidget> {}
+class _RouterWidgetState extends _DeviceWidgetState<RouterWidget> {
+  @override
+  NotifierProviderFamily<RouterNotifier, Router, String> get provider =>
+      routerProvider;
+}

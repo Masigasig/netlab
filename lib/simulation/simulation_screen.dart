@@ -5,7 +5,6 @@ import 'package:vector_math/vector_math_64.dart' show Vector3, Vector4;
 import 'package:netlab/core/routing/go_router.dart';
 
 import 'package:netlab/simulation/core/sim_object_type.dart';
-import 'package:netlab/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/simulation/widgets/control_button.dart';
 import 'package:netlab/simulation/widgets/device_panel.dart';
@@ -92,26 +91,11 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                       ),
                     ),
 
-                    SimObjectWidgetStack(
-                      type: SimObjectType.connection,
-                      provider: connectionWidgetsProvider,
-                    ),
-                    SimObjectWidgetStack(
-                      type: SimObjectType.host,
-                      provider: hostWidgetsProvider,
-                    ),
-                    SimObjectWidgetStack(
-                      type: SimObjectType.switch_,
-                      provider: switchWidgetsProvider,
-                    ),
-                    SimObjectWidgetStack(
-                      type: SimObjectType.router,
-                      provider: routerWidgetsProvider,
-                    ),
-                    SimObjectWidgetStack(
-                      type: SimObjectType.message,
-                      provider: messageWidgetsProvider,
-                    ),
+                    const SimObjectWidgetStack(type: SimObjectType.connection),
+                    const SimObjectWidgetStack(type: SimObjectType.host),
+                    const SimObjectWidgetStack(type: SimObjectType.switch_),
+                    const SimObjectWidgetStack(type: SimObjectType.router),
+                    const SimObjectWidgetStack(type: SimObjectType.message),
                   ],
                 ),
               );

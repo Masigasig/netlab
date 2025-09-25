@@ -8,4 +8,8 @@ class SwitchWidget extends DeviceWidget {
   ConsumerState<SwitchWidget> createState() => _SwitchWidgetState();
 }
 
-class _SwitchWidgetState extends _DeviceWidgetState<SwitchWidget> {}
+class _SwitchWidgetState extends _DeviceWidgetState<SwitchWidget> {
+  @override
+  NotifierProviderFamily<SwitchNotifier, Switch, String> get provider =>
+      switchProvider;
+}
