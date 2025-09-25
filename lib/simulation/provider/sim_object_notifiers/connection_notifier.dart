@@ -10,7 +10,7 @@ final connectionMapProvider =
       ConnectionMapNotifier.new,
     );
 
-final connectionWidgetProvider =
+final connectionWidgetsProvider =
     NotifierProvider<ConnectionWidgetsNotifier, Map<String, ConnectionWidget>>(
       ConnectionWidgetsNotifier.new,
     );

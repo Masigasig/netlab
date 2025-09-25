@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vector_math/vector_math_64.dart' show Vector3;
+import 'package:vector_math/vector_math_64.dart' show Vector3, Vector4;
 
 import 'package:netlab/core/routing/go_router.dart';
 
 import 'package:netlab/simulation/core/sim_object_type.dart';
+import 'package:netlab/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/simulation/widgets/control_button.dart';
 import 'package:netlab/simulation/widgets/device_panel.dart';
 import 'package:netlab/simulation/widgets/grid_painter.dart';
 import 'package:netlab/simulation/widgets/log_panel.dart';
 import 'package:netlab/simulation/widgets/loop_animator.dart';
+import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 
 class SimulationScreen extends ConsumerStatefulWidget {
   static const canvasSize = Size(100_000.0, 100_000.0);
@@ -89,11 +91,32 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                         colorScheme: Theme.of(context).colorScheme,
                       ),
                     ),
+
+                    SimObjectWidgetStack(
+                      type: SimObjectType.connection,
+                      provider: connectionWidgetsProvider,
+                    ),
+                    SimObjectWidgetStack(
+                      type: SimObjectType.host,
+                      provider: hostWidgetsProvider,
+                    ),
+                    SimObjectWidgetStack(
+                      type: SimObjectType.switch_,
+                      provider: switchWidgetsProvider,
+                    ),
+                    SimObjectWidgetStack(
+                      type: SimObjectType.router,
+                      provider: routerWidgetsProvider,
+                    ),
+                    SimObjectWidgetStack(
+                      type: SimObjectType.message,
+                      provider: messageWidgetsProvider,
+                    ),
                   ],
                 ),
               );
             },
-            onAcceptWithDetails: (details) => {},
+            onAcceptWithDetails: (details) => _createDevice(details),
           ),
 
           const LogPanel(),
@@ -156,6 +179,18 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     _animationController
       ..addListener(() => _transformationController.value = animation.value)
       ..forward(from: 0);
+  }
+
+  void _createDevice(DragTargetDetails details) {
+    final Matrix4 inverse = Matrix4.copy(_transformationController.value)
+      ..invert();
+    final Vector4 pos = inverse.transform(
+      Vector4(details.offset.dx, details.offset.dy, 0, 1),
+    );
+
+    ref
+        .read(simScreenProvider.notifier)
+        .createDevice(type: details.data, posX: pos.x, posY: pos.y);
   }
 
   void _loadSimulation() {

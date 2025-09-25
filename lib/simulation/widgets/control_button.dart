@@ -199,24 +199,15 @@ class _DisabledWhenPlayingButton extends ConsumerWidget {
     debugPrint('DisabledWhenPlayingButton Rebuilt');
     final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
 
-    return _ControlButton(
-      icon: icon,
-      onPressed: isPlaying ? null : onPressed,
-      isDisabled: isPlaying,
-    );
+    return _ControlButton(icon: icon, onPressed: isPlaying ? null : onPressed);
   }
 }
 
 class _ControlButton extends StatelessWidget {
   final Widget icon;
   final VoidCallback? onPressed;
-  final bool isDisabled;
 
-  const _ControlButton({
-    required this.icon,
-    required this.onPressed,
-    this.isDisabled = false,
-  });
+  const _ControlButton({required this.icon, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -225,11 +216,9 @@ class _ControlButton extends StatelessWidget {
       height: 40,
       width: 40,
       child: ElevatedButton(
-        onPressed: isDisabled ? null : onPressed,
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isDisabled
-              ? Colors.grey.shade400
-              : Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

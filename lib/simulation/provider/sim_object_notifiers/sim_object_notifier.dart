@@ -18,10 +18,15 @@ abstract class SimObjectMapNotifier<T extends SimObject>
     extends Notifier<Map<String, T>> {
   @override
   Map<String, T> build() => {};
+
+  void addSimObject(T simObject) => state = {...state, simObject.id: simObject};
 }
 
 abstract class SimObjectWidgetsNotifier<T extends SimObjectWidget>
     extends Notifier<Map<String, T>> {
   @override
   Map<String, T> build() => {};
+
+  void addSimObjectWidget(T simObjectWidget) =>
+      state = {...state, simObjectWidget.simObjectId: simObjectWidget};
 }

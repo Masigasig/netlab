@@ -1,15 +1,27 @@
+import 'package:ulid/ulid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:netlab/simulation/core/sim_object_type.dart';
+import 'package:netlab/simulation/model/sim_objects/sim_object.dart';
 import 'package:netlab/simulation/model/sim_screen.dart';
 import 'package:netlab/simulation/provider/sim_clock.dart';
+import 'package:netlab/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
+import 'package:netlab/simulation/widgets/sim_object_widgets/sim_object_widget.dart';
 
 final simScreenProvider = NotifierProvider<SimScreenNotifier, SimScreen>(
   SimScreenNotifier.new,
 );
 
 class SimScreenNotifier extends Notifier<SimScreen> {
+  final Map<SimObjectType, int> _typeCounters = {};
+  final List<Map<String, String>> _selectedDevices = [];
+
   @override
   SimScreen build() {
+    ref.onDispose(() {
+      _typeCounters.clear();
+      _selectedDevices.clear();
+    });
     return const SimScreen();
   }
 
@@ -55,5 +67,114 @@ class SimScreenNotifier extends Notifier<SimScreen> {
 
   void toggleMessageMode() {
     state = state.copyWith(isMessageModeOn: !state.isMessageModeOn);
+  }
+
+  void createDevice({
+    required SimObjectType type,
+    required double posX,
+    required double posY,
+  }) {
+    final name = '${type.label} ${_getNextCounter(type)}';
+
+    final device = type.createSimObject(name: name, posX: posX, posY: posY);
+
+    final deviceWidget = type.createSimObjectWidget(device.id);
+
+    _addSimObjectAndWidgetToProvider(type, device, deviceWidget);
+  }
+
+  int _getNextCounter(SimObjectType type) {
+    _typeCounters[type] = (_typeCounters[type] ?? 0) + 1;
+    return _typeCounters[type]!;
+  }
+
+  void _addSimObjectAndWidgetToProvider(
+    SimObjectType type,
+    SimObject object,
+    SimObjectWidget widget,
+  ) {
+    switch (type) {
+      case SimObjectType.connection:
+        ref
+            .read(connectionMapProvider.notifier)
+            .addSimObject(object as Connection);
+        ref
+            .read(connectionWidgetsProvider.notifier)
+            .addSimObjectWidget(widget as ConnectionWidget);
+      case SimObjectType.host:
+        ref.read(hostMapProvider.notifier).addSimObject(object as Host);
+        ref
+            .read(hostWidgetsProvider.notifier)
+            .addSimObjectWidget(widget as HostWidget);
+      case SimObjectType.message:
+        ref.read(messageMapProvider.notifier).addSimObject(object as Message);
+        ref
+            .read(messageWidgetsProvider.notifier)
+            .addSimObjectWidget(widget as MessageWidget);
+      case SimObjectType.router:
+        ref.read(routerMapProvider.notifier).addSimObject(object as Router);
+        ref
+            .read(routerWidgetsProvider.notifier)
+            .addSimObjectWidget(widget as RouterWidget);
+      case SimObjectType.switch_:
+        ref.read(switchMapProvider.notifier).addSimObject(object as Switch);
+        ref
+            .read(switchWidgetsProvider.notifier)
+            .addSimObjectWidget(widget as SwitchWidget);
+    }
+  }
+}
+
+extension SimObjectCreation on SimObjectType {
+  String generatePrefixedId() => '${label}_${Ulid().toUuid()}';
+
+  SimObjectWidget createSimObjectWidget(String simObjectId) {
+    return switch (this) {
+      SimObjectType.connection => ConnectionWidget(simObjectId: simObjectId),
+      SimObjectType.host => HostWidget(simObjectId: simObjectId),
+      SimObjectType.message => MessageWidget(simObjectId: simObjectId),
+      SimObjectType.router => RouterWidget(simObjectId: simObjectId),
+      SimObjectType.switch_ => SwitchWidget(simObjectId: simObjectId),
+    };
+  }
+
+  SimObject createSimObject({
+    required String name,
+    double posX = 0,
+    double posY = 0,
+    String conAId = '',
+    String conBId = '',
+    String srcId = '',
+    String dstId = '',
+  }) {
+    final id = generatePrefixedId();
+
+    return switch (this) {
+      SimObjectType.connection => Connection(
+        id: id,
+        name: name,
+        conAId: conAId,
+        conBId: conBId,
+      ),
+      SimObjectType.host => Host(id: id, name: name, posX: posX, posY: posY),
+      SimObjectType.message => Message(
+        id: id,
+        name: name,
+        srcId: srcId,
+        dstId: dstId,
+      ),
+      SimObjectType.router => Router(
+        id: id,
+        name: name,
+        posX: posX,
+        posY: posY,
+      ),
+      SimObjectType.switch_ => Switch(
+        id: id,
+        name: name,
+        posX: posX,
+        posY: posY,
+      ),
+    };
   }
 }
