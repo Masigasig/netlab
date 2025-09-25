@@ -128,11 +128,7 @@ class _TopicCardState extends State<TopicCard> {
         context: context,
         text: '',
         type: BadgeType.secondary,
-        icon: Icon(
-          Icons.check,
-          size: 16,
-          color: cs.onSecondaryContainer,
-        ),
+        icon: Icon(Icons.check, size: 16, color: cs.onSecondaryContainer),
       );
     } else if (widget.topic.progress > 0) {
       // Progress indicator
@@ -160,7 +156,7 @@ class _TopicCardState extends State<TopicCard> {
         ],
       );
     }
-    
+
     return const SizedBox.shrink();
   }
 }

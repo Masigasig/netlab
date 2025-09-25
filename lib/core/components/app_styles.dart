@@ -2,21 +2,26 @@ import 'package:flutter/material.dart';
 import 'app_color.dart';
 
 class AppStyles {
-
   // MARK: - Standard Spacing & Dimensions
-  
+
   static const double cardRadius = 16.0;
   static const double badgeRadius = 20.0;
   static const double chipRadius = 24.0;
-  
+
   static const EdgeInsets cardPadding = EdgeInsets.all(24);
   static const EdgeInsets cardMargin = EdgeInsets.fromLTRB(32, 0, 32, 24);
-  static const EdgeInsets badgePadding = EdgeInsets.symmetric(horizontal: 12, vertical: 6);
+  static const EdgeInsets badgePadding = EdgeInsets.symmetric(
+    horizontal: 12,
+    vertical: 6,
+  );
   static const EdgeInsets iconBadgePadding = EdgeInsets.all(8);
-  static const EdgeInsets chipPadding = EdgeInsets.symmetric(horizontal: 12, vertical: 8);
+  static const EdgeInsets chipPadding = EdgeInsets.symmetric(
+    horizontal: 12,
+    vertical: 8,
+  );
 
   // MARK: - Primary Card Decorations
-  
+
   /// Primary colored card (for stats, highlights)
   static BoxDecoration primaryCard(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -107,15 +112,12 @@ class AppStyles {
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: isDark 
-          ? [
-              cs.primary.withAlpha(204), // 80% opacity
-              cs.secondary.withAlpha(153), // 60% opacity
-            ]
-          : [
-              cs.primary,
-              cs.secondary,
-            ],
+        colors: isDark
+            ? [
+                cs.primary.withAlpha(204), // 80% opacity
+                cs.secondary.withAlpha(153), // 60% opacity
+              ]
+            : [cs.primary, cs.secondary],
       ),
       boxShadow: [
         BoxShadow(
@@ -255,12 +257,7 @@ class AppStyles {
     final cs = Theme.of(context).colorScheme;
     return BoxDecoration(
       borderRadius: BorderRadius.circular(badgeRadius),
-      gradient: LinearGradient(
-        colors: [
-          cs.primary,
-          cs.secondary,
-        ],
-      ),
+      gradient: LinearGradient(colors: [cs.primary, cs.secondary]),
     );
   }
 
@@ -275,7 +272,9 @@ class AppStyles {
     bool isPrimary = true,
   }) {
     final cs = Theme.of(context).colorScheme;
-    final decoration = isPrimary ? primaryCard(context) : secondaryCard(context);
+    final decoration = isPrimary
+        ? primaryCard(context)
+        : secondaryCard(context);
     final textColor = isPrimary ? cs.onPrimary : cs.onSecondary;
 
     return Container(
@@ -323,7 +322,7 @@ class AppStyles {
     Widget? icon,
   }) {
     final cs = Theme.of(context).colorScheme;
-    
+
     BoxDecoration decoration;
     Color textColor;
     EdgeInsets padding;
@@ -359,14 +358,16 @@ class AppStyles {
     return Container(
       padding: padding,
       decoration: decoration,
-      child: icon ?? Text(
-        text,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-          color: textColor,
-        ),
-      ),
+      child:
+          icon ??
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: textColor,
+            ),
+          ),
     );
   }
 
@@ -382,19 +383,12 @@ class AppStyles {
       decoration: BoxDecoration(
         color: cs.surfaceContainerLow,
         borderRadius: BorderRadius.circular(chipRadius),
-        border: Border.all(
-          color: cs.primary.withAlpha(51),
-          width: 1,
-        ),
+        border: Border.all(color: cs.primary.withAlpha(51), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 16,
-            color: cs.primary,
-          ),
+          Icon(icon, size: 16, color: cs.primary),
           const SizedBox(width: 6),
           Text(
             text,
@@ -413,8 +407,8 @@ class AppStyles {
 
   /// Get text color for given background color
   static Color getTextColorForBackground(Color backgroundColor) {
-    return backgroundColor.computeLuminance() > 0.5 
-        ? Colors.black87 
+    return backgroundColor.computeLuminance() > 0.5
+        ? Colors.black87
         : Colors.white;
   }
 
@@ -422,7 +416,7 @@ class AppStyles {
   static List<BoxShadow> getElevationShadow(BuildContext context, int level) {
     final cs = Theme.of(context).colorScheme;
     final shadowColor = cs.onSurface.withAlpha(26); // 10% opacity
-    
+
     switch (level) {
       case 1:
         return [
@@ -456,9 +450,9 @@ class AppStyles {
 
 /// Badge types for different use cases
 enum BadgeType {
-  primary,    // For main actions, counts
-  secondary,  // For status indicators
-  success,    // For completion states
-  warning,    // For alerts, reminders
-  premium,    // For premium features -- this is gradient
+  primary, // For main actions, counts
+  secondary, // For status indicators
+  success, // For completion states
+  warning, // For alerts, reminders
+  premium, // For premium features -- this is gradient
 }
