@@ -1,4 +1,4 @@
-import 'package:netlab/simulation/core/sim_object_type.dart';
+import 'package:netlab/simulation/core/enums.dart';
 
 part 'connection.dart';
 part 'host.dart';

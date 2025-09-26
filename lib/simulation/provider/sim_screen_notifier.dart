@@ -1,7 +1,7 @@
 import 'package:ulid/ulid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:netlab/simulation/core/sim_object_type.dart';
+import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/core/mac_address_manager.dart';
 import 'package:netlab/simulation/model/sim_objects/sim_object.dart';
 import 'package:netlab/simulation/model/sim_screen.dart';
@@ -95,16 +95,15 @@ class SimScreenNotifier extends Notifier<SimScreen> {
   }
 
   void createConnection(String deviceId, String conName) {
-    //* TODO: finish this
     if (!state.isConnectionModeOn) return;
 
     _selectedDevices.add({'id': deviceId, 'name': conName});
 
     if (_selectedDevices.length == 2) {
       final conAId = _selectedDevices[0]['id']!;
-      final conAName = _selectedDevices[0]['name']!;
+      // final conAName = _selectedDevices[0]['name']!;
       final conBId = _selectedDevices[1]['id']!;
-      final conBName = _selectedDevices[1]['name']!;
+      // final conBName = _selectedDevices[1]['name']!;
 
       if (conAId == conBId) {
         toggleConnectionMode();
@@ -121,6 +120,34 @@ class SimScreenNotifier extends Notifier<SimScreen> {
       final connectionWidget = SimObjectType.connection.createSimObjectWidget(
         connection.id,
       );
+
+      if (conAId.startsWith(SimObjectType.host.label)) {
+        ref
+            .read(hostProvider(conAId).notifier)
+            .updateConnectionId(connection.id);
+      } else if (conAId.startsWith(SimObjectType.router.label)) {
+        //* TODO: router con
+      } else if (conAId.startsWith(SimObjectType.switch_.label)) {
+        //* TODO: switch con
+      }
+
+      if (conBId.startsWith(SimObjectType.host.label)) {
+        ref
+            .read(hostProvider(conBId).notifier)
+            .updateConnectionId(connection.id);
+      } else if (conBId.startsWith(SimObjectType.router.label)) {
+        //* TODO: router con
+      } else if (conBId.startsWith(SimObjectType.switch_.label)) {
+        //* TODO: switch con
+      }
+
+      _addSimObjectAndWidgetToProvider(
+        SimObjectType.connection,
+        connection,
+        connectionWidget,
+      );
+
+      toggleConnectionMode();
     }
   }
 

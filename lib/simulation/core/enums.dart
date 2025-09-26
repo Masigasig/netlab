@@ -16,3 +16,5 @@ extension Label on SimObjectType {
     }
   }
 }
+
+enum LogType { info, success, error }

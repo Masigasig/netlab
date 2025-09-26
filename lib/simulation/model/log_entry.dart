@@ -1,4 +1,4 @@
-enum LogType { info, success, error }
+import 'package:netlab/simulation/core/enums.dart';
 
 class LogEntry {
   final String message;

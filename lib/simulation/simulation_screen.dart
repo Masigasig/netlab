@@ -4,7 +4,7 @@ import 'package:vector_math/vector_math_64.dart' show Vector3, Vector4;
 
 import 'package:netlab/core/routing/go_router.dart';
 
-import 'package:netlab/simulation/core/sim_object_type.dart';
+import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/simulation/widgets/control_button.dart';
 import 'package:netlab/simulation/widgets/device_panel.dart';

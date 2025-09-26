@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:netlab/simulation/core/sim_object_type.dart';
+import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
 import 'package:netlab/simulation/simulation_screen.dart';
 
