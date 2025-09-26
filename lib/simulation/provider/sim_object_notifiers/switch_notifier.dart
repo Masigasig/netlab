@@ -22,6 +22,19 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
   Switch build() {
     return ref.read(switchMapProvider)[arg]!;
   }
+
+  void updateConIdByPortName(String portName, String conId) {
+    final port = Port.values.firstWhere((p) => p.name == portName);
+
+    state = switch (port) {
+      Port.port0 => state.copyWith(port0conId: conId),
+      Port.port1 => state.copyWith(port1conId: conId),
+      Port.port2 => state.copyWith(port2conId: conId),
+      Port.port3 => state.copyWith(port3conId: conId),
+      Port.port4 => state.copyWith(port4conId: conId),
+      Port.port5 => state.copyWith(port5conId: conId),
+    };
+  }
 }
 
 class SwitchMapNotifier extends DeviceMapNotifier<Switch> {}

@@ -1,3 +1,4 @@
+// import 'package:flutter/material.dart' hide Router, Switch;
 import 'package:ulid/ulid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -101,9 +102,9 @@ class SimScreenNotifier extends Notifier<SimScreen> {
 
     if (_selectedDevices.length == 2) {
       final conAId = _selectedDevices[0]['id']!;
-      // final conAName = _selectedDevices[0]['name']!;
+      final conAName = _selectedDevices[0]['name']!;
       final conBId = _selectedDevices[1]['id']!;
-      // final conBName = _selectedDevices[1]['name']!;
+      final conBName = _selectedDevices[1]['name']!;
 
       if (conAId == conBId) {
         toggleConnectionMode();
@@ -126,9 +127,13 @@ class SimScreenNotifier extends Notifier<SimScreen> {
             .read(hostProvider(conAId).notifier)
             .updateConnectionId(connection.id);
       } else if (conAId.startsWith(SimObjectType.router.label)) {
-        //* TODO: router con
+        ref
+            .read(routerProvider(conAId).notifier)
+            .updateConIdByEthName(conAName, connection.id);
       } else if (conAId.startsWith(SimObjectType.switch_.label)) {
-        //* TODO: switch con
+        ref
+            .read(switchProvider(conAId).notifier)
+            .updateConIdByPortName(conAName, connection.id);
       }
 
       if (conBId.startsWith(SimObjectType.host.label)) {
@@ -136,9 +141,13 @@ class SimScreenNotifier extends Notifier<SimScreen> {
             .read(hostProvider(conBId).notifier)
             .updateConnectionId(connection.id);
       } else if (conBId.startsWith(SimObjectType.router.label)) {
-        //* TODO: router con
+        ref
+            .read(routerProvider(conBId).notifier)
+            .updateConIdByEthName(conBName, connection.id);
       } else if (conBId.startsWith(SimObjectType.switch_.label)) {
-        //* TODO: switch con
+        ref
+            .read(switchProvider(conBId).notifier)
+            .updateConIdByPortName(conBName, connection.id);
       }
 
       _addSimObjectAndWidgetToProvider(
@@ -148,6 +157,48 @@ class SimScreenNotifier extends Notifier<SimScreen> {
       );
 
       toggleConnectionMode();
+    }
+  }
+
+  void createMessage(String hostId) {
+    if (!state.isMessageModeOn) return;
+    if (!hostId.startsWith(SimObjectType.host.label)) return;
+
+    _selectedDevices.add({'id': hostId});
+
+    if (_selectedDevices.length == 2) {
+      final hostId1 = _selectedDevices[0]['id']!;
+      final hostId2 = _selectedDevices[1]['id']!;
+
+      if (hostId1 == hostId2) {
+        toggleMessageMode();
+        return;
+      }
+
+      final message = SimObjectType.message.createSimObject(
+        name:
+            '${SimObjectType.message.label} ${_getNextCounter(SimObjectType.message)}',
+        srcId: hostId1,
+        dstId: hostId2,
+      );
+
+      final messageWidget = SimObjectType.message.createSimObjectWidget(
+        message.id,
+      );
+
+      _addSimObjectAndWidgetToProvider(
+        SimObjectType.message,
+        message,
+        messageWidget,
+      );
+
+      ref
+          .read(messageProvider(message.id).notifier)
+          .updateCurrentPlaceId(hostId1);
+
+      ref.read(hostProvider(hostId1).notifier).enqueueMessage(message.id);
+
+      toggleMessageMode();
     }
   }
 

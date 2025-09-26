@@ -18,3 +18,9 @@ extension Label on SimObjectType {
 }
 
 enum LogType { info, success, error }
+
+enum ConnInfoKey { name, conId }
+
+enum Eth { eth0, eth1, eth2, eth3 }
+
+enum Port { port0, port1, port2, port3, port4, port5 }

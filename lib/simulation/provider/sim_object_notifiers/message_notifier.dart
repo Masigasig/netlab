@@ -23,6 +23,10 @@ class MessageNotifier extends SimObjectNotifier<Message> {
   Message build() {
     return ref.read(messageMapProvider)[arg]!;
   }
+
+  void updateCurrentPlaceId(String newPlace) {
+    state = state.copyWith(currentPlaceId: newPlace);
+  }
 }
 
 class MessageMapNotifier extends SimObjectMapNotifier<Message> {}

@@ -22,6 +22,17 @@ class RouterNotifier extends DeviceNotifier<Router> {
   Router build() {
     return ref.read(routerMapProvider)[arg]!;
   }
+
+  void updateConIdByEthName(String ethName, String newConId) {
+    final eth = Eth.values.firstWhere((e) => e.name == ethName);
+
+    state = switch (eth) {
+      Eth.eth0 => state.copyWith(eth0conId: newConId),
+      Eth.eth1 => state.copyWith(eth1conId: newConId),
+      Eth.eth2 => state.copyWith(eth2conId: newConId),
+      Eth.eth3 => state.copyWith(eth3conId: newConId),
+    };
+  }
 }
 
 class RouterMapNotifier extends DeviceMapNotifier<Router> {}
