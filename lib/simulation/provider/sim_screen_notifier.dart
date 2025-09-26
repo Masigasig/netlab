@@ -2,6 +2,7 @@ import 'package:ulid/ulid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/simulation/core/sim_object_type.dart';
+import 'package:netlab/simulation/core/mac_address_manager.dart';
 import 'package:netlab/simulation/model/sim_objects/sim_object.dart';
 import 'package:netlab/simulation/model/sim_screen.dart';
 import 'package:netlab/simulation/provider/sim_clock.dart';
@@ -62,11 +63,21 @@ class SimScreenNotifier extends Notifier<SimScreen> {
   }
 
   void toggleConnectionMode() {
-    state = state.copyWith(isConnectionModeOn: !state.isConnectionModeOn);
+    _selectedDevices.clear();
+    state = state.copyWith(
+      isConnectionModeOn: !state.isConnectionModeOn,
+      isMessageModeOn: false,
+      selectedDeviceOnConn: '',
+    );
   }
 
   void toggleMessageMode() {
-    state = state.copyWith(isMessageModeOn: !state.isMessageModeOn);
+    _selectedDevices.clear();
+    state = state.copyWith(
+      isMessageModeOn: !state.isMessageModeOn,
+      isConnectionModeOn: false,
+      selectedDeviceOnConn: '',
+    );
   }
 
   void createDevice({
@@ -81,6 +92,36 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     final deviceWidget = type.createSimObjectWidget(device.id);
 
     _addSimObjectAndWidgetToProvider(type, device, deviceWidget);
+  }
+
+  void createConnection(String deviceId, String conName) {
+    //* TODO: finish this
+    if (!state.isConnectionModeOn) return;
+
+    _selectedDevices.add({'id': deviceId, 'name': conName});
+
+    if (_selectedDevices.length == 2) {
+      final conAId = _selectedDevices[0]['id']!;
+      final conAName = _selectedDevices[0]['name']!;
+      final conBId = _selectedDevices[1]['id']!;
+      final conBName = _selectedDevices[1]['name']!;
+
+      if (conAId == conBId) {
+        toggleConnectionMode();
+        return;
+      }
+
+      final connection = SimObjectType.connection.createSimObject(
+        name:
+            '${SimObjectType.connection.label} ${_getNextCounter(SimObjectType.connection)}',
+        conAId: conAId,
+        conBId: conBId,
+      );
+
+      final connectionWidget = SimObjectType.connection.createSimObjectWidget(
+        connection.id,
+      );
+    }
   }
 
   int _getNextCounter(SimObjectType type) {
@@ -156,7 +197,13 @@ extension SimObjectCreation on SimObjectType {
         conAId: conAId,
         conBId: conBId,
       ),
-      SimObjectType.host => Host(id: id, name: name, posX: posX, posY: posY),
+      SimObjectType.host => Host(
+        id: id,
+        name: name,
+        posX: posX,
+        posY: posY,
+        macAddress: MacAddressManager.generateMacAddress(),
+      ),
       SimObjectType.message => Message(
         id: id,
         name: name,
@@ -168,6 +215,10 @@ extension SimObjectCreation on SimObjectType {
         name: name,
         posX: posX,
         posY: posY,
+        eth0MacAddress: MacAddressManager.generateMacAddress(),
+        eth1MacAddress: MacAddressManager.generateMacAddress(),
+        eth2MacAddress: MacAddressManager.generateMacAddress(),
+        eth3MacAddress: MacAddressManager.generateMacAddress(),
       ),
       SimObjectType.switch_ => Switch(
         id: id,
