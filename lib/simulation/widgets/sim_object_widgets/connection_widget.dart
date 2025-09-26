@@ -85,7 +85,9 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
   }
 
   void _handleTap() {
-    //* TODO: handle Tap at connection
+    ref
+        .read(simScreenProvider.notifier)
+        .setSelectedDeviceOnInfo(widget.simObjectId);
   }
 }
 

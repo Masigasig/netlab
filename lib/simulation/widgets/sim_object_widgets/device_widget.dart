@@ -69,7 +69,17 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
   }
 
   void _handleTap() {
-    //* TODO: hanleTap on Device
+    if (ref.read(simScreenProvider.select((s) => s.isConnectionModeOn))) {
+      ref
+          .read(simScreenProvider.notifier)
+          .setSelectedDeviceOnConn(widget.simObjectId);
+    } else if (ref.read(simScreenProvider.select((s) => s.isMessageModeOn))) {
+      ref.read(simScreenProvider.notifier).createMessage(widget.simObjectId);
+    } else {
+      ref
+          .read(simScreenProvider.notifier)
+          .setSelectedDeviceOnInfo(widget.simObjectId);
+    }
   }
 
   void _updatePosition(DragUpdateDetails details, double posX, double posY) {

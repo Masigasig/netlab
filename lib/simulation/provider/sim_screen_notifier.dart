@@ -81,6 +81,22 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     );
   }
 
+  void setSelectedDeviceOnConn(String deviceId) {
+    if (state.selectedDeviceOnConn == deviceId) {
+      state = state.copyWith(selectedDeviceOnConn: '');
+    } else {
+      state = state.copyWith(selectedDeviceOnConn: deviceId);
+    }
+  }
+
+  void setSelectedDeviceOnInfo(String deviceId) {
+    if (state.selectedDeviceOnInfo == deviceId) {
+      state = state.copyWith(selectedDeviceOnInfo: '');
+    } else {
+      state = state.copyWith(selectedDeviceOnInfo: deviceId);
+    }
+  }
+
   void createDevice({
     required SimObjectType type,
     required double posX,

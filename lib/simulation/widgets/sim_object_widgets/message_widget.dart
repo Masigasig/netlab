@@ -65,7 +65,9 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
   }
 
   void _handleTap() {
-    //* TODO: handle tap on message
+    ref
+        .read(simScreenProvider.notifier)
+        .setSelectedDeviceOnInfo(widget.simObjectId);
   }
 
   Column _messageWithLabel() {
