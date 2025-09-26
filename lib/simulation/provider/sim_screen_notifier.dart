@@ -26,8 +26,6 @@ class SimScreenNotifier extends Notifier<SimScreen> {
   }
 
   void playSimulation() {
-    ref.read(simClockProvider.notifier).start();
-
     state = state.copyWith(
       isPlaying: true,
       isDevicePanelOpen: false,
@@ -37,6 +35,8 @@ class SimScreenNotifier extends Notifier<SimScreen> {
       selectedDeviceOnConn: '',
       selectedDeviceOnInfo: '',
     );
+
+    ref.read(simClockProvider.notifier).start();
   }
 
   void stopSimulation() {
