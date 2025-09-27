@@ -58,6 +58,7 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
                           ? ModuleContentView(
                               module: getContentModules()[selectedModuleIndex!],
                               topic: widget.topic,
+                              totalModules: getContentModules().length,
                             )
                           : WelcomeContentView(topic: widget.topic),
                     ),

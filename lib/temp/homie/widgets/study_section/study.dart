@@ -9,6 +9,7 @@ import 'topics/network_devices.dart';
 import 'widgets/default_topic_content.dart';
 import 'topics/arp.dart';
 import 'package:netlab/core/components/app_theme.dart';
+import 'services/progress_service.dart';
 
 class StudyScreen extends StatefulWidget {
   const StudyScreen({super.key});
@@ -18,6 +19,18 @@ class StudyScreen extends StatefulWidget {
 }
 
 class _StudyScreenState extends State<StudyScreen> {
+  Future<int> _getCompletedTopicsCount() async {
+    int completedCount = 0;
+    
+    for (var topic in topics) {
+      final completedChapters = await ProgressService.getCompletedChaptersByTopic(topic.id);
+      if (completedChapters.length >= topic.lessonCount) {
+        completedCount++;
+      }
+    }
+    
+    return completedCount;
+  }
   final List<StudyTopic> topics = [
     StudyTopic(
       id: 'network_fundamentals',
@@ -27,7 +40,7 @@ class _StudyScreenState extends State<StudyScreen> {
       description:
           'Master the essential concepts of network topology, addressing, and protocols that form the backbone of modern communications.',
       cardColor: const Color(0xFF6366F1),
-      lessonCount: 8,
+      lessonCount: 7,
       readTime: '12 min read',
       isCompleted: false,
       progress: 0,
@@ -40,10 +53,10 @@ class _StudyScreenState extends State<StudyScreen> {
       description:
           'Step-by-step walkthrough of routing protocols, switch configuration, and network path determination.',
       cardColor: const Color(0xFF10B981),
-      lessonCount: 10,
+      lessonCount: 9,
       readTime: '15 min read',
-      isCompleted: true,
-      progress: 100,
+      isCompleted: false,
+      progress: 0,
     ),
     StudyTopic(
       id: 'network_devices',
@@ -53,10 +66,10 @@ class _StudyScreenState extends State<StudyScreen> {
       description:
           'Comprehensive guide to routers, switches, hubs, and other networking equipment used in modern infrastructure.',
       cardColor: const Color(0xFFF59E0B),
-      lessonCount: 6,
+      lessonCount: 5,
       readTime: '10 min read',
       isCompleted: false,
-      progress: 35,
+      progress: 0,
     ),
     StudyTopic(
       id: 'arp',
@@ -65,7 +78,7 @@ class _StudyScreenState extends State<StudyScreen> {
       description:
           'Deep dive into how ARP works, ARP tables, and troubleshooting address resolution issues.',
       cardColor: const Color(0xFF8B5CF6),
-      lessonCount: 4,
+      lessonCount: 3,
       readTime: '8 min read',
       isCompleted: false,
       progress: 0,
@@ -137,38 +150,47 @@ class _StudyScreenState extends State<StudyScreen> {
 
   Widget _buildQuickStats(BuildContext context) {
     int totalTopics = topics.length;
-    int completedTopics = topics.where((t) => t.isCompleted).length;
-    int totalReadTime = topics.fold(
-      0,
-      (sum, topic) => sum + int.parse(topic.readTime.split(' ')[0]),
-    );
 
-    return Row(
-      children: [
-        // Progress Card
-        Expanded(
-          child: AppStyles.statsCard(
-            context: context,
-            title: 'Progress',
-            value: '$completedTopics of $totalTopics',
-            subtitle: 'topics completed',
-            isPrimary: true,
-          ),
-        ),
+    return FutureBuilder<Map<String, int>>(
+      future: Future.wait([
+        _getCompletedTopicsCount(),
+        ProgressService.getTotalStudyTime(),
+      ]).then((values) => {
+        'completedTopics': values[0],
+        'studyTime': values[1],
+      }),
+      builder: (context, snapshot) {
+        final completedTopics = snapshot.data?['completedTopics'] ?? 0;
+        final studyTime = snapshot.data?['studyTime'] ?? 0;
+        
+        return Row(
+          children: [
+            // Progress Card
+            Expanded(
+              child: AppStyles.statsCard(
+                context: context,
+                title: 'Progress',
+                value: '$completedTopics of $totalTopics',
+                subtitle: 'topics completed',
+                isPrimary: true,
+              ),
+            ),
 
-        const SizedBox(width: 16),
+            const SizedBox(width: 16),
 
-        // Study Time Card
-        Expanded(
-          child: AppStyles.statsCard(
-            context: context,
-            title: 'Study Time',
-            value: '$totalReadTime min',
-            subtitle: 'total content',
-            isPrimary: false,
-          ),
-        ),
-      ],
+            // Study Time Card
+            Expanded(
+              child: AppStyles.statsCard(
+                context: context,
+                title: 'Study Time',
+                value: '$studyTime min',
+                subtitle: 'time spent learning',
+                isPrimary: false,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -86,7 +86,7 @@ class SidebarModuleList extends StatelessWidget {
                   module: modules[index],
                   isSelected: selectedModuleIndex == index,
                   index: index,
-                  onTap: () => onModuleTap(index, modules[index]),
+                  onTap: () => onModuleTap(index, modules[index]), topicId: '',
                 );
               },
             ),
