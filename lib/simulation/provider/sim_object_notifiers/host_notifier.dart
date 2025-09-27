@@ -22,6 +22,16 @@ class HostNotifier extends DeviceNotifier<Host> {
     return ref.read(hostMapProvider)[arg]!;
   }
 
+  @override
+  List<Map<String, String>> getAllConnectionInfo() {
+    return [
+      {
+        ConnInfoKey.name.name: Eth.eth0.name,
+        ConnInfoKey.conId.name: state.connectionId,
+      },
+    ];
+  }
+
   void updateIpAddress(String ipAddress) =>
       state = state.copyWith(ipAddress: ipAddress);
 

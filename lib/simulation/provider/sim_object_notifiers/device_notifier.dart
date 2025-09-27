@@ -4,6 +4,8 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   void updatePosition(double newX, double newY) {
     state = state.copyWith(posX: newX, posY: newY) as T;
   }
+
+  List<Map<String, String>> getAllConnectionInfo();
 }
 
 abstract class DeviceMapNotifier<T extends Device>

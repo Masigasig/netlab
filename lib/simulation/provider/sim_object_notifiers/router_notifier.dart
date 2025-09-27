@@ -23,6 +23,28 @@ class RouterNotifier extends DeviceNotifier<Router> {
     return ref.read(routerMapProvider)[arg]!;
   }
 
+  @override
+  List<Map<String, String>> getAllConnectionInfo() {
+    return [
+      {
+        ConnInfoKey.name.name: Eth.eth0.name,
+        ConnInfoKey.conId.name: state.eth0conId,
+      },
+      {
+        ConnInfoKey.name.name: Eth.eth1.name,
+        ConnInfoKey.conId.name: state.eth1conId,
+      },
+      {
+        ConnInfoKey.name.name: Eth.eth2.name,
+        ConnInfoKey.conId.name: state.eth2conId,
+      },
+      {
+        ConnInfoKey.name.name: Eth.eth3.name,
+        ConnInfoKey.conId.name: state.eth3conId,
+      },
+    ];
+  }
+
   void updateConIdByEthName(String ethName, String newConId) {
     final eth = Eth.values.firstWhere((e) => e.name == ethName);
 

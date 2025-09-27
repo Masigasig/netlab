@@ -23,6 +23,36 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
     return ref.read(switchMapProvider)[arg]!;
   }
 
+  @override
+  List<Map<String, String>> getAllConnectionInfo() {
+    return [
+      {
+        ConnInfoKey.name.name: Port.port0.name,
+        ConnInfoKey.conId.name: state.port0conId,
+      },
+      {
+        ConnInfoKey.name.name: Port.port1.name,
+        ConnInfoKey.conId.name: state.port1conId,
+      },
+      {
+        ConnInfoKey.name.name: Port.port2.name,
+        ConnInfoKey.conId.name: state.port2conId,
+      },
+      {
+        ConnInfoKey.name.name: Port.port3.name,
+        ConnInfoKey.conId.name: state.port3conId,
+      },
+      {
+        ConnInfoKey.name.name: Port.port4.name,
+        ConnInfoKey.conId.name: state.port4conId,
+      },
+      {
+        ConnInfoKey.name.name: Port.port5.name,
+        ConnInfoKey.conId.name: state.port5conId,
+      },
+    ];
+  }
+
   void updateConIdByPortName(String portName, String conId) {
     final port = Port.values.firstWhere((p) => p.name == portName);
 

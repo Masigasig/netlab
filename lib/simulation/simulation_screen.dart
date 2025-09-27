@@ -6,6 +6,7 @@ import 'package:netlab/core/routing/go_router.dart';
 
 import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
+import 'package:netlab/simulation/widgets/conn_choice_panel.dart';
 import 'package:netlab/simulation/widgets/control_button.dart';
 import 'package:netlab/simulation/widgets/device_panel.dart';
 import 'package:netlab/simulation/widgets/grid_painter.dart';
@@ -96,6 +97,8 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
                     const SimObjectWidgetStack(type: SimObjectType.switch_),
                     const SimObjectWidgetStack(type: SimObjectType.router),
                     const SimObjectWidgetStack(type: SimObjectType.message),
+
+                    const ConnChoicePanel(),
                   ],
                 ),
               );
