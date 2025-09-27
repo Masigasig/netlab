@@ -76,7 +76,7 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
     String deviceId,
   ) {
     if (deviceId.startsWith(SimObjectType.router.label)) {
-      return switchProvider;
+      return routerProvider;
     } else if (deviceId.startsWith(SimObjectType.switch_.label)) {
       return switchProvider;
     }

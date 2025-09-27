@@ -8,11 +8,16 @@ import 'package:netlab/simulation/provider/sim_object_notifiers/sim_object_notif
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/simulation/simulation_screen.dart';
 
-class ConnChoicePanel extends ConsumerWidget {
+class ConnChoicePanel extends ConsumerStatefulWidget {
   const ConnChoicePanel({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConnChoicePanel> createState() => _ConnChoicePanelState();
+}
+
+class _ConnChoicePanelState extends ConsumerState<ConnChoicePanel> {
+  @override
+  Widget build(BuildContext context) {
     debugPrint('ConnChoicePanel Rebuilt');
 
     final selectedId = ref.watch(
@@ -74,7 +79,18 @@ class ConnChoicePanel extends ConsumerWidget {
     final isAvailable = entry[ConnInfoKey.conId.name]!.isEmpty;
 
     return TextButton(
-      onPressed: isAvailable ? () {} : null,
+      onPressed: isAvailable
+          ? () {
+              ref
+                  .read(simScreenProvider.notifier)
+                  .createConnection(
+                    ref.read(simScreenProvider).selectedDeviceOnConn,
+                    name,
+                  );
+
+              ref.read(simScreenProvider.notifier).setSelectedDeviceOnConn('');
+            }
+          : null,
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
       ),

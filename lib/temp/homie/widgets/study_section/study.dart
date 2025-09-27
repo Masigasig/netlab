@@ -21,16 +21,18 @@ class StudyScreen extends StatefulWidget {
 class _StudyScreenState extends State<StudyScreen> {
   Future<int> _getCompletedTopicsCount() async {
     int completedCount = 0;
-    
+
     for (var topic in topics) {
-      final completedChapters = await ProgressService.getCompletedChaptersByTopic(topic.id);
+      final completedChapters =
+          await ProgressService.getCompletedChaptersByTopic(topic.id);
       if (completedChapters.length >= topic.lessonCount) {
         completedCount++;
       }
     }
-    
+
     return completedCount;
   }
+
   final List<StudyTopic> topics = [
     StudyTopic(
       id: 'network_fundamentals',
@@ -152,17 +154,17 @@ class _StudyScreenState extends State<StudyScreen> {
     int totalTopics = topics.length;
 
     return FutureBuilder<Map<String, int>>(
-      future: Future.wait([
-        _getCompletedTopicsCount(),
-        ProgressService.getTotalStudyTime(),
-      ]).then((values) => {
-        'completedTopics': values[0],
-        'studyTime': values[1],
-      }),
+      future:
+          Future.wait([
+            _getCompletedTopicsCount(),
+            ProgressService.getTotalStudyTime(),
+          ]).then(
+            (values) => {'completedTopics': values[0], 'studyTime': values[1]},
+          ),
       builder: (context, snapshot) {
         final completedTopics = snapshot.data?['completedTopics'] ?? 0;
         final studyTime = snapshot.data?['studyTime'] ?? 0;
-        
+
         return Row(
           children: [
             // Progress Card

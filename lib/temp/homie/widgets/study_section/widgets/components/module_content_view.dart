@@ -40,13 +40,17 @@ class _ModuleContentViewState extends State<ModuleContentView> {
     Future.doWhile(() async {
       await Future.delayed(const Duration(minutes: 1));
       if (!mounted) return false;
-      
+
       if (_startTime != null && !_isCompleted) {
-        const studyTimeMinutes = 1; 
-        await ProgressService.updateStudyTime(widget.topic.id, widget.module.id, studyTimeMinutes);
+        const studyTimeMinutes = 1;
+        await ProgressService.updateStudyTime(
+          widget.topic.id,
+          widget.module.id,
+          studyTimeMinutes,
+        );
         _startTime = DateTime.now(); // Reset start time for next minute
       }
-      
+
       return true;
     });
   }
@@ -54,7 +58,8 @@ class _ModuleContentViewState extends State<ModuleContentView> {
   @override
   void didUpdateWidget(ModuleContentView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.module.id != widget.module.id || oldWidget.topic.id != widget.topic.id) {
+    if (oldWidget.module.id != widget.module.id ||
+        oldWidget.topic.id != widget.topic.id) {
       _loadModuleProgress();
       // Reset start time when switching to a new module
       _startTime = DateTime.now();
@@ -62,7 +67,10 @@ class _ModuleContentViewState extends State<ModuleContentView> {
   }
 
   Future<void> _loadModuleProgress() async {
-    final isCompleted = await ProgressService.isChapterCompleted(widget.topic.id, widget.module.id);
+    final isCompleted = await ProgressService.isChapterCompleted(
+      widget.topic.id,
+      widget.module.id,
+    );
     if (mounted) {
       setState(() {
         _isCompleted = isCompleted;
@@ -72,33 +80,39 @@ class _ModuleContentViewState extends State<ModuleContentView> {
 
   Future<void> _toggleModuleCompletion() async {
     final newState = !_isCompleted;
-    
+
     if (newState && _startTime != null) {
       // Calculate study time in seconds and convert to minutes (rounded up)
       final studyTimeSeconds = DateTime.now().difference(_startTime!).inSeconds;
-      final studyTimeMinutes = (studyTimeSeconds / 60).ceil(); 
-      await ProgressService.updateStudyTime(widget.topic.id, widget.module.id, studyTimeMinutes);
+      final studyTimeMinutes = (studyTimeSeconds / 60).ceil();
+      await ProgressService.updateStudyTime(
+        widget.topic.id,
+        widget.module.id,
+        studyTimeMinutes,
+      );
     }
-    
+
     await ProgressService.markChapterAsCompleted(
       widget.topic.id,
       widget.module.id,
-      completed: newState
+      completed: newState,
     );
-    
+
     if (mounted) {
       setState(() {
         _isCompleted = newState;
       });
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(newState ? 'Chapter completed!' : 'Chapter marked as incomplete'),
+            content: Text(
+              newState ? 'Chapter completed!' : 'Chapter marked as incomplete',
+            ),
             duration: const Duration(seconds: 2),
           ),
         );
-        
+
         if (context.mounted) {
           Navigator.of(context).setState(() {});
         }
@@ -126,7 +140,11 @@ class _ModuleContentViewState extends State<ModuleContentView> {
                       color: ModuleTypeHelpers.getTypeColor(widget.module.type),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(widget.module.icon, color: cs.onPrimary, size: 24),
+                    child: Icon(
+                      widget.module.icon,
+                      color: cs.onPrimary,
+                      size: 24,
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -150,11 +168,15 @@ class _ModuleContentViewState extends State<ModuleContentView> {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: ModuleTypeHelpers.getTypeColor(widget.module.type),
+                                color: ModuleTypeHelpers.getTypeColor(
+                                  widget.module.type,
+                                ),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
-                                ModuleTypeHelpers.getTypeLabel(widget.module.type),
+                                ModuleTypeHelpers.getTypeLabel(
+                                  widget.module.type,
+                                ),
                                 style: TextStyle(
                                   color: cs.onPrimary,
                                   fontSize: 10,
@@ -190,7 +212,9 @@ class _ModuleContentViewState extends State<ModuleContentView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ContentRenderer(blocks: ContentRegistry.getContent(widget.module.id)),
+                    ContentRenderer(
+                      blocks: ContentRegistry.getContent(widget.module.id),
+                    ),
                     const SizedBox(height: 24),
                     // Mark as Complete Button
                     Center(
@@ -198,11 +222,15 @@ class _ModuleContentViewState extends State<ModuleContentView> {
                         onPressed: _toggleModuleCompletion,
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                            _isCompleted ? cs.primary.withOpacity(0.6) : cs.primary,
+                            _isCompleted
+                                ? cs.primary.withOpacity(0.6)
+                                : cs.primary,
                           ),
                         ),
                         icon: Icon(
-                          _isCompleted ? Icons.check_circle : Icons.check_circle_outline,
+                          _isCompleted
+                              ? Icons.check_circle
+                              : Icons.check_circle_outline,
                           color: cs.onPrimary,
                         ),
                         label: Text(

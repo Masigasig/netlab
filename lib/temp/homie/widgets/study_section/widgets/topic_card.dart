@@ -16,7 +16,7 @@ class TopicCard extends StatefulWidget {
 class _TopicCardState extends State<TopicCard> {
   double _progress = 0.0;
   int _totalChapters = 0; // This will be set based on topic
-  
+
   @override
   void initState() {
     super.initState();
@@ -35,11 +35,15 @@ class _TopicCardState extends State<TopicCard> {
   }
 
   Future<void> _loadProgress() async {
-    final completedChapters = await ProgressService.getCompletedChaptersByTopic(widget.topic.id);
-    
+    final completedChapters = await ProgressService.getCompletedChaptersByTopic(
+      widget.topic.id,
+    );
+
     if (mounted) {
       setState(() {
-        _progress = _totalChapters > 0 ? completedChapters.length / _totalChapters : 0.0;
+        _progress = _totalChapters > 0
+            ? completedChapters.length / _totalChapters
+            : 0.0;
       });
     }
   }

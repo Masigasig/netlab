@@ -36,8 +36,11 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
   }
 
   Future<void> _loadCompletionStatus() async {
-    final isCompleted = await ProgressService.isChapterCompleted(widget.topicId, widget.module.id);
-    
+    final isCompleted = await ProgressService.isChapterCompleted(
+      widget.topicId,
+      widget.module.id,
+    );
+
     if (mounted) {
       setState(() {
         _isCompleted = isCompleted;
@@ -60,7 +63,9 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
       child: Container(
         margin: const EdgeInsets.only(bottom: 4),
         decoration: BoxDecoration(
-          color: widget.isSelected ? cs.primary.withOpacity(0.08) : Colors.transparent,
+          color: widget.isSelected
+              ? cs.primary.withOpacity(0.08)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: widget.isSelected
               ? Border.all(color: cs.primary.withOpacity(0.2))
@@ -74,18 +79,18 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: _isCompleted 
-                    ? cs.primary.withOpacity(0.2)
-                    : ModuleTypeHelpers.getTypeColor(widget.module.type),
+                  color: _isCompleted
+                      ? cs.primary.withOpacity(0.2)
+                      : ModuleTypeHelpers.getTypeColor(widget.module.type),
                   borderRadius: BorderRadius.circular(6),
                   border: _isCompleted
-                    ? Border.all(color: cs.primary, width: 1.5)
-                    : null,
+                      ? Border.all(color: cs.primary, width: 1.5)
+                      : null,
                 ),
                 child: Icon(
                   _isCompleted ? Icons.check_circle : widget.module.icon,
                   color: _isCompleted ? cs.primary : cs.onPrimary,
-                  size: _isCompleted ? 18 : 16
+                  size: _isCompleted ? 18 : 16,
                 ),
               ),
               title: Text(
@@ -95,7 +100,9 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
                   color: widget.isSelected
                       ? cs.onSurface.withOpacity(0.9)
                       : cs.onSurface.withOpacity(0.8),
-                  fontWeight: widget.isSelected ? FontWeight.w600 : FontWeight.w500,
+                  fontWeight: widget.isSelected
+                      ? FontWeight.w600
+                      : FontWeight.w500,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -139,11 +146,7 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
                     color: Colors.green,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.check,
-                    size: 12,
-                    color: Colors.white,
-                  ),
+                  child: const Icon(Icons.check, size: 12, color: Colors.white),
                 ),
               ),
           ],
