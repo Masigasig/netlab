@@ -10,6 +10,7 @@ import 'package:netlab/simulation/widgets/conn_choice_panel.dart';
 import 'package:netlab/simulation/widgets/control_button.dart';
 import 'package:netlab/simulation/widgets/device_panel.dart';
 import 'package:netlab/simulation/widgets/grid_painter.dart';
+import 'package:netlab/simulation/widgets/info_panels/info_panel.dart';
 import 'package:netlab/simulation/widgets/log_panel.dart';
 import 'package:netlab/simulation/widgets/loop_animator.dart';
 import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
@@ -107,6 +108,8 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
           ),
 
           const LogPanel(),
+
+          const InfoPanel(),
 
           const DevicePanel(),
 

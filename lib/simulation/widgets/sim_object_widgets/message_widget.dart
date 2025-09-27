@@ -43,7 +43,7 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
     return isPlaying
         ? AnimatedPositioned(
             left: messagePosX - MessageWidget.size / 2,
-            top: messagePosY - MessageWidget.size / 2,
+            top: messagePosY - MessageWidget.size / 2 - 25,
             duration: messageDuration,
             curve: Curves.easeIn,
             onEnd: () {
@@ -56,7 +56,7 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
           )
         : Positioned(
             left: originPosX - MessageWidget.size / 2,
-            top: originPosY - MessageWidget.size / 2,
+            top: originPosY - MessageWidget.size / 2 - 25,
             child: GestureDetector(
               onTap: _handleTap,
               child: _messageWithLabel(),
@@ -84,7 +84,7 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
 
         SizedBox(
           width: MessageWidget.size,
-          height: MessageWidget.size,
+          height: MessageWidget.size - 25,
           child: Image.asset(MessageWidget.imagePath, fit: BoxFit.contain),
         ),
       ],
