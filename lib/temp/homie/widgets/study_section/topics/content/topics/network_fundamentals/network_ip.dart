@@ -34,7 +34,7 @@ class NetworkIPContent implements ModuleContent {
       ContentBlock(
         type: ContentBlockType.paragraph,
         content:
-            'IP addresses are 32-bit numbers (binary), written as 4 parts (octets), each from 0-255.'
+            'IP addresses are 32-bit numbers (binary), written as 4 parts (octets), each from 0-255.',
       ),
       ContentBlock(
         type: ContentBlockType.image,

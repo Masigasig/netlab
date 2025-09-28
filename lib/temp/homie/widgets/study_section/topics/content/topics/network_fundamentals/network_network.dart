@@ -1,5 +1,5 @@
 import '../../models/content_block.dart';
-import 'package:netlab/core/constants/app_image.dart';  
+import 'package:netlab/core/constants/app_image.dart';
 
 class NetworkContent implements ModuleContent {
   @override
