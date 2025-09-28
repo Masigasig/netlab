@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+import 'package:netlab/core/constants/app_image.dart';
 
 class NetworkInternetContent implements ModuleContent {
   @override
@@ -24,7 +25,7 @@ class NetworkInternetContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/internet_network.png',
+        content: ContentImage.internet,
         title: 'The Internet connects multiple networks together',
       ),
       ContentBlock(

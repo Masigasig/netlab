@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+import 'package:netlab/core/constants/app_image.dart';
 
 class RepeaterContent implements ModuleContent {
   @override
@@ -28,7 +29,7 @@ class RepeaterContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/content_image/repeater_example.png',
+        content: ContentImage.repeater,
         title:
             'A repeater extends network signal strength across longer distances',
       ),

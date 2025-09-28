@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+import 'package:netlab/core/constants/app_image.dart';  
 
 class NetworkContent implements ModuleContent {
   @override
@@ -21,7 +22,7 @@ class NetworkContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/home_vs_neighbor_network.png',
+        content: ContentImage.network,
         title: 'Home Wi-Fi vs. Neighbor Wi-Fi (separate networks)',
       ),
       ContentBlock(

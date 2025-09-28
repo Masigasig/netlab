@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+import 'package:netlab/core/constants/app_image.dart';
 
 class RouterContent implements ModuleContent {
   @override
@@ -26,7 +27,7 @@ class RouterContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/content_image/router_example.png',
+        content: ContentImage.router,
         title: 'Routers connect different networks using IP addresses',
       ),
       ContentBlock(

@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+import 'package:netlab/core/constants/app_image.dart';
 
 class SwitchContent implements ModuleContent {
   @override
@@ -23,7 +24,7 @@ class SwitchContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/content_image/switch_example.png',
+        content: ContentImage.switches,
         title: 'A switch forwards data only to the intended device',
       ),
       ContentBlock(

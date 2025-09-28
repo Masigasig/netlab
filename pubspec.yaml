@@ -76,6 +76,9 @@ flutter:
     - assets/fonts/
     - assets/images/
     - assets/images/content_image/
+    - assets/images/content_image/network_fundamentals/
+    - assets/images/content_image/network_devices/
+    - assets/images/content_image/host_to_host/
     - assets/images/lottie/
     - assets/images/lottie/onboarding_screen/
   #   - images/a_dot_burr.jpeg

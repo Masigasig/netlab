@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+import 'package:netlab/core/constants/app_image.dart';
 
 class HostContent implements ModuleContent {
   @override
@@ -26,7 +27,7 @@ class HostContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/content_image/host.gif',
+        content: ContentImage.host,
         title: 'Examples of hosts',
       ),
       ContentBlock(

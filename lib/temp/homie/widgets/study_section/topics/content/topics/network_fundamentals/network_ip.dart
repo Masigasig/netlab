@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+import 'package:netlab/core/constants/app_image.dart';
 
 class NetworkIPContent implements ModuleContent {
   @override
@@ -27,14 +28,18 @@ class NetworkIPContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/ip_address_example.png',
+        content: ContentImage.ip,
         title: 'Each packet contains a Source IP and Destination IP',
       ),
       ContentBlock(
         type: ContentBlockType.paragraph,
         content:
-            'IP addresses are 32-bit numbers written as 4 octets (for example, 192.168.1.1). '
-            'Each octet ranges from 0 to 255.',
+            'IP addresses are 32-bit numbers (binary), written as 4 parts (octets), each from 0-255.'
+      ),
+      ContentBlock(
+        type: ContentBlockType.image,
+        content: ContentImage.ip2,
+        title: 'Example of an IP address',
       ),
       ContentBlock(
         type: ContentBlockType.note,

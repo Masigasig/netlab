@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+import 'package:netlab/core/constants/app_image.dart';
 
 class HubContent implements ModuleContent {
   @override
@@ -22,7 +23,7 @@ class HubContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/content_image/hub_example.png',
+        content: ContentImage.hub,
         title: 'A hub broadcasts data to all connected devices',
       ),
       ContentBlock(

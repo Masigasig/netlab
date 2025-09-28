@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+import 'package:netlab/core/constants/app_image.dart';
 
 class NetworkIntroContent implements ModuleContent {
   @override
@@ -26,7 +27,7 @@ class NetworkIntroContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/content_image/sample.gif',
+        content: ContentImage.intro,
         title: 'Simple network: Two computers connected with a cable',
       ),
       ContentBlock(

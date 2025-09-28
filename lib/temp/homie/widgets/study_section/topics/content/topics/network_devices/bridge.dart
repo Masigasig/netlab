@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+import 'package:netlab/core/constants/app_image.dart';
 
 class BridgeContent implements ModuleContent {
   @override
@@ -22,7 +23,7 @@ class BridgeContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/content_image/bridge_example.png',
+        content: ContentImage.bridge,
         title: 'A bridge connects two network segments and filters traffic',
       ),
       ContentBlock(
