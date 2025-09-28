@@ -1,6 +1,5 @@
 part of 'info_panel.dart';
 
-//* TODO: Host Info Panel
 class _HostInfoTabView extends ConsumerStatefulWidget {
   const _HostInfoTabView();
 
@@ -111,13 +110,67 @@ class _HostArpTableTabViewState extends ConsumerState<_HostArpTableTabView> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedDeviceId = ref.watch(
+      simScreenProvider.select((s) => s.selectedDeviceOnInfo),
+    );
+
+    final arpTable = ref.watch(
+      hostProvider(selectedDeviceId).select((h) => h.arpTable),
+    );
+
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(2.0),
       child: Scrollbar(
         controller: _scrollController,
         child: SingleChildScrollView(
           controller: _scrollController,
-          child: const Column(children: [Text('This is host Arp Table View')]),
+          child: Column(
+            children: [
+              DataTable(
+                headingRowHeight: 35,
+                dataRowMinHeight: 30,
+                dataRowMaxHeight: 30,
+                horizontalMargin: 0,
+                sortAscending: false,
+                dividerThickness: 0.01,
+                columnSpacing: 0,
+                headingTextStyle: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+                dataTextStyle: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w100,
+                ),
+                border: TableBorder(
+                  horizontalInside: BorderSide(
+                    color: Theme.of(context).colorScheme.secondary,
+                    width: 0.5,
+                  ),
+                ),
+                columns: const [
+                  DataColumn(
+                    columnWidth: FixedColumnWidth(100),
+                    headingRowAlignment: MainAxisAlignment.center,
+                    label: Center(child: Text("IP Address")),
+                  ),
+                  DataColumn(
+                    columnWidth: FixedColumnWidth(100),
+                    headingRowAlignment: MainAxisAlignment.center,
+                    label: Center(child: Text("MAC Address")),
+                  ),
+                ],
+                rows: arpTable.entries.map((entry) {
+                  return DataRow(
+                    cells: [
+                      DataCell(Center(child: Text(entry.key))),
+                      DataCell(Center(child: Text(entry.value))),
+                    ],
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );

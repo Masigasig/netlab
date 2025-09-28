@@ -70,7 +70,7 @@ class InfoPanel extends ConsumerWidget {
                     splashFactory: NoSplash.splashFactory,
                     overlayColor: WidgetStateProperty.all(Colors.transparent),
                     dividerColor: Theme.of(context).colorScheme.secondary,
-                    dividerHeight: 0.5,
+                    dividerHeight: 1,
                     tabs: tabConfig.tabs,
                   ),
                 ),

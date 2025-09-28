@@ -29,7 +29,7 @@ class Validator {
 
   static String? validateDefaultGateway(String? input) {
     if (input == null || input.trim().isEmpty) return null;
-    if (!Ipv4AddressManager.isValidIp(input)) return 'Invalid Ipv4 Address';
+    if (!Ipv4AddressManager.isValidIp(input)) return 'Invalid Default GateWay';
     return null;
   }
 }
