@@ -22,7 +22,7 @@ class InfoPanel extends ConsumerWidget {
 
     if (selectedDevice.isEmpty) return const SizedBox.shrink();
 
-    final tabConfig = TabConfig.fromDeviceType(selectedDevice);
+    final tabConfig = _TabConfig.fromDeviceType(selectedDevice);
 
     return Positioned(
       top: 60,
@@ -113,32 +113,32 @@ class InfoPanel extends ConsumerWidget {
   }
 }
 
-class TabConfig {
+class _TabConfig {
   final int length;
   final List<Tab> tabs;
   final List<Widget> views;
 
-  const TabConfig({
+  const _TabConfig({
     required this.length,
     required this.tabs,
     required this.views,
   });
 
-  static TabConfig fromDeviceType(String deviceType) {
+  static _TabConfig fromDeviceType(String deviceType) {
     if (deviceType.startsWith(SimObjectType.connection.label)) {
-      return const TabConfig(
+      return const _TabConfig(
         length: 1,
         tabs: [Tab(child: Text('Info', textAlign: TextAlign.center))],
         views: [_ConnectionInfoTabView()],
       );
     } else if (deviceType.startsWith(SimObjectType.message.label)) {
-      return const TabConfig(
+      return const _TabConfig(
         length: 1,
         tabs: [Tab(child: Text('Info', textAlign: TextAlign.center))],
         views: [_MessageInfoTabView()],
       );
     } else if (deviceType.startsWith(SimObjectType.router.label)) {
-      return const TabConfig(
+      return const _TabConfig(
         length: 3,
         tabs: [
           Tab(child: Text('Info', textAlign: TextAlign.center)),
@@ -152,7 +152,7 @@ class TabConfig {
         ],
       );
     } else if (deviceType.startsWith(SimObjectType.switch_.label)) {
-      return const TabConfig(
+      return const _TabConfig(
         length: 2,
         tabs: [
           Tab(child: Text('Info', textAlign: TextAlign.center)),
@@ -161,7 +161,7 @@ class TabConfig {
         views: [_SwitchInfoTabView(), _MacTableTabView()],
       );
     } else {
-      return const TabConfig(
+      return const _TabConfig(
         length: 2,
         tabs: [
           Tab(child: Text('Info', textAlign: TextAlign.center)),
