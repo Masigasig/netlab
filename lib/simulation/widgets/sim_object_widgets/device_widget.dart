@@ -59,9 +59,20 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
         ),
         Material(
           color: Colors.transparent,
-          child: Text(
-            ref.read(provider(widget.simObjectId)).name,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          child: Consumer(
+            builder: (context, ref, child) {
+              final name = ref.watch(
+                provider(widget.simObjectId).select((s) => s.name),
+              );
+
+              return Text(
+                name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              );
+            },
           ),
         ),
       ],

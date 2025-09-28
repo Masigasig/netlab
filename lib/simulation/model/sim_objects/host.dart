@@ -15,7 +15,7 @@ class Host extends Device {
     required super.posX,
     required super.posY,
     this.ipAddress = '',
-    this.subnetMask = '',
+    this.subnetMask = '/24',
     this.defaultGateway = '',
     required this.macAddress,
     this.connectionId = '',

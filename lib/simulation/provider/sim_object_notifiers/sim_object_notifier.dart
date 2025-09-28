@@ -14,6 +14,10 @@ part 'switch_notifier.dart';
 abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
   @override
   T build();
+
+  void updateName(String newName) {
+    state = state.copyWith(name: newName) as T;
+  }
 }
 
 abstract class SimObjectMapNotifier<T extends SimObject>
