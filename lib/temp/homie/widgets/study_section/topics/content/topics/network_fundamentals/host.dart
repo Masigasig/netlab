@@ -26,7 +26,7 @@ class HostContent implements ModuleContent {
       ),
       ContentBlock(
         type: ContentBlockType.image,
-        content: 'assets/images/content_image/host_example.png',
+        content: 'assets/images/content_image/host.gif',
         title: 'Examples of hosts',
       ),
       ContentBlock(

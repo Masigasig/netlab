@@ -19,6 +19,7 @@ import 'topics/network_devices/hub.dart';
 import 'topics/network_devices/bridge.dart';
 import 'topics/network_devices/switch.dart';
 import 'topics/network_devices/router.dart';
+import 'topics/network_fundamentals/sample_quiz.dart';
 
 class ContentRegistry {
   static final Map<String, ModuleContent> _contents = {
@@ -29,6 +30,7 @@ class ContentRegistry {
     'nf_network': NetworkContent(),
     'nf_ip': NetworkIPContent(),
     'nf_osi': NetworkOSIContent(),
+    'nf_quiz': NFQuiz(),
 
     // switching and routing
     'sr_intro_switching': SwitchingIntroContent(),

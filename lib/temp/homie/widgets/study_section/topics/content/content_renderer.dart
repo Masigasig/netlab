@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'models/content_block.dart';
+import 'models/quiz_data.dart';
+import 'package:netlab/temp/homie/widgets/study_section/widgets/components/quiz_widget.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
 // ignore_for_file: deprecated_member_use
@@ -46,6 +48,8 @@ class ContentRenderer extends StatelessWidget {
         return _buildImage(block, cs);
       case ContentBlockType.table:
         return _buildTable(block, cs);
+      case ContentBlockType.quiz:
+        return _buildQuiz(block, cs);
       case ContentBlockType.divider:
         return _buildDivider(block, cs);
       default:
@@ -356,6 +360,10 @@ class ContentRenderer extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget _buildQuiz(ContentBlock block, ColorScheme cs) {
+    return QuizWidget(quizData: block.content as QuizData);
   }
 
   Widget _buildDivider(ContentBlock block, ColorScheme cs) {
