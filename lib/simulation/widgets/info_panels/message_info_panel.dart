@@ -1,6 +1,5 @@
 part of 'info_panel.dart';
 
-//* TODO: Message Info Panel
 class _MessageInfoTabView extends ConsumerStatefulWidget {
   const _MessageInfoTabView();
 
@@ -20,14 +19,33 @@ class _MessageInfoTabViewState extends ConsumerState<_MessageInfoTabView> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('MessageInfoTabView Rebuilt');
+
+    final selectedDeviceId = ref.watch(
+      simScreenProvider.select((s) => s.selectedDeviceOnInfo),
+    );
+
+    final name = ref.watch(
+      messageProvider(selectedDeviceId).select((m) => m.name),
+    );
+
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Scrollbar(
         controller: _scrollController,
         child: SingleChildScrollView(
           controller: _scrollController,
-          child: const Column(
-            children: [Text('This is Message Info Tab View')],
+          child: Column(
+            children: [
+              _InfoPanelField(
+                label: 'Name :',
+                value: name,
+                validator: Validator.validateName,
+                onSave: (value) => ref
+                    .read(messageProvider(selectedDeviceId).notifier)
+                    .updateName(value),
+              ),
+            ],
           ),
         ),
       ),

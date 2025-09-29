@@ -41,6 +41,9 @@ class _InfoPanelField extends StatelessWidget {
 
             if (onSave != null)
               IconButton(
+                iconSize: 10,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -55,6 +58,7 @@ class _InfoPanelField extends StatelessWidget {
                 icon: HugeIcon(
                   icon: HugeIcons.strokeRoundedPencilEdit01,
                   color: Theme.of(context).colorScheme.secondary,
+                  size: 20,
                 ),
               ),
           ],

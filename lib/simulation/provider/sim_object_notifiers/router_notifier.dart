@@ -55,6 +55,24 @@ class RouterNotifier extends DeviceNotifier<Router> {
       Eth.eth3 => state.copyWith(eth3conId: newConId),
     };
   }
+
+  void updateIpByEthName(String ethName, String newIp) {
+    final eth = Eth.values.firstWhere((e) => e.name == ethName);
+    switch (eth) {
+      case Eth.eth0:
+        state = state.copyWith(eth0IpAddress: newIp);
+        break;
+      case Eth.eth1:
+        state = state.copyWith(eth1IpAddress: newIp);
+        break;
+      case Eth.eth2:
+        state = state.copyWith(eth2IpAddress: newIp);
+        break;
+      case Eth.eth3:
+        state = state.copyWith(eth3IpAddress: newIp);
+        break;
+    }
+  }
 }
 
 class RouterMapNotifier extends DeviceMapNotifier<Router> {}

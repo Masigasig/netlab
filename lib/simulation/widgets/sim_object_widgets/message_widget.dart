@@ -2,7 +2,7 @@ part of 'sim_object_widget.dart';
 
 class MessageWidget extends SimObjectWidget {
   static const imagePath = AppImage.message;
-  static const size = 50.0;
+  static const size = 100.0;
 
   const MessageWidget({super.key, required super.simObjectId});
 
@@ -43,7 +43,7 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
     return isPlaying
         ? AnimatedPositioned(
             left: messagePosX - MessageWidget.size / 2,
-            top: messagePosY - MessageWidget.size / 2 - 25,
+            top: messagePosY - MessageWidget.size / 2,
             duration: messageDuration,
             curve: Curves.easeIn,
             onEnd: () {
@@ -56,7 +56,7 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
           )
         : Positioned(
             left: originPosX - MessageWidget.size / 2,
-            top: originPosY - MessageWidget.size / 2 - 25,
+            top: originPosY - MessageWidget.size / 2,
             child: GestureDetector(
               onTap: _handleTap,
               child: _messageWithLabel(),
@@ -76,15 +76,32 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
       children: [
         Material(
           color: Colors.transparent,
-          child: Text(
-            ref.read(messageProvider(widget.simObjectId)).name,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+          child: SizedBox(
+            width: MessageWidget.size,
+            child: Consumer(
+              builder: (context, ref, child) {
+                final name = ref.watch(
+                  messageProvider(widget.simObjectId).select((m) => m.name),
+                );
+
+                return Text(
+                  name,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
+                );
+              },
+            ),
           ),
         ),
 
         SizedBox(
-          width: MessageWidget.size,
-          height: MessageWidget.size - 25,
+          width: MessageWidget.size - 50,
+          height: MessageWidget.size - 25 - 50,
           child: Image.asset(MessageWidget.imagePath, fit: BoxFit.contain),
         ),
       ],

@@ -131,7 +131,6 @@ class _HostArpTableTabViewState extends ConsumerState<_HostArpTableTabView> {
                 dataRowMinHeight: 30,
                 dataRowMaxHeight: 30,
                 horizontalMargin: 0,
-                sortAscending: false,
                 dividerThickness: 0.01,
                 columnSpacing: 0,
                 headingTextStyle: const TextStyle(

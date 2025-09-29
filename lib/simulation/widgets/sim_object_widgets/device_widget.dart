@@ -65,11 +65,18 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
                 provider(widget.simObjectId).select((s) => s.name),
               );
 
-              return Text(
-                name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+              return SizedBox(
+                width: DeviceWidget.size,
+                child: Text(
+                  name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
                 ),
               );
             },
