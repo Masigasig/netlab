@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/simulation/core/enums.dart';
+import 'package:netlab/simulation/core/ipv4_address_manager.dart';
 import 'package:netlab/simulation/model/sim_objects/sim_object.dart';
 import 'package:netlab/simulation/widgets/sim_object_widgets/sim_object_widget.dart';
 

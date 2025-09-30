@@ -110,3 +110,182 @@ class _EditDialogState extends State<_EditDialog> {
     );
   }
 }
+
+class _EditInterfaceDialog extends ConsumerStatefulWidget {
+  final String ipAddress;
+  final String subnetMask;
+  final Function(String, String) onSave;
+
+  const _EditInterfaceDialog({
+    required this.ipAddress,
+    required this.subnetMask,
+    required this.onSave,
+  });
+
+  @override
+  ConsumerState<_EditInterfaceDialog> createState() =>
+      _EditInterfaceDialogState();
+}
+
+class _EditInterfaceDialogState extends ConsumerState<_EditInterfaceDialog> {
+  final _formKey = GlobalKey<FormState>();
+  late TextEditingController _ipController;
+  late TextEditingController _subnetController;
+
+  @override
+  void initState() {
+    super.initState();
+    _ipController = TextEditingController(text: widget.ipAddress);
+    _subnetController = TextEditingController(text: widget.subnetMask);
+  }
+
+  @override
+  void dispose() {
+    _ipController.dispose();
+    _subnetController.dispose();
+    super.dispose();
+  }
+
+  void _save() {
+    if (_formKey.currentState!.validate()) {
+      widget.onSave(_ipController.text.trim(), _subnetController.text.trim());
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _ipController,
+                  autofocus: true,
+                  validator: (value) {
+                    final subnetMask = _subnetController.text.trim();
+                    final routingTable = ref
+                        .read(
+                          routerProvider(
+                            ref.read(simScreenProvider).selectedDeviceOnInfo,
+                          ),
+                        )
+                        .routingTable;
+                    return Validator.validateIpOnRouterInterface(
+                      value,
+                      subnetMask,
+                      routingTable,
+                    );
+                  },
+                  decoration: InputDecoration(
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        HugeIcon(
+                          icon: HugeIcons.strokeRoundedPencilEdit01,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'New Ipv4 Address :',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    hintText: 'Enter new Ipv4 Address :',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.secondary,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                TextFormField(
+                  controller: _subnetController,
+                  autofocus: true,
+                  validator: (value) {
+                    final ipAddress = _ipController.text.trim();
+                    final routingTable = ref
+                        .read(
+                          routerProvider(
+                            ref.read(simScreenProvider).selectedDeviceOnInfo,
+                          ),
+                        )
+                        .routingTable;
+                    return Validator.validatSubnetOnRouterInterface(
+                      value,
+                      ipAddress,
+                      routingTable,
+                    );
+                  },
+                  decoration: InputDecoration(
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        HugeIcon(
+                          icon: HugeIcons.strokeRoundedPencilEdit01,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'New subnet mask :',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    hintText: 'Enter new subnet mask :',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.secondary,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel'),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(onPressed: _save, child: const Text('Save')),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

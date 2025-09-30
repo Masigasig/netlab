@@ -66,6 +66,7 @@ class Ipv4AddressManager {
   }
 
   static String getNetworkAddress(String ip, String subnet) {
+    if (ip.isEmpty || subnet.isEmpty) return 'Ip and Subnet required';
     if (!isValidIp(ip)) return 'Not Valid IP address';
     if (!isValidSubnet(subnet)) return 'Not Valid Subnetmask';
 

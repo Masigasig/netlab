@@ -1,6 +1,5 @@
 part of 'info_panel.dart';
 
-//* TODO: Router Info Panel
 class _RouterInfoTabView extends ConsumerStatefulWidget {
   const _RouterInfoTabView();
 
@@ -48,13 +47,12 @@ class _RouterInfoTabViewState extends ConsumerState<_RouterInfoTabView> {
 
               Consumer(
                 builder: (context, ref, child) {
-                  debugPrint('Interface 0 Consumer Rebuilt');
-
                   final ipAddress = ref.watch(
                     routerProvider(
                       selectedDeviceId,
                     ).select((r) => r.eth0IpAddress),
                   );
+
                   final subnetMask = ref.watch(
                     routerProvider(
                       selectedDeviceId,
@@ -67,113 +65,169 @@ class _RouterInfoTabViewState extends ConsumerState<_RouterInfoTabView> {
                     ).select((r) => r.eth0MacAddress),
                   );
 
-                  return Card(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 8,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 2),
-                          const Text(
-                            "Interface 0",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
+                  return _RouterInterfaceField(
+                    title: Eth.eth0.label,
+                    ipAddress: ipAddress,
+                    subnetMask: subnetMask,
+                    macAddress: macAddress,
+                    onSave: (ipAddress, subnetMask) {
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateIpByEthName(Eth.eth0.name, ipAddress);
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateSubnetMaskByEthName(Eth.eth0.name, subnetMask);
 
-                          // _InfoPanelField(
-                          //   label: 'Ipv4 Address :',
-                          //   value: ipAddress,
-                          //   validator: (input) =>
-                          //       Validator.validateIpAddress(input, subnetMask),
-                          //   onSave: (value) => ref
-                          //       .read(routerProvider(selectedDeviceId).notifier)
-                          //       .updateIpAddress(value),
-                          // ),
-                          _InfoPanelField(
-                            label: 'Subnet Mask :',
-                            value: subnetMask,
-                            validator: (input) =>
-                                Validator.validateSubnetMask(input, ipAddress),
-                            onSave: (value) => ref
-                                .read(hostProvider(selectedDeviceId).notifier)
-                                .updateSubnetMask(value),
-                          ),
-                          _InfoPanelField(
-                            label: 'Mac Address :',
-                            value: macAddress,
-                          ),
-                        ],
-                      ),
-                    ),
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateOrAddRoutingEntry(
+                            type: RouteType.directed.label,
+                            subnetMask: subnetMask,
+                            ipAddress: ipAddress,
+                            targetInterface: Eth.eth0.name,
+                          );
+                    },
                   );
                 },
               ),
 
-              // const Text(
-              //   "Interface 1",
-              //   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-              // ),
+              Consumer(
+                builder: (context, ref, child) {
+                  final ipAddress = ref.watch(
+                    routerProvider(
+                      selectedDeviceId,
+                    ).select((r) => r.eth1IpAddress),
+                  );
 
-              // Consumer(
-              //   builder: (context, ref, child) {
-              //     debugPrint('Interface 1 Consumer Rebuilt');
+                  final subnetMask = ref.watch(
+                    routerProvider(
+                      selectedDeviceId,
+                    ).select((r) => r.eth1SubnetMask),
+                  );
 
-              //     final ipAddress = ref.watch(
-              //       routerProvider(
-              //         selectedDeviceId,
-              //       ).select((r) => r.eth1IpAddress),
-              //     );
-              //     final subnetMask = ref.watch(
-              //       routerProvider(
-              //         selectedDeviceId,
-              //       ).select((r) => r.eth1SubnetMask),
-              //     );
+                  final macAddress = ref.watch(
+                    routerProvider(
+                      selectedDeviceId,
+                    ).select((r) => r.eth1MacAddress),
+                  );
 
-              //     final macAddress = ref.watch(
-              //       routerProvider(
-              //         selectedDeviceId,
-              //       ).select((r) => r.eth1MacAddress),
-              //     );
+                  return _RouterInterfaceField(
+                    title: Eth.eth1.label,
+                    ipAddress: ipAddress,
+                    subnetMask: subnetMask,
+                    macAddress: macAddress,
+                    onSave: (ipAddress, subnetMask) {
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateIpByEthName(Eth.eth1.name, ipAddress);
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateSubnetMaskByEthName(Eth.eth1.name, subnetMask);
 
-              //     return Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         _InfoPanelField(
-              //           label: 'Ipv4 Address :',
-              //           value: ipAddress,
-              //           validator: (input) =>
-              //               Validator.validateIpAddress(input, subnetMask),
-              //           onSave: (value) => ref
-              //               .read(hostProvider(selectedDeviceId).notifier)
-              //               .updateIpAddress(value),
-              //         ),
-              //         _InfoPanelField(
-              //           label: 'Subnet Mask :',
-              //           value: subnetMask,
-              //           validator: (input) =>
-              //               Validator.validateSubnetMask(input, ipAddress),
-              //           onSave: (value) => ref
-              //               .read(hostProvider(selectedDeviceId).notifier)
-              //               .updateSubnetMask(value),
-              //         ),
-              //         _InfoPanelField(
-              //           label: 'Mac Address :',
-              //           value: macAddress,
-              //         ),
-              //       ],
-              //     );
-              //   },
-              // ),
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateOrAddRoutingEntry(
+                            type: RouteType.directed.label,
+                            subnetMask: subnetMask,
+                            ipAddress: ipAddress,
+                            targetInterface: Eth.eth1.name,
+                          );
+                    },
+                  );
+                },
+              ),
+
+              Consumer(
+                builder: (context, ref, child) {
+                  final ipAddress = ref.watch(
+                    routerProvider(
+                      selectedDeviceId,
+                    ).select((r) => r.eth2IpAddress),
+                  );
+
+                  final subnetMask = ref.watch(
+                    routerProvider(
+                      selectedDeviceId,
+                    ).select((r) => r.eth2SubnetMask),
+                  );
+
+                  final macAddress = ref.watch(
+                    routerProvider(
+                      selectedDeviceId,
+                    ).select((r) => r.eth2MacAddress),
+                  );
+
+                  return _RouterInterfaceField(
+                    title: Eth.eth2.label,
+                    ipAddress: ipAddress,
+                    subnetMask: subnetMask,
+                    macAddress: macAddress,
+                    onSave: (ipAddress, subnetMask) {
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateIpByEthName(Eth.eth2.name, ipAddress);
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateSubnetMaskByEthName(Eth.eth2.name, subnetMask);
+
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateOrAddRoutingEntry(
+                            type: RouteType.directed.label,
+                            subnetMask: subnetMask,
+                            ipAddress: ipAddress,
+                            targetInterface: Eth.eth2.name,
+                          );
+                    },
+                  );
+                },
+              ),
+
+              Consumer(
+                builder: (context, ref, child) {
+                  final ipAddress = ref.watch(
+                    routerProvider(
+                      selectedDeviceId,
+                    ).select((r) => r.eth3IpAddress),
+                  );
+
+                  final subnetMask = ref.watch(
+                    routerProvider(
+                      selectedDeviceId,
+                    ).select((r) => r.eth3SubnetMask),
+                  );
+
+                  final macAddress = ref.watch(
+                    routerProvider(
+                      selectedDeviceId,
+                    ).select((r) => r.eth3MacAddress),
+                  );
+
+                  return _RouterInterfaceField(
+                    title: Eth.eth3.label,
+                    ipAddress: ipAddress,
+                    subnetMask: subnetMask,
+                    macAddress: macAddress,
+                    onSave: (ipAddress, subnetMask) {
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateIpByEthName(Eth.eth3.name, ipAddress);
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateSubnetMaskByEthName(Eth.eth3.name, subnetMask);
+
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .updateOrAddRoutingEntry(
+                            type: RouteType.directed.label,
+                            subnetMask: subnetMask,
+                            ipAddress: ipAddress,
+                            targetInterface: Eth.eth3.name,
+                          );
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -202,14 +256,65 @@ class _RouterArpTableTabViewState
 
   @override
   Widget build(BuildContext context) {
+    final selectedDeviceId = ref.watch(
+      simScreenProvider.select((s) => s.selectedDeviceOnInfo),
+    );
+
+    final arpTable = ref.watch(
+      routerProvider(selectedDeviceId).select((r) => r.arpTable),
+    );
+
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Scrollbar(
         controller: _scrollController,
         child: SingleChildScrollView(
           controller: _scrollController,
-          child: const Column(
-            children: [Text('This is Router Arp Table View')],
+          child: Column(
+            children: [
+              DataTable(
+                headingRowHeight: 35,
+                dataRowMinHeight: 30,
+                dataRowMaxHeight: 30,
+                horizontalMargin: 0,
+                dividerThickness: 0.01,
+                columnSpacing: 0,
+                headingTextStyle: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+                dataTextStyle: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w100,
+                ),
+                border: TableBorder(
+                  horizontalInside: BorderSide(
+                    color: Theme.of(context).colorScheme.secondary,
+                    width: 0.5,
+                  ),
+                ),
+                columns: const [
+                  DataColumn(
+                    columnWidth: FixedColumnWidth(100),
+                    headingRowAlignment: MainAxisAlignment.center,
+                    label: Center(child: Text("IP Address")),
+                  ),
+                  DataColumn(
+                    columnWidth: FixedColumnWidth(100),
+                    headingRowAlignment: MainAxisAlignment.center,
+                    label: Center(child: Text("MAC Address")),
+                  ),
+                ],
+                rows: arpTable.entries.map((entry) {
+                  return DataRow(
+                    cells: [
+                      DataCell(Center(child: Text(entry.key))),
+                      DataCell(Center(child: Text(entry.value))),
+                    ],
+                  );
+                }).toList(),
+              ),
+            ],
           ),
         ),
       ),
@@ -236,13 +341,89 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedDeviceId = ref.watch(
+      simScreenProvider.select((s) => s.selectedDeviceOnInfo),
+    );
+
+    final routingTable = ref.watch(
+      routerProvider(selectedDeviceId).select((r) => r.routingTable),
+    );
+
+    //* Sorted: Directed -> Static -> Dynamic
+    final sortedEntries = routingTable.entries.toList()
+      ..sort((a, b) {
+        final typeOrder = {
+          RouteType.directed.label: 0,
+          RouteType.static_.label: 1,
+          RouteType.dynamic_.label: 2,
+        };
+        final typeA = a.value['type'] ?? '';
+        final typeB = b.value['type'] ?? '';
+        return (typeOrder[typeA] ?? 99).compareTo(typeOrder[typeB] ?? 99);
+      });
+
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Scrollbar(
         controller: _scrollController,
         child: SingleChildScrollView(
           controller: _scrollController,
-          child: const Column(children: [Text('This is Routing Table View')]),
+          child: Column(
+            children: [
+              DataTable(
+                headingRowHeight: 35,
+                dataRowMinHeight: 30,
+                dataRowMaxHeight: 30,
+                horizontalMargin: 0,
+                dividerThickness: 0.01,
+                columnSpacing: 0,
+                headingTextStyle: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+                dataTextStyle: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w100,
+                ),
+                border: TableBorder(
+                  horizontalInside: BorderSide(
+                    color: Theme.of(context).colorScheme.secondary,
+                    width: 0.5,
+                  ),
+                ),
+                columns: const [
+                  DataColumn(
+                    columnWidth: FixedColumnWidth(40),
+                    headingRowAlignment: MainAxisAlignment.center,
+                    label: Center(child: Text("Type")),
+                  ),
+                  DataColumn(
+                    columnWidth: FixedColumnWidth(100),
+                    headingRowAlignment: MainAxisAlignment.center,
+                    label: Center(child: Text("Network Id")),
+                  ),
+                  DataColumn(
+                    columnWidth: FixedColumnWidth(80),
+                    headingRowAlignment: MainAxisAlignment.center,
+                    label: Center(child: Text("Interface")),
+                  ),
+                ],
+                rows: sortedEntries.map((entry) {
+                  final network = entry.key;
+                  final details = entry.value;
+                  return DataRow(
+                    cells: [
+                      DataCell(Center(child: Text(details['type']!))),
+                      DataCell(Center(child: Text(network))),
+                      DataCell(Center(child: Text(details['interface']!))),
+                    ],
+                  );
+                }).toList(),
+              ),
+
+              //* Butto to add static Route
+            ],
+          ),
         ),
       ),
     );

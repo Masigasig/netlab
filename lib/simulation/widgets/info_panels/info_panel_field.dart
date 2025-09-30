@@ -15,6 +15,8 @@ class _InfoPanelField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('InfoPanel for $label Rebuilt');
+
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -61,6 +63,136 @@ class _InfoPanelField extends StatelessWidget {
                   size: 20,
                 ),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _RouterInterfaceField extends StatelessWidget {
+  final String title;
+  final String ipAddress;
+  final String subnetMask;
+  final String macAddress;
+  final Function(String, String)? onSave;
+
+  const _RouterInterfaceField({
+    required this.title,
+    required this.ipAddress,
+    required this.subnetMask,
+    required this.macAddress,
+    this.onSave,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint('InterfaceField for $title Rebuilt');
+
+    final networkId = Ipv4AddressManager.getNetworkAddress(
+      ipAddress,
+      subnetMask,
+    );
+
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                IconButton(
+                  iconSize: 10,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => _EditInterfaceDialog(
+                        ipAddress: ipAddress,
+                        subnetMask: subnetMask,
+                        onSave: onSave!,
+                      ),
+                    );
+                  },
+                  icon: HugeIcon(
+                    icon: HugeIcons.strokeRoundedPencilEdit01,
+                    color: Theme.of(context).colorScheme.secondary,
+                    size: 20,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Network Id :',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 2),
+                Text(networkId),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Ipv4 Address :',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 2),
+                Text(ipAddress.isEmpty ? 'Not set' : ipAddress),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'SubnetMask :',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 2),
+                Text(subnetMask.isEmpty ? 'Not set' : subnetMask),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Mac Address:',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 2),
+                Text(macAddress),
+              ],
+            ),
           ],
         ),
       ),

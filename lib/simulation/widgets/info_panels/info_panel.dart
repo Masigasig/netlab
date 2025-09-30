@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/simulation/core/enums.dart';
+import 'package:netlab/simulation/core/ipv4_address_manager.dart';
 import 'package:netlab/simulation/core/validator.dart';
 import 'package:netlab/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
