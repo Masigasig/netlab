@@ -230,7 +230,7 @@ class _EditInterfaceDialogState extends ConsumerState<_EditInterfaceDialog> {
                           ),
                         )
                         .routingTable;
-                    return Validator.validatSubnetOnRouterInterface(
+                    return Validator.validateSubnetOnRouterInterface(
                       value,
                       ipAddress,
                       routingTable,

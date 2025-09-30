@@ -37,6 +37,10 @@ class Ipv4AddressManager {
     '255.255.255.255',
   };
 
+  static bool addIp(String ip) => _ipv4Storage.add(ip);
+
+  static bool removeIp(String ip) => _ipv4Storage.remove(ip);
+
   static String _normalizeSubnet(String subnet) {
     if (!subnet.startsWith('/')) return subnet;
     final cidr = int.parse(subnet.substring(1));

@@ -6,6 +6,8 @@ class MacAddressManager {
   static const broadcastMacAddress = 'FF:FF:FF:FF:FF:FF';
   static const unknownMacAddress = '00:00:00:00:00:00';
 
+  static bool removeMac(String mac) => _macStorage.remove(mac);
+
   static String generateMacAddress() {
     final rng = Random();
     String mac;

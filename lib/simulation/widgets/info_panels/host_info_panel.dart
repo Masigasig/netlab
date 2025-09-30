@@ -57,6 +57,13 @@ class _HostInfoTabViewState extends ConsumerState<_HostInfoTabView> {
                     .updateName(value),
               ),
               _InfoPanelField(
+                label: 'Network Id :',
+                value: Ipv4AddressManager.getNetworkAddress(
+                  ipAddress,
+                  subnetMask,
+                ),
+              ),
+              _InfoPanelField(
                 label: 'Ipv4 Address :',
                 value: ipAddress,
                 validator: (input) =>
