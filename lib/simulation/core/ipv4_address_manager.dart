@@ -135,6 +135,10 @@ class Ipv4AddressManager {
     return {'ipv4Addresses': _ipv4Storage.toList()};
   }
 
+  static void clearStorage() {
+    _ipv4Storage.clear();
+  }
+
   static void importStorage(Map<String, dynamic> data) {
     final ipList = data['ipv4Addresses'];
     if (ipList is List) {

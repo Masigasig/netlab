@@ -134,6 +134,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
             onPlay: () => ref.read(simScreenProvider.notifier).playSimulation(),
             onStop: () => ref.read(simScreenProvider.notifier).stopSimulation(),
             onCenterView: _centerViewAnimated,
+            onClearAll: _onClearAll,
           ),
         ],
       ),
@@ -189,6 +190,33 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 
   void _saveSimulation() {
     //* TODO: SaveSimulation
+  }
+
+  void _onClearAll() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Reset'),
+          content: const Text(
+            'Are you sure you want to reset the canvas? This will clear all simulation data.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                ref.read(simScreenProvider.notifier).clearAll();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Reset'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _onExit() {

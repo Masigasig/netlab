@@ -64,6 +64,7 @@ class SimulationControls extends StatelessWidget {
   final VoidCallback onPlay;
   final VoidCallback onStop;
   final VoidCallback onCenterView;
+  final VoidCallback onClearAll;
 
   const SimulationControls({
     super.key,
@@ -72,6 +73,7 @@ class SimulationControls extends StatelessWidget {
     required this.onStop,
     required this.onPlay,
     required this.onCenterView,
+    required this.onClearAll,
   });
 
   @override
@@ -97,6 +99,14 @@ class SimulationControls extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
               onPressed: onCenterView,
+            ),
+
+            _ControlButton(
+              icon: HugeIcon(
+                icon: HugeIcons.strokeRoundedClean,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
+              onPressed: onClearAll,
             ),
           ],
         ),

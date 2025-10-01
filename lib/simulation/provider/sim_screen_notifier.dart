@@ -1,11 +1,14 @@
 // import 'package:flutter/material.dart' hide Router, Switch;
 import 'package:ulid/ulid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart' show WidgetsBinding;
 
 import 'package:netlab/simulation/core/enums.dart';
+import 'package:netlab/simulation/core/ipv4_address_manager.dart';
 import 'package:netlab/simulation/core/mac_address_manager.dart';
 import 'package:netlab/simulation/model/sim_objects/sim_object.dart';
 import 'package:netlab/simulation/model/sim_screen.dart';
+import 'package:netlab/simulation/provider/logs_notifier.dart';
 import 'package:netlab/simulation/provider/sim_clock.dart';
 import 'package:netlab/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
 import 'package:netlab/simulation/widgets/sim_object_widgets/sim_object_widget.dart';
@@ -103,6 +106,36 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     } else {
       state = state.copyWith(selectedDeviceOnInfo: deviceId);
     }
+  }
+
+  void clearAll() {
+    ref.invalidate(connectionWidgetsProvider);
+    ref.invalidate(messageWidgetsProvider);
+    ref.invalidate(hostWidgetsProvider);
+    ref.invalidate(switchWidgetsProvider);
+    ref.invalidate(routerWidgetsProvider);
+
+    ref.invalidateSelf();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Ipv4AddressManager.clearStorage();
+      MacAddressManager.clearStorage();
+
+      ref.invalidate(simObjectLogProvider);
+      ref.invalidate(systemLogProvider);
+      ref.invalidate(simClockProvider);
+
+      ref.invalidate(connectionProvider);
+      ref.invalidate(messageProvider);
+      ref.invalidate(hostProvider);
+      ref.invalidate(switchProvider);
+      ref.invalidate(routerProvider);
+
+      ref.invalidate(connectionMapProvider);
+      ref.invalidate(messageMapProvider);
+      ref.invalidate(hostMapProvider);
+      ref.invalidate(switchMapProvider);
+      ref.invalidate(routerMapProvider);
+    });
   }
 
   void createDevice({

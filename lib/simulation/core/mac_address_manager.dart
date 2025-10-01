@@ -33,6 +33,10 @@ class MacAddressManager {
 
   static bool remove(String mac) => _macStorage.remove(mac);
 
+  static void clearStorage() {
+    _macStorage.clear();
+  }
+
   static Map<String, dynamic> exportStorage() {
     return {'macAddresses': _macStorage.toList()};
   }
