@@ -256,6 +256,7 @@ class _RouterArpTableTabViewState
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Arp Table Rebuilt');
     final selectedDeviceId = ref.watch(
       simScreenProvider.select((s) => s.selectedDeviceOnInfo),
     );
@@ -341,6 +342,7 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Routing Table Rebuilt');
     final selectedDeviceId = ref.watch(
       simScreenProvider.select((s) => s.selectedDeviceOnInfo),
     );
@@ -362,70 +364,116 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
         return (typeOrder[typeA] ?? 99).compareTo(typeOrder[typeB] ?? 99);
       });
 
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Scrollbar(
-        controller: _scrollController,
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Column(
-            children: [
-              DataTable(
-                headingRowHeight: 35,
-                dataRowMinHeight: 30,
-                dataRowMaxHeight: 30,
-                horizontalMargin: 0,
-                dividerThickness: 0.01,
-                columnSpacing: 0,
-                headingTextStyle: const TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                ),
-                dataTextStyle: const TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w100,
-                ),
-                border: TableBorder(
-                  horizontalInside: BorderSide(
-                    color: Theme.of(context).colorScheme.secondary,
-                    width: 0.5,
-                  ),
-                ),
-                columns: const [
-                  DataColumn(
-                    columnWidth: FixedColumnWidth(40),
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Center(child: Text("Type")),
-                  ),
-                  DataColumn(
-                    columnWidth: FixedColumnWidth(100),
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Center(child: Text("Network Id")),
-                  ),
-                  DataColumn(
-                    columnWidth: FixedColumnWidth(80),
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Center(child: Text("Interface")),
-                  ),
-                ],
-                rows: sortedEntries.map((entry) {
-                  final network = entry.key;
-                  final details = entry.value;
-                  return DataRow(
-                    cells: [
-                      DataCell(Center(child: Text(details['type']!))),
-                      DataCell(Center(child: Text(network))),
-                      DataCell(Center(child: Text(details['interface']!))),
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Scrollbar(
+            controller: _scrollController,
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                children: [
+                  DataTable(
+                    headingRowHeight: 35,
+                    dataRowMinHeight: 30,
+                    dataRowMaxHeight: 30,
+                    horizontalMargin: 0,
+                    dividerThickness: 0.01,
+                    columnSpacing: 0,
+                    headingTextStyle: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    dataTextStyle: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w100,
+                    ),
+                    border: TableBorder(
+                      horizontalInside: BorderSide(
+                        color: Theme.of(context).colorScheme.secondary,
+                        width: 0.5,
+                      ),
+                    ),
+                    columns: const [
+                      DataColumn(
+                        columnWidth: FixedColumnWidth(40),
+                        headingRowAlignment: MainAxisAlignment.center,
+                        label: Center(child: Text("Type")),
+                      ),
+                      DataColumn(
+                        columnWidth: FixedColumnWidth(100),
+                        headingRowAlignment: MainAxisAlignment.center,
+                        label: Center(child: Text("Network Id")),
+                      ),
+                      DataColumn(
+                        columnWidth: FixedColumnWidth(80),
+                        headingRowAlignment: MainAxisAlignment.center,
+                        label: Center(child: Text("Interface")),
+                      ),
                     ],
-                  );
-                }).toList(),
+                    rows: sortedEntries.map((entry) {
+                      final network = entry.key;
+                      final details = entry.value;
+                      return DataRow(
+                        cells: [
+                          DataCell(Center(child: Text(details['type']!))),
+                          DataCell(Center(child: Text(network))),
+                          DataCell(Center(child: Text(details['interface']!))),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 50),
+                ],
               ),
-
-              //* Butto to add static Route
-            ],
+            ),
           ),
         ),
-      ),
+
+        Positioned(
+          bottom: 16,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: ElevatedButton.icon(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => _AddStaticRouteDialog(
+                    onSave: (networkId, subnetMask, interface_) {
+                      ref
+                          .read(routerProvider(selectedDeviceId).notifier)
+                          .addStaticRoute(
+                            networkId: networkId + subnetMask,
+                            interface_: interface_,
+                          );
+                    },
+                  ),
+                );
+              },
+              icon: HugeIcon(
+                icon: HugeIcons.strokeRoundedPropertyAdd,
+                color: Theme.of(context).colorScheme.onPrimary,
+                size: 16,
+              ),
+              label: Text(
+                'Add Static Route',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

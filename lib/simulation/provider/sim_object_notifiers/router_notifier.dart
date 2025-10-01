@@ -78,6 +78,19 @@ class RouterNotifier extends DeviceNotifier<Router> {
     };
   }
 
+  void addStaticRoute({required String networkId, required String interface_}) {
+    final newRoutingTable = Map<String, Map<String, String>>.from(
+      state.routingTable,
+    );
+
+    newRoutingTable[networkId] = {
+      'type': RouteType.static_.label,
+      'interface': interface_,
+    };
+
+    state = state.copyWith(routingTable: newRoutingTable);
+  }
+
   void updateOrAddRoutingEntry({
     required String type,
     required String subnetMask,

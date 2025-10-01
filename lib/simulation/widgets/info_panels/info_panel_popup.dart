@@ -289,3 +289,207 @@ class _EditInterfaceDialogState extends ConsumerState<_EditInterfaceDialog> {
     );
   }
 }
+
+class _AddStaticRouteDialog extends ConsumerStatefulWidget {
+  final Function(String, String, String) onSave;
+
+  const _AddStaticRouteDialog({required this.onSave});
+
+  @override
+  ConsumerState<_AddStaticRouteDialog> createState() =>
+      _AddStaticRouteDialogState();
+}
+
+class _AddStaticRouteDialogState extends ConsumerState<_AddStaticRouteDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final _networkIdController = TextEditingController();
+  final _subnetController = TextEditingController();
+  final _interfaceController = TextEditingController();
+
+  @override
+  void dispose() {
+    _networkIdController.dispose();
+    _subnetController.dispose();
+    _interfaceController.dispose();
+    super.dispose();
+  }
+
+  void _save() {
+    if (_formKey.currentState!.validate()) {
+      widget.onSave(
+        _networkIdController.text.trim(),
+        _subnetController.text.trim(),
+        _interfaceController.text.trim(),
+      );
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _networkIdController,
+                  autofocus: true,
+                  validator: (value) {
+                    final routingTable = ref
+                        .read(
+                          routerProvider(
+                            ref.read(simScreenProvider).selectedDeviceOnInfo,
+                          ),
+                        )
+                        .routingTable;
+                    return Validator.validateNetworkId(
+                      value,
+                      _subnetController.text.trim(),
+                      routingTable,
+                    );
+                  },
+                  decoration: InputDecoration(
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        HugeIcon(
+                          icon: HugeIcons.strokeRoundedPencilEdit01,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Network Id :',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    hintText: '192.168.1.0 :',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.secondary,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                TextFormField(
+                  controller: _subnetController,
+                  autofocus: true,
+                  validator: (value) {
+                    return Validator.validateStaticRouteSubnet(
+                      value,
+                      _networkIdController.text.trim(),
+                    );
+                  },
+                  decoration: InputDecoration(
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        HugeIcon(
+                          icon: HugeIcons.strokeRoundedPencilEdit01,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Subnet mask :',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    hintText: 'Enter subnet mask :',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.secondary,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                TextFormField(
+                  controller: _interfaceController,
+                  autofocus: true,
+                  validator: (value) {
+                    return Validator.validateStaticRouteInterface(
+                      value,
+                      _subnetController.text.trim(),
+                    );
+                  },
+                  decoration: InputDecoration(
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        HugeIcon(
+                          icon: HugeIcons.strokeRoundedPencilEdit01,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Interface :',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    hintText: 'Enter an IP or directed Interface',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.secondary,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel'),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(onPressed: _save, child: const Text('Save')),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
