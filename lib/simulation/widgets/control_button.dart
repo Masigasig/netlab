@@ -101,12 +101,12 @@ class SimulationControls extends StatelessWidget {
               onPressed: onCenterView,
             ),
 
-            _ControlButton(
+            _DisabledWhenPlayingButton(
+              onPressed: onClearAll,
               icon: HugeIcon(
                 icon: HugeIcons.strokeRoundedClean,
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
-              onPressed: onClearAll,
             ),
           ],
         ),

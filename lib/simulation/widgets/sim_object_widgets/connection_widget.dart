@@ -88,6 +88,16 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
     ref
         .read(simScreenProvider.notifier)
         .setSelectedDeviceOnInfo(widget.simObjectId);
+
+    if (ref.read(simScreenProvider).isInfoPanelOpen) {
+      if (ref.read(simScreenProvider).selectedDeviceOnInfo.isEmpty) {
+        ref.read(simScreenProvider.notifier).closeInfoPanel();
+      }
+    } else {
+      if (ref.read(simScreenProvider).selectedDeviceOnInfo.isNotEmpty) {
+        ref.read(simScreenProvider.notifier).openInfoPanel();
+      }
+    }
   }
 }
 
