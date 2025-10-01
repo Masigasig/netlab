@@ -4,6 +4,7 @@ class SimScreen {
   final bool isMessageModeOn;
   final bool isDevicePanelOpen;
   final bool isLogPanelOpen;
+  final bool isInfoPanelOpen;
   final String selectedDeviceOnConn;
   final String selectedDeviceOnInfo;
 
@@ -13,6 +14,7 @@ class SimScreen {
     this.isMessageModeOn = false,
     this.isDevicePanelOpen = false,
     this.isLogPanelOpen = false,
+    this.isInfoPanelOpen = false,
     this.selectedDeviceOnConn = '',
     this.selectedDeviceOnInfo = '',
   });
@@ -23,6 +25,7 @@ class SimScreen {
     bool? isMessageModeOn,
     bool? isDevicePanelOpen,
     bool? isLogPanelOpen,
+    bool? isInfoPanelOpen,
     String? selectedDeviceOnConn,
     String? selectedDeviceOnInfo,
   }) {
@@ -32,6 +35,7 @@ class SimScreen {
       isMessageModeOn: isMessageModeOn ?? this.isMessageModeOn,
       isDevicePanelOpen: isDevicePanelOpen ?? this.isDevicePanelOpen,
       isLogPanelOpen: isLogPanelOpen ?? this.isLogPanelOpen,
+      isInfoPanelOpen: isInfoPanelOpen ?? this.isInfoPanelOpen,
       selectedDeviceOnConn: selectedDeviceOnConn ?? this.selectedDeviceOnConn,
       selectedDeviceOnInfo: selectedDeviceOnInfo ?? this.selectedDeviceOnInfo,
     );

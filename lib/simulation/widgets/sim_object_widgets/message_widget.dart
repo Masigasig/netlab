@@ -83,15 +83,23 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
                 final name = ref.watch(
                   messageProvider(widget.simObjectId).select((m) => m.name),
                 );
+                final selectedIdOnInfo = ref.watch(
+                  simScreenProvider.select((s) => s.selectedDeviceOnInfo),
+                );
+
+                final isSelected = widget.simObjectId == selectedIdOnInfo;
 
                 return Text(
                   name,
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 10,
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.secondary
+                        : null,
                   ),
                 );
               },

@@ -63,6 +63,14 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     state = state.copyWith(isLogPanelOpen: false);
   }
 
+  void openInfoPanel() {
+    state = state.copyWith(isInfoPanelOpen: true);
+  }
+
+  void closeInfoPanel() {
+    state = state.copyWith(isInfoPanelOpen: false);
+  }
+
   void toggleConnectionMode() {
     _selectedDevices.clear();
     state = state.copyWith(

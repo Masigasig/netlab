@@ -65,6 +65,12 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
                 provider(widget.simObjectId).select((s) => s.name),
               );
 
+              final selectedIdOnInfo = ref.watch(
+                simScreenProvider.select((s) => s.selectedDeviceOnInfo),
+              );
+
+              final isSelected = widget.simObjectId == selectedIdOnInfo;
+
               return SizedBox(
                 width: DeviceWidget.size,
                 child: Text(
@@ -73,9 +79,12 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.secondary
+                        : null,
                   ),
                 ),
               );
@@ -97,6 +106,16 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
       ref
           .read(simScreenProvider.notifier)
           .setSelectedDeviceOnInfo(widget.simObjectId);
+
+      if (ref.read(simScreenProvider).isInfoPanelOpen) {
+        if (ref.read(simScreenProvider).selectedDeviceOnInfo.isEmpty) {
+          ref.read(simScreenProvider.notifier).closeInfoPanel();
+        }
+      } else {
+        if (ref.read(simScreenProvider).selectedDeviceOnInfo.isNotEmpty) {
+          ref.read(simScreenProvider.notifier).openInfoPanel();
+        }
+      }
     }
   }
 

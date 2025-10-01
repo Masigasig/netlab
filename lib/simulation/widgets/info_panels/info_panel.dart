@@ -26,8 +26,11 @@ class InfoPanel extends ConsumerWidget {
     final selectedDevice = ref.watch(
       simScreenProvider.select((s) => s.selectedDeviceOnInfo),
     );
+    final isOpen = ref.watch(
+      simScreenProvider.select((s) => s.isInfoPanelOpen),
+    );
 
-    if (selectedDevice.isEmpty) return const SizedBox.shrink();
+    if (selectedDevice.isEmpty || !isOpen) return const SizedBox.shrink();
 
     final tabConfig = _TabConfig.fromDeviceType(selectedDevice);
 
@@ -93,9 +96,7 @@ class InfoPanel extends ConsumerWidget {
                     children: [
                       TextButton(
                         onPressed: () {
-                          ref
-                              .read(simScreenProvider.notifier)
-                              .setSelectedDeviceOnInfo('');
+                          ref.read(simScreenProvider.notifier).closeInfoPanel();
                         },
                         child: const Text('Close'),
                       ),
