@@ -366,8 +366,8 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
 
     return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(4.0),
+        Align(
+          alignment: Alignment.topCenter,
           child: Scrollbar(
             controller: _scrollController,
             child: SingleChildScrollView(
@@ -380,7 +380,7 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
                     dataRowMaxHeight: 30,
                     horizontalMargin: 0,
                     dividerThickness: 0.01,
-                    columnSpacing: 0,
+                    columnSpacing: 2,
                     headingTextStyle: const TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
@@ -402,14 +402,19 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
                         label: Center(child: Text("Type")),
                       ),
                       DataColumn(
-                        columnWidth: FixedColumnWidth(100),
+                        columnWidth: FixedColumnWidth(90),
                         headingRowAlignment: MainAxisAlignment.center,
                         label: Center(child: Text("Network Id")),
                       ),
                       DataColumn(
-                        columnWidth: FixedColumnWidth(80),
+                        columnWidth: FixedColumnWidth(75),
                         headingRowAlignment: MainAxisAlignment.center,
                         label: Center(child: Text("Interface")),
+                      ),
+                      DataColumn(
+                        columnWidth: FixedColumnWidth(25),
+                        headingRowAlignment: MainAxisAlignment.center,
+                        label: Center(child: Text("")),
                       ),
                     ],
                     rows: sortedEntries.map((entry) {
@@ -420,6 +425,74 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
                           DataCell(Center(child: Text(details['type']!))),
                           DataCell(Center(child: Text(network))),
                           DataCell(Center(child: Text(details['interface']!))),
+                          DataCell(
+                            Center(
+                              child: IconButton(
+                                onPressed: () {
+                                  if (details['type'] ==
+                                      RouteType.directed.label) {
+                                    ref
+                                        .read(
+                                          routerProvider(
+                                            selectedDeviceId,
+                                          ).notifier,
+                                        )
+                                        .removeRoute(network);
+                                    if (details['interface'] == Eth.eth0.name) {
+                                      ref
+                                          .read(
+                                            routerProvider(
+                                              selectedDeviceId,
+                                            ).notifier,
+                                          )
+                                          .updateIpByEthName(Eth.eth0.name, '');
+                                    }
+                                    if (details['interface'] == Eth.eth1.name) {
+                                      ref
+                                          .read(
+                                            routerProvider(
+                                              selectedDeviceId,
+                                            ).notifier,
+                                          )
+                                          .updateIpByEthName(Eth.eth1.name, '');
+                                    }
+                                    if (details['interface'] == Eth.eth2.name) {
+                                      ref
+                                          .read(
+                                            routerProvider(
+                                              selectedDeviceId,
+                                            ).notifier,
+                                          )
+                                          .updateIpByEthName(Eth.eth2.name, '');
+                                    }
+                                    if (details['interface'] == Eth.eth3.name) {
+                                      ref
+                                          .read(
+                                            routerProvider(
+                                              selectedDeviceId,
+                                            ).notifier,
+                                          )
+                                          .updateIpByEthName(Eth.eth3.name, '');
+                                    }
+                                  } else {
+                                    ref
+                                        .read(
+                                          routerProvider(
+                                            selectedDeviceId,
+                                          ).notifier,
+                                        )
+                                        .removeRoute(network);
+                                  }
+                                },
+                                padding: EdgeInsets.zero,
+                                icon: const HugeIcon(
+                                  icon: HugeIcons.strokeRoundedCancel01,
+                                  size: 16,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       );
                     }).toList(),
@@ -432,7 +505,7 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
         ),
 
         Positioned(
-          bottom: 16,
+          bottom: 12,
           left: 0,
           right: 0,
           child: Center(

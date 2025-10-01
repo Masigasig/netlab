@@ -43,7 +43,7 @@ class InfoPanel extends ConsumerWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: SizedBox(
-            width: 230,
+            width: 250,
             child: Column(
               children: [
                 SizedBox(
@@ -86,7 +86,7 @@ class InfoPanel extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 6.0,
-                    vertical: 4.0,
+                    vertical: 2.0,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,

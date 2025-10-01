@@ -17,8 +17,8 @@ class LogPanel extends ConsumerWidget {
     }
 
     return Positioned(
-      top: 0,
-      bottom: 0,
+      top: 60,
+      bottom: 60,
       right: 58,
       child: Center(
         child: DefaultTabController(
@@ -30,7 +30,6 @@ class LogPanel extends ConsumerWidget {
             ),
             child: SizedBox(
               width: 175,
-              height: 300,
               child: Column(
                 children: [
                   SizedBox(

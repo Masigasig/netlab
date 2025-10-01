@@ -133,6 +133,16 @@ class RouterNotifier extends DeviceNotifier<Router> {
 
     state = state.copyWith(routingTable: newRoutingTable);
   }
+
+  void removeRoute(String networkId) {
+    final newRoutingTable = Map<String, Map<String, String>>.from(
+      state.routingTable,
+    );
+
+    newRoutingTable.remove(networkId);
+
+    state = state.copyWith(routingTable: newRoutingTable);
+  }
 }
 
 class RouterMapNotifier extends DeviceMapNotifier<Router> {}

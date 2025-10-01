@@ -21,7 +21,7 @@ class DevicePanel extends ConsumerWidget {
 
     return Positioned(
       bottom: 8,
-      left: 0,
+      left: 20,
       right: 0,
       child: Center(
         child: Card(
@@ -30,7 +30,7 @@ class DevicePanel extends ConsumerWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: const SizedBox(
-            width: 440,
+            width: 420,
             height: 110,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

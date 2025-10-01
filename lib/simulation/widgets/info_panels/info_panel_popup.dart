@@ -330,9 +330,9 @@ class _AddStaticRouteDialogState extends ConsumerState<_AddStaticRouteDialog> {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(maxWidth: 300),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Form(
             key: _formKey,
             child: Column(
@@ -340,6 +340,7 @@ class _AddStaticRouteDialogState extends ConsumerState<_AddStaticRouteDialog> {
               children: [
                 TextFormField(
                   controller: _networkIdController,
+                  style: const TextStyle(fontSize: 14, height: 1.7),
                   autofocus: true,
                   validator: (value) {
                     final routingTable = ref
@@ -356,19 +357,28 @@ class _AddStaticRouteDialogState extends ConsumerState<_AddStaticRouteDialog> {
                     );
                   },
                   decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 6,
+                      horizontal: 12,
+                    ),
+
                     label: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         HugeIcon(
                           icon: HugeIcons.strokeRoundedPencilEdit01,
                           color: Theme.of(context).colorScheme.secondary,
+                          size: 16,
                         ),
                         const SizedBox(width: 6),
                         Text(
                           'Network Id :',
                           style: TextStyle(
+                            fontSize: 14,
+                            height: 1.5,
                             color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],
@@ -386,10 +396,11 @@ class _AddStaticRouteDialogState extends ConsumerState<_AddStaticRouteDialog> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
 
                 TextFormField(
                   controller: _subnetController,
+                  style: const TextStyle(fontSize: 14, height: 1.7),
                   autofocus: true,
                   validator: (value) {
                     return Validator.validateStaticRouteSubnet(
@@ -397,20 +408,29 @@ class _AddStaticRouteDialogState extends ConsumerState<_AddStaticRouteDialog> {
                       _networkIdController.text.trim(),
                     );
                   },
+
                   decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 6,
+                      horizontal: 12,
+                    ),
                     label: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         HugeIcon(
                           icon: HugeIcons.strokeRoundedPencilEdit01,
                           color: Theme.of(context).colorScheme.secondary,
+                          size: 16,
                         ),
                         const SizedBox(width: 6),
                         Text(
                           'Subnet mask :',
                           style: TextStyle(
+                            fontSize: 14,
+                            height: 1.5,
                             color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],
@@ -429,10 +449,11 @@ class _AddStaticRouteDialogState extends ConsumerState<_AddStaticRouteDialog> {
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
 
                 TextFormField(
                   controller: _interfaceController,
+                  style: const TextStyle(fontSize: 14, height: 1.7),
                   autofocus: true,
                   validator: (value) {
                     return Validator.validateStaticRouteInterface(
@@ -441,19 +462,27 @@ class _AddStaticRouteDialogState extends ConsumerState<_AddStaticRouteDialog> {
                     );
                   },
                   decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 6,
+                      horizontal: 12,
+                    ),
                     label: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         HugeIcon(
                           icon: HugeIcons.strokeRoundedPencilEdit01,
                           color: Theme.of(context).colorScheme.secondary,
+                          size: 16,
                         ),
                         const SizedBox(width: 6),
                         Text(
                           'Interface :',
                           style: TextStyle(
+                            fontSize: 14,
+                            height: 1.5,
                             color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],
@@ -472,7 +501,7 @@ class _AddStaticRouteDialogState extends ConsumerState<_AddStaticRouteDialog> {
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
