@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/study_topic.dart';
-import '../services/progress_service.dart';
+import '../core/models/study_topic.dart';
+import '../core/services/progress_service.dart';
 import 'package:netlab/core/components/app_theme.dart';
 
 class TopicCard extends StatefulWidget {

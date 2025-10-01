@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../models/study_topic.dart';
-import '../models/content_module.dart';
-import 'components/topic_header.dart';
-import 'components/sidebar_module_list.dart';
-import 'components/welcome_content_view.dart';
-import 'components/module_content_view.dart';
+import '../core/models/study_topic.dart';
+import '../core/models/content_module.dart';
+import '../features/topic/widgets/topic_header.dart';
+import '../features/sidebar/widgets/sidebar_module_list.dart';
+import '../features/topic/widgets/welcome_content_view.dart';
+import '../features/modules/widgets/module_content_view.dart';
 
 // ignore_for_file: deprecated_member_use
 abstract class BaseTopicContent extends StatefulWidget {
@@ -59,6 +59,8 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
                               module: getContentModules()[selectedModuleIndex!],
                               topic: widget.topic,
                               totalModules: getContentModules().length,
+                              currentModuleIndex: selectedModuleIndex!,
+                              onNextModule: _moveToNextModule,
                             )
                           : WelcomeContentView(topic: widget.topic),
                     ),
@@ -77,5 +79,14 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
       selectedModuleIndex = index;
     });
     widget.onModuleTap(context, module);
+  }
+
+  void _moveToNextModule() {
+    final modules = getContentModules();
+    if (selectedModuleIndex != null && selectedModuleIndex! < modules.length - 1) {
+      setState(() {
+        selectedModuleIndex = selectedModuleIndex! + 1;
+      });
+    }
   }
 }

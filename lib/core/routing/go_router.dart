@@ -7,7 +7,7 @@ import 'package:netlab/core/components/app_layout.dart' show AppLayout;
 import 'package:netlab/home/home_screen.dart' show HomeScreen;
 import 'package:netlab/settings/setting_screen.dart' show SettingScreen;
 import 'package:netlab/simulation/simulation_screen.dart' show SimulationScreen;
-import 'package:netlab/temp/homie/widgets/study_section/study.dart'
+import 'package:netlab/temp/homie/widgets/study_section/widgets/layouts/study.dart'
     show StudyScreen;
 
 export 'package:go_router/go_router.dart';

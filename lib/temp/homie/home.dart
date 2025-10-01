@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:netlab/temp/homie/widgets/dashboard.dart';
 import 'package:netlab/temp/homie/widgets/sidebar.dart';
 import 'package:netlab/temp/homie/widgets/simulator.dart';
-import 'package:netlab/temp/homie/widgets/study_section/study.dart';
+import 'package:netlab/temp/homie/widgets/study_section/widgets/layouts/study.dart';
 import 'package:netlab/temp/homie/widgets/tutorial.dart';
 
 class HomieScreen extends StatefulWidget {
