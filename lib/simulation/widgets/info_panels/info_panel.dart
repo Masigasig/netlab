@@ -29,6 +29,7 @@ class InfoPanel extends ConsumerWidget {
     final isOpen = ref.watch(
       simScreenProvider.select((s) => s.isInfoPanelOpen),
     );
+    final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
 
     if (selectedDevice.isEmpty || !isOpen) return const SizedBox.shrink();
 
@@ -101,9 +102,12 @@ class InfoPanel extends ConsumerWidget {
                         child: const Text('Close'),
                       ),
                       TextButton(
-                        onPressed: () {
-                          //* TODO: Del function
-                        },
+                        onPressed: isPlaying
+                            ? null
+                            : () {
+                                //   //* TODO: Del function
+                              },
+
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.red,
                         ),

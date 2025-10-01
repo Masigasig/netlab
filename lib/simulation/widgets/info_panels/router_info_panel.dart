@@ -343,6 +343,8 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
   @override
   Widget build(BuildContext context) {
     debugPrint('Routing Table Rebuilt');
+    final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
+
     final selectedDeviceId = ref.watch(
       simScreenProvider.select((s) => s.selectedDeviceOnInfo),
     );
@@ -425,70 +427,89 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
                           DataCell(Center(child: Text(details['type']!))),
                           DataCell(Center(child: Text(network))),
                           DataCell(Center(child: Text(details['interface']!))),
+
                           DataCell(
                             Center(
                               child: IconButton(
-                                onPressed: () {
-                                  if (details['type'] ==
-                                      RouteType.directed.label) {
-                                    ref
-                                        .read(
-                                          routerProvider(
-                                            selectedDeviceId,
-                                          ).notifier,
-                                        )
-                                        .removeRoute(network);
-                                    if (details['interface'] == Eth.eth0.name) {
-                                      ref
-                                          .read(
-                                            routerProvider(
-                                              selectedDeviceId,
-                                            ).notifier,
-                                          )
-                                          .updateIpByEthName(Eth.eth0.name, '');
-                                    }
-                                    if (details['interface'] == Eth.eth1.name) {
-                                      ref
-                                          .read(
-                                            routerProvider(
-                                              selectedDeviceId,
-                                            ).notifier,
-                                          )
-                                          .updateIpByEthName(Eth.eth1.name, '');
-                                    }
-                                    if (details['interface'] == Eth.eth2.name) {
-                                      ref
-                                          .read(
-                                            routerProvider(
-                                              selectedDeviceId,
-                                            ).notifier,
-                                          )
-                                          .updateIpByEthName(Eth.eth2.name, '');
-                                    }
-                                    if (details['interface'] == Eth.eth3.name) {
-                                      ref
-                                          .read(
-                                            routerProvider(
-                                              selectedDeviceId,
-                                            ).notifier,
-                                          )
-                                          .updateIpByEthName(Eth.eth3.name, '');
-                                    }
-                                  } else {
-                                    ref
-                                        .read(
-                                          routerProvider(
-                                            selectedDeviceId,
-                                          ).notifier,
-                                        )
-                                        .removeRoute(network);
-                                  }
-                                },
+                                onPressed: isPlaying
+                                    ? null
+                                    : () {
+                                        if (details['type'] ==
+                                            RouteType.directed.label) {
+                                          ref
+                                              .read(
+                                                routerProvider(
+                                                  selectedDeviceId,
+                                                ).notifier,
+                                              )
+                                              .removeRoute(network);
+                                          if (details['interface'] ==
+                                              Eth.eth0.name) {
+                                            ref
+                                                .read(
+                                                  routerProvider(
+                                                    selectedDeviceId,
+                                                  ).notifier,
+                                                )
+                                                .updateIpByEthName(
+                                                  Eth.eth0.name,
+                                                  '',
+                                                );
+                                          }
+                                          if (details['interface'] ==
+                                              Eth.eth1.name) {
+                                            ref
+                                                .read(
+                                                  routerProvider(
+                                                    selectedDeviceId,
+                                                  ).notifier,
+                                                )
+                                                .updateIpByEthName(
+                                                  Eth.eth1.name,
+                                                  '',
+                                                );
+                                          }
+                                          if (details['interface'] ==
+                                              Eth.eth2.name) {
+                                            ref
+                                                .read(
+                                                  routerProvider(
+                                                    selectedDeviceId,
+                                                  ).notifier,
+                                                )
+                                                .updateIpByEthName(
+                                                  Eth.eth2.name,
+                                                  '',
+                                                );
+                                          }
+                                          if (details['interface'] ==
+                                              Eth.eth3.name) {
+                                            ref
+                                                .read(
+                                                  routerProvider(
+                                                    selectedDeviceId,
+                                                  ).notifier,
+                                                )
+                                                .updateIpByEthName(
+                                                  Eth.eth3.name,
+                                                  '',
+                                                );
+                                          }
+                                        } else {
+                                          ref
+                                              .read(
+                                                routerProvider(
+                                                  selectedDeviceId,
+                                                ).notifier,
+                                              )
+                                              .removeRoute(network);
+                                        }
+                                      },
                                 padding: EdgeInsets.zero,
-                                icon: const HugeIcon(
+                                icon: HugeIcon(
                                   icon: HugeIcons.strokeRoundedCancel01,
                                   size: 16,
-                                  color: Colors.red,
+                                  color: isPlaying ? Colors.grey : Colors.red,
                                 ),
                               ),
                             ),
@@ -510,21 +531,23 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
           right: 0,
           child: Center(
             child: ElevatedButton.icon(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => _AddStaticRouteDialog(
-                    onSave: (networkId, subnetMask, interface_) {
-                      ref
-                          .read(routerProvider(selectedDeviceId).notifier)
-                          .addStaticRoute(
-                            networkId: networkId + subnetMask,
-                            interface_: interface_,
-                          );
+              onPressed: isPlaying
+                  ? null
+                  : () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => _AddStaticRouteDialog(
+                          onSave: (networkId, subnetMask, interface_) {
+                            ref
+                                .read(routerProvider(selectedDeviceId).notifier)
+                                .addStaticRoute(
+                                  networkId: networkId + subnetMask,
+                                  interface_: interface_,
+                                );
+                          },
+                        ),
+                      );
                     },
-                  ),
-                );
-              },
               icon: HugeIcon(
                 icon: HugeIcons.strokeRoundedPropertyAdd,
                 color: Theme.of(context).colorScheme.onPrimary,

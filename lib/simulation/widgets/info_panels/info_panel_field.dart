@@ -1,6 +1,6 @@
 part of 'info_panel.dart';
 
-class _InfoPanelField extends StatelessWidget {
+class _InfoPanelField extends ConsumerWidget {
   final String label;
   final String value;
   final String? Function(String?)? validator;
@@ -14,8 +14,9 @@ class _InfoPanelField extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     debugPrint('InfoPanel for $label Rebuilt');
+    final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
 
     return Card(
       elevation: 3,
@@ -41,7 +42,7 @@ class _InfoPanelField extends StatelessWidget {
               ),
             ),
 
-            if (onSave != null)
+            if (onSave != null && !isPlaying)
               IconButton(
                 iconSize: 10,
                 padding: EdgeInsets.zero,
@@ -70,7 +71,7 @@ class _InfoPanelField extends StatelessWidget {
   }
 }
 
-class _RouterInterfaceField extends StatelessWidget {
+class _RouterInterfaceField extends ConsumerWidget {
   final String title;
   final String ipAddress;
   final String subnetMask;
@@ -86,8 +87,9 @@ class _RouterInterfaceField extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     debugPrint('InterfaceField for $title Rebuilt');
+    final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
 
     final networkId = Ipv4AddressManager.getNetworkAddress(
       ipAddress,
@@ -115,26 +117,27 @@ class _RouterInterfaceField extends StatelessWidget {
                   ),
                 ),
 
-                IconButton(
-                  iconSize: 10,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => _EditInterfaceDialog(
-                        ipAddress: ipAddress,
-                        subnetMask: subnetMask,
-                        onSave: onSave!,
-                      ),
-                    );
-                  },
-                  icon: HugeIcon(
-                    icon: HugeIcons.strokeRoundedPencilEdit01,
-                    color: Theme.of(context).colorScheme.secondary,
-                    size: 20,
+                if (!isPlaying)
+                  IconButton(
+                    iconSize: 10,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => _EditInterfaceDialog(
+                          ipAddress: ipAddress,
+                          subnetMask: subnetMask,
+                          onSave: onSave!,
+                        ),
+                      );
+                    },
+                    icon: HugeIcon(
+                      icon: HugeIcons.strokeRoundedPencilEdit01,
+                      color: Theme.of(context).colorScheme.secondary,
+                      size: 20,
+                    ),
                   ),
-                ),
               ],
             ),
 
