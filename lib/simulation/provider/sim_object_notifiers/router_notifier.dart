@@ -25,7 +25,23 @@ class RouterNotifier extends DeviceNotifier<Router> {
 
   @override
   void removeSelf() {
-    // TODO: implement removeSelf
+    if (state.eth0conId.isNotEmpty) {
+      ref.read(connectionProvider(state.eth0conId).notifier).removeSelf();
+    }
+
+    if (state.eth1conId.isNotEmpty) {
+      ref.read(connectionProvider(state.eth1conId).notifier).removeSelf();
+    }
+
+    if (state.eth2conId.isNotEmpty) {
+      ref.read(connectionProvider(state.eth2conId).notifier).removeSelf();
+    }
+
+    if (state.eth3conId.isNotEmpty) {
+      ref.read(connectionProvider(state.eth3conId).notifier).removeSelf();
+    }
+
+    ref.read(routerMapProvider.notifier).removeAllState(state.id);
   }
 
   @override
@@ -162,12 +178,21 @@ class RouterNotifier extends DeviceNotifier<Router> {
 class RouterMapNotifier extends DeviceMapNotifier<Router> {
   @override
   void invalidateSpecificId(String objectId) {
-    // TODO: implement invalidateSpecificId
+    if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
+      ref.read(simScreenProvider.notifier).setSelectedDeviceOnInfo('');
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.invalidate(routerProvider(objectId));
+    });
   }
 
   @override
   void removeAllState(String objectId) {
-    // TODO: implement removeAllState
+    ref.read(routerWidgetsProvider.notifier).removeSimObjectWidget(objectId);
+
+    invalidateSpecificId(objectId);
+    removeSimObject(objectId);
   }
 }
 

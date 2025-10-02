@@ -34,7 +34,18 @@ class HostNotifier extends DeviceNotifier<Host> {
 
   @override
   void removeSelf() {
-    // TODO: implement removeSelf
+    if (state.connectionId.isNotEmpty) {
+      ref.read(connectionProvider(state.connectionId).notifier).removeSelf();
+    }
+
+    if (state.messageIds.isNotEmpty) {
+      final messageIds = state.messageIds;
+      for (final messageId in messageIds) {
+        ref.read(messageProvider(messageId).notifier).removeSelf();
+      }
+    }
+
+    ref.read(hostMapProvider.notifier).removeAllState(state.id);
   }
 
   void updateIpAddress(String ipAddress) =>
@@ -60,6 +71,12 @@ class HostNotifier extends DeviceNotifier<Host> {
     state = state.copyWith(messageIds: newMessageIds);
   }
 
+  void removeMessage(String messageId) {
+    final newMessageIds = List<String>.from(state.messageIds)
+      ..remove(messageId);
+    state = state.copyWith(messageIds: newMessageIds);
+  }
+
   // String _dequeueMessage() {
   //   if (state.messageIds.isEmpty) return '';
   //   final messageIds = List<String>.from(state.messageIds);
@@ -72,12 +89,21 @@ class HostNotifier extends DeviceNotifier<Host> {
 class HostMapNotifier extends DeviceMapNotifier<Host> {
   @override
   void invalidateSpecificId(String objectId) {
-    // TODO: implement invalidateSpecificId
+    if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
+      ref.read(simScreenProvider.notifier).setSelectedDeviceOnInfo('');
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.invalidate(hostProvider(objectId));
+    });
   }
 
   @override
   void removeAllState(String objectId) {
-    // TODO: implement removeAllState
+    ref.read(hostWidgetsProvider.notifier).removeSimObjectWidget(objectId);
+
+    invalidateSpecificId(objectId);
+    removeSimObject(objectId);
   }
 }
 

@@ -25,7 +25,26 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
 
   @override
   void removeSelf() {
-    // TODO: implement removeSelf
+    if (state.port0conId.isNotEmpty) {
+      ref.read(connectionProvider(state.port0conId).notifier).removeSelf();
+    }
+    if (state.port1conId.isNotEmpty) {
+      ref.read(connectionProvider(state.port1conId).notifier).removeSelf();
+    }
+    if (state.port2conId.isNotEmpty) {
+      ref.read(connectionProvider(state.port2conId).notifier).removeSelf();
+    }
+    if (state.port3conId.isNotEmpty) {
+      ref.read(connectionProvider(state.port3conId).notifier).removeSelf();
+    }
+    if (state.port4conId.isNotEmpty) {
+      ref.read(connectionProvider(state.port4conId).notifier).removeSelf();
+    }
+    if (state.port5conId.isNotEmpty) {
+      ref.read(connectionProvider(state.port5conId).notifier).removeSelf();
+    }
+
+    ref.read(switchMapProvider.notifier).removeAllState(state.id);
   }
 
   @override
@@ -91,12 +110,21 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
 class SwitchMapNotifier extends DeviceMapNotifier<Switch> {
   @override
   void invalidateSpecificId(String objectId) {
-    // TODO: implement invalidateSpecificId
+    if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
+      ref.read(simScreenProvider.notifier).setSelectedDeviceOnInfo('');
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.invalidate(switchProvider(objectId));
+    });
   }
 
   @override
   void removeAllState(String objectId) {
-    // TODO: implement removeAllState
+    ref.read(switchWidgetsProvider.notifier).removeSimObjectWidget(objectId);
+
+    invalidateSpecificId(objectId);
+    removeSimObject(objectId);
   }
 }
 

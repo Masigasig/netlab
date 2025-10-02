@@ -26,7 +26,11 @@ class MessageNotifier extends SimObjectNotifier<Message> {
 
   @override
   void removeSelf() {
-    // TODO: implement removeSelf
+    if (state.srcId.startsWith(SimObjectType.host.label)) {
+      ref.read(hostProvider(state.srcId).notifier).removeMessage(state.id);
+    }
+
+    ref.read(messageMapProvider.notifier).removeAllState(state.id);
   }
 
   void updateCurrentPlaceId(String newPlace) {
@@ -37,12 +41,20 @@ class MessageNotifier extends SimObjectNotifier<Message> {
 class MessageMapNotifier extends SimObjectMapNotifier<Message> {
   @override
   void invalidateSpecificId(String objectId) {
-    // TODO: implement invalidateSpecificId
+    if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
+      ref.read(simScreenProvider.notifier).setSelectedDeviceOnInfo('');
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.invalidate(messageProvider(objectId));
+    });
   }
 
   @override
   void removeAllState(String objectId) {
-    // TODO: implement removeAllState
+    ref.read(messageWidgetsProvider.notifier).removeSimObjectWidget(objectId);
+
+    invalidateSpecificId(objectId);
+    removeSimObject(objectId);
   }
 }
 
