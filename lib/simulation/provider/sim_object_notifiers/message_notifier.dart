@@ -39,23 +39,12 @@ class MessageNotifier extends SimObjectNotifier<Message> {
 }
 
 class MessageMapNotifier extends SimObjectMapNotifier<Message> {
-  @override
-  void invalidateSpecificId(String objectId) {
-    if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
-      ref.read(simScreenProvider.notifier).setSelectedDeviceOnInfo('');
-    }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.invalidate(messageProvider(objectId));
-    });
-  }
-
-  @override
-  void removeAllState(String objectId) {
-    ref.read(messageWidgetsProvider.notifier).removeSimObjectWidget(objectId);
-
-    invalidateSpecificId(objectId);
-    removeSimObject(objectId);
-  }
+  MessageMapNotifier()
+    : super(
+        mapProvider: messageMapProvider,
+        objectProvider: messageProvider,
+        widgetsProvider: messageWidgetsProvider,
+      );
 }
 
 class MessageWidgetsNotifier extends SimObjectWidgetsNotifier<MessageWidget> {}

@@ -25,22 +25,14 @@ class RouterNotifier extends DeviceNotifier<Router> {
 
   @override
   void removeSelf() {
-    if (state.eth0conId.isNotEmpty) {
-      ref.read(connectionProvider(state.eth0conId).notifier).removeSelf();
-    }
+    final connectionIds = [
+      state.eth0conId,
+      state.eth1conId,
+      state.eth2conId,
+      state.eth3conId,
+    ];
 
-    if (state.eth1conId.isNotEmpty) {
-      ref.read(connectionProvider(state.eth1conId).notifier).removeSelf();
-    }
-
-    if (state.eth2conId.isNotEmpty) {
-      ref.read(connectionProvider(state.eth2conId).notifier).removeSelf();
-    }
-
-    if (state.eth3conId.isNotEmpty) {
-      ref.read(connectionProvider(state.eth3conId).notifier).removeSelf();
-    }
-
+    removeMultipleConnections(connectionIds);
     ref.read(routerMapProvider.notifier).removeAllState(state.id);
   }
 
@@ -66,17 +58,6 @@ class RouterNotifier extends DeviceNotifier<Router> {
     ];
   }
 
-  void updateConIdByEthName(String ethName, String newConId) {
-    final eth = Eth.values.firstWhere((e) => e.name == ethName);
-
-    state = switch (eth) {
-      Eth.eth0 => state.copyWith(eth0conId: newConId),
-      Eth.eth1 => state.copyWith(eth1conId: newConId),
-      Eth.eth2 => state.copyWith(eth2conId: newConId),
-      Eth.eth3 => state.copyWith(eth3conId: newConId),
-    };
-  }
-
   void updateIpByEthName(String ethName, String newIp) {
     final eth = Eth.values.firstWhere((e) => e.name == ethName);
 
@@ -97,6 +78,29 @@ class RouterNotifier extends DeviceNotifier<Router> {
       Eth.eth2 => state.copyWith(eth2SubnetMask: newSubnetMask),
       Eth.eth3 => state.copyWith(eth3SubnetMask: newSubnetMask),
     };
+  }
+
+  void updateConIdByEthName(String ethName, String newConId) {
+    final eth = Eth.values.firstWhere((e) => e.name == ethName);
+
+    state = switch (eth) {
+      Eth.eth0 => state.copyWith(eth0conId: newConId),
+      Eth.eth1 => state.copyWith(eth1conId: newConId),
+      Eth.eth2 => state.copyWith(eth2conId: newConId),
+      Eth.eth3 => state.copyWith(eth3conId: newConId),
+    };
+  }
+
+  void removeConIdByConId(String conId) {
+    if (state.eth0conId == conId) {
+      state = state.copyWith(eth0conId: '');
+    } else if (state.eth1conId == conId) {
+      state = state.copyWith(eth1conId: '');
+    } else if (state.eth2conId == conId) {
+      state = state.copyWith(eth2conId: '');
+    } else if (state.eth3conId == conId) {
+      state = state.copyWith(eth3conId: '');
+    }
   }
 
   void addStaticRoute({required String networkId, required String interface_}) {
@@ -161,39 +165,15 @@ class RouterNotifier extends DeviceNotifier<Router> {
 
     state = state.copyWith(routingTable: newRoutingTable);
   }
-
-  void removeConIdByConId(String conId) {
-    if (state.eth0conId == conId) {
-      state = state.copyWith(eth0conId: '');
-    } else if (state.eth1conId == conId) {
-      state = state.copyWith(eth1conId: '');
-    } else if (state.eth2conId == conId) {
-      state = state.copyWith(eth2conId: '');
-    } else if (state.eth3conId == conId) {
-      state = state.copyWith(eth3conId: '');
-    }
-  }
 }
 
 class RouterMapNotifier extends DeviceMapNotifier<Router> {
-  @override
-  void invalidateSpecificId(String objectId) {
-    if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
-      ref.read(simScreenProvider.notifier).setSelectedDeviceOnInfo('');
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.invalidate(routerProvider(objectId));
-    });
-  }
-
-  @override
-  void removeAllState(String objectId) {
-    ref.read(routerWidgetsProvider.notifier).removeSimObjectWidget(objectId);
-
-    invalidateSpecificId(objectId);
-    removeSimObject(objectId);
-  }
+  RouterMapNotifier()
+    : super(
+        mapProvider: routerMapProvider,
+        objectProvider: routerProvider,
+        widgetsProvider: routerWidgetsProvider,
+      );
 }
 
 class RouterWidgetsNotifier extends DeviceWidgetsNotifier<RouterWidget> {}

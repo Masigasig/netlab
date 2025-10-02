@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' show WidgetsBinding;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 
 import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/core/ipv4_address_manager.dart';
@@ -27,6 +28,25 @@ abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
 
 abstract class SimObjectMapNotifier<T extends SimObject>
     extends Notifier<Map<String, T>> {
+  final NotifierProvider<
+    SimObjectMapNotifier<SimObject>,
+    Map<String, SimObject>
+  >
+  mapProvider;
+  final NotifierProviderFamily<SimObjectNotifier<SimObject>, SimObject, String>
+  objectProvider;
+  final NotifierProvider<
+    SimObjectWidgetsNotifier<SimObjectWidget>,
+    Map<String, SimObjectWidget>
+  >
+  widgetsProvider;
+
+  SimObjectMapNotifier({
+    required this.mapProvider,
+    required this.objectProvider,
+    required this.widgetsProvider,
+  });
+
   @override
   Map<String, T> build() => {};
 
@@ -34,9 +54,21 @@ abstract class SimObjectMapNotifier<T extends SimObject>
 
   void removeSimObject(String objectId) => state = {...state}..remove(objectId);
 
-  void invalidateSpecificId(String objectId);
+  void invalidateSpecificId(String objectId) {
+    if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
+      ref.read(simScreenProvider.notifier).setSelectedDeviceOnInfo('');
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.invalidate(objectProvider(objectId));
+    });
+  }
 
-  void removeAllState(String objectId);
+  void removeAllState(String objectId) {
+    ref.read(widgetsProvider.notifier).removeSimObjectWidget(objectId);
+
+    invalidateSpecificId(objectId);
+    removeSimObject(objectId);
+  }
 }
 
 abstract class SimObjectWidgetsNotifier<T extends SimObjectWidget>

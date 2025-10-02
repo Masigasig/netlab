@@ -23,20 +23,8 @@ class HostNotifier extends DeviceNotifier<Host> {
   }
 
   @override
-  List<Map<String, String>> getAllConnectionInfo() {
-    return [
-      {
-        ConnInfoKey.name.name: Eth.eth0.name,
-        ConnInfoKey.conId.name: state.connectionId,
-      },
-    ];
-  }
-
-  @override
   void removeSelf() {
-    if (state.connectionId.isNotEmpty) {
-      ref.read(connectionProvider(state.connectionId).notifier).removeSelf();
-    }
+    removeConnectionById(state.connectionId);
 
     if (state.messageIds.isNotEmpty) {
       final messageIds = state.messageIds;
@@ -46,6 +34,16 @@ class HostNotifier extends DeviceNotifier<Host> {
     }
 
     ref.read(hostMapProvider.notifier).removeAllState(state.id);
+  }
+
+  @override
+  List<Map<String, String>> getAllConnectionInfo() {
+    return [
+      {
+        ConnInfoKey.name.name: Eth.eth0.name,
+        ConnInfoKey.conId.name: state.connectionId,
+      },
+    ];
   }
 
   void updateIpAddress(String ipAddress) =>
@@ -60,12 +58,6 @@ class HostNotifier extends DeviceNotifier<Host> {
   void updateConnectionId(String connectionId) =>
       state = state.copyWith(connectionId: connectionId);
 
-  // void _updateArpTable(String ipAddress, String macAddress) {
-  //   final newArpTable = Map<String, String>.from(state.arpTable);
-  //   newArpTable[ipAddress] = macAddress;
-  //   state = state.copyWith(arpTable: newArpTable);
-  // }
-
   void enqueueMessage(String messageId) {
     final newMessageIds = List<String>.from(state.messageIds)..add(messageId);
     state = state.copyWith(messageIds: newMessageIds);
@@ -76,35 +68,15 @@ class HostNotifier extends DeviceNotifier<Host> {
       ..remove(messageId);
     state = state.copyWith(messageIds: newMessageIds);
   }
-
-  // String _dequeueMessage() {
-  //   if (state.messageIds.isEmpty) return '';
-  //   final messageIds = List<String>.from(state.messageIds);
-  //   final messageId = messageIds.removeAt(0);
-  //   state = state.copyWith(messageIds: messageIds);
-  //   return messageId;
-  // }
 }
 
 class HostMapNotifier extends DeviceMapNotifier<Host> {
-  @override
-  void invalidateSpecificId(String objectId) {
-    if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
-      ref.read(simScreenProvider.notifier).setSelectedDeviceOnInfo('');
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.invalidate(hostProvider(objectId));
-    });
-  }
-
-  @override
-  void removeAllState(String objectId) {
-    ref.read(hostWidgetsProvider.notifier).removeSimObjectWidget(objectId);
-
-    invalidateSpecificId(objectId);
-    removeSimObject(objectId);
-  }
+  HostMapNotifier()
+    : super(
+        mapProvider: hostMapProvider,
+        objectProvider: hostProvider,
+        widgetsProvider: hostWidgetsProvider,
+      );
 }
 
 class HostWidgetsNotifier extends DeviceWidgetsNotifier<HostWidget> {}

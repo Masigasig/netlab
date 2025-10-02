@@ -55,25 +55,12 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 }
 
 class ConnectionMapNotifier extends SimObjectMapNotifier<Connection> {
-  @override
-  void invalidateSpecificId(String objectId) {
-    if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
-      ref.read(simScreenProvider.notifier).setSelectedDeviceOnInfo('');
-    }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.invalidate(connectionProvider(objectId));
-    });
-  }
-
-  @override
-  void removeAllState(String objectId) {
-    ref
-        .read(connectionWidgetsProvider.notifier)
-        .removeSimObjectWidget(objectId);
-
-    invalidateSpecificId(objectId);
-    removeSimObject(objectId);
-  }
+  ConnectionMapNotifier()
+    : super(
+        mapProvider: connectionMapProvider,
+        objectProvider: connectionProvider,
+        widgetsProvider: connectionWidgetsProvider,
+      );
 }
 
 class ConnectionWidgetsNotifier

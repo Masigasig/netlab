@@ -25,25 +25,16 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
 
   @override
   void removeSelf() {
-    if (state.port0conId.isNotEmpty) {
-      ref.read(connectionProvider(state.port0conId).notifier).removeSelf();
-    }
-    if (state.port1conId.isNotEmpty) {
-      ref.read(connectionProvider(state.port1conId).notifier).removeSelf();
-    }
-    if (state.port2conId.isNotEmpty) {
-      ref.read(connectionProvider(state.port2conId).notifier).removeSelf();
-    }
-    if (state.port3conId.isNotEmpty) {
-      ref.read(connectionProvider(state.port3conId).notifier).removeSelf();
-    }
-    if (state.port4conId.isNotEmpty) {
-      ref.read(connectionProvider(state.port4conId).notifier).removeSelf();
-    }
-    if (state.port5conId.isNotEmpty) {
-      ref.read(connectionProvider(state.port5conId).notifier).removeSelf();
-    }
+    final connectionIds = [
+      state.port0conId,
+      state.port1conId,
+      state.port2conId,
+      state.port3conId,
+      state.port4conId,
+      state.port5conId,
+    ];
 
+    removeMultipleConnections(connectionIds);
     ref.read(switchMapProvider.notifier).removeAllState(state.id);
   }
 
@@ -108,24 +99,12 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
 }
 
 class SwitchMapNotifier extends DeviceMapNotifier<Switch> {
-  @override
-  void invalidateSpecificId(String objectId) {
-    if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
-      ref.read(simScreenProvider.notifier).setSelectedDeviceOnInfo('');
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.invalidate(switchProvider(objectId));
-    });
-  }
-
-  @override
-  void removeAllState(String objectId) {
-    ref.read(switchWidgetsProvider.notifier).removeSimObjectWidget(objectId);
-
-    invalidateSpecificId(objectId);
-    removeSimObject(objectId);
-  }
+  SwitchMapNotifier()
+    : super(
+        mapProvider: switchMapProvider,
+        objectProvider: switchProvider,
+        widgetsProvider: switchWidgetsProvider,
+      );
 }
 
 class SwitchWidgetsNotifier extends DeviceWidgetsNotifier<SwitchWidget> {}
