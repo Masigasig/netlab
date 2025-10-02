@@ -32,6 +32,11 @@ class HostNotifier extends DeviceNotifier<Host> {
     ];
   }
 
+  @override
+  void removeSelf() {
+    // TODO: implement removeSelf
+  }
+
   void updateIpAddress(String ipAddress) =>
       state = state.copyWith(ipAddress: ipAddress);
 
@@ -64,6 +69,16 @@ class HostNotifier extends DeviceNotifier<Host> {
   // }
 }
 
-class HostMapNotifier extends DeviceMapNotifier<Host> {}
+class HostMapNotifier extends DeviceMapNotifier<Host> {
+  @override
+  void invalidateSpecificId(String objectId) {
+    // TODO: implement invalidateSpecificId
+  }
+
+  @override
+  void removeAllState(String objectId) {
+    // TODO: implement removeAllState
+  }
+}
 
 class HostWidgetsNotifier extends DeviceWidgetsNotifier<HostWidget> {}

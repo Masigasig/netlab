@@ -105,7 +105,51 @@ class InfoPanel extends ConsumerWidget {
                         onPressed: isPlaying
                             ? null
                             : () {
-                                //   //* TODO: Del function
+                                if (selectedDevice.startsWith(
+                                  SimObjectType.host.label,
+                                )) {
+                                  ref
+                                      .read(
+                                        hostProvider(selectedDevice).notifier,
+                                      )
+                                      .removeSelf();
+                                } else if (selectedDevice.startsWith(
+                                  SimObjectType.connection.label,
+                                )) {
+                                  ref
+                                      .read(
+                                        connectionProvider(
+                                          selectedDevice,
+                                        ).notifier,
+                                      )
+                                      .removeSelf();
+                                } else if (selectedDevice.startsWith(
+                                  SimObjectType.message.label,
+                                )) {
+                                  ref
+                                      .read(
+                                        messageProvider(
+                                          selectedDevice,
+                                        ).notifier,
+                                      )
+                                      .removeSelf();
+                                } else if (selectedDevice.startsWith(
+                                  SimObjectType.switch_.label,
+                                )) {
+                                  ref
+                                      .read(
+                                        switchProvider(selectedDevice).notifier,
+                                      )
+                                      .removeSelf();
+                                } else if (selectedDevice.startsWith(
+                                  SimObjectType.router.label,
+                                )) {
+                                  ref
+                                      .read(
+                                        routerProvider(selectedDevice).notifier,
+                                      )
+                                      .removeSelf();
+                                }
                               },
 
                         style: TextButton.styleFrom(

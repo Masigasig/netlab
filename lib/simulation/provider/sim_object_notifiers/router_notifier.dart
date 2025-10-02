@@ -24,6 +24,11 @@ class RouterNotifier extends DeviceNotifier<Router> {
   }
 
   @override
+  void removeSelf() {
+    // TODO: implement removeSelf
+  }
+
+  @override
   List<Map<String, String>> getAllConnectionInfo() {
     return [
       {
@@ -101,7 +106,6 @@ class RouterNotifier extends DeviceNotifier<Router> {
       state.routingTable,
     );
 
-    // Find existing entry by interface
     String? keyToUpdate;
     for (final entry in newRoutingTable.entries) {
       if (entry.value['interface'] == targetInterface) {
@@ -111,7 +115,6 @@ class RouterNotifier extends DeviceNotifier<Router> {
     }
 
     if (ipAddress.trim().isEmpty) {
-      // Remove if IP is empty and entry exists
       if (keyToUpdate != null) {
         newRoutingTable.remove(keyToUpdate);
       }
@@ -123,7 +126,6 @@ class RouterNotifier extends DeviceNotifier<Router> {
       );
       final newKey = networkAddress + subnetInCidr;
 
-      // If entry exists, update it
       if (keyToUpdate != null && keyToUpdate != newKey) {
         newRoutingTable.remove(keyToUpdate);
       }
@@ -143,8 +145,30 @@ class RouterNotifier extends DeviceNotifier<Router> {
 
     state = state.copyWith(routingTable: newRoutingTable);
   }
+
+  void removeConIdByConId(String conId) {
+    if (state.eth0conId == conId) {
+      state = state.copyWith(eth0conId: '');
+    } else if (state.eth1conId == conId) {
+      state = state.copyWith(eth1conId: '');
+    } else if (state.eth2conId == conId) {
+      state = state.copyWith(eth2conId: '');
+    } else if (state.eth3conId == conId) {
+      state = state.copyWith(eth3conId: '');
+    }
+  }
 }
 
-class RouterMapNotifier extends DeviceMapNotifier<Router> {}
+class RouterMapNotifier extends DeviceMapNotifier<Router> {
+  @override
+  void invalidateSpecificId(String objectId) {
+    // TODO: implement invalidateSpecificId
+  }
+
+  @override
+  void removeAllState(String objectId) {
+    // TODO: implement removeAllState
+  }
+}
 
 class RouterWidgetsNotifier extends DeviceWidgetsNotifier<RouterWidget> {}

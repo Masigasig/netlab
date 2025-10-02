@@ -24,11 +24,26 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     return ref.read(messageMapProvider)[arg]!;
   }
 
+  @override
+  void removeSelf() {
+    // TODO: implement removeSelf
+  }
+
   void updateCurrentPlaceId(String newPlace) {
     state = state.copyWith(currentPlaceId: newPlace);
   }
 }
 
-class MessageMapNotifier extends SimObjectMapNotifier<Message> {}
+class MessageMapNotifier extends SimObjectMapNotifier<Message> {
+  @override
+  void invalidateSpecificId(String objectId) {
+    // TODO: implement invalidateSpecificId
+  }
+
+  @override
+  void removeAllState(String objectId) {
+    // TODO: implement removeAllState
+  }
+}
 
 class MessageWidgetsNotifier extends SimObjectWidgetsNotifier<MessageWidget> {}

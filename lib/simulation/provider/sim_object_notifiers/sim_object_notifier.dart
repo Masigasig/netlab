@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart' show WidgetsBinding;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/core/ipv4_address_manager.dart';
 import 'package:netlab/simulation/model/sim_objects/sim_object.dart';
+import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/simulation/widgets/sim_object_widgets/sim_object_widget.dart';
 
 part 'connection_notifier.dart';
@@ -19,6 +21,8 @@ abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
   void updateName(String newName) {
     state = state.copyWith(name: newName) as T;
   }
+
+  void removeSelf();
 }
 
 abstract class SimObjectMapNotifier<T extends SimObject>
@@ -27,6 +31,12 @@ abstract class SimObjectMapNotifier<T extends SimObject>
   Map<String, T> build() => {};
 
   void addSimObject(T simObject) => state = {...state, simObject.id: simObject};
+
+  void removeSimObject(String objectId) => state = {...state}..remove(objectId);
+
+  void invalidateSpecificId(String objectId);
+
+  void removeAllState(String objectId);
 }
 
 abstract class SimObjectWidgetsNotifier<T extends SimObjectWidget>
@@ -36,4 +46,7 @@ abstract class SimObjectWidgetsNotifier<T extends SimObjectWidget>
 
   void addSimObjectWidget(T simObjectWidget) =>
       state = {...state, simObjectWidget.simObjectId: simObjectWidget};
+
+  void removeSimObjectWidget(String simObjectId) =>
+      state = {...state}..remove(simObjectId);
 }

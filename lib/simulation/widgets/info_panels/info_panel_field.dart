@@ -42,25 +42,29 @@ class _InfoPanelField extends ConsumerWidget {
               ),
             ),
 
-            if (onSave != null && !isPlaying)
+            if (onSave != null)
               IconButton(
                 iconSize: 10,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => _EditDialog(
-                      label: label,
-                      currentValue: value,
-                      validator: validator!,
-                      onSave: onSave!,
-                    ),
-                  );
-                },
+                onPressed: isPlaying
+                    ? null
+                    : () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => _EditDialog(
+                            label: label,
+                            currentValue: value,
+                            validator: validator!,
+                            onSave: onSave!,
+                          ),
+                        );
+                      },
                 icon: HugeIcon(
                   icon: HugeIcons.strokeRoundedPencilEdit01,
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: isPlaying
+                      ? Colors.grey
+                      : Theme.of(context).colorScheme.secondary,
                   size: 20,
                 ),
               ),
@@ -117,27 +121,30 @@ class _RouterInterfaceField extends ConsumerWidget {
                   ),
                 ),
 
-                if (!isPlaying)
-                  IconButton(
-                    iconSize: 10,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => _EditInterfaceDialog(
-                          ipAddress: ipAddress,
-                          subnetMask: subnetMask,
-                          onSave: onSave!,
-                        ),
-                      );
-                    },
-                    icon: HugeIcon(
-                      icon: HugeIcons.strokeRoundedPencilEdit01,
-                      color: Theme.of(context).colorScheme.secondary,
-                      size: 20,
-                    ),
+                IconButton(
+                  iconSize: 10,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  onPressed: isPlaying
+                      ? null
+                      : () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => _EditInterfaceDialog(
+                              ipAddress: ipAddress,
+                              subnetMask: subnetMask,
+                              onSave: onSave!,
+                            ),
+                          );
+                        },
+                  icon: HugeIcon(
+                    icon: HugeIcons.strokeRoundedPencilEdit01,
+                    color: isPlaying
+                        ? Colors.grey
+                        : Theme.of(context).colorScheme.secondary,
+                    size: 20,
                   ),
+                ),
               ],
             ),
 

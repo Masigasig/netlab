@@ -24,6 +24,11 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
   }
 
   @override
+  void removeSelf() {
+    // TODO: implement removeSelf
+  }
+
+  @override
   List<Map<String, String>> getAllConnectionInfo() {
     return [
       {
@@ -65,8 +70,34 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
       Port.port5 => state.copyWith(port5conId: conId),
     };
   }
+
+  void removeConIdByConId(String conId) {
+    if (state.port0conId == conId) {
+      state = state.copyWith(port0conId: '');
+    } else if (state.port1conId == conId) {
+      state = state.copyWith(port1conId: '');
+    } else if (state.port2conId == conId) {
+      state = state.copyWith(port2conId: '');
+    } else if (state.port3conId == conId) {
+      state = state.copyWith(port3conId: '');
+    } else if (state.port4conId == conId) {
+      state = state.copyWith(port4conId: '');
+    } else if (state.port5conId == conId) {
+      state = state.copyWith(port5conId: '');
+    }
+  }
 }
 
-class SwitchMapNotifier extends DeviceMapNotifier<Switch> {}
+class SwitchMapNotifier extends DeviceMapNotifier<Switch> {
+  @override
+  void invalidateSpecificId(String objectId) {
+    // TODO: implement invalidateSpecificId
+  }
+
+  @override
+  void removeAllState(String objectId) {
+    // TODO: implement removeAllState
+  }
+}
 
 class SwitchWidgetsNotifier extends DeviceWidgetsNotifier<SwitchWidget> {}
