@@ -29,7 +29,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     if (state.messageIds.isNotEmpty) {
       final messageIds = state.messageIds;
       for (final messageId in messageIds) {
-        ref.read(messageProvider(messageId).notifier).removeSelf();
+        messageNotifier(messageId).removeSelf();
       }
     }
 

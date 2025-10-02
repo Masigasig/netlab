@@ -9,7 +9,7 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
 
   void removeConnectionById(String connectionId) {
     if (connectionId.isNotEmpty) {
-      ref.read(connectionProvider(connectionId).notifier).removeSelf();
+      connectionNotifier(connectionId).removeSelf();
     }
   }
 

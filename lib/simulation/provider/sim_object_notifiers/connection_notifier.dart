@@ -27,27 +27,19 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
   @override
   void removeSelf() {
     if (state.conAId.startsWith(SimObjectType.host.label)) {
-      ref.read(hostProvider(state.conAId).notifier).updateConnectionId('');
-    } else if (state.conAId.startsWith(SimObjectType.switch_.label)) {
-      ref
-          .read(switchProvider(state.conAId).notifier)
-          .removeConIdByConId(state.id);
+      hostNotifier(state.conAId).updateConnectionId('');
     } else if (state.conAId.startsWith(SimObjectType.router.label)) {
-      ref
-          .read(routerProvider(state.conAId).notifier)
-          .removeConIdByConId(state.id);
+      routerNotifier(state.conAId).removeConIdByConId(state.id);
+    } else if (state.conAId.startsWith(SimObjectType.switch_.label)) {
+      switchNotifier(state.conAId).removeConIdByConId(state.id);
     }
 
     if (state.conBId.startsWith(SimObjectType.host.label)) {
-      ref.read(hostProvider(state.conBId).notifier).updateConnectionId('');
-    } else if (state.conBId.startsWith(SimObjectType.switch_.label)) {
-      ref
-          .read(switchProvider(state.conBId).notifier)
-          .removeConIdByConId(state.id);
+      hostNotifier(state.conBId).updateConnectionId('');
     } else if (state.conBId.startsWith(SimObjectType.router.label)) {
-      ref
-          .read(routerProvider(state.conBId).notifier)
-          .removeConIdByConId(state.id);
+      routerNotifier(state.conBId).removeConIdByConId(state.id);
+    } else if (state.conBId.startsWith(SimObjectType.switch_.label)) {
+      switchNotifier(state.conBId).removeConIdByConId(state.id);
     }
 
     ref.read(connectionMapProvider.notifier).removeAllState(state.id);

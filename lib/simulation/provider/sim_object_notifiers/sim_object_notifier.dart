@@ -19,6 +19,16 @@ abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
   @override
   T build();
 
+  ConnectionNotifier connectionNotifier(String id) =>
+      ref.read(connectionProvider(id).notifier);
+  HostNotifier hostNotifier(String id) => ref.read(hostProvider(id).notifier);
+  MessageNotifier messageNotifier(String id) =>
+      ref.read(messageProvider(id).notifier);
+  RouterNotifier routerNotifier(String id) =>
+      ref.read(routerProvider(id).notifier);
+  SwitchNotifier switchNotifier(String id) =>
+      ref.read(switchProvider(id).notifier);
+
   void updateName(String newName) {
     state = state.copyWith(name: newName) as T;
   }

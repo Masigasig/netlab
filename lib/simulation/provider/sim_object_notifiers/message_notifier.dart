@@ -27,7 +27,7 @@ class MessageNotifier extends SimObjectNotifier<Message> {
   @override
   void removeSelf() {
     if (state.srcId.startsWith(SimObjectType.host.label)) {
-      ref.read(hostProvider(state.srcId).notifier).removeMessage(state.id);
+      hostNotifier(state.srcId).removeMessage(state.id);
     }
 
     ref.read(messageMapProvider.notifier).removeAllState(state.id);
