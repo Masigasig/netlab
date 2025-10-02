@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/models/quiz_data.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 import 'package:netlab/core/components/app_theme.dart';
+import 'package:netlab/temp/homie/widgets/study_section/core/services/progress_service.dart';
 
 class QuizWidget extends StatefulWidget {
   final QuizData quizData;
+  final String topicId;
+  final String moduleId;
+  final int questionIndex;
 
-  const QuizWidget({super.key, required this.quizData});
+  const QuizWidget({
+    super.key,
+    required this.quizData,
+    required this.topicId,
+    required this.moduleId,
+    required this.questionIndex,
+  });
 
   @override
   State<QuizWidget> createState() => _QuizWidgetState();
@@ -16,6 +26,36 @@ class _QuizWidgetState extends State<QuizWidget> {
   int? selectedAnswer;
   bool hasAnswered = false;
   bool showFeedback = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPreviousAnswer();
+  }
+
+  // Load if the user has already answered this question
+  Future<void> _loadPreviousAnswer() async {
+    final result = await ProgressService.getQuizResult(
+      widget.topicId,
+      widget.moduleId,
+      widget.questionIndex,
+    );
+    
+    if (result != null && mounted) {
+      setState(() {
+        hasAnswered = true;
+        showFeedback = true;
+        // Find which answer they selected (if we want to show it)
+      });
+    }
+  }
+
+  Future<Map<String, dynamic>> _getQuizStats() async {
+    return await ProgressService.getModuleQuizStats(
+      widget.topicId,
+      widget.moduleId,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,6 +260,42 @@ class _QuizWidgetState extends State<QuizWidget> {
                     ),
                   ),
                 ],
+                // Show current quiz performance
+                const SizedBox(height: 12),
+                FutureBuilder<Map<String, dynamic>>(
+                  future: _getQuizStats(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return const SizedBox.shrink();
+                    final stats = snapshot.data!;
+                    if (stats['total'] == 0) return const SizedBox.shrink();
+                    
+                    return Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: cs.surfaceContainerHighest.withAlpha(100),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.emoji_events,
+                            color: cs.primary,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Module Score: ${stats['correct']}/${stats['total']} (${stats['percentage']}%)',
+                            style: AppTextStyles.bodySmall.copyWith(
+                              color: cs.onSurface,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -248,11 +324,20 @@ class _QuizWidgetState extends State<QuizWidget> {
     );
   }
 
-  void _checkAnswer() {
+  Future<void> _checkAnswer() async {
     setState(() {
       hasAnswered = true;
       showFeedback = true;
     });
+
+    // Save the quiz result
+    final isCorrect = _isCorrectAnswer();
+    await ProgressService.saveQuizResult(
+      widget.topicId,
+      widget.moduleId,
+      widget.questionIndex,
+      isCorrect,
+    );
   }
 
   void _resetQuiz() {

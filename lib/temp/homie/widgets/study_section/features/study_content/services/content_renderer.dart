@@ -7,8 +7,15 @@ import 'package:netlab/temp/core/constants/app_text.dart';
 // ignore_for_file: deprecated_member_use
 class ContentRenderer extends StatelessWidget {
   final List<ContentBlock> blocks;
+  final String topicId;
+  final String moduleId;
 
-  const ContentRenderer({super.key, required this.blocks});
+  const ContentRenderer({
+    super.key,
+    required this.blocks,
+    required this.topicId,
+    required this.moduleId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -363,7 +370,13 @@ class ContentRenderer extends StatelessWidget {
   }
 
   Widget _buildQuiz(ContentBlock block, ColorScheme cs) {
-    return QuizWidget(quizData: block.content as QuizData);
+    final index = blocks.indexOf(block);
+    return QuizWidget(
+      quizData: block.content as QuizData,
+      topicId: topicId,
+      moduleId: moduleId,
+      questionIndex: index,
+    );
   }
 
   Widget _buildDivider(ContentBlock block, ColorScheme cs) {

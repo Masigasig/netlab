@@ -6,6 +6,7 @@ import '../coordinators/module_navigation_coordinator.dart';
 import '../helpers/module_button_helper.dart';
 import '../../study_content/services/content_renderer.dart';
 import '../../study_content/services/content_registry.dart';
+import '../../../core/services/progress_service.dart';
 import 'module_header.dart';
 
 /// Main widget for displaying module content with progress tracking
@@ -142,11 +143,111 @@ class _ModuleContentViewState extends State<ModuleContentView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Rendered content
+                // Rendered content with topic and module IDs
                 ContentRenderer(
                   blocks: ContentRegistry.getContent(widget.module.id),
+                  topicId: widget.topic.id,
+                  moduleId: widget.module.id,
                 ),
                 const SizedBox(height: 24),
+
+                // Quiz Performance Summary
+                FutureBuilder<Map<String, dynamic>>(
+                  future: ProgressService.getModuleQuizStats(
+                    widget.topic.id,
+                    widget.module.id,
+                  ),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.data!['total'] == 0) {
+                      return const SizedBox.shrink();
+                    }
+
+                    final stats = snapshot.data!;
+                    final percentage = stats['percentage'] as int;
+
+                    // Determine performance color
+                    Color performanceColor;
+                    String performanceText;
+                    IconData performanceIcon;
+
+                    if (percentage >= 80) {
+                      performanceColor = cs.primary;
+                      performanceText = 'Excellent!';
+                      performanceIcon = Icons.emoji_events;
+                    } else if (percentage >= 60) {
+                      performanceColor = Colors.orange;
+                      performanceText = 'Good job!';
+                      performanceIcon = Icons.thumb_up;
+                    } else {
+                      performanceColor = cs.error;
+                      performanceText = 'Keep practicing!';
+                      performanceIcon = Icons.school;
+                    }
+
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: performanceColor.withAlpha(26),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: performanceColor.withAlpha(77),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            performanceIcon,
+                            color: performanceColor,
+                            size: 32,
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Quiz Performance',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: cs.onSurface,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '$performanceText You answered ${stats['correct']} out of ${stats['total']} questions correctly',
+                                  style: TextStyle(
+                                    color: cs.onSurfaceVariant,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: performanceColor,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              '$percentage%',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
 
                 // Action button
                 Center(
