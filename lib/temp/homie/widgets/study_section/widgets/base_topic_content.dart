@@ -83,7 +83,8 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
 
   void _moveToNextModule() {
     final modules = getContentModules();
-    if (selectedModuleIndex != null && selectedModuleIndex! < modules.length - 1) {
+    if (selectedModuleIndex != null &&
+        selectedModuleIndex! < modules.length - 1) {
       setState(() {
         selectedModuleIndex = selectedModuleIndex! + 1;
       });

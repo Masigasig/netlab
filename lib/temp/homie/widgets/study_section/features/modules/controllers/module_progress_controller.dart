@@ -68,7 +68,7 @@ class ModuleProgressController {
       // Calculate final study time
       final studyTimeSeconds = DateTime.now().difference(_startTime!).inSeconds;
       final studyTimeMinutes = (studyTimeSeconds / 60).ceil();
-      
+
       await ProgressService.updateStudyTime(
         topicId,
         moduleId,
@@ -97,10 +97,7 @@ class ModuleProgressController {
 
     // Check if the previous module is completed
     final previousModule = modules[moduleIndex - 1];
-    return await ProgressService.isChapterCompleted(
-      topicId,
-      previousModule.id,
-    );
+    return await ProgressService.isChapterCompleted(topicId, previousModule.id);
   }
 
   // Get the next accessible module index

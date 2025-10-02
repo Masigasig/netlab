@@ -43,7 +43,6 @@ class SidebarModuleController {
   bool canTap() => isAccessible;
 
   Future<void> refresh() async {
-    
     // Check completion
     isCompleted = await ProgressService.isChapterCompleted(topicId, moduleId);
 

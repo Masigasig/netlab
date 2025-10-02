@@ -58,7 +58,7 @@ class _ModuleContentViewState extends State<ModuleContentView> {
   @override
   void didUpdateWidget(ModuleContentView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     // Reinitialize controller if module or topic changed
     if (oldWidget.module.id != widget.module.id ||
         oldWidget.topic.id != widget.topic.id) {
@@ -151,10 +151,11 @@ class _ModuleContentViewState extends State<ModuleContentView> {
                 // Action button
                 Center(
                   child: FilledButton.icon(
-                    onPressed: ModuleButtonHelper.isButtonDisabled(
-                      isCompleted: _isCompleted,
-                      isLastModule: isLastModule,
-                    )
+                    onPressed:
+                        ModuleButtonHelper.isButtonDisabled(
+                          isCompleted: _isCompleted,
+                          isLastModule: isLastModule,
+                        )
                         ? null
                         : _handleButtonPress,
                     style: ButtonStyle(

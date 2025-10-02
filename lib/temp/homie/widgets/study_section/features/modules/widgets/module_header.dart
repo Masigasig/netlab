@@ -30,14 +30,10 @@ class ModuleHeader extends StatelessWidget {
             color: ModuleTypeHelpers.getTypeColor(module.type),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(
-            module.icon,
-            color: cs.onPrimary,
-            size: 24,
-          ),
+          child: Icon(module.icon, color: cs.onPrimary, size: 24),
         ),
         const SizedBox(width: 16),
-        
+
         // Module details
         Expanded(
           child: Column(
@@ -65,7 +61,7 @@ class ModuleHeader extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 4),
-              
+
               // Metadata row
               Row(
                 children: [
@@ -89,17 +85,14 @@ class ModuleHeader extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  
+
                   // Duration
                   Text(
                     '${module.duration} minutes',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: cs.onSurfaceVariant,
-                    ),
+                    style: TextStyle(fontSize: 14, color: cs.onSurfaceVariant),
                   ),
                   const SizedBox(width: 8),
-                  
+
                   // Progress indicator
                   Text(
                     '${currentModuleIndex + 1}/$totalModules',

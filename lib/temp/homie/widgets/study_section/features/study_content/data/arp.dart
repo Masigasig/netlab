@@ -3,10 +3,7 @@ import 'package:netlab/temp/homie/widgets/study_section/widgets/base_topic_conte
 import 'package:netlab/temp/homie/widgets/study_section/core/models/content_module.dart';
 
 class ArpContent extends BaseTopicContent {
-  const ArpContent({
-    super.key,
-    required super.topic,
-  });
+  const ArpContent({super.key, required super.topic});
 
   @override
   List<ContentModule> getContentModules() {

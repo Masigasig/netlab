@@ -93,7 +93,7 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
         child: Stack(
           children: [
             _buildModuleListTile(cs),
-            
+
             // Lock overlay for inaccessible modules
             if (!_controller.isAccessible)
               Positioned.fill(
@@ -138,10 +138,7 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
               ),
             ),
           ),
-          title: Container(
-            height: 12,
-            color: cs.onSurfaceVariant,
-          ),
+          title: Container(height: 12, color: cs.onSurfaceVariant),
           subtitle: Container(
             height: 8,
             color: cs.onSurfaceVariant,

@@ -1,7 +1,6 @@
 import '../../models/content_block.dart';
 import 'package:netlab/core/constants/app_image.dart';
 
-
 class RepeaterContent implements ModuleContent {
   @override
   String get moduleId => 'nd_repeater';

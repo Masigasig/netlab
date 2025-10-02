@@ -1,4 +1,5 @@
 import '../../models/content_block.dart';
+
 class SwitchingOperationsContent implements ModuleContent {
   @override
   String get moduleId => 'sr_operations';
