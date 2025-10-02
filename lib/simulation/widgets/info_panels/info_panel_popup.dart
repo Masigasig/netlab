@@ -42,71 +42,22 @@ class _EditDialogState extends State<_EditDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 400),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: _controller,
-                  autofocus: true,
-                  validator: widget.validator,
-                  decoration: InputDecoration(
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        HugeIcon(
-                          icon: HugeIcons.strokeRoundedPencilEdit01,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'New ${widget.label}',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    hintText: 'Enter new ${widget.label.toLowerCase()}',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.secondary,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 12),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel'),
-                    ),
-                    const SizedBox(width: 8),
-                    ElevatedButton(onPressed: _save, child: const Text('Save')),
-                  ],
-                ),
-              ],
+    return _BaseDialog(
+      form: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _StyledFormField(
+              controller: _controller,
+              label: widget.label,
+              hintText: 'Enter new ${widget.label.toLowerCase()}',
+              validator: widget.validator,
             ),
-          ),
+          ],
         ),
       ),
+      onSave: _save,
     );
   }
 }
@@ -155,137 +106,44 @@ class _EditInterfaceDialogState extends ConsumerState<_EditInterfaceDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 400),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: _ipController,
-                  autofocus: true,
-                  validator: (value) {
-                    final subnetMask = _subnetController.text.trim();
-                    final routingTable = ref
-                        .read(
-                          routerProvider(
-                            ref.read(simScreenProvider).selectedDeviceOnInfo,
-                          ),
-                        )
-                        .routingTable;
-                    return Validator.validateIpOnRouterInterface(
-                      value,
-                      subnetMask,
-                      routingTable,
-                    );
-                  },
-                  decoration: InputDecoration(
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        HugeIcon(
-                          icon: HugeIcons.strokeRoundedPencilEdit01,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'New Ipv4 Address :',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    hintText: 'Enter new Ipv4 Address :',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.secondary,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
+    final selectedDevice = ref.read(simScreenProvider).selectedDeviceOnInfo;
+    final routingTable = ref.read(routerProvider(selectedDevice)).routingTable;
 
-                const SizedBox(height: 12),
-
-                TextFormField(
-                  controller: _subnetController,
-                  autofocus: true,
-                  validator: (value) {
-                    final ipAddress = _ipController.text.trim();
-                    final routingTable = ref
-                        .read(
-                          routerProvider(
-                            ref.read(simScreenProvider).selectedDeviceOnInfo,
-                          ),
-                        )
-                        .routingTable;
-                    return Validator.validateSubnetOnRouterInterface(
-                      value,
-                      ipAddress,
-                      routingTable,
-                    );
-                  },
-                  decoration: InputDecoration(
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        HugeIcon(
-                          icon: HugeIcons.strokeRoundedPencilEdit01,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'New subnet mask :',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    hintText: 'Enter new subnet mask :',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.secondary,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 12),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel'),
-                    ),
-                    const SizedBox(width: 8),
-                    ElevatedButton(onPressed: _save, child: const Text('Save')),
-                  ],
-                ),
-              ],
+    return _BaseDialog(
+      form: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _StyledFormField(
+              controller: _ipController,
+              label: 'New Ipv4 Address :',
+              hintText: 'Enter new Ipv4 Address :',
+              validator: (value) {
+                return Validator.validateIpOnRouterInterface(
+                  value,
+                  _subnetController.text.trim(),
+                  routingTable,
+                );
+              },
             ),
-          ),
+            const SizedBox(height: 12),
+            _StyledFormField(
+              controller: _subnetController,
+              label: 'New subnet mask :',
+              hintText: 'Enter new subnet mask :',
+              validator: (value) {
+                return Validator.validateSubnetOnRouterInterface(
+                  value,
+                  _ipController.text.trim(),
+                  routingTable,
+                );
+              },
+            ),
+          ],
         ),
       ),
+      onSave: _save,
     );
   }
 }
@@ -327,195 +185,150 @@ class _AddStaticRouteDialogState extends ConsumerState<_AddStaticRouteDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedDevice = ref.read(simScreenProvider).selectedDeviceOnInfo;
+    final routingTable = ref.read(routerProvider(selectedDevice)).routingTable;
+
+    return _BaseDialog(
+      form: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _StyledFormField(
+              controller: _networkIdController,
+              label: 'Network Id :',
+              hintText: '192.168.1.0',
+              validator: (value) {
+                return Validator.validateNetworkId(
+                  value,
+                  _subnetController.text.trim(),
+                  routingTable,
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            _StyledFormField(
+              controller: _subnetController,
+              label: 'Subnet Mask :',
+              hintText: 'Enter subnet mask :',
+              validator: (value) {
+                return Validator.validateStaticRouteSubnet(
+                  value,
+                  _networkIdController.text.trim(),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            _StyledFormField(
+              controller: _interfaceController,
+              label: 'Interface :',
+              hintText: 'Enter an IP or directed Interface',
+              validator: (value) {
+                return Validator.validateStaticRouteInterface(
+                  value,
+                  _subnetController.text.trim(),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      onSave: _save,
+    );
+  }
+}
+
+class _StyledFormField extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final String hintText;
+  final String? Function(String?) validator;
+
+  const _StyledFormField({
+    required this.controller,
+    required this.label,
+    required this.hintText,
+    required this.validator,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      validator: validator,
+      autofocus: true,
+      style: const TextStyle(fontSize: 14),
+      decoration: InputDecoration(
+        isDense: true,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 12,
+        ),
+        label: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            HugeIcon(
+              icon: HugeIcons.strokeRoundedPencilEdit01,
+              color: Theme.of(context).colorScheme.secondary,
+              size: 16,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 14,
+                height: 1.5,
+                color: Theme.of(context).colorScheme.onSurface,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+        hintText: hintText,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.secondary,
+            width: 2,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BaseDialog extends StatelessWidget {
+  final Widget form;
+  final VoidCallback onSave;
+
+  const _BaseDialog({required this.form, required this.onSave});
+
+  @override
+  Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 300),
+        constraints: const BoxConstraints(maxWidth: 350),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: _networkIdController,
-                  style: const TextStyle(fontSize: 14, height: 1.7),
-                  autofocus: true,
-                  validator: (value) {
-                    final routingTable = ref
-                        .read(
-                          routerProvider(
-                            ref.read(simScreenProvider).selectedDeviceOnInfo,
-                          ),
-                        )
-                        .routingTable;
-                    return Validator.validateNetworkId(
-                      value,
-                      _subnetController.text.trim(),
-                      routingTable,
-                    );
-                  },
-                  decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 6,
-                      horizontal: 12,
-                    ),
-
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        HugeIcon(
-                          icon: HugeIcons.strokeRoundedPencilEdit01,
-                          color: Theme.of(context).colorScheme.secondary,
-                          size: 16,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Network Id :',
-                          style: TextStyle(
-                            fontSize: 14,
-                            height: 1.5,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    hintText: '192.168.1.0 :',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.secondary,
-                        width: 2,
-                      ),
-                    ),
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              form,
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cancel'),
                   ),
-                ),
-                const SizedBox(height: 8),
-
-                TextFormField(
-                  controller: _subnetController,
-                  style: const TextStyle(fontSize: 14, height: 1.7),
-                  autofocus: true,
-                  validator: (value) {
-                    return Validator.validateStaticRouteSubnet(
-                      value,
-                      _networkIdController.text.trim(),
-                    );
-                  },
-
-                  decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 6,
-                      horizontal: 12,
-                    ),
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        HugeIcon(
-                          icon: HugeIcons.strokeRoundedPencilEdit01,
-                          color: Theme.of(context).colorScheme.secondary,
-                          size: 16,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Subnet mask :',
-                          style: TextStyle(
-                            fontSize: 14,
-                            height: 1.5,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    hintText: 'Enter subnet mask :',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.secondary,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 8),
-
-                TextFormField(
-                  controller: _interfaceController,
-                  style: const TextStyle(fontSize: 14, height: 1.7),
-                  autofocus: true,
-                  validator: (value) {
-                    return Validator.validateStaticRouteInterface(
-                      value,
-                      _subnetController.text.trim(),
-                    );
-                  },
-                  decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 6,
-                      horizontal: 12,
-                    ),
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        HugeIcon(
-                          icon: HugeIcons.strokeRoundedPencilEdit01,
-                          color: Theme.of(context).colorScheme.secondary,
-                          size: 16,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Interface :',
-                          style: TextStyle(
-                            fontSize: 14,
-                            height: 1.5,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    hintText: 'Enter an IP or directed Interface',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.secondary,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 8),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel'),
-                    ),
-                    const SizedBox(width: 8),
-                    ElevatedButton(onPressed: _save, child: const Text('Save')),
-                  ],
-                ),
-              ],
-            ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(onPressed: onSave, child: const Text('Save')),
+                ],
+              ),
+            ],
           ),
         ),
       ),
