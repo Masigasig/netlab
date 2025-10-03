@@ -376,7 +376,7 @@ class ContentRenderer extends StatelessWidget {
     // Calculate the correct quiz question index by counting
     // how many quiz blocks appear before this one
     final questionIndex = _getQuizQuestionIndex(block);
-    
+
     return QuizWidget(
       quizData: block.content as QuizData,
       quizController: quizController!,

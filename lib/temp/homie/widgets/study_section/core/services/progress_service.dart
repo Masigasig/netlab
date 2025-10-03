@@ -109,15 +109,16 @@ class ProgressService {
   ) async {
     final prefs = await SharedPreferences.getInstance();
     final scoreKey = '$_prefixQuizScore${topicId}_${moduleId}_$questionIndex';
-    final attemptsKey = '$_prefixQuizAttempts${topicId}_${moduleId}_$questionIndex';
-    
+    final attemptsKey =
+        '$_prefixQuizAttempts${topicId}_${moduleId}_$questionIndex';
+
     // Save whether the answer was correct
     await prefs.setBool(scoreKey, isCorrect);
-    
+
     // Increment attempt count
     final currentAttempts = prefs.getInt(attemptsKey) ?? 0;
     await prefs.setInt(attemptsKey, currentAttempts + 1);
-    
+
     // Update last study time
     await prefs.setString(_lastStudyTimeKey, DateTime.now().toIso8601String());
   }
@@ -174,15 +175,16 @@ class ProgressService {
   ) async {
     final prefs = await SharedPreferences.getInstance();
     final prefix = '$_prefixQuizScore${topicId}_${moduleId}_';
-    
-    final scores = prefs.getKeys()
+
+    final scores = prefs
+        .getKeys()
         .where((key) => key.startsWith(prefix))
         .map((key) => prefs.getBool(key) ?? false)
         .toList();
-    
+
     final correct = scores.where((score) => score).length;
     final total = scores.length;
-    
+
     return {
       'correct': correct,
       'total': total,

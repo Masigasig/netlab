@@ -38,9 +38,13 @@ class _QuizWidgetState extends State<QuizWidget> {
     return ListenableBuilder(
       listenable: widget.quizController,
       builder: (context, _) {
-        final selectedAnswer = widget.quizController.getAnswer(widget.questionIndex);
+        final selectedAnswer = widget.quizController.getAnswer(
+          widget.questionIndex,
+        );
         final isSubmitted = widget.quizController.isSubmitted;
-        final isCorrect = widget.quizController.isAnswerCorrect(widget.questionIndex);
+        final isCorrect = widget.quizController.isAnswerCorrect(
+          widget.questionIndex,
+        );
         // final correctAnswerIndex = widget.quizController.getCorrectAnswer(widget.questionIndex);
 
         return Column(
@@ -78,7 +82,8 @@ class _QuizWidgetState extends State<QuizWidget> {
               final index = entry.key;
               final option = entry.value;
               final isSelected = selectedAnswer == index;
-              final isCorrectOption = index == widget.quizData.correctAnswerIndex;
+              final isCorrectOption =
+                  index == widget.quizData.correctAnswerIndex;
 
               BoxDecoration optionDecoration;
               IconData? icon;
@@ -127,16 +132,18 @@ class _QuizWidgetState extends State<QuizWidget> {
                             color: isSubmitted && isCorrectOption
                                 ? cs.primary
                                 : isSubmitted && isSelected && !isCorrectOption
-                                    ? cs.error
-                                    : isSelected
-                                        ? cs.primary
-                                        : Colors.transparent,
+                                ? cs.error
+                                : isSelected
+                                ? cs.primary
+                                : Colors.transparent,
                             border: Border.all(
                               color: isSubmitted && isCorrectOption
                                   ? cs.primary
-                                  : isSubmitted && isSelected && !isCorrectOption
-                                      ? cs.error
-                                      : cs.onSurfaceVariant,
+                                  : isSubmitted &&
+                                        isSelected &&
+                                        !isCorrectOption
+                                  ? cs.error
+                                  : cs.onSurfaceVariant,
                               width: 1,
                             ),
                           ),
@@ -144,13 +151,14 @@ class _QuizWidgetState extends State<QuizWidget> {
                             child: Text(
                               String.fromCharCode(65 + index),
                               style: AppTextStyles.bodyMedium.copyWith(
-                                color: isSubmitted &&
+                                color:
+                                    isSubmitted &&
                                         (isCorrectOption ||
                                             (isSelected && !isCorrectOption))
                                     ? cs.onPrimary
                                     : isSelected
-                                        ? cs.onPrimary
-                                        : cs.onSurface,
+                                    ? cs.onPrimary
+                                    : cs.onSurface,
                               ),
                             ),
                           ),

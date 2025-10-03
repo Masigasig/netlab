@@ -6,10 +6,7 @@ import 'package:netlab/core/components/app_theme.dart';
 class SubmitQuizButton extends StatelessWidget {
   final ModuleQuizController quizController;
 
-  const SubmitQuizButton({
-    super.key,
-    required this.quizController,
-  });
+  const SubmitQuizButton({super.key, required this.quizController});
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +31,7 @@ class SubmitQuizButton extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: cs.surfaceContainerHighest.withOpacity(0.4),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: cs.outline.withOpacity(0.2),
-                  ),
+                  border: Border.all(color: cs.outline.withOpacity(0.2)),
                 ),
                 child: Row(
                   children: [
@@ -172,18 +167,11 @@ class SubmitQuizButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: performanceColor.withAlpha(26),
             borderRadius: BorderRadius.circular(AppStyles.cardRadius),
-            border: Border.all(
-              color: performanceColor.withAlpha(77),
-              width: 2,
-            ),
+            border: Border.all(color: performanceColor.withAlpha(77), width: 2),
           ),
           child: Column(
             children: [
-              Icon(
-                performanceIcon,
-                color: performanceColor,
-                size: 48,
-              ),
+              Icon(performanceIcon, color: performanceColor, size: 48),
               const SizedBox(height: 12),
               Text(
                 performanceText,
@@ -257,7 +245,7 @@ class SubmitQuizButton extends StatelessWidget {
   Future<void> _handleSubmit(BuildContext context) async {
     try {
       await quizController.submitAnswers();
-      
+
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

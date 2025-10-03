@@ -70,7 +70,7 @@ class _ModuleContentViewState extends State<ModuleContentView> {
       topicId: widget.topic.id,
       moduleId: widget.module.id,
     );
-    
+
     // Only load previous quiz state if module has quizzes
     if (_hasQuizzes) {
       _quizController.loadPreviousAnswers();
@@ -80,19 +80,31 @@ class _ModuleContentViewState extends State<ModuleContentView> {
   @override
   void didUpdateWidget(ModuleContentView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     // Reinitialize controllers if module or topic changed
     if (oldWidget.module.id != widget.module.id ||
         oldWidget.topic.id != widget.topic.id) {
+      // Dispose old controllers
       _progressController.dispose();
-      _quizController.reset(); // Reset the old quiz controller
+
+      // Clear quiz state before switching
+      if (_quizController.isSubmitted) {
+        _quizController.reset();
+      }
+
+      // Initialize for new module
       _checkForQuizzes();
       _initializeControllers();
       _loadModuleProgress();
-      
-      // Reload quiz state for the new module if it has quizzes
+
+      // Load quiz state for new module if it has quizzes
+      // Delay slightly to ensure all questions are registered
       if (_hasQuizzes) {
-        _quizController.loadPreviousAnswers();
+        Future.delayed(const Duration(milliseconds: 200), () {
+          if (mounted) {
+            _quizController.loadPreviousAnswers();
+          }
+        });
       }
     }
   }
@@ -182,9 +194,7 @@ class _ModuleContentViewState extends State<ModuleContentView> {
 
                 // Submit Quiz Button (only show if module has quizzes)
                 if (_hasQuizzes) ...[
-                  SubmitQuizButton(
-                    quizController: _quizController,
-                  ),
+                  SubmitQuizButton(quizController: _quizController),
                   const SizedBox(height: 24),
                 ],
 
@@ -203,11 +213,20 @@ class _ModuleContentViewState extends State<ModuleContentView> {
                           widget.module.id,
                         ),
                         builder: (context, snapshot) {
-                          if (!snapshot.hasData || snapshot.data!['total'] == 0) {
+                          if (!snapshot.hasData ||
+                              snapshot.data!['total'] == 0 ||
+                              !_quizController.isSubmitted) {
                             return const SizedBox.shrink();
                           }
 
-                          final stats = snapshot.data!;
+                          // Combine stats from ProgressService and QuizController
+                          final storedStats = snapshot.data!;
+                          final currentStats = _quizController.getStats();
+
+                          // Use current stats if they exist, otherwise use stored stats
+                          final stats = _quizController.isSubmitted
+                              ? currentStats
+                              : storedStats;
                           final percentage = stats['percentage'] as int;
 
                           // Determine performance color
@@ -249,7 +268,8 @@ class _ModuleContentViewState extends State<ModuleContentView> {
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Quiz Performance',
@@ -297,49 +317,60 @@ class _ModuleContentViewState extends State<ModuleContentView> {
                   ),
 
                 // Action button
-                Center(
-                  child: FilledButton.icon(
-                    onPressed:
-                        ModuleButtonHelper.isButtonDisabled(
-                          isCompleted: _isCompleted,
-                          isLastModule: isLastModule,
-                        )
-                        ? null
-                        : _handleButtonPress,
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(
-                        ModuleButtonHelper.getButtonColor(
-                          isCompleted: _isCompleted,
-                          isLastModule: isLastModule,
-                          colorScheme: cs,
+                // Action button (only show if no quiz OR quiz is completed)
+                // Action button (only show if no quiz OR quiz is completed)
+                ListenableBuilder(
+                  listenable: _quizController,
+                  builder: (context, _) {
+                    if (_hasQuizzes && !_quizController.isSubmitted) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Center(
+                      child: FilledButton.icon(
+                        onPressed:
+                            ModuleButtonHelper.isButtonDisabled(
+                              isCompleted: _isCompleted,
+                              isLastModule: isLastModule,
+                            )
+                            ? null
+                            : _handleButtonPress,
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            ModuleButtonHelper.getButtonColor(
+                              isCompleted: _isCompleted,
+                              isLastModule: isLastModule,
+                              colorScheme: cs,
+                            ),
+                          ),
+                          padding: WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                          ),
+                        ),
+                        icon: Icon(
+                          ModuleButtonHelper.getButtonIcon(
+                            isCompleted: _isCompleted,
+                            isLastModule: isLastModule,
+                          ),
+                          color: cs.onPrimary,
+                        ),
+                        label: Text(
+                          ModuleButtonHelper.getButtonText(
+                            isCompleted: _isCompleted,
+                            isLastModule: isLastModule,
+                          ),
+                          style: TextStyle(
+                            color: cs.onPrimary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                      padding: WidgetStateProperty.all(
-                        const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
-                        ),
-                      ),
-                    ),
-                    icon: Icon(
-                      ModuleButtonHelper.getButtonIcon(
-                        isCompleted: _isCompleted,
-                        isLastModule: isLastModule,
-                      ),
-                      color: cs.onPrimary,
-                    ),
-                    label: Text(
-                      ModuleButtonHelper.getButtonText(
-                        isCompleted: _isCompleted,
-                        isLastModule: isLastModule,
-                      ),
-                      style: TextStyle(
-                        color: cs.onPrimary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
 
                 // Helper text
@@ -380,3 +411,4 @@ class _ModuleContentViewState extends State<ModuleContentView> {
     super.dispose();
   }
 }
+
