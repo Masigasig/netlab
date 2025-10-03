@@ -50,35 +50,7 @@ class InfoPanel extends ConsumerWidget {
             width: 250,
             child: Column(
               children: [
-                SizedBox(
-                  height: 35,
-                  child: TabBar(
-                    indicator: tabConfig.length == 1
-                        ? const BoxDecoration()
-                        : BoxDecoration(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.secondary.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    labelColor: tabConfig.length == 1
-                        ? Theme.of(context).colorScheme.onSurface
-                        : Theme.of(context).colorScheme.secondary,
-                    unselectedLabelColor: Theme.of(
-                      context,
-                    ).colorScheme.onSurface,
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                    ),
-                    splashFactory: NoSplash.splashFactory,
-                    overlayColor: WidgetStateProperty.all(Colors.transparent),
-                    dividerColor: Theme.of(context).colorScheme.secondary,
-                    dividerHeight: 1,
-                    tabs: tabConfig.tabs,
-                  ),
-                ),
+                _InfoPanelTabBar(tabConfig),
 
                 Expanded(
                   child: Padding(
@@ -104,54 +76,7 @@ class InfoPanel extends ConsumerWidget {
                       TextButton(
                         onPressed: isPlaying
                             ? null
-                            : () {
-                                if (selectedDevice.startsWith(
-                                  SimObjectType.host.label,
-                                )) {
-                                  ref
-                                      .read(
-                                        hostProvider(selectedDevice).notifier,
-                                      )
-                                      .removeSelf();
-                                } else if (selectedDevice.startsWith(
-                                  SimObjectType.connection.label,
-                                )) {
-                                  ref
-                                      .read(
-                                        connectionProvider(
-                                          selectedDevice,
-                                        ).notifier,
-                                      )
-                                      .removeSelf();
-                                } else if (selectedDevice.startsWith(
-                                  SimObjectType.message.label,
-                                )) {
-                                  ref
-                                      .read(
-                                        messageProvider(
-                                          selectedDevice,
-                                        ).notifier,
-                                      )
-                                      .removeSelf();
-                                } else if (selectedDevice.startsWith(
-                                  SimObjectType.switch_.label,
-                                )) {
-                                  ref
-                                      .read(
-                                        switchProvider(selectedDevice).notifier,
-                                      )
-                                      .removeSelf();
-                                } else if (selectedDevice.startsWith(
-                                  SimObjectType.router.label,
-                                )) {
-                                  ref
-                                      .read(
-                                        routerProvider(selectedDevice).notifier,
-                                      )
-                                      .removeSelf();
-                                }
-                              },
-
+                            : () => _onDelete(ref, selectedDevice),
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.red,
                         ),
@@ -164,6 +89,51 @@ class InfoPanel extends ConsumerWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _onDelete(WidgetRef ref, String selectedDevice) {
+    if (selectedDevice.startsWith(SimObjectType.host.label)) {
+      ref.read(hostProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.connection.label)) {
+      ref.read(connectionProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.message.label)) {
+      ref.read(messageProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.switch_.label)) {
+      ref.read(switchProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.router.label)) {
+      ref.read(routerProvider(selectedDevice).notifier).removeSelf();
+    }
+  }
+}
+
+class _InfoPanelTabBar extends StatelessWidget {
+  final _TabConfig config;
+  const _InfoPanelTabBar(this.config);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 35,
+      child: TabBar(
+        indicator: config.length == 1
+            ? const BoxDecoration()
+            : BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary.withAlpha(40),
+                borderRadius: BorderRadius.circular(16),
+              ),
+        indicatorSize: TabBarIndicatorSize.tab,
+        labelColor: config.length == 1
+            ? Theme.of(context).colorScheme.onSurface
+            : Theme.of(context).colorScheme.secondary,
+        unselectedLabelColor: Theme.of(context).colorScheme.onSurface,
+        labelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+        splashFactory: NoSplash.splashFactory,
+        overlayColor: WidgetStateProperty.all(Colors.transparent),
+        dividerColor: Theme.of(context).colorScheme.secondary,
+        dividerHeight: 1,
+        tabs: config.tabs,
       ),
     );
   }
