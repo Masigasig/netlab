@@ -14,7 +14,7 @@ class SimObjectLogNotifier extends Notifier<List<LogEntry>> {
   final String simObjId;
   SimObjectLogNotifier(this.simObjId);
 
-  final List<String> _logs = [];
+  final List<LogEntry> _logs = [];
 
   @override
   List<LogEntry> build() {
@@ -24,7 +24,7 @@ class SimObjectLogNotifier extends Notifier<List<LogEntry>> {
     return const [];
   }
 
-  void addLog(String message) {
+  void addLog(LogEntry message) {
     _logs.add(message);
     state = List.unmodifiable(_logs);
   }
@@ -36,7 +36,7 @@ class SimObjectLogNotifier extends Notifier<List<LogEntry>> {
 }
 
 class SystemLogNotifier extends Notifier<List<LogEntry>> {
-  final List<String> _logs = [];
+  final List<LogEntry> _logs = [];
 
   @override
   List<LogEntry> build() {
@@ -46,7 +46,7 @@ class SystemLogNotifier extends Notifier<List<LogEntry>> {
     return const [];
   }
 
-  void addLog(String message) {
+  void addLog(LogEntry message) {
     _logs.add(message);
     state = List.unmodifiable(_logs);
   }

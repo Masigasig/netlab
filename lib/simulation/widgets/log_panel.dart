@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/provider/logs_notifier.dart';
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 
@@ -130,12 +131,42 @@ class _DeviceLogState extends ConsumerState<_DeviceLog> {
                     final log = logs[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 4),
-                      child: Text(
-                        log.message,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontFamily: 'monospace',
-                          fontSize: 10,
+                      child: RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 10,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: '[ ',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                            ),
+                            TextSpan(
+                              text: log.time,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' ]  ',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                            ),
+                            TextSpan(
+                              text: log.message,
+                              style: TextStyle(
+                                color: log.type == LogType.info
+                                    ? Theme.of(context).colorScheme.onSurface
+                                    : log.type == LogType.success
+                                    ? Colors.green
+                                    : Colors.red,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     );
@@ -236,12 +267,42 @@ class _SystemLogState extends ConsumerState<_SystemLog> {
                     final log = logs[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 4),
-                      child: Text(
-                        log.message,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontFamily: 'monospace',
-                          fontSize: 10,
+                      child: RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 10,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: '[ ',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                            ),
+                            TextSpan(
+                              text: log.time,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' ]  ',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                            ),
+                            TextSpan(
+                              text: log.message,
+                              style: TextStyle(
+                                color: log.type == LogType.info
+                                    ? Theme.of(context).colorScheme.onSurface
+                                    : log.type == LogType.success
+                                    ? Colors.green
+                                    : Colors.red,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     );

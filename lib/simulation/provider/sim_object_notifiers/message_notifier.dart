@@ -36,6 +36,10 @@ class MessageNotifier extends SimObjectNotifier<Message> {
   void updateCurrentPlaceId(String newPlace) {
     state = state.copyWith(currentPlaceId: newPlace);
   }
+
+  void updatePosition(double newX, double newY, {Duration? duration}) {
+    state = state.copyWith(posX: newX, posY: newY, duration: duration);
+  }
 }
 
 class MessageMapNotifier extends SimObjectMapNotifier<Message> {

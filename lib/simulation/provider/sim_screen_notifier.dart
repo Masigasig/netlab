@@ -1,4 +1,3 @@
-// import 'package:flutter/material.dart' hide Router, Switch;
 import 'package:ulid/ulid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart' show WidgetsBinding;
@@ -7,6 +6,7 @@ import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/core/ipv4_address_manager.dart';
 import 'package:netlab/simulation/core/mac_address_manager.dart';
 import 'package:netlab/simulation/model/sim_objects/sim_object.dart';
+import 'package:netlab/simulation/model/log_entry.dart';
 import 'package:netlab/simulation/model/sim_screen.dart';
 import 'package:netlab/simulation/provider/logs_notifier.dart';
 import 'package:netlab/simulation/provider/sim_clock.dart';
@@ -20,34 +20,104 @@ final simScreenProvider = NotifierProvider<SimScreenNotifier, SimScreen>(
 class SimScreenNotifier extends Notifier<SimScreen> {
   final Map<SimObjectType, int> _typeCounters = {};
   final List<Map<String, String>> _selectedDevices = [];
+  Map<String, dynamic> _tempMap = {};
 
   @override
   SimScreen build() {
     ref.onDispose(() {
       _typeCounters.clear();
       _selectedDevices.clear();
+      _tempMap = {};
     });
     return const SimScreen();
   }
 
   void playSimulation() {
+    _tempMap = exportSimulation();
+
+    final messageIds = ref.read(messageMapProvider).keys;
+    final hostsIds = <String>{};
+    for (final messageId in messageIds) {
+      final message = ref.read(messageProvider(messageId));
+      final host = ref.read(hostProvider(message.srcId));
+
+      ref
+          .read(messageProvider(messageId).notifier)
+          .updatePosition(host.posX, host.posY);
+
+      hostsIds.add(message.srcId);
+    }
+
+    _selectedDevices.clear();
+
     state = state.copyWith(
       isPlaying: true,
       isDevicePanelOpen: false,
-      isLogPanelOpen: false,
       isConnectionModeOn: false,
       isMessageModeOn: false,
       selectedDeviceOnConn: '',
-      selectedDeviceOnInfo: '',
     );
 
     ref.read(simClockProvider.notifier).start();
+    final time = ref.read(simClockProvider.notifier).now();
+    ref
+        .read(systemLogProvider.notifier)
+        .addLog(
+          LogEntry(
+            message: 'Simulation started',
+            time: time,
+            type: LogType.info,
+          ),
+        );
+
+    //* TODO: Play function
   }
 
   void stopSimulation() {
+    final time = ref.read(simClockProvider.notifier).now();
+    ref
+        .read(systemLogProvider.notifier)
+        .addLog(
+          LogEntry(
+            message: 'Simulation stopped',
+            time: time,
+            type: LogType.info,
+          ),
+        );
     ref.read(simClockProvider.notifier).reset();
 
-    state = state.copyWith(isPlaying: false);
+    ref.invalidate(connectionWidgetsProvider);
+    ref.invalidate(messageWidgetsProvider);
+    ref.invalidate(hostWidgetsProvider);
+    ref.invalidate(switchWidgetsProvider);
+    ref.invalidate(routerWidgetsProvider);
+
+    state = state.copyWith(
+      isPlaying: false,
+      isInfoPanelOpen: false,
+      selectedDeviceOnInfo: '',
+    );
+    _typeCounters.clear();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Ipv4AddressManager.clearStorage();
+      MacAddressManager.clearStorage();
+
+      ref.invalidate(connectionProvider);
+      ref.invalidate(messageProvider);
+      ref.invalidate(hostProvider);
+      ref.invalidate(switchProvider);
+      ref.invalidate(routerProvider);
+
+      ref.invalidate(connectionMapProvider);
+      ref.invalidate(messageMapProvider);
+      ref.invalidate(hostMapProvider);
+      ref.invalidate(switchMapProvider);
+      ref.invalidate(routerMapProvider);
+
+      importSimulation(_tempMap);
+      _tempMap.clear();
+    });
   }
 
   void openDevicePanel() {
