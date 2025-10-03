@@ -138,6 +138,50 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     });
   }
 
+  void importSimulation(Map<String, dynamic> data) {
+    final countersMap = data['typeCounters'] as Map<String, dynamic>;
+    countersMap.forEach((key, value) {
+      final type = SimObjectType.values.firstWhere((t) => t.name == key);
+      _typeCounters[type] = value as int;
+    });
+
+    Ipv4AddressManager.importStorage(data['Ipv4Address']);
+    MacAddressManager.importStorage(data['MacAddress']);
+
+    final connectionList = List.from(data['connections']);
+    final hostList = List.from(data['hosts']);
+    final messageList = List.from(data['messages']);
+    final routerList = List.from(data['routers']);
+    final switchList = List.from(data['switches']);
+
+    ref.read(connectionMapProvider.notifier).importFromList(connectionList);
+    ref.read(hostMapProvider.notifier).importFromList(hostList);
+    ref.read(messageMapProvider.notifier).importFromList(messageList);
+    ref.read(routerMapProvider.notifier).importFromList(routerList);
+    ref.read(switchMapProvider.notifier).importFromList(switchList);
+
+    ref.read(connectionWidgetsProvider.notifier).importFromList(connectionList);
+    ref.read(hostWidgetsProvider.notifier).importFromList(hostList);
+    ref.read(messageWidgetsProvider.notifier).importFromList(messageList);
+    ref.read(routerWidgetsProvider.notifier).importFromList(routerList);
+    ref.read(switchWidgetsProvider.notifier).importFromList(switchList);
+  }
+
+  Map<String, dynamic> exportSimulation() {
+    return {
+      'typeCounters': _typeCounters.map(
+        (key, value) => MapEntry(key.name, value),
+      ),
+      'Ipv4Address': Ipv4AddressManager.exportStorage(),
+      'MacAddress': MacAddressManager.exportStorage(),
+      'connections': ref.read(connectionMapProvider.notifier).exportToList(),
+      'hosts': ref.read(hostMapProvider.notifier).exportToList(),
+      'messages': ref.read(messageMapProvider.notifier).exportToList(),
+      'routers': ref.read(routerMapProvider.notifier).exportToList(),
+      'switches': ref.read(switchMapProvider.notifier).exportToList(),
+    };
+  }
+
   void createDevice({
     required SimObjectType type,
     required double posX,

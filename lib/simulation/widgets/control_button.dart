@@ -27,11 +27,11 @@ class UtilityControls extends StatelessWidget {
           spacing: 8,
           children: [
             _ControlButton(
+              onPressed: onExit,
               icon: HugeIcon(
                 icon: HugeIcons.strokeRoundedArrowLeft02,
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
-              onPressed: onExit,
             ),
 
             _DisabledWhenPlayingButton(
@@ -44,7 +44,7 @@ class UtilityControls extends StatelessWidget {
             ),
 
             _DisabledWhenPlayingButton(
-              onPressed: onSave,
+              onPressed: onLoad,
               icon: HugeIcon(
                 icon: HugeIcons.strokeRoundedFileUpload,
 

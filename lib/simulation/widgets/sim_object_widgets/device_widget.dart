@@ -17,7 +17,7 @@ abstract class _DeviceWidgetState<T extends DeviceWidget>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Device_${widget.simObjectId} Rebuilt');
+    debugPrint('${widget.simObjectId} Rebuilt');
 
     final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
 

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3, Vector4;
 
 import 'package:netlab/core/routing/go_router.dart';
+import 'package:netlab/core/utils/file_service.dart';
 
 import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
@@ -184,12 +185,20 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
         .createDevice(type: details.data, posX: pos.x, posY: pos.y);
   }
 
-  void _loadSimulation() {
-    //* TODO: loadSimulation
+  Future<void> _loadSimulation() async {
+    final data = await FileService.loadFile();
+
+    if (data != null) {
+      ref.read(simScreenProvider.notifier).clearAll();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(simScreenProvider.notifier).importSimulation(data);
+      });
+    }
   }
 
-  void _saveSimulation() {
-    //* TODO: SaveSimulation
+  Future<void> _saveSimulation() async {
+    final data = ref.read(simScreenProvider.notifier).exportSimulation();
+    await FileService.saveFile(data);
   }
 
   void _onClearAll() {

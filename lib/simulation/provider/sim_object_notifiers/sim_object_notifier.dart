@@ -80,6 +80,21 @@ abstract class SimObjectMapNotifier<T extends SimObject>
     invalidateSpecificId(objectId);
     removeSimObject(objectId);
   }
+
+  void importFromList(List list) {
+    Map<String, T> newMap = {};
+    for (final map in list) {
+      final obj = SimObject.fromMap(map);
+      newMap[obj.id] = obj as T;
+    }
+    state = newMap;
+  }
+
+  List<Map<String, dynamic>> exportToList() {
+    return state.keys.map((id) {
+      return ref.read(objectProvider(id)).toMap();
+    }).toList();
+  }
 }
 
 abstract class SimObjectWidgetsNotifier<T extends SimObjectWidget>
@@ -92,4 +107,14 @@ abstract class SimObjectWidgetsNotifier<T extends SimObjectWidget>
 
   void removeSimObjectWidget(String simObjectId) =>
       state = {...state}..remove(simObjectId);
+
+  void importFromList(List list) {
+    Map<String, T> newMap = {};
+    for (final map in list) {
+      final type = SimObjectType.values.byName(map['type']);
+      final widget = SimObjectWidget.fromType(type, map['id']) as T;
+      newMap[widget.simObjectId] = widget;
+    }
+    state = newMap;
+  }
 }

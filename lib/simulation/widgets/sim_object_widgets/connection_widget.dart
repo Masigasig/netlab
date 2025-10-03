@@ -10,7 +10,7 @@ class ConnectionWidget extends SimObjectWidget {
 class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
   @override
   Widget build(BuildContext context) {
-    debugPrint('Connection_${widget.simObjectId} Rebuilt');
+    debugPrint('${widget.simObjectId} Rebuilt');
 
     final con = ref.watch(connectionProvider(widget.simObjectId));
 
