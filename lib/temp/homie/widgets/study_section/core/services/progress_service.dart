@@ -6,6 +6,7 @@ class ProgressService {
   static const String _lastStudyTimeKey = 'last_study_time';
   static const String _prefixQuizScore = 'quiz_score_';
   static const String _prefixQuizAttempts = 'quiz_attempts_';
+  static const String _prefixQuizAnswer = 'quiz_answer_';
 
   static Future<void> markChapterAsCompleted(
     String topicId,
@@ -121,7 +122,30 @@ class ProgressService {
     await prefs.setString(_lastStudyTimeKey, DateTime.now().toIso8601String());
   }
 
-  // NEW: Get quiz score for a specific question
+  // Save the selected answer index
+  static Future<void> saveQuizAnswer(
+    String topicId,
+    String moduleId,
+    int questionIndex,
+    int selectedAnswerIndex,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = '$_prefixQuizAnswer${topicId}_${moduleId}_$questionIndex';
+    await prefs.setInt(key, selectedAnswerIndex);
+  }
+
+  // Get the selected answer index
+  static Future<int?> getQuizAnswer(
+    String topicId,
+    String moduleId,
+    int questionIndex,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = '$_prefixQuizAnswer${topicId}_${moduleId}_$questionIndex';
+    return prefs.getInt(key);
+  }
+
+  // Get quiz score for a specific question
   static Future<bool?> getQuizResult(
     String topicId,
     String moduleId,
@@ -176,6 +200,7 @@ class ProgressService {
               key.startsWith(_prefixStudyTime) ||
               key.startsWith(_prefixQuizScore) ||
               key.startsWith(_prefixQuizAttempts) ||
+              key.startsWith(_prefixQuizAnswer) ||
               key == _lastStudyTimeKey,
         )
         .toList();

@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import '../../../core/models/content_module.dart';
 import '../../../core/models/study_topic.dart';
 import '../controllers/module_progress_controller.dart';
+import '../../quiz/controllers/quiz_controller.dart';
 import '../coordinators/module_navigation_coordinator.dart';
 import '../helpers/module_button_helper.dart';
 import '../../study_content/services/content_renderer.dart';
 import '../../study_content/services/content_registry.dart';
+import '../../study_content/models/content_block.dart';
 import '../../../core/services/progress_service.dart';
 import 'module_header.dart';
+import '../../quiz/widgets/quiz_submit_button.dart';
 
 /// Main widget for displaying module content with progress tracking
 class ModuleContentView extends StatefulWidget {
@@ -34,16 +37,24 @@ class ModuleContentView extends StatefulWidget {
 
 class _ModuleContentViewState extends State<ModuleContentView> {
   late ModuleProgressController _progressController;
+  late ModuleQuizController _quizController;
   bool _isCompleted = false;
+  bool _hasQuizzes = false;
 
   @override
   void initState() {
     super.initState();
-    _initializeController();
+    _checkForQuizzes();
+    _initializeControllers();
     _loadModuleProgress();
   }
 
-  void _initializeController() {
+  void _checkForQuizzes() {
+    final blocks = ContentRegistry.getContent(widget.module.id);
+    _hasQuizzes = blocks.any((block) => block.type == ContentBlockType.quiz);
+  }
+
+  void _initializeControllers() {
     _progressController = ModuleProgressController(
       topicId: widget.topic.id,
       moduleId: widget.module.id,
@@ -54,18 +65,35 @@ class _ModuleContentViewState extends State<ModuleContentView> {
       },
     );
     _progressController.startTracking();
+
+    _quizController = ModuleQuizController(
+      topicId: widget.topic.id,
+      moduleId: widget.module.id,
+    );
+    
+    // Only load previous quiz state if module has quizzes
+    if (_hasQuizzes) {
+      _quizController.loadPreviousAnswers();
+    }
   }
 
   @override
   void didUpdateWidget(ModuleContentView oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    // Reinitialize controller if module or topic changed
+    
+    // Reinitialize controllers if module or topic changed
     if (oldWidget.module.id != widget.module.id ||
         oldWidget.topic.id != widget.topic.id) {
       _progressController.dispose();
-      _initializeController();
+      _quizController.reset(); // Reset the old quiz controller
+      _checkForQuizzes();
+      _initializeControllers();
       _loadModuleProgress();
+      
+      // Reload quiz state for the new module if it has quizzes
+      if (_hasQuizzes) {
+        _quizController.loadPreviousAnswers();
+      }
     }
   }
 
@@ -143,111 +171,130 @@ class _ModuleContentViewState extends State<ModuleContentView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Rendered content with topic and module IDs
+                // Rendered content with quiz controller
                 ContentRenderer(
                   blocks: ContentRegistry.getContent(widget.module.id),
                   topicId: widget.topic.id,
                   moduleId: widget.module.id,
+                  quizController: _quizController,
                 ),
                 const SizedBox(height: 24),
 
-                // Quiz Performance Summary
-                FutureBuilder<Map<String, dynamic>>(
-                  future: ProgressService.getModuleQuizStats(
-                    widget.topic.id,
-                    widget.module.id,
+                // Submit Quiz Button (only show if module has quizzes)
+                if (_hasQuizzes) ...[
+                  SubmitQuizButton(
+                    quizController: _quizController,
                   ),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData || snapshot.data!['total'] == 0) {
-                      return const SizedBox.shrink();
-                    }
+                  const SizedBox(height: 24),
+                ],
 
-                    final stats = snapshot.data!;
-                    final percentage = stats['percentage'] as int;
+                // Quiz Performance Summary (only show if has quizzes and after submission)
+                if (_hasQuizzes)
+                  ListenableBuilder(
+                    listenable: _quizController,
+                    builder: (context, _) {
+                      if (!_quizController.isSubmitted) {
+                        return const SizedBox.shrink();
+                      }
 
-                    // Determine performance color
-                    Color performanceColor;
-                    String performanceText;
-                    IconData performanceIcon;
-
-                    if (percentage >= 80) {
-                      performanceColor = cs.primary;
-                      performanceText = 'Excellent!';
-                      performanceIcon = Icons.emoji_events;
-                    } else if (percentage >= 60) {
-                      performanceColor = Colors.orange;
-                      performanceText = 'Good job!';
-                      performanceIcon = Icons.thumb_up;
-                    } else {
-                      performanceColor = cs.error;
-                      performanceText = 'Keep practicing!';
-                      performanceIcon = Icons.school;
-                    }
-
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 16),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: performanceColor.withAlpha(26),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: performanceColor.withAlpha(77),
+                      return FutureBuilder<Map<String, dynamic>>(
+                        future: ProgressService.getModuleQuizStats(
+                          widget.topic.id,
+                          widget.module.id,
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            performanceIcon,
-                            color: performanceColor,
-                            size: 32,
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData || snapshot.data!['total'] == 0) {
+                            return const SizedBox.shrink();
+                          }
+
+                          final stats = snapshot.data!;
+                          final percentage = stats['percentage'] as int;
+
+                          // Determine performance color
+                          Color performanceColor;
+                          String performanceText;
+                          IconData performanceIcon;
+
+                          if (percentage >= 80) {
+                            performanceColor = cs.primary;
+                            performanceText = 'Excellent!';
+                            performanceIcon = Icons.emoji_events;
+                          } else if (percentage >= 60) {
+                            performanceColor = Colors.orange;
+                            performanceText = 'Good job!';
+                            performanceIcon = Icons.thumb_up;
+                          } else {
+                            performanceColor = cs.error;
+                            performanceText = 'Keep practicing!';
+                            performanceIcon = Icons.school;
+                          }
+
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 16),
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: performanceColor.withAlpha(26),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: performanceColor.withAlpha(77),
+                              ),
+                            ),
+                            child: Row(
                               children: [
-                                Text(
-                                  'Quiz Performance',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: cs.onSurface,
-                                    fontSize: 16,
+                                Icon(
+                                  performanceIcon,
+                                  color: performanceColor,
+                                  size: 32,
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Quiz Performance',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: cs.onSurface,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        '$performanceText You answered ${stats['correct']} out of ${stats['total']} questions correctly',
+                                        style: TextStyle(
+                                          color: cs.onSurfaceVariant,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '$performanceText You answered ${stats['correct']} out of ${stats['total']} questions correctly',
-                                  style: TextStyle(
-                                    color: cs.onSurfaceVariant,
-                                    fontSize: 14,
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: performanceColor,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    '$percentage%',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: performanceColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              '$percentage%',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                          );
+                        },
+                      );
+                    },
+                  ),
 
                 // Action button
                 Center(

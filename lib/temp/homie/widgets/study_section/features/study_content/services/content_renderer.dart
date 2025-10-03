@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/content_block.dart';
 import '../models/quiz_data.dart';
 import '../../quiz/widgets/quiz_widget.dart';
+import '../../quiz/controllers/quiz_controller.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
 // ignore_for_file: deprecated_member_use
@@ -9,12 +10,14 @@ class ContentRenderer extends StatelessWidget {
   final List<ContentBlock> blocks;
   final String topicId;
   final String moduleId;
+  final ModuleQuizController? quizController; // Add this parameter
 
   const ContentRenderer({
     super.key,
     required this.blocks,
     required this.topicId,
     required this.moduleId,
+    this.quizController, // Add this parameter
   });
 
   @override
@@ -370,13 +373,29 @@ class ContentRenderer extends StatelessWidget {
   }
 
   Widget _buildQuiz(ContentBlock block, ColorScheme cs) {
-    final index = blocks.indexOf(block);
+    // Calculate the correct quiz question index by counting
+    // how many quiz blocks appear before this one
+    final questionIndex = _getQuizQuestionIndex(block);
+    
     return QuizWidget(
       quizData: block.content as QuizData,
-      topicId: topicId,
-      moduleId: moduleId,
-      questionIndex: index,
+      quizController: quizController!,
+      questionIndex: questionIndex,
     );
+  }
+
+  // Helper method to count quiz questions before the current block
+  int _getQuizQuestionIndex(ContentBlock currentBlock) {
+    int quizCount = 0;
+    for (final block in blocks) {
+      if (block == currentBlock) {
+        break;
+      }
+      if (block.type == ContentBlockType.quiz) {
+        quizCount++;
+      }
+    }
+    return quizCount;
   }
 
   Widget _buildDivider(ContentBlock block, ColorScheme cs) {
