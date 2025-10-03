@@ -5,5 +5,9 @@ class LogEntry {
   final String time;
   final LogType type;
 
-  LogEntry({required this.message, required this.time, required this.type});
+  const LogEntry({
+    required this.message,
+    required this.time,
+    required this.type,
+  });
 }

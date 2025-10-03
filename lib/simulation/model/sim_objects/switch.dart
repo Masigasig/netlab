@@ -31,7 +31,7 @@ class Switch extends Device {
     return portToConIdMap.values.where((id) => id.isNotEmpty).toList();
   }
 
-  Switch({
+  const Switch({
     required super.id,
     required super.name,
     required super.posX,
