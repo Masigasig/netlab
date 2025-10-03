@@ -12,7 +12,6 @@ import '../../../core/services/progress_service.dart';
 import 'module_header.dart';
 import '../../quiz/widgets/quiz_submit_button.dart';
 
-/// Main widget for displaying module content with progress tracking
 class ModuleContentView extends StatefulWidget {
   final ContentModule module;
   final StudyTopic topic;
@@ -162,7 +161,6 @@ class _ModuleContentViewState extends State<ModuleContentView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Module Header
           ModuleHeader(
             module: widget.module,
             isCompleted: _isCompleted,
@@ -317,8 +315,6 @@ class _ModuleContentViewState extends State<ModuleContentView> {
                   ),
 
                 // Action button
-                // Action button (only show if no quiz OR quiz is completed)
-                // Action button (only show if no quiz OR quiz is completed)
                 ListenableBuilder(
                   listenable: _quizController,
                   builder: (context, _) {

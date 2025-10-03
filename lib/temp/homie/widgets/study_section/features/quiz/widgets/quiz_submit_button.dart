@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../quiz/controllers/quiz_controller.dart';
-import 'package:netlab/temp/core/constants/app_text.dart';
-import 'package:netlab/core/components/app_theme.dart';
+import 'quiz_progress_card.dart';
+import 'quiz_result_card.dart';
 
 class SubmitQuizButton extends StatelessWidget {
   final ModuleQuizController quizController;
@@ -24,61 +24,16 @@ class SubmitQuizButton extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Progress indicator
             if (!isSubmitted) ...[
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: cs.surfaceContainerHighest.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: cs.outline.withOpacity(0.2)),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      allAnswered ? Icons.check_circle : Icons.pending,
-                      color: allAnswered ? cs.primary : cs.onSurfaceVariant,
-                      size: 24,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Quiz Progress',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: cs.onSurface,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '$answeredCount of $totalCount questions answered',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: cs.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      '$answeredCount/$totalCount',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: allAnswered ? cs.primary : cs.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
+              QuizProgressCard(
+                answeredCount: answeredCount,
+                totalCount: totalCount,
+                allAnswered: allAnswered,
               ),
               const SizedBox(height: 16),
             ],
 
-            // Submit button or results
+            // Submit button OR results
             if (!isSubmitted)
               ElevatedButton.icon(
                 onPressed: allAnswered && !isLoading
@@ -111,9 +66,11 @@ class SubmitQuizButton extends StatelessWidget {
                 ),
               )
             else
-              _buildResultsCard(context),
+              QuizResultsCard(
+                quizController: quizController,
+                onRetry: () => _handleRetry(context),
+              ),
 
-            // Helper text
             if (!isSubmitted && !allAnswered) ...[
               const SizedBox(height: 8),
               Text(
@@ -129,116 +86,6 @@ class SubmitQuizButton extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-
-  Widget _buildResultsCard(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final stats = quizController.getStats();
-    final percentage = stats['percentage'] as int;
-    final correct = stats['correct'] as int;
-    final total = stats['total'] as int;
-
-    // Determine performance
-    Color performanceColor;
-    String performanceText;
-    IconData performanceIcon;
-
-    if (percentage >= 80) {
-      performanceColor = cs.primary;
-      performanceText = 'Excellent Work!';
-      performanceIcon = Icons.emoji_events;
-    } else if (percentage >= 60) {
-      performanceColor = Colors.orange;
-      performanceText = 'Good Job!';
-      performanceIcon = Icons.thumb_up;
-    } else {
-      performanceColor = cs.error;
-      performanceText = 'Keep Practicing!';
-      performanceIcon = Icons.school;
-    }
-
-    return Column(
-      children: [
-        // Results card
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: performanceColor.withAlpha(26),
-            borderRadius: BorderRadius.circular(AppStyles.cardRadius),
-            border: Border.all(color: performanceColor.withAlpha(77), width: 2),
-          ),
-          child: Column(
-            children: [
-              Icon(performanceIcon, color: performanceColor, size: 48),
-              const SizedBox(height: 12),
-              Text(
-                performanceText,
-                style: AppTextStyles.headerLarge.copyWith(
-                  color: performanceColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'You scored',
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: cs.onSurfaceVariant,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    '$percentage',
-                    style: AppTextStyles.subtitleLarge.copyWith(
-                      color: performanceColor,
-                      fontWeight: FontWeight.bold,
-                      height: 1,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8, left: 2),
-                    child: Text(
-                      '%',
-                      style: AppTextStyles.headerLarge.copyWith(
-                        color: performanceColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '$correct out of $total correct',
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: cs.onSurfaceVariant,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-
-        // Try again button
-        OutlinedButton.icon(
-          onPressed: () => _handleRetry(context),
-          icon: const Icon(Icons.refresh),
-          label: const Text('Try Again'),
-          style: OutlinedButton.styleFrom(
-            foregroundColor: cs.primary,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            side: BorderSide(color: cs.primary),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppStyles.cardRadius),
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -274,7 +121,7 @@ class SubmitQuizButton extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: const Text('Retry Quiz?'),
         content: const Text(
-          'This will clear all your current answers and let you retake the quiz. Your previous score will be replaced.',
+          'This will clear all your current answers and let you retake the quiz.',
         ),
         actions: [
           TextButton(
