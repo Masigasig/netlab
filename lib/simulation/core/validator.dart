@@ -5,8 +5,15 @@ class Validator {
   static String? validateName(String? input) =>
       (input == null || input.trim().isEmpty) ? 'Name is required' : null;
 
-  static String? validateIpAddress(String? input, String subnetMask) {
+  static String? validateIpAddress(
+    String? input,
+    String subnetMask,
+    String oldIp,
+  ) {
     if (input == null || input.trim().isEmpty) return null;
+
+    Ipv4AddressManager.removeIp(oldIp);
+
     if (!Ipv4AddressManager.isValidIp(input)) return 'Invalid Ipv4 Address';
     if (subnetMask.isEmpty) return 'Input subnetMask First';
     if (!Ipv4AddressManager.isValidIpForSubnet(input, subnetMask)) {
@@ -40,17 +47,27 @@ class Validator {
   static String? validateIpOnRouterInterface(
     String? input,
     String subnetMask,
+    String oldIp,
     Map<String, Map<String, String>> routingTable,
   ) {
-    final error = validateIpAddress(input, subnetMask);
-    if (error != null) return error;
+    if (input == null || input.trim().isEmpty) return null;
 
+    Ipv4AddressManager.removeIp(oldIp);
+
+    if (!Ipv4AddressManager.isValidIp(input)) return 'Invalid Ipv4 Address';
+    if (subnetMask.isEmpty) return 'Input subnetMask First';
+    if (!Ipv4AddressManager.isValidIpForSubnet(input, subnetMask)) {
+      return 'Invalid Ipv4 Address for your subnetMask';
+    }
     final networkAddress = Ipv4AddressManager.getNetworkAddress(
-      input!,
+      input,
       subnetMask,
     );
     if (routingTable.containsKey(networkAddress + subnetMask)) {
       return 'Network Id is already in Routing Table';
+    }
+    if (!Ipv4AddressManager.addIp(input)) {
+      return 'IP Address already exists';
     }
     return null;
   }

@@ -24,6 +24,8 @@ class HostNotifier extends DeviceNotifier<Host> {
 
   @override
   void removeSelf() {
+    removeIpFromManager(state.ipAddress);
+    removeMacFromManager(state.macAddress);
     removeConnectionById(state.connectionId);
 
     if (state.messageIds.isNotEmpty) {

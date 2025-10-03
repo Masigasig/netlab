@@ -67,7 +67,7 @@ class _HostInfoTabViewState extends ConsumerState<_HostInfoTabView> {
                 label: 'Ipv4 Address :',
                 value: ipAddress,
                 validator: (input) =>
-                    Validator.validateIpAddress(input, subnetMask),
+                    Validator.validateIpAddress(input, subnetMask, ipAddress),
                 onSave: (value) => ref
                     .read(hostProvider(selectedDeviceId).notifier)
                     .updateIpAddress(value),

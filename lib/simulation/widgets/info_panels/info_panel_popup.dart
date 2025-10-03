@@ -123,6 +123,7 @@ class _EditInterfaceDialogState extends ConsumerState<_EditInterfaceDialog> {
                 return Validator.validateIpOnRouterInterface(
                   value,
                   _subnetController.text.trim(),
+                  widget.ipAddress,
                   routingTable,
                 );
               },

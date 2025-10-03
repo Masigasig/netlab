@@ -13,6 +13,24 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
     }
   }
 
+  void removeIpFromManager(String ipAddress) =>
+      Ipv4AddressManager.removeIp(ipAddress);
+
+  void removeMacFromManager(String macAddress) =>
+      MacAddressManager.removeMac(macAddress);
+
+  void removeMultipleIps(List<String> ipAddresses) {
+    for (final ip in ipAddresses) {
+      removeIpFromManager(ip);
+    }
+  }
+
+  void removeMulitpleMacs(List<String> macAddresses) {
+    for (final mac in macAddresses) {
+      removeMacFromManager(mac);
+    }
+  }
+
   void removeMultipleConnections(List<String> connectionIds) {
     for (final id in connectionIds) {
       removeConnectionById(id);

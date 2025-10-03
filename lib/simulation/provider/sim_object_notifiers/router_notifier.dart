@@ -32,6 +32,22 @@ class RouterNotifier extends DeviceNotifier<Router> {
       state.eth3conId,
     ];
 
+    final ipAddresses = [
+      state.eth0IpAddress,
+      state.eth1IpAddress,
+      state.eth2IpAddress,
+      state.eth3IpAddress,
+    ];
+
+    final macAddresses = [
+      state.eth0MacAddress,
+      state.eth1MacAddress,
+      state.eth2MacAddress,
+      state.eth3MacAddress,
+    ];
+
+    removeMultipleIps(ipAddresses);
+    removeMulitpleMacs(macAddresses);
     removeMultipleConnections(connectionIds);
     ref.read(routerMapProvider.notifier).removeAllState(state.id);
   }

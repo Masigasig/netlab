@@ -31,8 +31,6 @@ class MacAddressManager {
     return regex.hasMatch(mac);
   }
 
-  static bool remove(String mac) => _macStorage.remove(mac);
-
   static void clearStorage() {
     _macStorage.clear();
   }
