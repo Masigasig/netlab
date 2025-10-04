@@ -51,6 +51,14 @@ class NetworkDevicesContent extends BaseTopicContent {
         duration: 25,
         type: ContentType.reading,
       ),
+      ContentModule(
+        id: 'nd_quiz',
+        title: 'Quiz: Network Devices',
+        description: 'Test your knowledge on network devices',
+        icon: Icons.quiz, // HugeIcons.strokeRoundedQuiz,
+        duration: 10,
+        type: ContentType.quiz,
+      ),
     ];
   }
 }

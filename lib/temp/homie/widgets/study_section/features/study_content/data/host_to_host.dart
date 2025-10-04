@@ -60,6 +60,15 @@ class HostToHostContent extends BaseTopicContent {
         type: ContentType.reading,
         duration: 2,
       ),
+      ContentModule(
+        id: 'h2h_quiz',
+        title: 'Quiz: Host-to-Host Communication',
+        description:
+            'Test your knowledge on host-to-host communication concepts',
+        icon: Icons.quiz, // HugeIcons.strokeRoundedQuiz,
+        duration: 5,
+        type: ContentType.quiz,
+      ),
     ];
   }
 }

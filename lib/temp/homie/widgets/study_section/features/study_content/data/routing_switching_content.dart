@@ -80,6 +80,14 @@ class RoutingSwitchingContent extends BaseTopicContent {
         duration: 25,
         type: ContentType.reading,
       ),
+      ContentModule(
+        id: 'sr_quiz',
+        title: 'Quiz: Switching and Routing',
+        description: 'Test your knowledge on switching and routing concepts',
+        icon: Icons.quiz, // HugeIcons.strokeRoundedQuiz,
+        duration: 10,
+        type: ContentType.quiz,
+      ),
     ];
   }
 }
