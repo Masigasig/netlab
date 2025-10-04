@@ -31,7 +31,8 @@ class HostToHostArpContent implements ModuleContent {
       ContentBlock(
         type: ContentBlockType.image,
         content: ContentImage.hostToHost2,
-        title: 'ARP maps IP addresses to MAC addresses through requests and replies',
+        title:
+            'ARP maps IP addresses to MAC addresses through requests and replies',
       ),
       ContentBlock(
         type: ContentBlockType.note,

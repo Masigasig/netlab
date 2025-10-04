@@ -19,7 +19,8 @@ class HostToHostContent extends BaseTopicContent {
       ContentModule(
         id: 'h2h_preparing',
         title: 'Preparing to Send Data',
-        description: 'How IP headers and MAC addresses work together for delivery.',
+        description:
+            'How IP headers and MAC addresses work together for delivery.',
         icon: Icons.send,
         type: ContentType.reading,
         duration: 2,
@@ -27,7 +28,8 @@ class HostToHostContent extends BaseTopicContent {
       ContentModule(
         id: 'h2h_arp',
         title: 'Address Resolution Protocol (ARP)',
-        description: 'How ARP requests and replies map IP addresses to MAC addresses.',
+        description:
+            'How ARP requests and replies map IP addresses to MAC addresses.',
         icon: Icons.swap_horiz,
         type: ContentType.reading,
         duration: 3,
@@ -35,7 +37,8 @@ class HostToHostContent extends BaseTopicContent {
       ContentModule(
         id: 'h2h_packet_flow',
         title: 'Packet Transmission and Reception',
-        description: 'How packets are wrapped with headers and processed at the destination.',
+        description:
+            'How packets are wrapped with headers and processed at the destination.',
         icon: Icons.all_inbox,
         type: ContentType.reading,
         duration: 3,
@@ -51,7 +54,8 @@ class HostToHostContent extends BaseTopicContent {
       ContentModule(
         id: 'h2h_summary',
         title: 'Key Takeaways',
-        description: 'Essential points about ARP, IP-to-MAC mapping, and efficient delivery.',
+        description:
+            'Essential points about ARP, IP-to-MAC mapping, and efficient delivery.',
         icon: Icons.lightbulb_outline,
         type: ContentType.reading,
         duration: 2,

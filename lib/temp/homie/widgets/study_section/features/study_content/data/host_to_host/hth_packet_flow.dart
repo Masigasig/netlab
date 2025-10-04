@@ -31,7 +31,8 @@ class HostToHostPacketFlowContent implements ModuleContent {
       ContentBlock(
         type: ContentBlockType.image,
         content: ContentImage.hostToHost3,
-        title: 'Packets are encapsulated and decapsulated across network layers',
+        title:
+            'Packets are encapsulated and decapsulated across network layers',
       ),
       ContentBlock(
         type: ContentBlockType.note,
