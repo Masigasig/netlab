@@ -20,11 +20,6 @@ class NetworkOSIContent implements ModuleContent {
             'In real-world networking, the TCP/IP Model is used for implementation, but OSI is still useful for understanding the concepts.',
       ),
       ContentBlock(
-        type: ContentBlockType.image,
-        content: 'assets/images/osi_layers.png',
-        title: 'The 7 layers of the OSI Model',
-      ),
-      ContentBlock(
         type: ContentBlockType.bulletList,
         content: [
           'Layer 1: Physical – Transmits raw bits (1s and 0s) as electrical signals, light, or radio waves using cables, fiber optics, or Wi-Fi. Devices: repeaters, hubs.',

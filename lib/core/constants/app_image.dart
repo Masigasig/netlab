@@ -26,4 +26,10 @@ class ContentImage {
   static const String hub = '$_base/network_devices/hub.gif';
   static const String repeater = '$_base/network_devices/repeater.gif';
   static const String bridge = '$_base/network_devices/bridge.gif';
+
+  // host to host
+  static const String hostToHost1 = '$_base/host_to_host/host-to-host1.png';
+  static const String hostToHost2 = '$_base/host_to_host/host-to-host2.png';
+  static const String hostToHost3 = '$_base/host_to_host/host-to-host3.gif';
+  static const String hostToHost4 = '$_base/host_to_host/host-to-host4.gif';
 }

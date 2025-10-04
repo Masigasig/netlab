@@ -33,11 +33,6 @@ class NetworkContent implements ModuleContent {
             'one for Faculty and another for Students. Devices in each group connect to their respective subnet.',
       ),
       ContentBlock(
-        type: ContentBlockType.image,
-        content: 'assets/images/school_subnets.png',
-        title: 'School network divided into Faculty and Student subnets',
-      ),
-      ContentBlock(
         type: ContentBlockType.note,
         content:
             'Even if networks are separated (like Faculty and Students), they can still belong to a larger parent network (the School Network).',

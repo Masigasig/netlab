@@ -1,10 +1,12 @@
 import '../models/content_block.dart';
+
 import '../data/network_fundamentals/network_intro_content.dart';
 import '../data/network_fundamentals/network_internet.dart';
 import '../data/network_fundamentals/host.dart';
 import '../data/network_fundamentals/network_network.dart';
 import '../data/network_fundamentals/network_ip.dart';
 import '../data/network_fundamentals/network_osi.dart';
+
 import '../data/switching_routing/intro_switching.dart';
 import '../data/switching_routing/mac_address_table.dart';
 import '../data/switching_routing/switch_operation.dart';
@@ -14,12 +16,20 @@ import '../data/switching_routing/host_router.dart';
 import '../data/switching_routing/router_connection.dart';
 import '../data/switching_routing/routing_table.dart';
 import '../data/switching_routing/routing_types.dart';
+
 import '../data/network_devices/repeater.dart';
 import '../data/network_devices/hub.dart';
 import '../data/network_devices/bridge.dart';
 import '../data/network_devices/switch.dart';
 import '../data/network_devices/router.dart';
 import '../data/network_fundamentals/sample_quiz.dart';
+
+import '../data/host_to_host/hth_overview.dart';
+import '../data/host_to_host/hth_preparing.dart';
+import '../data/host_to_host/hth_arp.dart';
+import '../data/host_to_host/hth_packet_flow.dart';
+import '../data/host_to_host/hth_efficiency.dart';
+import '../data/host_to_host/hth_summary.dart';
 
 class ContentRegistry {
   static final Map<String, ModuleContent> _contents = {
@@ -49,6 +59,14 @@ class ContentRegistry {
     'nd_bridge': BridgeContent(),
     'nd_switch': SwitchContent(),
     'nd_router': RouterContent(),
+
+    // host to host
+    'h2h_overview': HostToHostOverviewContent(),
+    'h2h_preparing': HostToHostPreparingContent(),
+    'h2h_arp': HostToHostArpContent(),
+    'h2h_packet_flow': HostToHostPacketFlowContent(),
+    'h2h_efficiency': HostToHostEfficiencyContent(),
+    'h2h_summary': HostToHostSummaryContent(),
   };
 
   static List<ContentBlock> getContent(String moduleId) {

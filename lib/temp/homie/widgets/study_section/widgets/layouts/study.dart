@@ -7,7 +7,7 @@ import 'package:netlab/temp/homie/widgets/study_section/features/study_content/d
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/routing_switching_content.dart';
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/network_devices.dart';
 import 'package:netlab/temp/homie/widgets/study_section/features/modules/widgets/default_topic_content.dart';
-import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/arp.dart';
+import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/host_to_host.dart';
 import 'package:netlab/core/components/app_theme.dart';
 import 'package:netlab/temp/homie/widgets/study_section/core/services/progress_service.dart';
 
@@ -74,14 +74,14 @@ class _StudyScreenState extends State<StudyScreen> {
       progress: 0,
     ),
     StudyTopic(
-      id: 'arp',
-      title: 'Address Resolution Protocol',
-      subtitle: 'Understanding ARP and network address mapping',
+      id: 'host_to_host',
+      title: 'Host-to-Host Communication',
+      subtitle: 'How devices communicate over a network',
       description:
-          'Deep dive into how ARP works, ARP tables, and troubleshooting address resolution issues.',
-      cardColor: const Color(0xFF8B5CF6),
-      lessonCount: 3,
-      readTime: '8 min read',
+          'Covers IP and MAC addressing, subnetting, the ARP process, packet delivery, and caching for efficient host-to-host communication.',
+      cardColor: const Color(0xFF3B82F6),
+      lessonCount: 6,
+      readTime: '10 min read',
       isCompleted: false,
       progress: 0,
     ),
@@ -209,8 +209,8 @@ class _StudyScreenState extends State<StudyScreen> {
       case 'network_devices':
         contentScreen = NetworkDevicesContent(topic: topic);
         break;
-      case 'arp':
-        contentScreen = ArpContent(topic: topic);
+      case 'host_to_host':
+        contentScreen = HostToHostContent(topic: topic);
         break;
       default:
         contentScreen = DefaultTopicContent(topic: topic);
