@@ -1,4 +1,5 @@
 import 'dart:ui' show Offset;
+import 'dart:async' show Timer;
 import 'package:flutter/material.dart' show WidgetsBinding;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';

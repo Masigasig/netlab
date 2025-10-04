@@ -53,15 +53,20 @@ class QuizResultsCard extends StatelessWidget {
             children: [
               Icon(performanceIcon, color: performanceColor, size: 48),
               const SizedBox(height: 12),
-              Text(performanceText,
-                  style: AppTextStyles.headerLarge.copyWith(
-                    color: performanceColor,
-                    fontWeight: FontWeight.bold,
-                  )),
+              Text(
+                performanceText,
+                style: AppTextStyles.headerLarge.copyWith(
+                  color: performanceColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 8),
-              Text('You scored',
-                  style: AppTextStyles.bodyMedium
-                      .copyWith(color: cs.onSurfaceVariant)),
+              Text(
+                'You scored',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: cs.onSurfaceVariant,
+                ),
+              ),
               const SizedBox(height: 4),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -76,17 +81,22 @@ class QuizResultsCard extends StatelessWidget {
                       height: 1,
                     ),
                   ),
-                  Text('%',
-                      style: AppTextStyles.headerLarge.copyWith(
-                        color: performanceColor,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  Text(
+                    '%',
+                    style: AppTextStyles.headerLarge.copyWith(
+                      color: performanceColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 4),
-              Text('$correct out of $total correct',
-                  style: AppTextStyles.bodyMedium
-                      .copyWith(color: cs.onSurfaceVariant)),
+              Text(
+                '$correct out of $total correct',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: cs.onSurfaceVariant,
+                ),
+              ),
             ],
           ),
         ),

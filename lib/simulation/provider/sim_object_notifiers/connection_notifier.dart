@@ -29,7 +29,9 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
   @override
   Connection build() {
     ref.onDispose(() {
-      ref.invalidate(conDeviceToIdMapProvider(arg));
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.invalidate(conDeviceToIdMapProvider(arg));
+      });
     });
     return ref.read(connectionMapProvider)[arg]!;
   }

@@ -38,6 +38,16 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   }
 
   void receiveMessage(String messageId, String fromConId);
+
+  void sendMessageToConnection(
+    String connectionId,
+    String messageId,
+    String fromId,
+  ) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      connectionNotifier(connectionId).receiveMessage(messageId, fromId);
+    });
+  }
 }
 
 abstract class DeviceMapNotifier<T extends Device>

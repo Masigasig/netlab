@@ -54,3 +54,20 @@ extension RouteTypeLabel on RouteType {
     }
   }
 }
+
+enum MessageKey { targetIp, senderIp, operation, destination, source, type }
+
+enum MsgDropReason {
+  ipv4Success,
+  ipv4Fail,
+  notIntendedRecipientOfFrame,
+  arpReqSuccess,
+  arpReqNotMeant,
+  arpReplySuccess,
+  arpReqTimeout,
+  noRouteForPacket,
+}
+
+enum DataLinkLayerType { arp, ipv4 }
+
+enum OperationType { request, reply }

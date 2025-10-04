@@ -50,11 +50,7 @@ class QuizPerformanceSummary extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(
-                    performance.icon,
-                    color: performance.color,
-                    size: 32,
-                  ),
+                  Icon(performance.icon, color: performance.color, size: 32),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(

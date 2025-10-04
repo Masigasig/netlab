@@ -87,7 +87,7 @@ class _ModuleContentViewState extends State<ModuleContentView> {
 
   void _cleanupAndReinitialize() {
     _progressController.dispose();
-    
+
     if (_quizController.isSubmitted) {
       _quizController.reset();
     }

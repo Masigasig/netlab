@@ -4,6 +4,13 @@ final hostProvider = NotifierProvider.family<HostNotifier, Host, String>(
   HostNotifier.new,
 );
 
+final hostPendingArpReqProvider =
+    NotifierProvider.family<
+      HostPendingArpReqNotifier,
+      Map<String, Duration>,
+      String
+    >(HostPendingArpReqNotifier.new);
+
 final hostMapProvider = NotifierProvider<HostMapNotifier, Map<String, Host>>(
   HostMapNotifier.new,
 );
@@ -15,10 +22,26 @@ final hostWidgetsProvider =
 
 class HostNotifier extends DeviceNotifier<Host> {
   final String arg;
+  static const Duration _processingInterval = Duration(milliseconds: 500);
+  Timer? _messageProcessingTimer;
+  bool _isProcessingMessages = false;
+
+  Duration get _arpTimeout =>
+      Duration(seconds: ref.read(simScreenProvider).arpReqTimeout.toInt());
+
   HostNotifier(this.arg);
 
   @override
   Host build() {
+    ref.onDispose(() {
+      _isProcessingMessages = false;
+      _messageProcessingTimer?.cancel();
+      _messageProcessingTimer = null;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.invalidate(hostPendingArpReqProvider(arg));
+      });
+    });
     return ref.read(hostMapProvider)[arg]!;
   }
 
@@ -74,6 +97,168 @@ class HostNotifier extends DeviceNotifier<Host> {
     final newMessageIds = List<String>.from(state.messageIds)
       ..remove(messageId);
     state = state.copyWith(messageIds: newMessageIds);
+  }
+
+  void startMessageProcessing() {
+    if (_isProcessingMessages) return;
+    _isProcessingMessages = true;
+    _processNextMessage();
+  }
+
+  String _dequeueMessage() {
+    if (state.messageIds.isEmpty) return '';
+    final messageIds = List<String>.from(state.messageIds);
+    final messageId = messageIds.removeAt(0);
+    state = state.copyWith(messageIds: messageIds);
+    return messageId;
+  }
+
+  String _getMacFromArpTable(String ipAddress) =>
+      state.arpTable[ipAddress] ?? '';
+
+  void _stopMessgageProcessing() {
+    _isProcessingMessages = false;
+    _messageProcessingTimer?.cancel();
+    _messageProcessingTimer = null;
+  }
+
+  void _processNextMessage() {
+    if (!_isProcessingMessages || state.messageIds.isEmpty) {
+      _stopMessgageProcessing();
+      return;
+    }
+
+    final messageId = _dequeueMessage();
+    if (messageId.isEmpty) {
+      _scheduleNextProcessing();
+      return;
+    }
+
+    _makeNetworkLayer(messageId);
+    final targetIp = messageNotifier(messageId).getTargetIp();
+
+    final isTargetInDifferentNetwork = !Ipv4AddressManager.isInSameNetwork(
+      state.ipAddress,
+      state.subnetMask,
+      targetIp,
+    );
+
+    final lookupIp = isTargetInDifferentNetwork
+        ? state.defaultGateway
+        : targetIp;
+
+    if (ref.read(hostPendingArpReqProvider(state.id)).containsKey(lookupIp)) {
+      if (_isArpTimedOut(lookupIp)) {
+        ref
+            .read(hostPendingArpReqProvider(state.id).notifier)
+            .removePendingRequest(lookupIp);
+        messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
+      } else {
+        enqueueMessage(messageId);
+      }
+      _scheduleNextProcessing();
+      return;
+    }
+
+    final targetMac = _getMacFromArpTable(lookupIp);
+
+    if (targetMac.isEmpty) {
+      ref
+          .read(hostPendingArpReqProvider(state.id).notifier)
+          .addPendingRequest(lookupIp, ref.read(simClockProvider));
+      _sendArpRqst(lookupIp);
+      enqueueMessage(messageId);
+    } else {
+      _makeIpv4DataLinkLayer(messageId, targetMac);
+      sendMessageToConnection(state.connectionId, messageId, state.id);
+    }
+
+    _scheduleNextProcessing();
+  }
+
+  void _scheduleNextProcessing() {
+    _messageProcessingTimer?.cancel();
+    if (!_isProcessingMessages) return;
+    _messageProcessingTimer = Timer(_processingInterval, _processNextMessage);
+  }
+
+  void _makeNetworkLayer(String messageId) {
+    final networkLayer = {
+      MessageKey.senderIp.name: state.ipAddress,
+      MessageKey.targetIp.name: messageNotifier(messageId).getTargetIp(),
+    };
+
+    messageNotifier(messageId).pushLayer(networkLayer);
+  }
+
+  bool _isArpTimedOut(String targetIp) {
+    final requestTime = ref.read(hostPendingArpReqProvider(state.id))[targetIp];
+    if (requestTime == null) return false;
+    final currentTime = ref.read(simClockProvider);
+    return currentTime - requestTime > _arpTimeout;
+  }
+
+  void _sendArpRqst(String targetIp) {
+    final message =
+        SimObjectType.message.createSimObject(
+              name: 'ARP Request',
+              srcId: state.id,
+              dstId: 'ARP Request',
+            )
+            as Message;
+
+    ref.read(messageMapProvider.notifier).addSimObject(message);
+    ref
+        .read(messageWidgetsProvider.notifier)
+        .addSimObjectWidget(MessageWidget(simObjectId: message.id));
+
+    messageNotifier(message.id).updatePosition(state.posX, state.posY);
+    messageNotifier(message.id).updateCurrentPlaceId(state.id);
+
+    final arpLayer = {
+      MessageKey.operation.name: OperationType.request.name,
+      MessageKey.senderIp.name: state.ipAddress,
+      MessageKey.targetIp.name: targetIp,
+    };
+
+    messageNotifier(message.id).pushLayer(arpLayer);
+
+    final dataLinkLayer = {
+      MessageKey.source.name: state.macAddress,
+      MessageKey.destination.name: MacAddressManager.broadcastMacAddress,
+      MessageKey.type.name: DataLinkLayerType.arp.name,
+    };
+
+    messageNotifier(message.id).pushLayer(dataLinkLayer);
+    sendMessageToConnection(state.connectionId, message.id, state.id);
+  }
+
+  void _makeIpv4DataLinkLayer(String messageId, String targetMac) {
+    final dataLinkLayer = {
+      MessageKey.source.name: state.macAddress,
+      MessageKey.destination.name: targetMac,
+      MessageKey.type.name: DataLinkLayerType.ipv4.name,
+    };
+
+    messageNotifier(messageId).pushLayer(dataLinkLayer);
+  }
+}
+
+class HostPendingArpReqNotifier extends Notifier<Map<String, Duration>> {
+  final String arg;
+  HostPendingArpReqNotifier(this.arg);
+
+  @override
+  Map<String, Duration> build() {
+    return {};
+  }
+
+  void addPendingRequest(String ipAddress, Duration timeout) {
+    state = {...state, ipAddress: timeout};
+  }
+
+  void removePendingRequest(String ipAddress) {
+    state = {...state}..remove(ipAddress);
   }
 }
 

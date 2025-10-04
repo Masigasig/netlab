@@ -40,6 +40,19 @@ class MessageNotifier extends SimObjectNotifier<Message> {
   void updatePosition(double newX, double newY, {Duration? duration}) {
     state = state.copyWith(posX: newX, posY: newY, duration: duration);
   }
+
+  String getTargetIp() => hostNotifier(state.dstId).state.ipAddress;
+
+  void pushLayer(Map<String, String> newLayer) {
+    final newStack = List<Map<String, String>>.from(state.layerStack)
+      ..add(newLayer);
+
+    state = state.copyWith(layerStack: newStack);
+  }
+
+  void dropMessage(MsgDropReason reason) {
+    ref.read(messageMapProvider.notifier).invalidateSpecificId(state.id);
+  }
 }
 
 class MessageMapNotifier extends SimObjectMapNotifier<Message> {

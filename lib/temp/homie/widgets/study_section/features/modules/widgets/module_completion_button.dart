@@ -44,10 +44,11 @@ class ModuleCompletionButton extends StatelessWidget {
       children: [
         Center(
           child: FilledButton.icon(
-            onPressed: ModuleButtonHelper.isButtonDisabled(
-              isCompleted: isCompleted,
-              isLastModule: isLastModule,
-            )
+            onPressed:
+                ModuleButtonHelper.isButtonDisabled(
+                  isCompleted: isCompleted,
+                  isLastModule: isLastModule,
+                )
                 ? null
                 : onPressed,
             style: ButtonStyle(
@@ -59,10 +60,7 @@ class ModuleCompletionButton extends StatelessWidget {
                 ),
               ),
               padding: WidgetStateProperty.all(
-                const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 12,
-                ),
+                const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
             ),
             icon: Icon(

@@ -70,7 +70,9 @@ class SimScreenNotifier extends Notifier<SimScreen> {
           ),
         );
 
-    //* TODO: Play function
+    for (final hostId in hostsIds) {
+      ref.read(hostProvider(hostId).notifier).startMessageProcessing();
+    }
   }
 
   void stopSimulation() {
