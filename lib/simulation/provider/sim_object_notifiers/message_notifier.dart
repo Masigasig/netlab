@@ -16,6 +16,9 @@ final messageWidgetsProvider =
     );
 
 class MessageNotifier extends SimObjectNotifier<Message> {
+  //* TODO: logs of what happenings
+  //* TODO: method organization
+
   final String arg;
   MessageNotifier(this.arg);
 
@@ -52,6 +55,17 @@ class MessageNotifier extends SimObjectNotifier<Message> {
 
   void dropMessage(MsgDropReason reason) {
     ref.read(messageMapProvider.notifier).invalidateSpecificId(state.id);
+  }
+
+  Map<String, String> popLayer() {
+    final lastLayer = state.layerStack.last;
+
+    final newStack = List<Map<String, String>>.from(state.layerStack)
+      ..removeLast();
+
+    state = state.copyWith(layerStack: newStack);
+
+    return lastLayer;
   }
 }
 

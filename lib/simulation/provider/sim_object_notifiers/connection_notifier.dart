@@ -23,6 +23,9 @@ final connectionWidgetsProvider =
     );
 
 class ConnectionNotifier extends SimObjectNotifier<Connection> {
+  //* TODO: logs of what happenings
+  //* TODO: method organization
+
   final String arg;
   ConnectionNotifier(this.arg);
 
