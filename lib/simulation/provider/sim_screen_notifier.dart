@@ -178,6 +178,14 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     }
   }
 
+  void setMessageSpeed(double newSpeed) {
+    state = state.copyWith(messageSpeed: newSpeed);
+  }
+
+  void setArpReqTimeout(double seconds) {
+    state = state.copyWith(arpReqTimeout: seconds);
+  }
+
   void clearAll() {
     ref.invalidate(connectionWidgetsProvider);
     ref.invalidate(messageWidgetsProvider);

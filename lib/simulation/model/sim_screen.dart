@@ -7,6 +7,8 @@ class SimScreen {
   final bool isInfoPanelOpen;
   final String selectedDeviceOnConn;
   final String selectedDeviceOnInfo;
+  final double messageSpeed;
+  final double arpReqTimeout;
 
   const SimScreen({
     this.isPlaying = false,
@@ -17,6 +19,8 @@ class SimScreen {
     this.isInfoPanelOpen = false,
     this.selectedDeviceOnConn = '',
     this.selectedDeviceOnInfo = '',
+    this.messageSpeed = 300.0,
+    this.arpReqTimeout = 30.0,
   });
 
   SimScreen copyWith({
@@ -28,6 +32,8 @@ class SimScreen {
     bool? isInfoPanelOpen,
     String? selectedDeviceOnConn,
     String? selectedDeviceOnInfo,
+    double? messageSpeed,
+    double? arpReqTimeout,
   }) {
     return SimScreen(
       isPlaying: isPlaying ?? this.isPlaying,
@@ -38,6 +44,8 @@ class SimScreen {
       isInfoPanelOpen: isInfoPanelOpen ?? this.isInfoPanelOpen,
       selectedDeviceOnConn: selectedDeviceOnConn ?? this.selectedDeviceOnConn,
       selectedDeviceOnInfo: selectedDeviceOnInfo ?? this.selectedDeviceOnInfo,
+      messageSpeed: messageSpeed ?? this.messageSpeed,
+      arpReqTimeout: arpReqTimeout ?? this.arpReqTimeout,
     );
   }
 }

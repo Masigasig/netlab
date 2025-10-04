@@ -14,6 +14,7 @@ import 'package:netlab/simulation/widgets/grid_painter.dart';
 import 'package:netlab/simulation/widgets/info_panels/info_panel.dart';
 import 'package:netlab/simulation/widgets/log_panel.dart';
 import 'package:netlab/simulation/widgets/loop_animator.dart';
+import 'package:netlab/simulation/widgets/setttings_popup.dart';
 import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 
 class SimulationScreen extends ConsumerStatefulWidget {
@@ -128,6 +129,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
           ),
 
           SimulationControls(
+            onOpenSettings: _onOpenSetting,
             onOpenLogs: () =>
                 ref.read(simScreenProvider.notifier).openLogPanel(),
             onCloseLogs: () =>
@@ -224,6 +226,15 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
             ),
           ],
         );
+      },
+    );
+  }
+
+  void _onOpenSetting() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const SetttingsPopup();
       },
     );
   }

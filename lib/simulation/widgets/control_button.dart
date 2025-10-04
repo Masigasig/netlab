@@ -59,6 +59,7 @@ class UtilityControls extends StatelessWidget {
 }
 
 class SimulationControls extends StatelessWidget {
+  final VoidCallback onOpenSettings;
   final VoidCallback onOpenLogs;
   final VoidCallback onCloseLogs;
   final VoidCallback onPlay;
@@ -68,6 +69,7 @@ class SimulationControls extends StatelessWidget {
 
   const SimulationControls({
     super.key,
+    required this.onOpenSettings,
     required this.onOpenLogs,
     required this.onCloseLogs,
     required this.onStop,
@@ -89,6 +91,14 @@ class SimulationControls extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
+            _DisabledWhenPlayingButton(
+              onPressed: onOpenSettings,
+              icon: HugeIcon(
+                icon: HugeIcons.strokeRoundedSettings05,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
+            ),
+
             _LogPanelButton(onOpen: onOpenLogs, onClose: onCloseLogs),
 
             _PlayPauseButton(onPlay: onPlay, onStop: onStop),
