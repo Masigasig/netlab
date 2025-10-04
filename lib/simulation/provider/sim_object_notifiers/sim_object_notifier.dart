@@ -1,3 +1,4 @@
+import 'dart:ui' show Offset;
 import 'package:flutter/material.dart' show WidgetsBinding;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
@@ -5,7 +6,10 @@ import 'package:flutter_riverpod/misc.dart';
 import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/core/ipv4_address_manager.dart';
 import 'package:netlab/simulation/core/mac_address_manager.dart';
+import 'package:netlab/simulation/model/log_entry.dart';
 import 'package:netlab/simulation/model/sim_objects/sim_object.dart';
+import 'package:netlab/simulation/provider/logs_notifier.dart';
+import 'package:netlab/simulation/provider/sim_clock.dart';
 import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/simulation/widgets/sim_object_widgets/sim_object_widget.dart';
 
@@ -20,6 +24,11 @@ abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
   @override
   T build();
 
+  SystemLogNotifier systemLogNotifier() => ref.read(systemLogProvider.notifier);
+
+  SimObjectLogNotifier simObjectLogNotifier(String id) =>
+      ref.read(simObjectLogProvider(id).notifier);
+
   ConnectionNotifier connectionNotifier(String id) =>
       ref.read(connectionProvider(id).notifier);
   HostNotifier hostNotifier(String id) => ref.read(hostProvider(id).notifier);
@@ -29,6 +38,8 @@ abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
       ref.read(routerProvider(id).notifier);
   SwitchNotifier switchNotifier(String id) =>
       ref.read(switchProvider(id).notifier);
+
+  String elapsedTime() => ref.read(simClockProvider.notifier).now();
 
   void updateName(String newName) {
     state = state.copyWith(name: newName) as T;

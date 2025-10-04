@@ -68,6 +68,11 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
     ];
   }
 
+  @override
+  void receiveMessage(String messageId, String fromConId) {
+    // TODO: implement receiveMessage
+  }
+
   void updateConIdByPortName(String portName, String conId) {
     final port = Port.values.firstWhere((p) => p.name == portName);
 

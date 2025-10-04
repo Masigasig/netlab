@@ -74,6 +74,11 @@ class RouterNotifier extends DeviceNotifier<Router> {
     ];
   }
 
+  @override
+  void receiveMessage(String messageId, String fromConId) {
+    // TODO: implement receiveMessage
+  }
+
   void updateIpByEthName(String ethName, String newIp) {
     final eth = Eth.values.firstWhere((e) => e.name == ethName);
 

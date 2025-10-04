@@ -36,6 +36,8 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
       removeConnectionById(id);
     }
   }
+
+  void receiveMessage(String messageId, String fromConId);
 }
 
 abstract class DeviceMapNotifier<T extends Device>

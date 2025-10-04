@@ -48,6 +48,11 @@ class HostNotifier extends DeviceNotifier<Host> {
     ];
   }
 
+  @override
+  void receiveMessage(String messageId, String fromConId) {
+    // TODO: implement receiveMessage
+  }
+
   void updateIpAddress(String ipAddress) =>
       state = state.copyWith(ipAddress: ipAddress);
 
