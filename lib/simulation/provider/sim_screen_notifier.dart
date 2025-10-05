@@ -59,7 +59,7 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     );
 
     ref.read(simClockProvider.notifier).start();
-    final time = ref.read(simClockProvider.notifier).now();
+    final time = ref.read(simClockProvider.notifier).elapsedTime();
     ref
         .read(systemLogProvider.notifier)
         .addLog(
@@ -76,7 +76,7 @@ class SimScreenNotifier extends Notifier<SimScreen> {
   }
 
   void stopSimulation() {
-    final time = ref.read(simClockProvider.notifier).now();
+    final time = ref.read(simClockProvider.notifier).elapsedTime();
     ref
         .read(systemLogProvider.notifier)
         .addLog(

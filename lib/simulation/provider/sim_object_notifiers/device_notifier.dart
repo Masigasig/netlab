@@ -1,16 +1,22 @@
 part of 'sim_object_notifier.dart';
 
 abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
+  void receiveMessage(String messageId, String fromConId);
+
+  List<Map<String, String>> getAllConnectionInfo();
+
   void updatePosition(double newX, double newY) {
     state = state.copyWith(posX: newX, posY: newY) as T;
   }
 
-  List<Map<String, String>> getAllConnectionInfo();
-
-  void removeConnectionById(String connectionId) {
-    if (connectionId.isNotEmpty) {
-      connectionNotifier(connectionId).removeSelf();
-    }
+  void sendMessageToConnection(
+    String connectionId,
+    String messageId,
+    String fromId,
+  ) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      connectionNotifier(connectionId).receiveMessage(messageId, fromId);
+    });
   }
 
   void removeIpFromManager(String ipAddress) =>
@@ -18,6 +24,12 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
 
   void removeMacFromManager(String macAddress) =>
       MacAddressManager.removeMac(macAddress);
+
+  void removeConnectionById(String connectionId) {
+    if (connectionId.isNotEmpty) {
+      connectionNotifier(connectionId).removeSelf();
+    }
+  }
 
   void removeMultipleIps(List<String> ipAddresses) {
     for (final ip in ipAddresses) {
@@ -35,18 +47,6 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
     for (final id in connectionIds) {
       removeConnectionById(id);
     }
-  }
-
-  void receiveMessage(String messageId, String fromConId);
-
-  void sendMessageToConnection(
-    String connectionId,
-    String messageId,
-    String fromId,
-  ) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      connectionNotifier(connectionId).receiveMessage(messageId, fromId);
-    });
   }
 }
 

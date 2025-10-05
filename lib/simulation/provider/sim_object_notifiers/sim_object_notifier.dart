@@ -25,6 +25,14 @@ abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
   @override
   T build();
 
+  void removeSelf();
+
+  void updateName(String newName) {
+    state = state.copyWith(name: newName) as T;
+  }
+
+  String elapsedTime() => ref.read(simClockProvider.notifier).elapsedTime();
+
   SystemLogNotifier systemLogNotifier() => ref.read(systemLogProvider.notifier);
 
   SimObjectLogNotifier simObjectLogNotifier(String id) =>
@@ -40,24 +48,52 @@ abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
   SwitchNotifier switchNotifier(String id) =>
       ref.read(switchProvider(id).notifier);
 
-  String elapsedTime() => ref.read(simClockProvider.notifier).now();
-
-  void updateName(String newName) {
-    state = state.copyWith(name: newName) as T;
+  void addInfoLog(String id, String message) {
+    simObjectLogNotifier(id).addLog(
+      LogEntry(message: message, time: elapsedTime(), type: LogType.info),
+    );
   }
 
-  void removeSelf();
+  void addSuccessLog(String id, String message) {
+    simObjectLogNotifier(id).addLog(
+      LogEntry(message: message, time: elapsedTime(), type: LogType.success),
+    );
+  }
+
+  void addErrorLog(String id, String message) {
+    simObjectLogNotifier(id).addLog(
+      LogEntry(message: message, time: elapsedTime(), type: LogType.error),
+    );
+  }
+
+  void addSystemInfoLog(String message) {
+    systemLogNotifier().addLog(
+      LogEntry(message: message, time: elapsedTime(), type: LogType.info),
+    );
+  }
+
+  void addSystemErrorLog(String message) {
+    systemLogNotifier().addLog(
+      LogEntry(message: message, time: elapsedTime(), type: LogType.error),
+    );
+  }
+
+  void addSystemSuccessLog(String message) {
+    systemLogNotifier().addLog(
+      LogEntry(message: message, time: elapsedTime(), type: LogType.success),
+    );
+  }
 }
 
 abstract class SimObjectMapNotifier<T extends SimObject>
     extends Notifier<Map<String, T>> {
+  final NotifierProviderFamily<SimObjectNotifier<SimObject>, SimObject, String>
+  objectProvider;
   final NotifierProvider<
     SimObjectMapNotifier<SimObject>,
     Map<String, SimObject>
   >
   mapProvider;
-  final NotifierProviderFamily<SimObjectNotifier<SimObject>, SimObject, String>
-  objectProvider;
   final NotifierProvider<
     SimObjectWidgetsNotifier<SimObjectWidget>,
     Map<String, SimObjectWidget>
@@ -65,8 +101,8 @@ abstract class SimObjectMapNotifier<T extends SimObject>
   widgetsProvider;
 
   SimObjectMapNotifier({
-    required this.mapProvider,
     required this.objectProvider,
+    required this.mapProvider,
     required this.widgetsProvider,
   });
 
@@ -76,6 +112,21 @@ abstract class SimObjectMapNotifier<T extends SimObject>
   void addSimObject(T simObject) => state = {...state, simObject.id: simObject};
 
   void removeSimObject(String objectId) => state = {...state}..remove(objectId);
+
+  void importFromList(List list) {
+    Map<String, T> newMap = {};
+    for (final map in list) {
+      final obj = SimObject.fromMap(map);
+      newMap[obj.id] = obj as T;
+    }
+    state = newMap;
+  }
+
+  List<Map<String, dynamic>> exportToList() {
+    return state.keys.map((id) {
+      return ref.read(objectProvider(id)).toMap();
+    }).toList();
+  }
 
   void invalidateSpecificId(String objectId) {
     if (ref.read(simScreenProvider).selectedDeviceOnInfo == objectId) {
@@ -91,21 +142,6 @@ abstract class SimObjectMapNotifier<T extends SimObject>
 
     invalidateSpecificId(objectId);
     removeSimObject(objectId);
-  }
-
-  void importFromList(List list) {
-    Map<String, T> newMap = {};
-    for (final map in list) {
-      final obj = SimObject.fromMap(map);
-      newMap[obj.id] = obj as T;
-    }
-    state = newMap;
-  }
-
-  List<Map<String, dynamic>> exportToList() {
-    return state.keys.map((id) {
-      return ref.read(objectProvider(id)).toMap();
-    }).toList();
   }
 }
 

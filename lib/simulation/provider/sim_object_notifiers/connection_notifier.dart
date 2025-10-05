@@ -23,10 +23,8 @@ final connectionWidgetsProvider =
     );
 
 class ConnectionNotifier extends SimObjectNotifier<Connection> {
-  //* TODO: logs of what happenings
-  //* TODO: method organization
-
   final String arg;
+
   ConnectionNotifier(this.arg);
 
   @override
@@ -63,40 +61,14 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
   void receiveMessage(String messageId, String fromId) {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
 
-    systemLogNotifier().addLog(
-      LogEntry(
-        message:
-            'Connection ${state.name} receive message ${ref.read(messageProvider(messageId)).name}',
-        time: elapsedTime(),
-        type: LogType.info,
-      ),
+    addInfoLog(
+      state.id,
+      'Receive message ${ref.read(messageProvider(messageId)).name} from ${_getDeviceById(fromId).name}',
     );
 
-    systemLogNotifier().addLog(
-      LogEntry(
-        message:
-            'Message ${ref.read(messageProvider(messageId)).name} is at connection ${state.name}',
-        time: elapsedTime(),
-        type: LogType.info,
-      ),
-    );
-
-    simObjectLogNotifier(state.id).addLog(
-      LogEntry(
-        message:
-            'Receive message ${ref.read(messageProvider(messageId)).name} from ${_getDeviceById(fromId).name}',
-        time: elapsedTime(),
-        type: LogType.info,
-      ),
-    );
-
-    simObjectLogNotifier(messageId).addLog(
-      LogEntry(
-        message:
-            'Is at connection ${state.name}, coming from ${_getDeviceById(fromId).name}',
-        time: elapsedTime(),
-        type: LogType.info,
-      ),
+    addInfoLog(
+      messageId,
+      'Is at connection ${state.name}, coming from ${_getDeviceById(fromId).name}',
     );
 
     final targetId = fromId == state.conAId ? state.conBId : state.conAId;
@@ -127,6 +99,11 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
     ref
         .read(conDeviceToIdMapProvider(state.id).notifier)
         .removeDeviceToId(messageId);
+
+    addInfoLog(
+      state.id,
+      'Message ${ref.read(messageProvider(messageId)).name} sent to ${_getDeviceById(deviceToId).name}',
+    );
 
     deviceNotifier.receiveMessage(messageId, state.id);
   }

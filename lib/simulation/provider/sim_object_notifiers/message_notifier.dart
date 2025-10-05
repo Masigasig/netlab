@@ -18,8 +18,8 @@ final messageWidgetsProvider =
 class MessageNotifier extends SimObjectNotifier<Message> {
   //* TODO: logs of what happenings
   //* TODO: method organization
-
   final String arg;
+
   MessageNotifier(this.arg);
 
   @override
@@ -36,6 +36,8 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     ref.read(messageMapProvider.notifier).removeAllState(state.id);
   }
 
+  String getTargetIp() => hostNotifier(state.dstId).state.ipAddress;
+
   void updateCurrentPlaceId(String newPlace) {
     state = state.copyWith(currentPlaceId: newPlace);
   }
@@ -44,17 +46,15 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     state = state.copyWith(posX: newX, posY: newY, duration: duration);
   }
 
-  String getTargetIp() => hostNotifier(state.dstId).state.ipAddress;
+  void dropMessage(MsgDropReason reason) {
+    ref.read(messageMapProvider.notifier).invalidateSpecificId(state.id);
+  }
 
   void pushLayer(Map<String, String> newLayer) {
     final newStack = List<Map<String, String>>.from(state.layerStack)
       ..add(newLayer);
 
     state = state.copyWith(layerStack: newStack);
-  }
-
-  void dropMessage(MsgDropReason reason) {
-    ref.read(messageMapProvider.notifier).invalidateSpecificId(state.id);
   }
 
   Map<String, String> popLayer() {

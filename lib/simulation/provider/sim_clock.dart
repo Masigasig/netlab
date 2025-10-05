@@ -33,7 +33,7 @@ class SimClockNotifier extends Notifier<Duration> {
     state = Duration.zero;
   }
 
-  String now() {
+  String elapsedTime() {
     final minutes = state.inMinutes.remainder(60).toString().padLeft(2, '0');
     final seconds = state.inSeconds.remainder(60).toString().padLeft(2, '0');
     final milliseconds = (state.inMilliseconds.remainder(1000) ~/ 10)
