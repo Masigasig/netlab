@@ -7,8 +7,8 @@ class GridPainter extends CustomPainter {
 
   static const double _spacing = 50.0;
   static const double _major = _spacing * 5;
-  static const double _axis = 2.0;
-  static const double _majorLine = 1.0;
+  static const double _axis = 1.0;
+  static const double _majorLine = 0.5;
   static const double _minorLine = 0.5;
 
   @override

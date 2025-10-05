@@ -21,7 +21,6 @@ final hostWidgetsProvider =
     );
 
 class HostNotifier extends DeviceNotifier<Host> {
-  //* TODO: Finalize logs
   final String arg;
   bool _isProcessingMessages = false;
   static const Duration _processingInterval = Duration(milliseconds: 500);

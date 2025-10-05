@@ -17,6 +17,16 @@ import 'package:netlab/simulation/widgets/loop_animator.dart';
 import 'package:netlab/simulation/widgets/setttings_popup.dart';
 import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 
+//* TODO's:
+//* Remove enum MsgDropReason
+//* Finalize logs for each simobject
+//* message osi model stack panel
+//* Finalize unit of the speed of message
+//? should we show the clock at top while playing?
+//* Finalization of UI
+//* Ip label of host
+//? should we clear all logs at stop? or only the device log and keeping the system log
+
 class SimulationScreen extends ConsumerStatefulWidget {
   static const canvasSize = Size(100_000.0, 100_000.0);
   const SimulationScreen({super.key});
