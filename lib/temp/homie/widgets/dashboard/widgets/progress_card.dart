@@ -113,7 +113,10 @@ class ProgressCard extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 2),
-        Text(label, style: TextStyle(fontSize: 10, color: cs.onSurface.withAlpha(190))),
+        Text(
+          label,
+          style: TextStyle(fontSize: 10, color: cs.onSurface.withAlpha(190)),
+        ),
       ],
     );
   }
