@@ -9,6 +9,8 @@ import 'package:netlab/settings/setting_screen.dart' show SettingScreen;
 import 'package:netlab/simulation/simulation_screen.dart' show SimulationScreen;
 import 'package:netlab/temp/homie/widgets/study_section/widgets/layouts/study.dart'
     show StudyScreen;
+import 'package:netlab/temp/homie/widgets/dashboard/widgets/dashboard_screen.dart'
+    show DashboardScreen;
 
 export 'package:go_router/go_router.dart';
 
@@ -22,6 +24,7 @@ class Routes {
   static const home = '/home';
   static const settings = '/settings';
   static const study = '/study';
+  static const dashboard = '/dashboard';
 
   // Relative paths
   static const simulationRelative = 'simulation';
@@ -60,7 +63,12 @@ final router = GoRouter(
         ),
         GoRoute(
           path: Routes.study,
+          // parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => const StudyScreen(),
+        ),
+        GoRoute(
+          path: Routes.dashboard,
+          builder: (context, state) => const DashboardScreen(),
         ),
       ],
     ),

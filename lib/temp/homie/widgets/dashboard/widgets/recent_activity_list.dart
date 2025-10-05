@@ -1,0 +1,145 @@
+import 'package:flutter/material.dart';
+import '../models/recent_activity.dart';
+import '../models/activity_type.dart';
+
+class RecentActivityList extends StatelessWidget {
+  final List<RecentActivity> activities;
+
+  const RecentActivityList({super.key, required this.activities});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    if (activities.isEmpty) {
+      return _buildEmptyState(cs);
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Recent Activity',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: cs.onSurface,
+          ),
+        ),
+        const SizedBox(height: 12),
+        ...activities.map((activity) => _buildActivityItem(activity, cs)),
+      ],
+    );
+  }
+
+  Widget _buildEmptyState(ColorScheme cs) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Recent Activity',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: cs.onSurface,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: cs.surface,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: cs.outline.withAlpha(51)),
+          ),
+          child: Text(
+            'No recent activity',
+            style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActivityItem(RecentActivity activity, ColorScheme cs) {
+    final iconData = _getIconForActivityType(activity.type);
+    final iconColor = _getColorForActivityType(activity.type);
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: cs.outline.withAlpha(51)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: iconColor.withAlpha(26),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Icon(iconData, color: iconColor, size: 16),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  activity.title,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: cs.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  activity.subtitle,
+                  style: TextStyle(
+                    fontSize: 8,
+                    color: cs.onSurface.withAlpha(125),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Text(
+            activity.timeAgo,
+            style: TextStyle(fontSize: 8, color: cs.onSurface.withAlpha(125)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  IconData _getIconForActivityType(ActivityType type) {
+    switch (type) {
+      case ActivityType.moduleCompleted:
+        return Icons.check_circle;
+      case ActivityType.quizCompleted:
+        return Icons.quiz;
+      case ActivityType.achievementUnlocked:
+        return Icons.star;
+      case ActivityType.topicStarted:
+        return Icons.play_circle_filled;
+    }
+  }
+
+  Color _getColorForActivityType(ActivityType type) {
+    switch (type) {
+      case ActivityType.moduleCompleted:
+        return Colors.green;
+      case ActivityType.quizCompleted:
+        return Colors.blue;
+      case ActivityType.achievementUnlocked:
+        return Colors.orange;
+      case ActivityType.topicStarted:
+        return Colors.purple;
+    }
+  }
+}

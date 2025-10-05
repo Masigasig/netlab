@@ -7,6 +7,8 @@ class ProgressService {
   static const String _prefixQuizScore = 'quiz_score_';
   static const String _prefixQuizAttempts = 'quiz_attempts_';
   static const String _prefixQuizAnswer = 'quiz_answer_';
+  static const String _prefixCompletionTime = 'completion_time_';
+  static const String _studyDatesKey = 'study_dates';
 
   static Future<void> markChapterAsCompleted(
     String topicId,
@@ -15,34 +17,39 @@ class ProgressService {
   }) async {
     final prefs = await SharedPreferences.getInstance();
     final key = '$_prefixChapter${topicId}_$moduleId';
-    // print('Marking chapter for topic: $topicId, module: $moduleId as ${completed ? "completed" : "incomplete"} with key: $key');
     await prefs.setBool(key, completed);
 
-    // Update last study time when marking as complete
     if (completed) {
+      // Save completion timestamp
+      final timestampKey = '$_prefixCompletionTime${topicId}_$moduleId';
+      await prefs.setInt(timestampKey, DateTime.now().millisecondsSinceEpoch);
+
+      // Update last study time
       await prefs.setString(
         _lastStudyTimeKey,
         DateTime.now().toIso8601String(),
       );
-    }
 
-    // Verify the save
-    // final saved = await prefs.getBool(key);
-    // print('Verified save for $key: $saved');
-    // print('All keys in SharedPreferences: ${prefs.getKeys()}');
+      // Update study dates for streak calculation
+      await _updateLastStudyDate();
+    } else {
+      // If uncompleting, remove timestamp
+      final timestampKey = '$_prefixCompletionTime${topicId}_$moduleId';
+      await prefs.remove(timestampKey);
+    }
   }
 
+  // Check if chapter is completed
   static Future<bool> isChapterCompleted(
     String topicId,
     String moduleId,
   ) async {
     final prefs = await SharedPreferences.getInstance();
     final key = '$_prefixChapter${topicId}_$moduleId';
-    final completed = prefs.getBool(key) ?? false;
-    //print('Checking completion for topic: $topicId, module: $moduleId = $completed (key: $key)');
-    return completed;
+    return prefs.getBool(key) ?? false;
   }
 
+  // Get all completed chapters for a topic
   static Future<List<String>> getCompletedChaptersByTopic(
     String topicId,
   ) async {
@@ -53,15 +60,13 @@ class ProgressService {
         .getKeys()
         .where((key) => key.startsWith(prefix))
         .where((key) => prefs.getBool(key) ?? false)
-        .map(
-          (key) => key.substring(prefix.length + 1),
-        ) // +1 to skip the underscore
+        .map((key) => key.substring(prefix.length + 1))
         .toList();
 
-    // print('Completed chapters for topic $topicId: $completedChapters');
     return completedChapters;
   }
 
+  // Update study time (minutes)
   static Future<void> updateStudyTime(
     String topicId,
     String moduleId,
@@ -72,7 +77,6 @@ class ProgressService {
     final currentTime = prefs.getInt(key) ?? 0;
     await prefs.setInt(key, currentTime + minutes);
 
-    // Update last study time
     await prefs.setString(_lastStudyTimeKey, DateTime.now().toIso8601String());
   }
 
@@ -84,20 +88,18 @@ class ProgressService {
 
   static Future<int> getTopicStudyTime(String topicId) async {
     final prefs = await SharedPreferences.getInstance();
-    final totalMinutes = prefs
+    return prefs
         .getKeys()
         .where((key) => key.startsWith('$_prefixStudyTime$topicId'))
         .fold<int>(0, (sum, key) => sum + (prefs.getInt(key) ?? 0));
-    return totalMinutes;
   }
 
   static Future<int> getTotalStudyTime() async {
     final prefs = await SharedPreferences.getInstance();
-    final totalMinutes = prefs
+    return prefs
         .getKeys()
         .where((key) => key.startsWith(_prefixStudyTime))
         .fold<int>(0, (sum, key) => sum + (prefs.getInt(key) ?? 0));
-    return totalMinutes;
   }
 
   // Save quiz result
@@ -112,18 +114,13 @@ class ProgressService {
     final attemptsKey =
         '$_prefixQuizAttempts${topicId}_${moduleId}_$questionIndex';
 
-    // Save whether the answer was correct
     await prefs.setBool(scoreKey, isCorrect);
-
-    // Increment attempt count
     final currentAttempts = prefs.getInt(attemptsKey) ?? 0;
     await prefs.setInt(attemptsKey, currentAttempts + 1);
-
-    // Update last study time
     await prefs.setString(_lastStudyTimeKey, DateTime.now().toIso8601String());
   }
 
-  // Save the selected answer index
+  // Save and retrieve quiz answers
   static Future<void> saveQuizAnswer(
     String topicId,
     String moduleId,
@@ -135,7 +132,6 @@ class ProgressService {
     await prefs.setInt(key, selectedAnswerIndex);
   }
 
-  // Get the selected answer index
   static Future<int?> getQuizAnswer(
     String topicId,
     String moduleId,
@@ -146,7 +142,6 @@ class ProgressService {
     return prefs.getInt(key);
   }
 
-  // Get quiz score for a specific question
   static Future<bool?> getQuizResult(
     String topicId,
     String moduleId,
@@ -157,7 +152,6 @@ class ProgressService {
     return prefs.getBool(key);
   }
 
-  // Get number of attempts for a specific question
   static Future<int> getQuizAttempts(
     String topicId,
     String moduleId,
@@ -168,14 +162,12 @@ class ProgressService {
     return prefs.getInt(key) ?? 0;
   }
 
-  // Get overall quiz statistics for a module
   static Future<Map<String, dynamic>> getModuleQuizStats(
     String topicId,
     String moduleId,
   ) async {
     final prefs = await SharedPreferences.getInstance();
     final prefix = '$_prefixQuizScore${topicId}_${moduleId}_';
-
     final scores = prefs
         .getKeys()
         .where((key) => key.startsWith(prefix))
@@ -192,6 +184,85 @@ class ProgressService {
     };
   }
 
+  // Get completion timestamp for module
+  static Future<DateTime?> getCompletionTimestamp(
+    String topicId,
+    String moduleId,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = '$_prefixCompletionTime${topicId}_$moduleId';
+    final timestamp = prefs.getInt(key);
+    return timestamp != null
+        ? DateTime.fromMillisecondsSinceEpoch(timestamp)
+        : null;
+  }
+
+  // Get study time for specific module
+  static Future<int> getStudyTime(String topicId, String moduleId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = '$_prefixStudyTime${topicId}_$moduleId';
+    return prefs.getInt(key) ?? 0;
+  }
+
+  // Calculate current streak (continuous study days)
+  static Future<int> getStreak() async {
+    final prefs = await SharedPreferences.getInstance();
+    final studyDatesJson = prefs.getStringList(_studyDatesKey) ?? [];
+
+    if (studyDatesJson.isEmpty) return 0;
+
+    final studyDates = studyDatesJson.map((d) => DateTime.parse(d)).toList()
+      ..sort((a, b) => b.compareTo(a));
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+
+    final mostRecent = DateTime(
+      studyDates.first.year,
+      studyDates.first.month,
+      studyDates.first.day,
+    );
+
+    if (mostRecent != today && mostRecent != yesterday) return 0;
+
+    int streak = 1;
+    DateTime currentDate = mostRecent;
+
+    for (int i = 1; i < studyDates.length; i++) {
+      final checkDate = DateTime(
+        studyDates[i].year,
+        studyDates[i].month,
+        studyDates[i].day,
+      );
+      final expectedDate = currentDate.subtract(const Duration(days: 1));
+
+      if (checkDate == expectedDate) {
+        streak++;
+        currentDate = checkDate;
+      } else if (checkDate != currentDate) {
+        break;
+      }
+    }
+
+    return streak;
+  }
+
+  // Update last study date list (for streaks)
+  static Future<void> _updateLastStudyDate() async {
+    final prefs = await SharedPreferences.getInstance();
+    final studyDatesJson = prefs.getStringList(_studyDatesKey) ?? [];
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final todayString = today.toIso8601String();
+
+    if (!studyDatesJson.contains(todayString)) {
+      studyDatesJson.add(todayString);
+      await prefs.setStringList(_studyDatesKey, studyDatesJson);
+    }
+  }
+
   static Future<void> resetProgress() async {
     final prefs = await SharedPreferences.getInstance();
     final keys = prefs
@@ -203,7 +274,9 @@ class ProgressService {
               key.startsWith(_prefixQuizScore) ||
               key.startsWith(_prefixQuizAttempts) ||
               key.startsWith(_prefixQuizAnswer) ||
-              key == _lastStudyTimeKey,
+              key.startsWith(_prefixCompletionTime) ||
+              key == _lastStudyTimeKey ||
+              key == _studyDatesKey,
         )
         .toList();
 
