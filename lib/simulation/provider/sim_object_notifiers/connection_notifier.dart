@@ -63,12 +63,12 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 
     addInfoLog(
       state.id,
-      'Receive message ${ref.read(messageProvider(messageId)).name} from ${_getDeviceById(fromId).name}',
+      'Receive message "${ref.read(messageProvider(messageId)).name}" from "${_getDeviceById(fromId).name}"',
     );
 
     addInfoLog(
       messageId,
-      'Is at connection ${state.name}, coming from ${_getDeviceById(fromId).name}',
+      'Is at connection "${state.name}", coming from device "${_getDeviceById(fromId).name}"',
     );
 
     final targetId = fromId == state.conAId ? state.conBId : state.conAId;
@@ -102,7 +102,7 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 
     addInfoLog(
       state.id,
-      'Message ${ref.read(messageProvider(messageId)).name} sent to ${_getDeviceById(deviceToId).name}',
+      'Message "${ref.read(messageProvider(messageId)).name}" sent to device "${_getDeviceById(deviceToId).name}"',
     );
 
     deviceNotifier.receiveMessage(messageId, state.id);

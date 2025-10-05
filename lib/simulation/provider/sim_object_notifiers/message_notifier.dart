@@ -16,8 +16,6 @@ final messageWidgetsProvider =
     );
 
 class MessageNotifier extends SimObjectNotifier<Message> {
-  //* TODO: logs of what happenings
-  //* TODO: method organization
   final String arg;
 
   MessageNotifier(this.arg);
