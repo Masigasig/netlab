@@ -16,10 +16,19 @@ final switchWidgetsProvider =
 
 class SwitchNotifier extends DeviceNotifier<Switch> {
   final String arg;
+  final Queue<Map<String, String>> _switchQ = Queue();
+
   SwitchNotifier(this.arg);
 
   @override
   Switch build() {
+    ref.onDispose(() {
+      _isProcessingMessages = false;
+      _messageProcessingTimer?.cancel();
+      _messageProcessingTimer = null;
+
+      _switchQ.clear();
+    });
     return ref.read(switchMapProvider)[arg]!;
   }
 
@@ -70,7 +79,29 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
 
   @override
   void receiveMessage(String messageId, String fromConId) {
-    // TODO: implement receiveMessage
+    messageNotifier(messageId).updateCurrentPlaceId(state.id);
+
+    addSystemInfoLog(
+      'Switch "${state.name}" receive message "${messageNotifier(messageId).state.name}"',
+    );
+
+    addSystemInfoLog(
+      'Message "${messageNotifier(messageId).state.name}" is at switch "${state.name}"',
+    );
+
+    addInfoLog(messageId, 'Is at switch "${state.name}"');
+
+    final sourceMac = messageNotifier(
+      messageId,
+    ).state.layerStack.last[MessageKey.source.name]!;
+
+    final port = state.conIdToPortMap[fromConId]!;
+
+    _updateMacTable(sourceMac, port);
+
+    _switchQ.add({'messageId': messageId, 'fromConId': fromConId});
+
+    _startMessageProcessing();
   }
 
   void updateConIdByPortName(String portName, String conId) {
@@ -101,6 +132,140 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
       state = state.copyWith(port5conId: '');
     }
   }
+
+  void _updateMacTable(String mac, String port) {
+    final newMacTable = Map<String, String>.from(state.macTable);
+    newMacTable[mac] = port;
+    state = state.copyWith(macTable: newMacTable);
+    addInfoLog(state.id, 'Update MacTable $port => $mac');
+  }
+
+  void _startMessageProcessing() {
+    if (_isProcessingMessages) return;
+    _isProcessingMessages = true;
+    addSystemInfoLog('Switch "${state.name}" started processing message');
+    addInfoLog(state.id, 'Started processing message');
+    _processNextMessage();
+  }
+
+  void _stopMessageProcessing() {
+    _isProcessingMessages = false;
+    _messageProcessingTimer?.cancel();
+    addSystemInfoLog('Switch "${state.name} stopped processing message');
+    addInfoLog(state.id, 'Stopped processing message');
+  }
+
+  void _scheduleNextProcessing() {
+    _messageProcessingTimer?.cancel();
+    if (!_isProcessingMessages) return;
+    _messageProcessingTimer = Timer(
+      DeviceNotifier.processingInterval,
+      _processNextMessage,
+    );
+
+    addInfoLog(state.id, 'Processing next message');
+  }
+
+  void _processNextMessage() {
+    if (!_isProcessingMessages || _switchQ.isEmpty) {
+      _stopMessageProcessing();
+      return;
+    }
+
+    final currentMessage = _switchQ.removeFirst();
+    final messageId = currentMessage['messageId']!;
+    final fromConId = currentMessage['fromConId']!;
+
+    if (currentMessage.isEmpty) {
+      _scheduleNextProcessing();
+      return;
+    }
+
+    final dstMac = messageNotifier(
+      messageId,
+    ).state.layerStack.last[MessageKey.destination.name]!;
+
+    final port = _getPortFromMacTable(dstMac);
+
+    if (port.isEmpty) {
+      final activePorts = state.activeConnectionIds;
+      activePorts.remove(fromConId);
+
+      final List<String> messagesIds = [messageId];
+
+      for (int i = 0; i < activePorts.length - 1; i++) {
+        messagesIds.add(_duplicateMessage(messageId));
+      }
+
+      addSystemInfoLog(
+        'Switch "${state.name}" flood the port for message "${messageNotifier(messageId).state.name}"',
+      );
+
+      addInfoLog(
+        state.id,
+        'Flood the port for message "${messageNotifier(messageId).state.name}"',
+      );
+
+      for (int i = 0; i < activePorts.length; i++) {
+        sendMessageToConnection(activePorts[i], messagesIds[i], state.id);
+      }
+    } else {
+      final connectionId = state.portToConIdMap[port]!;
+
+      addSystemInfoLog(
+        'Switch "${state.name}" forward  message "${messageNotifier(messageId).state.name}"',
+      );
+
+      addInfoLog(
+        state.id,
+        'Forward message "${messageNotifier(messageId).state.name}" to connection "${connectionNotifier(connectionId)}"',
+      );
+
+      sendMessageToConnection(connectionId, messageId, state.id);
+    }
+
+    _scheduleNextProcessing();
+  }
+
+  String _duplicateMessage(String messageId) {
+    final dataLinkLayer = messageNotifier(messageId).popLayer();
+    final networkLayer = messageNotifier(messageId).popLayer();
+    messageNotifier(messageId).pushLayer(networkLayer);
+    messageNotifier(messageId).pushLayer(dataLinkLayer);
+
+    final newMessage =
+        SimObjectType.message.createSimObject(
+              name: messageNotifier(messageId).state.name,
+              srcId: messageNotifier(messageId).state.srcId,
+              dstId: messageNotifier(messageId).state.dstId,
+            )
+            as Message;
+
+    final widget =
+        SimObjectType.message.createSimObjectWidget(newMessage.id)
+            as MessageWidget;
+
+    ref.read(messageMapProvider.notifier).addSimObject(newMessage);
+    ref.read(messageWidgetsProvider.notifier).addSimObjectWidget(widget);
+
+    messageNotifier(newMessage.id).updatePosition(
+      messageNotifier(messageId).state.posX,
+      messageNotifier(messageId).state.posY,
+      duration: messageNotifier(messageId).state.duration,
+    );
+
+    messageNotifier(
+      newMessage.id,
+    ).updateCurrentPlaceId(messageNotifier(messageId).state.currentPlaceId);
+
+    messageNotifier(newMessage.id).pushLayer(networkLayer);
+    messageNotifier(newMessage.id).pushLayer(dataLinkLayer);
+
+    return newMessage.id;
+  }
+
+  String _getPortFromMacTable(String macAddress) =>
+      state.macTable[macAddress] ?? '';
 }
 
 class SwitchMapNotifier extends DeviceMapNotifier<Switch> {

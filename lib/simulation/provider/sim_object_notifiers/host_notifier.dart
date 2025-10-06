@@ -22,9 +22,6 @@ final hostWidgetsProvider =
 
 class HostNotifier extends DeviceNotifier<Host> {
   final String arg;
-  bool _isProcessingMessages = false;
-  static const Duration _processingInterval = Duration(milliseconds: 500);
-  Timer? _messageProcessingTimer;
 
   Duration get _arpTimeout =>
       Duration(seconds: ref.read(simScreenProvider).arpReqTimeout.toInt());
@@ -146,7 +143,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     if (_isProcessingMessages) return;
     _isProcessingMessages = true;
     addSystemInfoLog('Host "${state.name}" started processing message');
-    addInfoLog(state.id, 'started processing message');
+    addInfoLog(state.id, 'Started processing message');
     _processNextMessage();
   }
 
@@ -180,7 +177,10 @@ class HostNotifier extends DeviceNotifier<Host> {
   void _scheduleNextProcessing() {
     _messageProcessingTimer?.cancel();
     if (!_isProcessingMessages) return;
-    _messageProcessingTimer = Timer(_processingInterval, _processNextMessage);
+    _messageProcessingTimer = Timer(
+      DeviceNotifier.processingInterval,
+      _processNextMessage,
+    );
 
     addInfoLog(state.id, 'Processing next message');
   }
@@ -245,8 +245,6 @@ class HostNotifier extends DeviceNotifier<Host> {
       return;
     }
 
-    _makeNetworkLayer(messageId);
-
     final isTargetInDifferentNetwork = !Ipv4AddressManager.isInSameNetwork(
       state.ipAddress,
       state.subnetMask,
@@ -256,6 +254,27 @@ class HostNotifier extends DeviceNotifier<Host> {
     final lookupIp = isTargetInDifferentNetwork
         ? state.defaultGateway
         : targetIp;
+
+    if (lookupIp.isEmpty) {
+      addSystemErrorLog(
+        'Host "${state.name}" drop "${messageNotifier(messageId).state.name}", reason: Host "${state.name}" has no Default Gateway',
+      );
+
+      addErrorLog(
+        messageId,
+        'Dropped, reason: Host "${state.name}" has no Default Gateway',
+      );
+
+      addErrorLog(
+        state.id,
+        'Drop message "${messageNotifier(messageId).state.name}" reason: no Default Gateway',
+      );
+
+      messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
+
+      _scheduleNextProcessing();
+      return;
+    }
 
     if (ref.read(hostPendingArpReqProvider(state.id)).containsKey(lookupIp)) {
       if (_isArpTimedOut(lookupIp)) {
@@ -297,6 +316,8 @@ class HostNotifier extends DeviceNotifier<Host> {
       _sendArpRqst(lookupIp);
       enqueueMessage(messageId);
     } else {
+      _makeNetworkLayer(messageId);
+
       _makeIpv4DataLinkLayer(messageId, targetMac);
 
       addSystemInfoLog(

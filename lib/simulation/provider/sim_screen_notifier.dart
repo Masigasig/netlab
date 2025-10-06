@@ -21,6 +21,7 @@ class SimScreenNotifier extends Notifier<SimScreen> {
   final Map<SimObjectType, int> _typeCounters = {};
   final List<Map<String, String>> _selectedDevices = [];
   Map<String, dynamic> _tempMap = {};
+  String _tempSelectedDeviceOnInfo = '';
 
   @override
   SimScreen build() {
@@ -28,12 +29,14 @@ class SimScreenNotifier extends Notifier<SimScreen> {
       _typeCounters.clear();
       _selectedDevices.clear();
       _tempMap = {};
+      _tempSelectedDeviceOnInfo = '';
     });
     return const SimScreen();
   }
 
   void playSimulation() {
     _tempMap = exportSimulation();
+    _tempSelectedDeviceOnInfo = state.selectedDeviceOnInfo;
 
     final messageIds = ref.read(messageMapProvider).keys;
     final hostsIds = <String>{};
@@ -119,6 +122,10 @@ class SimScreenNotifier extends Notifier<SimScreen> {
 
       importSimulation(_tempMap);
       _tempMap.clear();
+
+      setSelectedDeviceOnInfo(_tempSelectedDeviceOnInfo);
+
+      _tempSelectedDeviceOnInfo = '';
     });
   }
 

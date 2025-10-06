@@ -117,7 +117,7 @@ class _DeviceLogState extends ConsumerState<_DeviceLog> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24),
                     child: Text(
-                      'Log of the selected device will appear here',
+                      'Log of the selected device will appear here. Please select a device by tapping them',
                       style: TextStyle(color: Colors.grey, fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
@@ -201,7 +201,7 @@ class _DeviceLogState extends ConsumerState<_DeviceLog> {
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
-    return (maxScroll - currentScroll) < 50; // 50px tolerance
+    return (maxScroll - currentScroll) < 100; //* 100px tolerance
   }
 
   void _animateToBottom() {
@@ -335,7 +335,7 @@ class _SystemLogState extends ConsumerState<_SystemLog> {
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
-    return (maxScroll - currentScroll) < 50; //? 50px tolerance
+    return (maxScroll - currentScroll) < 100; //* 100px tolerance
   }
 
   void _animateToBottom() {

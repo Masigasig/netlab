@@ -1,6 +1,10 @@
 part of 'sim_object_notifier.dart';
 
 abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
+  static const processingInterval = Duration(milliseconds: 500);
+  bool _isProcessingMessages = false;
+  Timer? _messageProcessingTimer;
+
   void receiveMessage(String messageId, String fromConId);
 
   List<Map<String, String>> getAllConnectionInfo();
