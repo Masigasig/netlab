@@ -146,9 +146,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
         'Dropped, reason: router "${state.name}" is not Recipient of the Frame',
       );
 
-      messageNotifier(
-        messageId,
-      ).dropMessage(MsgDropReason.notIntendedRecipientOfFrame);
+      messageNotifier(messageId).dropMessage();
     }
   }
 
@@ -342,7 +340,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
         'Drop message "${messageNotifier(messageId).state.name}" reason: No route or connection for the message',
       );
 
-      messageNotifier(messageId).dropMessage(MsgDropReason.noRouteForPacket);
+      messageNotifier(messageId).dropMessage();
       return;
     }
 
@@ -377,7 +375,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
           'Dropped message "${messageNotifier(messageId)}, reason: ARP Req TimeOut',
         );
 
-        messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
+        messageNotifier(messageId).dropMessage();
       } else {
         _routerQ.add({'messageId': messageId, 'fromConId': fromConId});
       }
@@ -625,7 +623,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
             'Receive "${messageNotifier(messageId).state.name}"',
           );
 
-          messageNotifier(messageId).dropMessage(MsgDropReason.arpReqSuccess);
+          messageNotifier(messageId).dropMessage();
 
           _sendArpReply(
             dataLinkLayer[MessageKey.source.name]!,
@@ -638,7 +636,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
             'Dropped, reason: ARP Request is not for Router "${state.name}"',
           );
 
-          messageNotifier(messageId).dropMessage(MsgDropReason.arpReqNotMeant);
+          messageNotifier(messageId).dropMessage();
         }
       case OperationType.reply:
         ref
@@ -659,7 +657,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
           'Receive "${messageNotifier(messageId).state.name}"',
         );
 
-        messageNotifier(messageId).dropMessage(MsgDropReason.arpReplySuccess);
+        messageNotifier(messageId).dropMessage();
     }
   }
 }

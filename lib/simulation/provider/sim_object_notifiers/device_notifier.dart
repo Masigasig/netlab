@@ -33,7 +33,7 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
         'Message "${messageNotifier(messageId).state.name}" dropped, reason: has no connection for the message',
       );
 
-      messageNotifier(messageId).dropMessage(MsgDropReason.arpReplySuccess);
+      messageNotifier(messageId).dropMessage();
 
       return;
     }

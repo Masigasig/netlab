@@ -18,7 +18,6 @@ import 'package:netlab/simulation/widgets/setttings_popup.dart';
 import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 
 //* TODO's:
-//* Remove enum MsgDropReason
 //* Finalize logs for each simobject
 //* message osi model stack panel
 //* Finalize unit of the speed of message

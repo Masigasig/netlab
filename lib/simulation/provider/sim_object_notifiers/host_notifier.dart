@@ -110,9 +110,7 @@ class HostNotifier extends DeviceNotifier<Host> {
         'Dropped, reason: Host "${state.name}" is not Recipient of the Frame',
       );
 
-      messageNotifier(
-        messageId,
-      ).dropMessage(MsgDropReason.notIntendedRecipientOfFrame);
+      messageNotifier(messageId).dropMessage();
     }
   }
 
@@ -225,7 +223,7 @@ class HostNotifier extends DeviceNotifier<Host> {
         'Drop message "${messageNotifier(messageId).state.name}" reason: no Ipv4 address',
       );
 
-      messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
+      messageNotifier(messageId).dropMessage();
 
       _scheduleNextProcessing();
       return;
@@ -245,7 +243,7 @@ class HostNotifier extends DeviceNotifier<Host> {
         'Drop message "${messageNotifier(messageId).state.name}" reason: Receiver has no Ipv4 address',
       );
 
-      messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
+      messageNotifier(messageId).dropMessage();
 
       _scheduleNextProcessing();
       return;
@@ -276,7 +274,7 @@ class HostNotifier extends DeviceNotifier<Host> {
         'Drop message "${messageNotifier(messageId).state.name}" reason: no Default Gateway',
       );
 
-      messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
+      messageNotifier(messageId).dropMessage();
 
       _scheduleNextProcessing();
       return;
@@ -299,7 +297,7 @@ class HostNotifier extends DeviceNotifier<Host> {
           'Dropped message "${messageNotifier(messageId)}, reason: ARP Req TimeOut',
         );
 
-        messageNotifier(messageId).dropMessage(MsgDropReason.arpReqTimeout);
+        messageNotifier(messageId).dropMessage();
       } else {
         enqueueMessage(messageId);
       }
@@ -492,14 +490,14 @@ class HostNotifier extends DeviceNotifier<Host> {
             'Receive "${messageNotifier(messageId).state.name}"',
           );
 
-          messageNotifier(messageId).dropMessage(MsgDropReason.arpReqSuccess);
+          messageNotifier(messageId).dropMessage();
           _sendArpReply(dataLinkLayer[MessageKey.source.name]!, senderIp);
         } else {
           addInfoLog(
             messageId,
             'Dropped, reason: ARP Request is not for host "${state.name}"',
           );
-          messageNotifier(messageId).dropMessage(MsgDropReason.arpReqNotMeant);
+          messageNotifier(messageId).dropMessage();
         }
       case OperationType.reply:
         ref
@@ -517,7 +515,7 @@ class HostNotifier extends DeviceNotifier<Host> {
           'Receive "${messageNotifier(messageId).state.name}"',
         );
 
-        messageNotifier(messageId).dropMessage(MsgDropReason.arpReplySuccess);
+        messageNotifier(messageId).dropMessage();
     }
   }
 
@@ -544,7 +542,7 @@ class HostNotifier extends DeviceNotifier<Host> {
 
       addSuccessLog(messageId, 'Successfully arrive at host "${state.name}"');
 
-      messageNotifier(messageId).dropMessage(MsgDropReason.ipv4Success);
+      messageNotifier(messageId).dropMessage();
     } else {
       addSystemErrorLog(
         'Message "${messageNotifier(messageId).state.name}" dropped, reason: not intended packet for host "${state.name}"',
@@ -555,7 +553,7 @@ class HostNotifier extends DeviceNotifier<Host> {
         'Dropped, reason: Host "${state.name}" is not Recipient of the Packet',
       );
 
-      messageNotifier(messageId).dropMessage(MsgDropReason.ipv4Fail);
+      messageNotifier(messageId).dropMessage();
     }
   }
 }

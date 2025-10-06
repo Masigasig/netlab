@@ -44,7 +44,7 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     state = state.copyWith(posX: newX, posY: newY, duration: duration);
   }
 
-  void dropMessage(MsgDropReason reason) {
+  void dropMessage() {
     ref.read(messageMapProvider.notifier).invalidateSpecificId(state.id);
   }
 
