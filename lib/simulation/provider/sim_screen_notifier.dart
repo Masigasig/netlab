@@ -124,6 +124,7 @@ class SimScreenNotifier extends Notifier<SimScreen> {
       _tempMap.clear();
 
       setSelectedDeviceOnInfo(_tempSelectedDeviceOnInfo);
+      openInfoPanel();
 
       _tempSelectedDeviceOnInfo = '';
     });

@@ -283,7 +283,7 @@ class HostNotifier extends DeviceNotifier<Host> {
             .removePendingRequest(lookupIp);
 
         addSystemErrorLog(
-          'Message "${messageNotifier(messageId).state.name}" dropped at Host "${state.name}", reason: ARP Req TimeOut',
+          'Message "${messageNotifier(messageId).state.name}" dropped at host "${state.name}", reason: ARP Req TimeOut',
         );
 
         addErrorLog(messageId, 'Dropped, reason: ARP Req TimeOut');
