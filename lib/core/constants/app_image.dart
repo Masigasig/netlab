@@ -7,6 +7,7 @@ class AppImage {
   static const String switch_ = '$_base/switch.png';
   static const String connection = '$_base/connection.png';
   static const String ethernet = '$_base/ethernet.png';
+  static const String arpMessage = '$_base/arp.png';
 }
 
 class ContentImage {

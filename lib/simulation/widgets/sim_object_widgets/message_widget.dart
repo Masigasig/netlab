@@ -89,6 +89,8 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
   }
 
   Column _messageWithLabel() {
+    final name = ref.read(messageProvider(widget.simObjectId)).name;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -128,7 +130,9 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
         SizedBox(
           width: MessageWidget.size - 50,
           height: MessageWidget.size - 25 - 50,
-          child: Image.asset(MessageWidget.imagePath, fit: BoxFit.contain),
+          child: name.startsWith('ARP')
+              ? Image.asset(AppImage.arpMessage, fit: BoxFit.contain)
+              : Image.asset(MessageWidget.imagePath, fit: BoxFit.contain),
         ),
       ],
     );
