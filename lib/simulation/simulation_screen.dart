@@ -27,8 +27,7 @@ import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 //* Ip label of host
 //? should we clear all logs at stop? or only the device log and keeping the system log
 //? should we add a log even simulation is not playing?
-//* can send message while playing
-//! 4 switch bug
+//! 4 switch bug Implement STP - Spanning Tree Protocol
 
 class SimulationScreen extends ConsumerStatefulWidget {
   static const canvasSize = Size(100_000.0, 100_000.0);

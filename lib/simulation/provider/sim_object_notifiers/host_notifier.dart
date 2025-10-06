@@ -131,6 +131,12 @@ class HostNotifier extends DeviceNotifier<Host> {
   void enqueueMessage(String messageId) {
     final newMessageIds = List<String>.from(state.messageIds)..add(messageId);
     state = state.copyWith(messageIds: newMessageIds);
+    if (ref.read(simScreenProvider).isPlaying) {
+      messageNotifier(messageId).updatePosition(state.posX, state.posY);
+      if (!_isProcessingMessages) {
+        startMessageProcessing();
+      }
+    }
   }
 
   void removeMessage(String messageId) {
