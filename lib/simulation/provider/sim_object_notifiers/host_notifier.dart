@@ -174,6 +174,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     _messageProcessingTimer?.cancel();
     _messageProcessingTimer = null;
     addSystemInfoLog('Host "${state.name} stopped processing message');
+    addInfoLog(state.id, 'Stopped processing message');
   }
 
   void _scheduleNextProcessing() {
@@ -287,6 +288,12 @@ class HostNotifier extends DeviceNotifier<Host> {
       ref
           .read(hostPendingArpReqProvider(state.id).notifier)
           .addPendingRequest(lookupIp, ref.read(simClockProvider));
+
+      if (state.connectionId.isEmpty) {
+        //* message will be dropped
+        sendMessageToConnection(state.connectionId, messageId, state.id);
+        return;
+      }
       _sendArpRqst(lookupIp);
       enqueueMessage(messageId);
     } else {
@@ -369,7 +376,7 @@ class HostNotifier extends DeviceNotifier<Host> {
 
     addInfoLog(message.id, 'Data Link Layer add to the stack');
 
-    addSystemInfoLog('"${state.name}" send "ARP Request for $targetIp"');
+    addSystemInfoLog('Host "${state.name}" send "ARP Request for $targetIp"');
 
     addInfoLog(
       state.id,

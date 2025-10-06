@@ -14,6 +14,26 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
     String messageId,
     String fromId,
   ) {
+    if (connectionId.isEmpty) {
+      addSystemErrorLog(
+        'Message "${messageNotifier(messageId).state.name}" dropped, reason: Device "${state.name}" has no connection for the message',
+      );
+
+      addErrorLog(
+        messageId,
+        'Dropped, reason: Device "${state.name}" has no connection',
+      );
+
+      addErrorLog(
+        state.id,
+        'Message "${messageNotifier(messageId).state.name}" dropped, reason: has no connection for the message',
+      );
+
+      messageNotifier(messageId).dropMessage(MsgDropReason.arpReplySuccess);
+
+      return;
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       connectionNotifier(connectionId).receiveMessage(messageId, fromId);
     });
