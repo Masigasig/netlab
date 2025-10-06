@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/content_block.dart';
 import '../models/quiz_data.dart';
-import '../../quiz/widgets/quiz_widget.dart';
+import '../../quiz/widgets/quiz_slider_widget.dart';
 import '../../quiz/controllers/quiz_controller.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
@@ -10,25 +10,45 @@ class ContentRenderer extends StatelessWidget {
   final List<ContentBlock> blocks;
   final String topicId;
   final String moduleId;
-  final ModuleQuizController? quizController; // Add this parameter
+  final ModuleQuizController? quizController;
 
   const ContentRenderer({
     super.key,
     required this.blocks,
     required this.topicId,
     required this.moduleId,
-    this.quizController, // Add this parameter
+    this.quizController,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
+    // Collect all quiz data for the slider
+    final quizDataList = blocks
+        .where((block) => block.type == ContentBlockType.quiz)
+        .map((block) => block.content as QuizData)
+        .toList();
+
+    // Filter out quiz blocks since they'll be rendered separately
+    final nonQuizBlocks = blocks
+        .where((block) => block.type != ContentBlockType.quiz)
+        .toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: blocks
-          .map((block) => _renderBlock(context, block, cs))
-          .toList(),
+      children: [
+        // Render all non-quiz blocks
+        ...nonQuizBlocks.map((block) => _renderBlock(context, block, cs)),
+        // .toList(),
+
+        // Render all quizzes as a single slider at the end
+        if (quizDataList.isNotEmpty && quizController != null)
+          QuizSliderWidget(
+            quizDataList: quizDataList,
+            quizController: quizController!,
+          ),
+      ],
     );
   }
 
@@ -58,8 +78,6 @@ class ContentRenderer extends StatelessWidget {
         return _buildImage(block, cs);
       case ContentBlockType.table:
         return _buildTable(block, cs);
-      case ContentBlockType.quiz:
-        return _buildQuiz(block, cs);
       case ContentBlockType.divider:
         return _buildDivider(block, cs);
       default:
@@ -67,7 +85,7 @@ class ContentRenderer extends StatelessWidget {
     }
   }
 
-  // ---- BLOCK TYPES ---- //
+  // BLOCK TYPES
 
   Widget _buildHeader(ContentBlock block, ColorScheme cs) {
     return Column(
@@ -370,32 +388,6 @@ class ContentRenderer extends StatelessWidget {
         },
       ),
     );
-  }
-
-  Widget _buildQuiz(ContentBlock block, ColorScheme cs) {
-    // Calculate the correct quiz question index by counting
-    // how many quiz blocks appear before this one
-    final questionIndex = _getQuizQuestionIndex(block);
-
-    return QuizWidget(
-      quizData: block.content as QuizData,
-      quizController: quizController!,
-      questionIndex: questionIndex,
-    );
-  }
-
-  // Helper method to count quiz questions before the current block
-  int _getQuizQuestionIndex(ContentBlock currentBlock) {
-    int quizCount = 0;
-    for (final block in blocks) {
-      if (block == currentBlock) {
-        break;
-      }
-      if (block.type == ContentBlockType.quiz) {
-        quizCount++;
-      }
-    }
-    return quizCount;
   }
 
   Widget _buildDivider(ContentBlock block, ColorScheme cs) {

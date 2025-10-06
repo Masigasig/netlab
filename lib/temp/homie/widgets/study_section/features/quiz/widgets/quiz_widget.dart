@@ -45,37 +45,32 @@ class _QuizWidgetState extends State<QuizWidget> {
         final isCorrect = widget.quizController.isAnswerCorrect(
           widget.questionIndex,
         );
-        // final correctAnswerIndex = widget.quizController.getCorrectAnswer(widget.questionIndex);
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Quiz header
-            Row(
-              children: [
-                Icon(Icons.quiz, color: cs.primary, size: 24),
-                const SizedBox(width: 8),
-                Text(
-                  'Quiz Question ${widget.questionIndex + 1}',
-                  style: AppTextStyles.subtitleMedium.copyWith(
-                    color: cs.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-
             // Question
-            Text(
-              widget.quizData.question,
-              style: AppTextStyles.bodyLarge.copyWith(
-                color: cs.onSurface,
-                fontWeight: FontWeight.w500,
-                height: 1.5,
+            Text.rich(
+              TextSpan(
+                children: [
+                  WidgetSpan(
+                    child: Icon(Icons.quiz, color: cs.primary, size: 22),
+                  ),
+                  const WidgetSpan(child: SizedBox(width: 8)),
+                  TextSpan(
+                    text: widget.quizData.question,
+                    style: AppTextStyles.headerLarge.copyWith(
+                      color: cs.primary,
+                      fontWeight: FontWeight.w600,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
+
+            const SizedBox(height: 16),
 
             // Options
             ...widget.quizData.options.asMap().entries.map((entry) {
@@ -107,7 +102,7 @@ class _QuizWidgetState extends State<QuizWidget> {
               }
 
               return Container(
-                margin: const EdgeInsets.only(bottom: 12),
+                margin: const EdgeInsets.only(bottom: 10),
                 decoration: optionDecoration,
                 child: InkWell(
                   onTap: isSubmitted
@@ -120,7 +115,7 @@ class _QuizWidgetState extends State<QuizWidget> {
                         },
                   borderRadius: BorderRadius.circular(AppStyles.cardRadius),
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(12),
                     child: Row(
                       children: [
                         // Option letter (A, B, C, D)
@@ -159,11 +154,12 @@ class _QuizWidgetState extends State<QuizWidget> {
                                     : isSelected
                                     ? cs.onPrimary
                                     : cs.onSurface,
+                                fontSize: 14,
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: 12),
 
                         // Option text
                         Expanded(
@@ -171,7 +167,7 @@ class _QuizWidgetState extends State<QuizWidget> {
                             option,
                             style: AppTextStyles.bodyMedium.copyWith(
                               color: cs.onSurface,
-                              height: 1.4,
+                              height: 1.3,
                             ),
                           ),
                         ),
@@ -182,7 +178,7 @@ class _QuizWidgetState extends State<QuizWidget> {
                           Icon(
                             icon,
                             color: isCorrectOption ? cs.primary : cs.error,
-                            size: 24,
+                            size: 20,
                           ),
                         ],
                       ],
@@ -194,22 +190,23 @@ class _QuizWidgetState extends State<QuizWidget> {
 
             // Show feedback only after submission
             if (isSubmitted) ...[
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(12),
                 decoration: isCorrect == true
                     ? AppStyles.achievementCard(context)
                     : AppStyles.errorCard(context),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Row(
                       children: [
                         Icon(
                           isCorrect == true ? Icons.check_circle : Icons.cancel,
                           color: isCorrect == true ? cs.primary : cs.error,
-                          size: 24,
+                          size: 20,
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -222,12 +219,12 @@ class _QuizWidgetState extends State<QuizWidget> {
                       ],
                     ),
                     if (widget.quizData.explanation != null) ...[
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 8),
                       Text(
                         widget.quizData.explanation!,
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: cs.onSurface.withAlpha(204),
-                          height: 1.5,
+                          height: 1.4,
                         ),
                       ),
                     ],
@@ -235,8 +232,6 @@ class _QuizWidgetState extends State<QuizWidget> {
                 ),
               ),
             ],
-
-            const SizedBox(height: 32),
           ],
         );
       },

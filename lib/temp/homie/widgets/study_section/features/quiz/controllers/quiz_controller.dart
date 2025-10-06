@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import '../../../core/services/progress_service.dart';
 
 /// Controller for managing all quiz answers in a module
@@ -32,7 +32,10 @@ class ModuleQuizController extends ChangeNotifier {
   /// Register a quiz question with its correct answer
   void registerQuestion(int questionIndex, int correctAnswerIndex) {
     _correctAnswers[questionIndex] = correctAnswerIndex;
-    notifyListeners();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
   }
 
   /// Update the selected answer for a question
@@ -134,7 +137,7 @@ class ModuleQuizController extends ChangeNotifier {
   /// Reset the quiz state (allow retrying)
   void reset() {
     _answers.clear();
-    _correctAnswers.clear(); // Clear correct answers too
+    _correctAnswers.clear();
     _isSubmitted = false;
     _isLoading = false;
     notifyListeners();
