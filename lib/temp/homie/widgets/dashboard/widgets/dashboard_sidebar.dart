@@ -17,12 +17,9 @@ class DashboardSidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final cs = Theme.of(context).colorScheme;
-
     return SizedBox(
       width: 250,
-      // color: cs.surfaceContainerLow,
-      child: SingleChildScrollView(
+      child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +29,8 @@ class DashboardSidebar extends StatelessWidget {
               onBrowseTopics: onBrowseTopics,
             ),
             const SizedBox(height: 24),
-            RecentActivityList(activities: activities),
+
+            Expanded(child: RecentActivityList(activities: activities)),
           ],
         ),
       ),

@@ -22,7 +22,14 @@ class RecentActivityList extends StatelessWidget {
           style: AppTextStyles.forSurface(AppTextStyles.headerSmall, context),
         ),
         const SizedBox(height: 12),
-        ...activities.map((activity) => _buildActivityItem(activity, context)),
+
+        Expanded(
+          child: ListView.builder(
+            itemCount: activities.length,
+            itemBuilder: (context, index) =>
+                _buildActivityItem(activities[index], context),
+          ),
+        ),
       ],
     );
   }
@@ -95,7 +102,7 @@ class RecentActivityList extends StatelessWidget {
                   activity.subtitle,
                   style: AppTextStyles.withOpacity(
                     AppTextStyles.forSurface(AppTextStyles.caption, context),
-                    0.5, // ~125/255
+                    0.5,
                   ),
                 ),
               ],
