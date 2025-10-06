@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/models/study_topic.dart';
 import '../core/services/progress_service.dart';
 import 'package:netlab/core/components/app_theme.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 
 class TopicCard extends StatefulWidget {
   final StudyTopic topic;
@@ -59,8 +60,6 @@ class _TopicCardState extends State<TopicCard> {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
     return Container(
       margin: AppStyles.cardMargin,
       padding: AppStyles.cardPadding,
@@ -88,10 +87,9 @@ class _TopicCardState extends State<TopicCard> {
           // Title
           Text(
             widget.topic.title,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: cs.onSurface,
+            style: AppTextStyles.forSurface(
+              AppTextStyles.headerMedium,
+              context,
             ),
           ),
 
@@ -100,10 +98,9 @@ class _TopicCardState extends State<TopicCard> {
           // Subtitle
           Text(
             widget.topic.subtitle,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: cs.onSurface.withAlpha(179),
+            style: AppTextStyles.withOpacity(
+              AppTextStyles.forSurface(AppTextStyles.bodyMedium, context),
+              0.7, // 70% opacity (179/255 ≈ 0.7)
             ),
           ),
 
@@ -112,10 +109,9 @@ class _TopicCardState extends State<TopicCard> {
           // Description
           Text(
             widget.topic.description,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: cs.onSurface.withAlpha(128),
+            style: AppTextStyles.withOpacity(
+              AppTextStyles.forSurface(AppTextStyles.bodySmall, context),
+              0.5, // 50% opacity (128/255 ≈ 0.5)
             ),
           ),
 
@@ -124,10 +120,9 @@ class _TopicCardState extends State<TopicCard> {
           // Metadata row
           Text(
             widget.topic.readTime,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: cs.onSurface.withAlpha(128),
+            style: AppTextStyles.withOpacity(
+              AppTextStyles.forSurface(AppTextStyles.subtitleSmall, context),
+              0.5, // 50% opacity
             ),
           ),
 
@@ -151,10 +146,7 @@ class _TopicCardState extends State<TopicCard> {
                     : _progress > 0
                     ? 'Continue'
                     : 'Start',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: AppTextStyles.label,
               ),
             ),
           ),
@@ -191,11 +183,7 @@ class _TopicCardState extends State<TopicCard> {
           ),
           Text(
             '${(_progress * 100).round()}%',
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-              color: cs.onSurface,
-            ),
+            style: AppTextStyles.forSurface(AppTextStyles.caption, context),
           ),
         ],
       );
@@ -216,11 +204,7 @@ class _TopicCardState extends State<TopicCard> {
         ),
         Text(
           '0%',
-          style: TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w600,
-            color: cs.onSurface,
-          ),
+          style: AppTextStyles.forSurface(AppTextStyles.caption, context),
         ),
       ],
     );

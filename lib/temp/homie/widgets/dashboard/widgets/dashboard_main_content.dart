@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 import '../models/dashboard_stats.dart';
 import 'welcome_card.dart';
 import 'stats_grid.dart';
@@ -24,12 +25,12 @@ class DashboardMainContent extends StatelessWidget {
           WelcomeCard(streak: streak),
           const SizedBox(height: 20),
           StatsGrid(stats: stats),
-          const SizedBox(height: 24),
-          const Text(
+          const SizedBox(height: 20),
+          Text(
             'Learning Progress',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: AppTextStyles.forSurface(AppTextStyles.headerSmall, context),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 20),
           ProgressCard(stats: stats),
         ],
       ),

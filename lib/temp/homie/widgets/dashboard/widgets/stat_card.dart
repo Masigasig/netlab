@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 
 class StatCard extends StatelessWidget {
   final IconData icon;
@@ -54,11 +55,7 @@ class StatCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: cs.onSurface,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTextStyles.forSurface(AppTextStyles.label, context),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -75,10 +72,9 @@ class StatCard extends StatelessWidget {
             children: [
               Text(
                 value,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: cs.onSurface,
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.headerSmall,
+                  context,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -86,9 +82,9 @@ class StatCard extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 subtitle,
-                style: TextStyle(
-                  fontSize: 9,
-                  color: cs.onSurface.withAlpha(190),
+                style: AppTextStyles.withOpacity(
+                  AppTextStyles.forSurface(AppTextStyles.caption, context),
+                  0.75,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

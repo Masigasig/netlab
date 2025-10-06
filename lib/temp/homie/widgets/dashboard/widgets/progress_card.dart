@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 import '../models/dashboard_stats.dart';
 
 class ProgressCard extends StatelessWidget {
@@ -12,7 +13,7 @@ class ProgressCard extends StatelessWidget {
 
     return Container(
       constraints: const BoxConstraints(minHeight: 150),
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: cs.surfaceContainerLow.withAlpha(179),
         borderRadius: BorderRadius.circular(12),
@@ -34,12 +35,12 @@ class ProgressCard extends StatelessWidget {
             children: [
               Text(
                 'Overall Progress',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: cs.onSurface,
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.subtitleXL,
+                  context,
                 ),
               ),
+
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
@@ -48,10 +49,9 @@ class ProgressCard extends StatelessWidget {
                 ),
                 child: Text(
                   '${stats.overallProgressPercentage.toStringAsFixed(0)}%',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: cs.primary,
+                  style: AppTextStyles.withColor(
+                    AppTextStyles.subtitleMedium,
+                    cs.primary,
                   ),
                 ),
               ),
@@ -102,22 +102,23 @@ class ProgressCard extends StatelessWidget {
   }
 
   Widget _buildProgressDetail(String label, String value, ColorScheme cs) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: cs.onSurface,
+    return Builder(
+      builder: (context) => Column(
+        children: [
+          Text(
+            value,
+            style: AppTextStyles.forSurface(AppTextStyles.headerSmall, context),
           ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          style: TextStyle(fontSize: 10, color: cs.onSurface.withAlpha(190)),
-        ),
-      ],
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: AppTextStyles.withOpacity(
+              AppTextStyles.forSurface(AppTextStyles.caption, context),
+              0.75,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 
 class WelcomeCard extends StatelessWidget {
   final int streak;
@@ -28,18 +29,20 @@ class WelcomeCard extends StatelessWidget {
             children: [
               Text(
                 'Welcome back!',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: cs.onPrimary,
+                style: AppTextStyles.forPrimary(
+                  AppTextStyles.headerMedium,
+                  context,
                 ),
               ),
-              const SizedBox(height: 4),
+              // const SizedBox(height: 2),
               Text(
                 'Keep up the great work on your learning journey',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: cs.onPrimary.withAlpha(230),
+                style: AppTextStyles.withOpacity(
+                  AppTextStyles.forPrimary(
+                    AppTextStyles.subtitleMedium,
+                    context,
+                  ),
+                  0.9,
                 ),
               ),
             ],
@@ -53,17 +56,19 @@ class WelcomeCard extends StatelessWidget {
                 children: [
                   Text(
                     '$streak days',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: cs.onPrimary,
+                    style: AppTextStyles.forPrimary(
+                      AppTextStyles.headerSmall,
+                      context,
                     ),
                   ),
                   Text(
                     'Streak',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: cs.onPrimary.withAlpha(230),
+                    style: AppTextStyles.withOpacity(
+                      AppTextStyles.forPrimary(
+                        AppTextStyles.bodySmall,
+                        context,
+                      ),
+                      0.9,
                     ),
                   ),
                 ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 
 class QuickActionsSection extends StatelessWidget {
   final VoidCallback? onContinueLearning;
@@ -37,12 +38,10 @@ class QuickActionsSection extends StatelessWidget {
   }
 
   Widget _buildSectionHeader(String title, ColorScheme cs) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        color: cs.onSurface,
+    return Builder(
+      builder: (context) => Text(
+        title,
+        style: AppTextStyles.forSurface(AppTextStyles.headerSmall, context),
       ),
     );
   }
@@ -53,30 +52,31 @@ class QuickActionsSection extends StatelessWidget {
     required Color color,
     VoidCallback? onTap,
   }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: Colors.white, size: 10),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
+    return Builder(
+      builder: (context) => InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: Colors.white, size: 10),
+              const SizedBox(width: 8),
+              Text(
+                label,
+                style: AppTextStyles.forPrimary(
+                  AppTextStyles.buttonMedium,
+                  context,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

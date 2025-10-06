@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_color.dart';
+import '../../temp/core/constants/app_text.dart';
 
 class AppStyles {
   // MARK: - Standard Spacing & Dimensions
@@ -285,28 +286,25 @@ class AppStyles {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: textColor,
+            style: AppTextStyles.withColor(
+              AppTextStyles.subtitleMedium,
+              textColor,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             value,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-              color: textColor,
+            style: AppTextStyles.withColor(
+              AppTextStyles.headerMedium,
+              textColor,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             subtitle,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: textColor.withAlpha(230), // 90% opacity
+            style: AppTextStyles.withColor(
+              AppTextStyles.bodySmall,
+              textColor.withAlpha(230), // 90% opacity
             ),
           ),
         ],
@@ -362,11 +360,7 @@ class AppStyles {
           icon ??
           Text(
             text,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: textColor,
-            ),
+            style: AppTextStyles.withColor(AppTextStyles.label, textColor),
           ),
     );
   }
@@ -392,10 +386,9 @@ class AppStyles {
           const SizedBox(width: 6),
           Text(
             text,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: cs.onSurface,
+            style: AppTextStyles.forSurface(
+              AppTextStyles.subtitleMedium,
+              context,
             ),
           ),
         ],

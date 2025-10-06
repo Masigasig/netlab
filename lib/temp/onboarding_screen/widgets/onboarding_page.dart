@@ -69,7 +69,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               widget.description,
                               style: AppTextStyles.secondaryCustom(
                                 fontSize: 18,
-                                color: AppColors.textSecondary,
                                 height: 1.4,
                               ),
                             ),

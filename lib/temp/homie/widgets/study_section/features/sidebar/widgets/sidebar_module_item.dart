@@ -191,28 +191,24 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
       ),
       title: Text(
         widget.module.title,
-        style: AppTextStyles.primaryCustom(
-          fontSize: 13,
-          color: SidebarModuleHelper.getTitleColor(
-            isAccessible: _controller.isAccessible,
-            isSelected: widget.isSelected,
-            colorScheme: cs,
+        style: AppTextStyles.forSurface(
+          AppTextStyles.primaryCustom(
+            fontSize: 13,
+            fontWeight: widget.isSelected ? FontWeight.w600 : FontWeight.w500,
           ),
-          fontWeight: widget.isSelected ? FontWeight.w600 : FontWeight.w500,
+          context,
         ),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
+
       subtitle: Row(
         children: [
           Text(
             '${widget.module.duration} min',
-            style: AppTextStyles.secondaryCustom(
-              fontSize: 11,
-              color: SidebarModuleHelper.getSubtitleColor(
-                isAccessible: _controller.isAccessible,
-                colorScheme: cs,
-              ),
+            style: AppTextStyles.forSecondary(
+              AppTextStyles.secondaryCustom(fontSize: 11),
+              context,
             ),
           ),
           if (!_controller.isAccessible) ...[
@@ -225,6 +221,7 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
           ],
         ],
       ),
+
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         decoration: BoxDecoration(
@@ -237,13 +234,12 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
         ),
         child: Text(
           ModuleTypeHelpers.getShortTypeLabel(widget.module.type),
-          style: AppTextStyles.primaryCustom(
-            fontSize: 9,
-            color: SidebarModuleHelper.getBadgeTextColor(
-              isAccessible: _controller.isAccessible,
-              colorScheme: cs,
+          style: AppTextStyles.forPrimary(
+            AppTextStyles.primaryCustom(
+              fontSize: 9,
+              fontWeight: FontWeight.w600,
             ),
-            fontWeight: FontWeight.w600,
+            context,
           ),
         ),
       ),

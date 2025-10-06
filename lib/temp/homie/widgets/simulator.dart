@@ -45,10 +45,12 @@ class SimulatorScreen extends StatelessWidget {
                       AnimationPresets.textFadeIn(
                         child: Text(
                           'Practice network configuration in a safe, virtual lab with our interactive simulator.',
-                          style: AppTextStyles.secondaryCustom(
-                            fontSize: 18,
-                            color: AppColors.textSecondary,
-                            height: 1.4,
+                          style: AppTextStyles.forSecondary(
+                            AppTextStyles.secondaryCustom(
+                              fontSize: 18,
+                              height: 1.4,
+                            ),
+                            context,
                           ),
                         ),
                         delay: 300,

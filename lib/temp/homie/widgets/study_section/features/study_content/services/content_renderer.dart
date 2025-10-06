@@ -40,8 +40,6 @@ class ContentRenderer extends StatelessWidget {
       children: [
         // Render all non-quiz blocks
         ...nonQuizBlocks.map((block) => _renderBlock(context, block, cs)),
-        // .toList(),
-
         // Render all quizzes as a single slider at the end
         if (quizDataList.isNotEmpty && quizController != null)
           QuizSliderWidget(
@@ -59,27 +57,27 @@ class ContentRenderer extends StatelessWidget {
   ) {
     switch (block.type) {
       case ContentBlockType.header:
-        return _buildHeader(block, cs);
+        return _buildHeader(context, block, cs);
       case ContentBlockType.paragraph:
-        return _buildParagraph(block, cs);
+        return _buildParagraph(context, block, cs);
       case ContentBlockType.bulletList:
-        return _buildBulletList(block, cs);
+        return _buildBulletList(context, block, cs);
       case ContentBlockType.numberedList:
-        return _buildNumberedList(block, cs);
+        return _buildNumberedList(context, block, cs);
       case ContentBlockType.definition:
-        return _buildDefinitionList(block, cs);
+        return _buildDefinitionList(context, block, cs);
       case ContentBlockType.note:
-        return _buildNote(block, cs);
+        return _buildNote(context, block, cs);
       case ContentBlockType.warning:
-        return _buildWarning(block, cs);
+        return _buildWarning(context, block, cs);
       case ContentBlockType.code:
-        return _buildCode(block, cs);
+        return _buildCode(context, block, cs);
       case ContentBlockType.image:
-        return _buildImage(block, cs);
+        return _buildImage(context, block, cs);
       case ContentBlockType.table:
-        return _buildTable(block, cs);
+        return _buildTable(context, block, cs);
       case ContentBlockType.divider:
-        return _buildDivider(block, cs);
+        return _buildDivider(context, block, cs);
       default:
         return const SizedBox.shrink();
     }
@@ -87,42 +85,55 @@ class ContentRenderer extends StatelessWidget {
 
   // BLOCK TYPES
 
-  Widget _buildHeader(ContentBlock block, ColorScheme cs) {
+  Widget _buildHeader(
+    BuildContext context,
+    ContentBlock block,
+    ColorScheme cs,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8),
         Text(
           block.title,
-          style: AppTextStyles.headerMedium.copyWith(color: cs.onSurface),
+          style: AppTextStyles.forSurface(AppTextStyles.headerMedium, context),
         ),
         if (block.content is String) ...[
           const SizedBox(height: 8),
           Text(
             block.content,
-            style: AppTextStyles.subtitleLarge.copyWith(
-              color: cs.onSurface.withOpacity(0.7),
-            ),
+            style: AppTextStyles.forSecondary(
+              AppTextStyles.subtitleLarge,
+              context,
+            ).copyWith(color: cs.onSurface.withOpacity(0.7)),
           ),
         ],
       ],
     );
   }
 
-  Widget _buildParagraph(ContentBlock block, ColorScheme cs) {
+  Widget _buildParagraph(
+    BuildContext context,
+    ContentBlock block,
+    ColorScheme cs,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Text(
         block.content,
-        style: AppTextStyles.bodyMedium.copyWith(
-          color: cs.onSurface.withOpacity(0.9),
-          height: 1.6,
-        ),
+        style: AppTextStyles.forSurface(
+          AppTextStyles.bodyMedium,
+          context,
+        ).copyWith(height: 1.6, color: cs.onSurface.withOpacity(0.9)),
       ),
     );
   }
 
-  Widget _buildBulletList(ContentBlock block, ColorScheme cs) {
+  Widget _buildBulletList(
+    BuildContext context,
+    ContentBlock block,
+    ColorScheme cs,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, bottom: 16),
       child: Column(
@@ -136,17 +147,22 @@ class ContentRenderer extends StatelessWidget {
                   children: [
                     Text(
                       '• ',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: cs.onSurface.withOpacity(0.9),
-                      ),
+                      style: AppTextStyles.forSurface(
+                        AppTextStyles.bodyMedium,
+                        context,
+                      ).copyWith(color: cs.onSurface.withOpacity(0.9)),
                     ),
                     Expanded(
                       child: Text(
                         item,
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          color: cs.onSurface.withOpacity(0.9),
-                          height: 1.6,
-                        ),
+                        style:
+                            AppTextStyles.forSurface(
+                              AppTextStyles.bodyMedium,
+                              context,
+                            ).copyWith(
+                              height: 1.6,
+                              color: cs.onSurface.withOpacity(0.9),
+                            ),
                       ),
                     ),
                   ],
@@ -158,7 +174,11 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildNumberedList(ContentBlock block, ColorScheme cs) {
+  Widget _buildNumberedList(
+    BuildContext context,
+    ContentBlock block,
+    ColorScheme cs,
+  ) {
     final items = block.content as List<String>;
     return Padding(
       padding: const EdgeInsets.only(left: 16, bottom: 16),
@@ -174,18 +194,23 @@ class ContentRenderer extends StatelessWidget {
                   width: 24,
                   child: Text(
                     '${entry.key + 1}.',
-                    style: AppTextStyles.bodyLarge.copyWith(
-                      color: cs.onSurface.withOpacity(0.9),
-                    ),
+                    style: AppTextStyles.forSurface(
+                      AppTextStyles.bodyLarge,
+                      context,
+                    ).copyWith(color: cs.onSurface.withOpacity(0.9)),
                   ),
                 ),
                 Expanded(
                   child: Text(
                     entry.value,
-                    style: AppTextStyles.bodyLarge.copyWith(
-                      color: cs.onSurface.withOpacity(0.9),
-                      height: 1.6,
-                    ),
+                    style:
+                        AppTextStyles.forSurface(
+                          AppTextStyles.bodyLarge,
+                          context,
+                        ).copyWith(
+                          height: 1.6,
+                          color: cs.onSurface.withOpacity(0.9),
+                        ),
                   ),
                 ),
               ],
@@ -196,7 +221,7 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildCode(ContentBlock block, ColorScheme cs) {
+  Widget _buildCode(BuildContext context, ContentBlock block, ColorScheme cs) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -211,26 +236,26 @@ class ContentRenderer extends StatelessWidget {
           if (block.title.isNotEmpty) ...[
             Text(
               block.title,
-              style: AppTextStyles.subtitleMedium.copyWith(
-                color: cs.onSurface.withOpacity(0.7),
-              ),
+              style: AppTextStyles.forSecondary(
+                AppTextStyles.subtitleMedium,
+                context,
+              ).copyWith(color: cs.onSurface.withOpacity(0.7)),
             ),
             const SizedBox(height: 8),
           ],
           Text(
             block.content,
-            style: AppTextStyles.custom(
-              fontSize: 14,
-              color: cs.onSurface,
-              fontWeight: FontWeight.w400,
-            ).copyWith(fontFamily: 'monospace'),
+            style: AppTextStyles.forSurface(
+              AppTextStyles.custom(fontSize: 14, fontWeight: FontWeight.w400),
+              context,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildNote(ContentBlock block, ColorScheme cs) {
+  Widget _buildNote(BuildContext context, ContentBlock block, ColorScheme cs) {
     return Container(
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -247,10 +272,10 @@ class ContentRenderer extends StatelessWidget {
           Expanded(
             child: Text(
               block.content,
-              style: AppTextStyles.bodyMedium.copyWith(
-                color: cs.onSurface.withOpacity(0.9),
-                height: 1.5,
-              ),
+              style: AppTextStyles.forSurface(
+                AppTextStyles.bodyMedium,
+                context,
+              ).copyWith(height: 1.5, color: cs.onSurface.withOpacity(0.9)),
             ),
           ),
         ],
@@ -258,7 +283,11 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildWarning(ContentBlock block, ColorScheme cs) {
+  Widget _buildWarning(
+    BuildContext context,
+    ContentBlock block,
+    ColorScheme cs,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16, top: 8),
       padding: const EdgeInsets.all(16),
@@ -275,10 +304,10 @@ class ContentRenderer extends StatelessWidget {
           Expanded(
             child: Text(
               block.content,
-              style: AppTextStyles.bodyLarge.copyWith(
-                color: cs.onSurface.withOpacity(0.9),
-                height: 1.6,
-              ),
+              style: AppTextStyles.forSurface(
+                AppTextStyles.bodyLarge,
+                context,
+              ).copyWith(height: 1.6, color: cs.onSurface.withOpacity(0.9)),
             ),
           ),
         ],
@@ -286,7 +315,11 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildDefinitionList(ContentBlock block, ColorScheme cs) {
+  Widget _buildDefinitionList(
+    BuildContext context,
+    ContentBlock block,
+    ColorScheme cs,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, bottom: 16),
       child: Column(
@@ -300,17 +333,22 @@ class ContentRenderer extends StatelessWidget {
                   children: [
                     Text(
                       def['term']!,
-                      style: AppTextStyles.headerSmall.copyWith(
-                        color: cs.onSurface,
+                      style: AppTextStyles.forSurface(
+                        AppTextStyles.headerSmall,
+                        context,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       def['definition']!,
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: cs.onSurface.withOpacity(0.9),
-                        height: 1.6,
-                      ),
+                      style:
+                          AppTextStyles.forSurface(
+                            AppTextStyles.bodyMedium,
+                            context,
+                          ).copyWith(
+                            height: 1.6,
+                            color: cs.onSurface.withOpacity(0.9),
+                          ),
                     ),
                   ],
                 ),
@@ -321,7 +359,7 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildImage(ContentBlock block, ColorScheme cs) {
+  Widget _buildImage(BuildContext context, ContentBlock block, ColorScheme cs) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
@@ -335,10 +373,11 @@ class ContentRenderer extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               block.title,
-              style: AppTextStyles.caption.copyWith(
-                fontStyle: FontStyle.italic,
-                color: cs.onSurface.withOpacity(0.7),
-              ),
+              style: AppTextStyles.forSecondary(AppTextStyles.caption, context)
+                  .copyWith(
+                    fontStyle: FontStyle.italic,
+                    color: cs.onSurface.withOpacity(0.7),
+                  ),
             ),
           ],
         ],
@@ -346,7 +385,7 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildTable(ContentBlock block, ColorScheme cs) {
+  Widget _buildTable(BuildContext context, ContentBlock block, ColorScheme cs) {
     final headers = (block.additionalData?['headers'] as List<String>?) ?? [];
     final rows = block.content as List<List<String>>;
 
@@ -358,15 +397,16 @@ class ContentRenderer extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: LayoutBuilder(
-        builder: (context, constraints) {
+        builder: (innerContext, constraints) {
           final table = DataTable(
-            headingTextStyle: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.bold,
-              color: cs.onSurface,
+            headingTextStyle: AppTextStyles.forSurface(
+              AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold),
+              innerContext,
             ),
-            dataTextStyle: AppTextStyles.bodyMedium.copyWith(
-              color: cs.onSurface.withOpacity(0.9),
-            ),
+            dataTextStyle: AppTextStyles.forSurface(
+              AppTextStyles.bodyMedium,
+              innerContext,
+            ).copyWith(color: cs.onSurface.withOpacity(0.9)),
             columns: headers
                 .map((header) => DataColumn(label: Text(header)))
                 .toList(),
@@ -390,7 +430,11 @@ class ContentRenderer extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider(ContentBlock block, ColorScheme cs) {
+  Widget _buildDivider(
+    BuildContext context,
+    ContentBlock block,
+    ColorScheme cs,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
       child: Divider(color: cs.outline.withOpacity(0.3), thickness: 1),

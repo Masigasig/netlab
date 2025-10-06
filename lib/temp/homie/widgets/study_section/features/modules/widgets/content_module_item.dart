@@ -15,10 +15,12 @@ class ContentModuleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.1),
+        color: cs.surface.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
@@ -31,23 +33,25 @@ class ContentModuleItem extends StatelessWidget {
           ),
           child: Icon(
             ModuleTypeHelpers.getActionIcon(module.type),
-            color: Colors.white,
+            color: cs.onPrimary, // ✅ adapts automatically
             size: 20,
           ),
         ),
         title: Text(
           module.title,
-          style: AppTextStyles.primaryCustom(
-            fontSize: 16,
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
+          style: AppTextStyles.forSurface(
+            AppTextStyles.primaryCustom(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            context,
           ),
         ),
         subtitle: Text(
           '${module.description} • ${module.duration} min',
-          style: AppTextStyles.secondaryCustom(
-            fontSize: 12,
-            color: const Color(0xB3FFFFFF),
+          style: AppTextStyles.forSecondary(
+            AppTextStyles.secondaryCustom(fontSize: 12),
+            context,
           ),
         ),
         trailing: Container(
@@ -58,10 +62,12 @@ class ContentModuleItem extends StatelessWidget {
           ),
           child: Text(
             ModuleTypeHelpers.getShortTypeLabel(module.type),
-            style: AppTextStyles.primaryCustom(
-              fontSize: 10,
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
+            style: AppTextStyles.forPrimary(
+              AppTextStyles.primaryCustom(
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+              ),
+              context,
             ),
           ),
         ),

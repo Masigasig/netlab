@@ -10,6 +10,7 @@ import 'package:netlab/temp/homie/widgets/study_section/features/modules/widgets
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/host_to_host.dart';
 import 'package:netlab/core/components/app_theme.dart';
 import 'package:netlab/temp/homie/widgets/study_section/core/services/progress_service.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 
 class StudyScreen extends StatefulWidget {
   const StudyScreen({super.key});
@@ -89,8 +90,7 @@ class _StudyScreenState extends State<StudyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
+    final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -105,29 +105,32 @@ class _StudyScreenState extends State<StudyScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    /// Headline
                     Text(
                       'Learn Networking\nFundamentals',
-                      style: TextStyle(
-                        fontSize: 42,
-                        fontWeight: FontWeight.w600,
-                        color: cs.onSurface,
-                        height: 1.2,
-                        letterSpacing: -1.0,
+                      style: AppTextStyles.forSurface(
+                        AppTextStyles.headerLarge.copyWith(
+                          fontSize: 42,
+                          height: 1.2,
+                          letterSpacing: -1.0,
+                        ),
+                        context,
                       ),
                     ),
                     const SizedBox(height: 16),
+
+                    /// Subtitle
                     Container(
                       constraints: const BoxConstraints(maxWidth: 500),
                       child: Text(
                         'Master the essentials of networking with clear, practical explanations designed to build a strong foundation without the unnecessary complexity.',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: cs.onSurface.withOpacity(0.7),
-                          height: 1.5,
-                        ),
+                        style: AppTextStyles.forSurface(
+                          AppTextStyles.bodyMedium.copyWith(height: 1.5),
+                          context,
+                        ).copyWith(color: cs.onSurface.withOpacity(0.7)),
                       ),
                     ),
+
                     const SizedBox(height: 40),
                     _buildQuickStats(context),
                   ],
@@ -167,7 +170,6 @@ class _StudyScreenState extends State<StudyScreen> {
 
         return Row(
           children: [
-            // Progress Card
             Expanded(
               child: AppStyles.statsCard(
                 context: context,
@@ -177,10 +179,7 @@ class _StudyScreenState extends State<StudyScreen> {
                 isPrimary: true,
               ),
             ),
-
             const SizedBox(width: 16),
-
-            // Study Time Card
             Expanded(
               child: AppStyles.statsCard(
                 context: context,

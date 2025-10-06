@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 import '../models/recent_activity.dart';
 import '../models/activity_type.dart';
 
@@ -9,10 +10,8 @@ class RecentActivityList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
     if (activities.isEmpty) {
-      return _buildEmptyState(cs);
+      return _buildEmptyState(context);
     }
 
     return Column(
@@ -20,29 +19,23 @@ class RecentActivityList extends StatelessWidget {
       children: [
         Text(
           'Recent Activity',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: cs.onSurface,
-          ),
+          style: AppTextStyles.forSurface(AppTextStyles.headerSmall, context),
         ),
         const SizedBox(height: 12),
-        ...activities.map((activity) => _buildActivityItem(activity, cs)),
+        ...activities.map((activity) => _buildActivityItem(activity, context)),
       ],
     );
   }
 
-  Widget _buildEmptyState(ColorScheme cs) {
+  Widget _buildEmptyState(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Recent Activity',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: cs.onSurface,
-          ),
+          style: AppTextStyles.forSurface(AppTextStyles.headerSmall, context),
         ),
         const SizedBox(height: 12),
         Container(
@@ -55,14 +48,15 @@ class RecentActivityList extends StatelessWidget {
           ),
           child: Text(
             'No recent activity',
-            style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
+            style: AppTextStyles.forSecondary(AppTextStyles.bodySmall, context),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildActivityItem(RecentActivity activity, ColorScheme cs) {
+  Widget _buildActivityItem(RecentActivity activity, BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final iconData = _getIconForActivityType(activity.type);
     final iconColor = _getColorForActivityType(activity.type);
 
@@ -91,18 +85,17 @@ class RecentActivityList extends StatelessWidget {
               children: [
                 Text(
                   activity.title,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: cs.onSurface,
+                  style: AppTextStyles.forSurface(
+                    AppTextStyles.subtitleMedium,
+                    context,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   activity.subtitle,
-                  style: TextStyle(
-                    fontSize: 8,
-                    color: cs.onSurface.withAlpha(125),
+                  style: AppTextStyles.withOpacity(
+                    AppTextStyles.forSurface(AppTextStyles.caption, context),
+                    0.5, // ~125/255
                   ),
                 ),
               ],
@@ -110,7 +103,10 @@ class RecentActivityList extends StatelessWidget {
           ),
           Text(
             activity.timeAgo,
-            style: TextStyle(fontSize: 8, color: cs.onSurface.withAlpha(125)),
+            style: AppTextStyles.withOpacity(
+              AppTextStyles.forSurface(AppTextStyles.caption, context),
+              0.5,
+            ),
           ),
         ],
       ),
