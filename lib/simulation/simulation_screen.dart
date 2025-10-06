@@ -19,11 +19,10 @@ import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 
 //* TODO's:
 //* Finalize logs for each simobject
-//* message osi model stack panel
 //* Finalize unit of the speed of message
-//? should we show the clock at top while playing?
 //* Finalization of UI
-//* Ip label of host
+//* message osi model stack panel
+//? should we show the clock at top while playing?
 //? should we clear all logs at stop? or only the device log and keeping the system log
 //? should we add a log even simulation is not playing?
 //! 4 switch bug Implement STP - Spanning Tree Protocol
