@@ -3,14 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:netlab/temp/homie/widgets/study_section/core/models/study_topic.dart';
 import 'package:netlab/temp/homie/widgets/study_section/widgets/topic_card.dart';
-import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/network_fundamentals_content.dart';
-import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/routing_switching_content.dart';
-import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/network_devices.dart';
-import 'package:netlab/temp/homie/widgets/study_section/features/modules/widgets/default_topic_content.dart';
-import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/host_to_host.dart';
 import 'package:netlab/core/components/app_theme.dart';
 import 'package:netlab/temp/homie/widgets/study_section/core/services/progress_service.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
+import 'package:netlab/core/routing/go_router.dart';
 
 class StudyScreen extends StatefulWidget {
   const StudyScreen({super.key});
@@ -196,28 +192,27 @@ class _StudyScreenState extends State<StudyScreen> {
   }
 
   void _navigateToTopicContent(BuildContext context, StudyTopic topic) {
-    Widget contentScreen;
+    String routePath;
 
     switch (topic.id) {
       case 'network_fundamentals':
-        contentScreen = NetworkFundamentalsContent(topic: topic);
+        routePath = Routes.networkFundamentals;
         break;
       case 'switching_routing':
-        contentScreen = RoutingSwitchingContent(topic: topic);
+        routePath = Routes.switchingRouting;
         break;
       case 'network_devices':
-        contentScreen = NetworkDevicesContent(topic: topic);
+        routePath = Routes.networkDevices;
         break;
       case 'host_to_host':
-        contentScreen = HostToHostContent(topic: topic);
+        routePath = Routes.hostToHost;
         break;
       default:
-        contentScreen = DefaultTopicContent(topic: topic);
+        // Fallback - shouldn't happen
+        return;
     }
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => contentScreen),
-    );
+    // Navigate using GoRouter with the topic as extra data
+    context.go(routePath, extra: topic);
   }
 }
