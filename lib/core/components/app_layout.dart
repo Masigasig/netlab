@@ -36,28 +36,28 @@ class SideBar extends StatelessWidget {
         child: Column(
           children: [
             NavItem(
+              icon: HugeIcons.strokeRoundedDashboardSquare03,
+              label: 'Dashboard',
+              isActive: currentLocation == '/dashboard',
+              onTap: () => context.go('/dashboard'),
+            ),
+            NavItem(
               icon: HugeIcons.strokeRoundedHome02,
               label: 'Home',
               isActive: currentLocation == '/home',
               onTap: () => context.go('/home'),
             ),
             NavItem(
-              icon: HugeIcons.strokeRoundedSettings01,
-              label: 'Settings',
-              isActive: currentLocation == '/settings',
-              onTap: () => context.go('/settings'),
-            ),
-            NavItem(
-              icon: HugeIcons.strokeRoundedSettings01,
+              icon: HugeIcons.strokeRoundedBookOpen02,
               label: 'Study',
               isActive: currentLocation == '/study',
               onTap: () => context.go('/study'),
             ),
             NavItem(
               icon: HugeIcons.strokeRoundedSettings01,
-              label: 'Dashboard',
-              isActive: currentLocation == '/dashboard',
-              onTap: () => context.go('/dashboard'),
+              label: 'Settings',
+              isActive: currentLocation == '/settings',
+              onTap: () => context.go('/settings'),
             ),
           ],
         ),

@@ -34,6 +34,12 @@ import '../data/host_to_host/hth_efficiency.dart';
 import '../data/host_to_host/hth_summary.dart';
 import '../data/host_to_host/hth_quiz.dart';
 
+import '../data/subnetting/subnetting_intro.dart';
+import '../data/subnetting/subnetting_attributes.dart';
+import '../data/subnetting/subnetting_cidr.dart';
+import '../data/subnetting/subnetting_example.dart';
+import '../data/subnetting/subnetting_practice.dart';
+
 class ContentRegistry {
   static final Map<String, ModuleContent> _contents = {
     // network fundamentals
@@ -73,6 +79,13 @@ class ContentRegistry {
     'h2h_efficiency': HostToHostEfficiencyContent(),
     'h2h_summary': HostToHostSummaryContent(),
     'h2h_quiz': H2HQuiz(),
+
+    // subnetting
+    'sub_intro': SubnettingIntroContent(),
+    'sub_attributes': SubnettingAttributesContent(),
+    'sub_cidr': SubnettingCidrContent(),
+    'sub_example': SubnettingExampleContent(),
+    'sub_practice': SubnettingPracticeContent(),
   };
 
   static List<ContentBlock> getContent(String moduleId) {

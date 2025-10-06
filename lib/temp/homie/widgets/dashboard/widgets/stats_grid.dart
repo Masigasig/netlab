@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import '../models/dashboard_stats.dart';
+import 'package:netlab/core/components/app_theme.dart';
 import 'stat_card.dart';
-
-// import '../models/dashboard_stats.dart';
 
 class StatsGrid extends StatelessWidget {
   final DashboardStats stats;
@@ -22,28 +22,44 @@ class StatsGrid extends StatelessWidget {
       childAspectRatio: 1.2,
       children: [
         StatCard(
-          icon: Icons.book_outlined,
+          icon: HugeIcon(
+            icon: HugeIcons.strokeRoundedNotebook02,
+            color: cs.primary,
+            size: 16,
+          ),
           title: 'Modules',
           value: '${stats.completedModules}',
           subtitle: 'Completed',
           color: cs.primary,
         ),
         StatCard(
-          icon: Icons.quiz_outlined,
+          icon: const HugeIcon(
+            icon: HugeIcons.strokeRoundedQuiz05,
+            color: AppColors.warningColor,
+            size: 16,
+          ),
           title: 'Quizzes',
           value: '${stats.averageQuizScore.toStringAsFixed(0)}%',
           subtitle: 'Avg. Score',
-          color: Colors.orange,
+          color: AppColors.warningColor,
         ),
         StatCard(
-          icon: Icons.timer_outlined,
+          icon: const HugeIcon(
+            icon: HugeIcons.strokeRoundedClock01,
+            color: AppColors.successColor,
+            size: 16,
+          ),
           title: 'Study Time',
           value: stats.studyTimeFormatted,
           subtitle: 'Total',
-          color: Colors.green,
+          color: AppColors.successColor,
         ),
         StatCard(
-          icon: Icons.emoji_events_outlined,
+          icon: const HugeIcon(
+            icon: HugeIcons.strokeRoundedAddToList,
+            color: Colors.purple,
+            size: 16,
+          ),
           title: 'Topics',
           value: '${stats.topicsInProgress}',
           subtitle: 'In Progress',

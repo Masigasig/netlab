@@ -82,6 +82,18 @@ class _StudyScreenState extends State<StudyScreen> {
       isCompleted: false,
       progress: 0,
     ),
+    StudyTopic(
+      id: 'subnetting',
+      title: 'Subnetting',
+      subtitle: 'Dividing networks into smaller segments',
+      description:
+          'Learn how to divide IP networks into subnets, calculate subnet masks, determine host ranges, and optimize network efficiency.',
+      cardColor: const Color(0xFF8B5CF6), // A distinct color from host_to_host
+      lessonCount: 5,
+      readTime: '12 min read',
+      isCompleted: false,
+      progress: 0,
+    ),
   ];
 
   @override
@@ -207,12 +219,11 @@ class _StudyScreenState extends State<StudyScreen> {
       case 'host_to_host':
         routePath = Routes.hostToHost;
         break;
+      case 'subnetting':
+        routePath = Routes.subnetting;
       default:
-        // Fallback - shouldn't happen
         return;
     }
-
-    // Navigate using GoRouter with the topic as extra data
     context.go(routePath, extra: topic);
   }
 }

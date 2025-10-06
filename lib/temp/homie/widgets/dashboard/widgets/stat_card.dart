@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
 class StatCard extends StatelessWidget {
-  final IconData icon;
+  final dynamic
+  icon; // Changed from IconData to dynamic to accept both IconData and Widget
   final String title;
   final String value;
   final String subtitle;
@@ -20,6 +21,15 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+
+    Widget iconWidget;
+    if (icon is IconData) {
+      iconWidget = Icon(icon as IconData, color: color, size: 10);
+    } else if (icon is Widget) {
+      iconWidget = icon as Widget;
+    } else {
+      iconWidget = Icon(Icons.error, color: color, size: 10);
+    }
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -49,7 +59,7 @@ class StatCard extends StatelessWidget {
                   color: color.withAlpha(51),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Icon(icon, color: color, size: 16),
+                child: iconWidget,
               ),
               const SizedBox(width: 6),
               Expanded(

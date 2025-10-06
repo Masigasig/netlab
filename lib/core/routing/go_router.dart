@@ -19,6 +19,8 @@ import 'package:netlab/temp/homie/widgets/study_section/features/study_content/d
     show NetworkDevicesContent;
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/host_to_host.dart'
     show HostToHostContent;
+import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/subnetting.dart'
+    show SubnettingContent;
 import 'package:netlab/temp/homie/widgets/study_section/core/models/study_topic.dart'
     show StudyTopic;
 
@@ -38,12 +40,11 @@ class Routes {
 
   // Relative paths
   static const simulationRelative = 'simulation';
-
-  // Study topic relative paths
   static const networkFundamentalsRelative = 'network-fundamentals';
   static const switchingRoutingRelative = 'switching-routing';
   static const networkDevicesRelative = 'network-devices';
   static const hostToHostRelative = 'host-to-host';
+  static const subnettingRelative = 'subnetting';
 
   // Full paths
   static const simulation = '$home/$simulationRelative';
@@ -51,6 +52,7 @@ class Routes {
   static const switchingRouting = '$study/$switchingRoutingRelative';
   static const networkDevices = '$study/$networkDevicesRelative';
   static const hostToHost = '$study/$hostToHostRelative';
+  static const subnetting = '$study/$subnettingRelative';
 }
 
 final router = GoRouter(
@@ -85,7 +87,6 @@ final router = GoRouter(
           path: Routes.study,
           builder: (context, state) => const StudyScreen(),
           routes: [
-            // Network Fundamentals - Full Screen
             GoRoute(
               path: Routes.networkFundamentalsRelative,
               parentNavigatorKey: _rootNavigatorKey,
@@ -94,7 +95,6 @@ final router = GoRouter(
                 return NetworkFundamentalsContent(topic: topic);
               },
             ),
-            // Switching and Routing - Full Screen
             GoRoute(
               path: Routes.switchingRoutingRelative,
               parentNavigatorKey: _rootNavigatorKey,
@@ -103,7 +103,6 @@ final router = GoRouter(
                 return RoutingSwitchingContent(topic: topic);
               },
             ),
-            // Network Devices - Full Screen
             GoRoute(
               path: Routes.networkDevicesRelative,
               parentNavigatorKey: _rootNavigatorKey,
@@ -112,13 +111,20 @@ final router = GoRouter(
                 return NetworkDevicesContent(topic: topic);
               },
             ),
-            // Host-to-Host - Full Screen
             GoRoute(
               path: Routes.hostToHostRelative,
               parentNavigatorKey: _rootNavigatorKey,
               builder: (context, state) {
                 final topic = state.extra as StudyTopic;
                 return HostToHostContent(topic: topic);
+              },
+            ),
+            GoRoute(
+              path: Routes.subnettingRelative,
+              parentNavigatorKey: _rootNavigatorKey,
+              builder: (context, state) {
+                final topic = state.extra as StudyTopic;
+                return SubnettingContent(topic: topic);
               },
             ),
           ],

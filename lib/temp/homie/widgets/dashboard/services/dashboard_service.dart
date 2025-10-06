@@ -36,14 +36,13 @@ class DashboardService {
       'nd_router',
       'nd_quiz',
     ],
-    'host_to_host': [
-      'h2h_overview',
-      'h2h_preparing',
-      'h2h_arp',
-      'h2h_packet_flow',
-      'h2h_efficiency',
-      'h2h_summary',
-      'h2h_quiz',
+    'subnetting': [
+      'sub_intro',
+      'sub_attributes',
+      'sub_cidr',
+      'sub_example',
+      'sub_practice',
+      'sub_quiz',
     ],
   };
 
@@ -205,6 +204,12 @@ class DashboardService {
       'h2h_efficiency': 'Communication Efficiency',
       'h2h_summary': 'H2H Summary',
       'h2h_quiz': 'Host-to-Host Quiz',
+      'sub_intro': 'Introduction to Subnetting',
+      'sub_attributes': 'Subnet Attributes',
+      'sub_cidr': 'CIDR and Subnet Mask',
+      'sub_example': 'Subnetting Example',
+      'sub_practice': 'Subnetting Practice',
+      'sub_quiz': 'Subnetting Quiz',
     };
 
     return moduleNames[moduleId] ?? moduleId;
