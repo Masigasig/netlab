@@ -22,7 +22,7 @@ class ModuleCompletionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
-    // If has quizzes, wrap in ListenableBuilder to hide until submitted
+    // If has quizzes, wrap in ListenableBuilder to hide until submitted and passed
     if (hasQuizzes && quizController != null) {
       return ListenableBuilder(
         listenable: quizController!,
@@ -30,6 +30,32 @@ class ModuleCompletionButton extends StatelessWidget {
           if (!quizController!.isSubmitted) {
             return const SizedBox.shrink();
           }
+
+          // Check if quiz has been passed
+          if (!quizController!.hasPassed()) {
+            return Center(
+              child: Column(
+                children: [
+                  const Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.orange,
+                    size: 24,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'You need to score at least ${ModuleQuizController.requiredScore}% to complete this module',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: cs.onSurfaceVariant,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
           return _buildButton(cs);
         },
       );

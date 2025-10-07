@@ -13,12 +13,12 @@ class ProgressService {
 
   static Future<void> setTotalChaptersByTopic(String topicId, int total) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('${_totalChaptersKey}$topicId', total);
+    await prefs.setInt('$_totalChaptersKey$topicId', total);
   }
 
   static Future<int> getTotalChaptersByTopic(String topicId) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('${_totalChaptersKey}$topicId') ?? 0;
+    return prefs.getInt('$_totalChaptersKey$topicId') ?? 0;
   }
 
   static Future<void> markChapterAsCompleted(
@@ -57,7 +57,18 @@ class ProgressService {
   ) async {
     final prefs = await SharedPreferences.getInstance();
     final key = '$_prefixChapter${topicId}_$moduleId';
-    return prefs.getBool(key) ?? false;
+    final isMarkedCompleted = prefs.getBool(key) ?? false;
+
+    if (!isMarkedCompleted) return false;
+
+    // If module has quiz, verify it was passed
+    final quizStats = await getModuleQuizStats(topicId, moduleId);
+    if (quizStats['total'] > 0) {
+      final percentage = quizStats['percentage'] as int;
+      return percentage >= 80; // Using same passing score as quiz controller
+    }
+
+    return true;
   }
 
   // Get all completed chapters for a topic

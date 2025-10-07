@@ -3,6 +3,8 @@ import '../../../core/services/progress_service.dart';
 
 /// Controller for managing all quiz answers in a module
 class ModuleQuizController extends ChangeNotifier {
+  static const int requiredScore = 80;
+
   final String topicId;
   final String moduleId;
 
@@ -114,7 +116,7 @@ class ModuleQuizController extends ChangeNotifier {
   /// Get quiz statistics after submission
   Map<String, dynamic> getStats() {
     if (!_isSubmitted) {
-      return {'total': 0, 'correct': 0, 'percentage': 0};
+      return {'total': 0, 'correct': 0, 'percentage': 0, 'passed': false};
     }
 
     int correct = 0;
@@ -130,14 +132,25 @@ class ModuleQuizController extends ChangeNotifier {
 
     final total = _answers.length;
     final percentage = total > 0 ? ((correct / total) * 100).round() : 0;
+    final passed = percentage >= requiredScore;
 
-    return {'total': total, 'correct': correct, 'percentage': percentage};
+    return {
+      'total': total,
+      'correct': correct,
+      'percentage': percentage,
+      'passed': passed,
+    };
+  }
+
+  /// Check if quiz has been passed
+  bool hasPassed() {
+    final stats = getStats();
+    return stats['passed'] as bool;
   }
 
   /// Reset the quiz state (allow retrying)
   void reset() {
     _answers.clear();
-    _correctAnswers.clear();
     _isSubmitted = false;
     _isLoading = false;
     notifyListeners();

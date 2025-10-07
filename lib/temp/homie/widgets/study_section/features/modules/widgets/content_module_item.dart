@@ -20,7 +20,7 @@ class ContentModuleItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: cs.surface.withOpacity(0.1),
+        color: cs.surface.withAlpha(25),
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(

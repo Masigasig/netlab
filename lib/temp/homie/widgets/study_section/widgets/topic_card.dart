@@ -173,7 +173,7 @@ class _TopicCardState extends State<TopicCard> {
                   size: 16,
                   color: Theme.of(
                     context,
-                  ).colorScheme.onSurfaceVariant.withOpacity(0.5),
+                  ).colorScheme.onSurfaceVariant.withAlpha(128),
                 ),
                 const SizedBox(width: 8),
               ],
