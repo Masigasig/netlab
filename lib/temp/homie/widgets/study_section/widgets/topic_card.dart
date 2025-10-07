@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import '../core/models/study_topic.dart';
 import '../core/services/progress_service.dart';
 import 'package:netlab/core/components/app_theme.dart';
@@ -7,8 +8,14 @@ import 'package:netlab/temp/core/constants/app_text.dart';
 class TopicCard extends StatefulWidget {
   final StudyTopic topic;
   final VoidCallback onTap;
+  final List<String> orderedTopicIds;
 
-  const TopicCard({super.key, required this.topic, required this.onTap});
+  const TopicCard({
+    super.key,
+    required this.topic,
+    required this.onTap,
+    required this.orderedTopicIds,
+  });
 
   @override
   State<TopicCard> createState() => _TopicCardState();
@@ -17,12 +24,14 @@ class TopicCard extends StatefulWidget {
 class _TopicCardState extends State<TopicCard> {
   double _progress = 0.0;
   int _totalChapters = 0; // This will be set based on topic
+  bool _isAccessible = false;
 
   @override
   void initState() {
     super.initState();
     _setTotalChapters();
     _loadProgress();
+    _checkAccessibility();
   }
 
   @override
@@ -49,12 +58,38 @@ class _TopicCardState extends State<TopicCard> {
     }
   }
 
+  Future<void> _checkAccessibility() async {
+    final currentIndex = widget.orderedTopicIds.indexOf(widget.topic.id);
+    if (currentIndex == 0) {
+      // First topic is always accessible
+      setState(() => _isAccessible = true);
+      return;
+    }
+
+    final previousTopicId = widget.orderedTopicIds[currentIndex - 1];
+    final completedChapters = await ProgressService.getCompletedChaptersByTopic(
+      previousTopicId,
+    );
+    final totalChapters = await ProgressService.getTotalChaptersByTopic(
+      previousTopicId,
+    );
+
+    if (mounted) {
+      setState(() {
+        _isAccessible =
+            totalChapters > 0 && completedChapters.length == totalChapters;
+      });
+    }
+  }
+
   @override
   void didUpdateWidget(TopicCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.topic.id != widget.topic.id) {
+    if (oldWidget.topic.id != widget.topic.id ||
+        !listEquals(oldWidget.orderedTopicIds, widget.orderedTopicIds)) {
       _setTotalChapters();
       _loadProgress();
+      _checkAccessibility();
     }
   }
 
@@ -128,27 +163,50 @@ class _TopicCardState extends State<TopicCard> {
 
           const SizedBox(height: 24),
 
-          // Start button (right aligned)
-          Align(
-            alignment: Alignment.centerRight,
-            child: OutlinedButton(
-              onPressed: widget.onTap,
-              style: AppButtonStyles.opacityButton(context).copyWith(
-                shape: WidgetStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
+          // Start button (right aligned) with lock indicator
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (!_isAccessible) ...[
+                Icon(
+                  Icons.lock,
+                  size: 16,
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurfaceVariant.withOpacity(0.5),
+                ),
+                const SizedBox(width: 8),
+              ],
+              OutlinedButton(
+                onPressed: _isAccessible
+                    ? widget.onTap
+                    : () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Complete the previous topic to unlock this one',
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      },
+                style: AppButtonStyles.opacityButton(context).copyWith(
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
                   ),
                 ),
+                child: Text(
+                  _progress >= 1.0
+                      ? 'Review'
+                      : _progress > 0
+                      ? 'Continue'
+                      : 'Start',
+                  style: AppTextStyles.label,
+                ),
               ),
-              child: Text(
-                _progress >= 1.0
-                    ? 'Review'
-                    : _progress > 0
-                    ? 'Continue'
-                    : 'Start',
-                style: AppTextStyles.label,
-              ),
-            ),
+            ],
           ),
         ],
       ),

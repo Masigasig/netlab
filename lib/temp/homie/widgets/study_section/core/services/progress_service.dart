@@ -9,6 +9,17 @@ class ProgressService {
   static const String _prefixQuizAnswer = 'quiz_answer_';
   static const String _prefixCompletionTime = 'completion_time_';
   static const String _studyDatesKey = 'study_dates';
+  static const String _totalChaptersKey = 'total_chapters_';
+
+  static Future<void> setTotalChaptersByTopic(String topicId, int total) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('${_totalChaptersKey}$topicId', total);
+  }
+
+  static Future<int> getTotalChaptersByTopic(String topicId) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('${_totalChaptersKey}$topicId') ?? 0;
+  }
 
   static Future<void> markChapterAsCompleted(
     String topicId,

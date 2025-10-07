@@ -16,6 +16,21 @@ class StudyScreen extends StatefulWidget {
 }
 
 class _StudyScreenState extends State<StudyScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeTopicChapters();
+  }
+
+  Future<void> _initializeTopicChapters() async {
+    for (var topic in topics) {
+      await ProgressService.setTotalChaptersByTopic(
+        topic.id,
+        topic.lessonCount,
+      );
+    }
+  }
+
   Future<int> _getCompletedTopicsCount() async {
     int completedCount = 0;
 
@@ -150,6 +165,7 @@ class _StudyScreenState extends State<StudyScreen> {
                 (topic) => TopicCard(
                   topic: topic,
                   onTap: () => _navigateToTopicContent(context, topic),
+                  orderedTopicIds: topics.map((t) => t.id).toList(),
                 ),
               ),
 
