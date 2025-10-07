@@ -10,10 +10,11 @@ import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/simulation/widgets/conn_choice_panel.dart';
 import 'package:netlab/simulation/widgets/control_button.dart';
 import 'package:netlab/simulation/widgets/device_panel.dart';
+import 'package:netlab/simulation/widgets/floating_timer.dart';
 import 'package:netlab/simulation/widgets/grid_painter.dart';
 import 'package:netlab/simulation/widgets/info_panels/info_panel.dart';
 import 'package:netlab/simulation/widgets/log_panel.dart';
-import 'package:netlab/simulation/widgets/loop_animator.dart';
+// import 'package:netlab/simulation/widgets/loop_animator.dart';
 import 'package:netlab/simulation/widgets/setttings_popup.dart';
 import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 
@@ -22,9 +23,9 @@ import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 //* Finalize unit of the speed of message
 //* Finalization of UI
 //* message osi model stack panel
-//? should we show the clock at top while playing?
 //? should we clear all logs at stop? or only the device log and keeping the system log
 //? should we add a log even simulation is not playing?
+//? should we include the port at the info panel in each device?
 //! 4 switch bug Implement STP - Spanning Tree Protocol
 
 class SimulationScreen extends ConsumerStatefulWidget {
@@ -89,7 +90,8 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
     return Scaffold(
       body: Stack(
         children: [
-          const LoopAnimator(),
+          //* Uncomment this if there's a bug in build
+          // const LoopAnimator(),
           DragTarget<SimObjectType>(
             builder: (context, candidateData, rejectedData) {
               return InteractiveViewer(
@@ -124,6 +126,8 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
           const InfoPanel(),
 
           const DevicePanel(),
+
+          const FloatingTimer(),
 
           AddDeviceButton(
             onOpen: () =>
