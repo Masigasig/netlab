@@ -73,7 +73,7 @@ class StatCard extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
 
           // Value and subtitle
           Column(

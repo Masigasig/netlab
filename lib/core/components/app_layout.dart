@@ -42,8 +42,8 @@ class SideBar extends StatelessWidget {
               onTap: () => context.go('/dashboard'),
             ),
             NavItem(
-              icon: HugeIcons.strokeRoundedHome02,
-              label: 'Home',
+              icon: HugeIcons.strokeRounded3DView,
+              label: 'Simulation',
               isActive: currentLocation == '/home',
               onTap: () => context.go('/home'),
             ),
