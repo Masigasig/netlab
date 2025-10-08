@@ -114,17 +114,32 @@ class HostNotifier extends DeviceNotifier<Host> {
     }
   }
 
-  void updateIpAddress(String ipAddress) =>
-      state = state.copyWith(ipAddress: ipAddress);
+  void updateIpAddress(String ipAddress) {
+    state = state.copyWith(ipAddress: ipAddress);
+    addInfoLog(state.id, 'Ipv4 address updated to $ipAddress');
+  }
 
-  void updateSubnetMask(String subnetMask) =>
-      state = state.copyWith(subnetMask: subnetMask);
+  void updateSubnetMask(String subnetMask) {
+    state = state.copyWith(subnetMask: subnetMask);
+    addInfoLog(state.id, 'Subnetmask updated to $subnetMask');
+  }
 
-  void updateDefaultGateway(String defaultGateway) =>
-      state = state.copyWith(defaultGateway: defaultGateway);
+  void updateDefaultGateway(String defaultGateway) {
+    state = state.copyWith(defaultGateway: defaultGateway);
+    addInfoLog(state.id, 'DefualtGateway updated to $defaultGateway');
+  }
 
-  void updateConnectionId(String connectionId) =>
-      state = state.copyWith(connectionId: connectionId);
+  void updateConnectionId(String connectionId) {
+    if (connectionId == '') {
+      addInfoLog(state.id, 'Connection Removed');
+    } else {
+      addInfoLog(
+        state.id,
+        'Connected to ${connectionNotifier(connectionId).state.name}',
+      );
+    }
+    state = state.copyWith(connectionId: connectionId);
+  }
 
   void enqueueMessage(String messageId) {
     final newMessageIds = List<String>.from(state.messageIds)..add(messageId);

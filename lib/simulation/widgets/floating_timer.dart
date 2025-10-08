@@ -63,7 +63,7 @@ class _FloatingTimerState extends ConsumerState<FloatingTimer>
                     width: 9,
                     height: 9,
                     decoration: const BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.green,
                       shape: BoxShape.circle,
                     ),
                   ),
