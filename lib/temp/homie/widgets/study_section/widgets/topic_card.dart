@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import '../core/models/study_topic.dart';
 import '../core/services/progress_service.dart';
+import '../features/study_content/services/module_registry.dart';
 import 'package:netlab/core/components/app_theme.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
@@ -23,7 +24,7 @@ class TopicCard extends StatefulWidget {
 
 class _TopicCardState extends State<TopicCard> {
   double _progress = 0.0;
-  int _totalChapters = 0; // This will be set based on topic
+  int _totalChapters = 0;
   bool _isAccessible = false;
 
   @override
@@ -41,7 +42,7 @@ class _TopicCardState extends State<TopicCard> {
   }
 
   void _setTotalChapters() {
-    _totalChapters = widget.topic.lessonCount;
+    _totalChapters = ModuleRegistry.getLessonCount(widget.topic.id);
   }
 
   Future<void> _loadProgress() async {
@@ -70,9 +71,8 @@ class _TopicCardState extends State<TopicCard> {
     final completedChapters = await ProgressService.getCompletedChaptersByTopic(
       previousTopicId,
     );
-    final totalChapters = await ProgressService.getTotalChaptersByTopic(
-      previousTopicId,
-    );
+
+    final totalChapters = ModuleRegistry.getLessonCount(previousTopicId);
 
     if (mounted) {
       setState(() {
@@ -106,10 +106,10 @@ class _TopicCardState extends State<TopicCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Lessons count chipbadge
+              // Lessons count chipbadge - now shows dynamic count
               AppStyles.chipBadge(
                 context: context,
-                text: '${widget.topic.lessonCount} lessons',
+                text: '$_totalChapters lessons',
                 icon: Icons.book_outlined,
               ),
 
@@ -135,7 +135,7 @@ class _TopicCardState extends State<TopicCard> {
             widget.topic.subtitle,
             style: AppTextStyles.withOpacity(
               AppTextStyles.forSurface(AppTextStyles.bodyMedium, context),
-              0.7, // 70% opacity (179/255 ≈ 0.7)
+              0.7,
             ),
           ),
 
@@ -146,7 +146,7 @@ class _TopicCardState extends State<TopicCard> {
             widget.topic.description,
             style: AppTextStyles.withOpacity(
               AppTextStyles.forSurface(AppTextStyles.bodySmall, context),
-              0.5, // 50% opacity (128/255 ≈ 0.5)
+              0.5,
             ),
           ),
 
@@ -157,7 +157,7 @@ class _TopicCardState extends State<TopicCard> {
             widget.topic.readTime,
             style: AppTextStyles.withOpacity(
               AppTextStyles.forSurface(AppTextStyles.subtitleSmall, context),
-              0.5, // 50% opacity
+              0.5,
             ),
           ),
 

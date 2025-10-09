@@ -6,7 +6,6 @@ class StudyTopic {
   final String subtitle;
   final String description;
   final Color cardColor;
-  final int lessonCount;
   final String readTime;
   final bool isCompleted;
   final double progress;
@@ -17,7 +16,6 @@ class StudyTopic {
     required this.subtitle,
     required this.description,
     required this.cardColor,
-    required this.lessonCount,
     required this.readTime,
     required this.isCompleted,
     required this.progress,

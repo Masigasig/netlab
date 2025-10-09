@@ -5,6 +5,7 @@ import 'package:netlab/temp/homie/widgets/study_section/core/models/study_topic.
 import 'package:netlab/temp/homie/widgets/study_section/widgets/topic_card.dart';
 import 'package:netlab/core/components/app_theme.dart';
 import 'package:netlab/temp/homie/widgets/study_section/core/services/progress_service.dart';
+import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/module_registry.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 import 'package:netlab/core/routing/go_router.dart';
 
@@ -24,10 +25,8 @@ class _StudyScreenState extends State<StudyScreen> {
 
   Future<void> _initializeTopicChapters() async {
     for (var topic in topics) {
-      await ProgressService.setTotalChaptersByTopic(
-        topic.id,
-        topic.lessonCount,
-      );
+      final lessonCount = ModuleRegistry.getLessonCount(topic.id);
+      await ProgressService.setTotalChaptersByTopic(topic.id, lessonCount);
     }
   }
 
@@ -37,7 +36,9 @@ class _StudyScreenState extends State<StudyScreen> {
     for (var topic in topics) {
       final completedChapters =
           await ProgressService.getCompletedChaptersByTopic(topic.id);
-      if (completedChapters.length >= topic.lessonCount) {
+      final totalChapters = ModuleRegistry.getLessonCount(topic.id);
+
+      if (completedChapters.length >= totalChapters) {
         completedCount++;
       }
     }
@@ -54,21 +55,7 @@ class _StudyScreenState extends State<StudyScreen> {
       description:
           'Master the essential concepts of network topology, addressing, and protocols that form the backbone of modern communications.',
       cardColor: const Color(0xFF6366F1),
-      lessonCount: 7,
       readTime: '12 min read',
-      isCompleted: false,
-      progress: 0,
-    ),
-    StudyTopic(
-      id: 'switching_routing',
-      title: 'Switching and Routing',
-      subtitle:
-          'Understanding how data moves through networks and switching concepts',
-      description:
-          'Step-by-step walkthrough of routing protocols, switch configuration, and network path determination.',
-      cardColor: const Color(0xFF10B981),
-      lessonCount: 9,
-      readTime: '15 min read',
       isCompleted: false,
       progress: 0,
     ),
@@ -80,19 +67,6 @@ class _StudyScreenState extends State<StudyScreen> {
       description:
           'Comprehensive guide to routers, switches, hubs, and other networking equipment used in modern infrastructure.',
       cardColor: const Color(0xFFF59E0B),
-      lessonCount: 5,
-      readTime: '10 min read',
-      isCompleted: false,
-      progress: 0,
-    ),
-    StudyTopic(
-      id: 'host_to_host',
-      title: 'Host-to-Host Communication',
-      subtitle: 'How devices communicate over a network',
-      description:
-          'Covers IP and MAC addressing, subnetting, the ARP process, packet delivery, and caching for efficient host-to-host communication.',
-      cardColor: const Color(0xFF3B82F6),
-      lessonCount: 6,
       readTime: '10 min read',
       isCompleted: false,
       progress: 0,
@@ -103,9 +77,31 @@ class _StudyScreenState extends State<StudyScreen> {
       subtitle: 'Dividing networks into smaller segments',
       description:
           'Learn how to divide IP networks into subnets, calculate subnet masks, determine host ranges, and optimize network efficiency.',
-      cardColor: const Color(0xFF8B5CF6), // A distinct color from host_to_host
-      lessonCount: 5,
+      cardColor: const Color(0xFF8B5CF6),
       readTime: '12 min read',
+      isCompleted: false,
+      progress: 0,
+    ),
+    StudyTopic(
+      id: 'host_to_host',
+      title: 'Host-to-Host Communication',
+      subtitle: 'How devices communicate over a network',
+      description:
+          'Covers IP and MAC addressing, subnetting, the ARP process, packet delivery, and caching for efficient host-to-host communication.',
+      cardColor: const Color(0xFF3B82F6),
+      readTime: '10 min read',
+      isCompleted: false,
+      progress: 0,
+    ),
+    StudyTopic(
+      id: 'switching_routing',
+      title: 'Switching and Routing',
+      subtitle:
+          'Understanding how data moves through networks and switching concepts',
+      description:
+          'Step-by-step walkthrough of routing protocols, switch configuration, and network path determination.',
+      cardColor: const Color(0xFF10B981),
+      readTime: '15 min read',
       isCompleted: false,
       progress: 0,
     ),
@@ -226,17 +222,17 @@ class _StudyScreenState extends State<StudyScreen> {
       case 'network_fundamentals':
         routePath = Routes.networkFundamentals;
         break;
-      case 'switching_routing':
-        routePath = Routes.switchingRouting;
-        break;
       case 'network_devices':
         routePath = Routes.networkDevices;
+        break;
+      case 'subnetting':
+        routePath = Routes.subnetting;
         break;
       case 'host_to_host':
         routePath = Routes.hostToHost;
         break;
-      case 'subnetting':
-        routePath = Routes.subnetting;
+      case 'switching_routing':
+        routePath = Routes.switchingRouting;
       default:
         return;
     }

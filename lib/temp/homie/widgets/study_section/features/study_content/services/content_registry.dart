@@ -100,4 +100,12 @@ class ContentRegistry {
       ),
     ];
   }
+
+  static List<String> getAllModuleIds() {
+    return _contents.keys.toList();
+  }
+
+  static bool hasModule(String moduleId) {
+    return _contents.containsKey(moduleId);
+  }
 }
