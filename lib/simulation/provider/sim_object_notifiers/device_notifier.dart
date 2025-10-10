@@ -20,17 +20,17 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   ) {
     if (connectionId.isEmpty) {
       addSystemErrorLog(
-        'Message "${messageNotifier(messageId).state.name}" dropped, reason: Device "${state.name}" has no connection for the message',
+        'Message "${messageNotifier(messageId).state.name}" dropped, reason: Device "${state.name}" has no connection to send the message',
       );
 
       addErrorLog(
         messageId,
-        'Dropped, reason: Device "${state.name}" has no connection',
+        'Dropped, reason: Device "${state.name}" has no connection to send the message',
       );
 
       addErrorLog(
         state.id,
-        'Message "${messageNotifier(messageId).state.name}" dropped, reason: has no connection for the message',
+        'Message "${messageNotifier(messageId).state.name}" dropped, reason: has no connection to send the message',
       );
 
       messageNotifier(messageId).dropMessage();

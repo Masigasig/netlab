@@ -32,6 +32,7 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
     ref.onDispose(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.invalidate(conDeviceToIdMapProvider(arg));
+        ref.invalidate(simObjectLogProvider(arg));
       });
     });
     return ref.read(connectionMapProvider)[arg]!;

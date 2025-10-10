@@ -26,8 +26,11 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
       _isProcessingMessages = false;
       _messageProcessingTimer?.cancel();
       _messageProcessingTimer = null;
-
       _switchQ.clear();
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.invalidate(simObjectLogProvider(arg));
+      });
     });
     return ref.read(switchMapProvider)[arg]!;
   }
@@ -91,6 +94,11 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
 
     addInfoLog(messageId, 'Is at switch "${state.name}"');
 
+    addInfoLog(
+      state.id,
+      'Receive message "${messageNotifier(messageId).state.name}"',
+    );
+
     final sourceMac = messageNotifier(
       messageId,
     ).state.layerStack.last[MessageKey.source.name]!;
@@ -115,9 +123,19 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
       Port.port4 => state.copyWith(port4conId: conId),
       Port.port5 => state.copyWith(port5conId: conId),
     };
+
+    addInfoLog(
+      state.id,
+      'Connected to ${connectionNotifier(conId).state.name}',
+    );
   }
 
   void removeConIdByConId(String conId) {
+    addInfoLog(
+      state.id,
+      'Connection "${connectionNotifier(conId).state.name}" removed',
+    );
+
     if (state.port0conId == conId) {
       state = state.copyWith(port0conId: '');
     } else if (state.port1conId == conId) {
