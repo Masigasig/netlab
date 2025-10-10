@@ -37,6 +37,7 @@ class HostNotifier extends DeviceNotifier<Host> {
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.invalidate(hostPendingArpReqProvider(arg));
+        ref.invalidate(simObjectLogProvider(arg));
       });
     });
     return ref.read(hostMapProvider)[arg]!;
@@ -102,12 +103,17 @@ class HostNotifier extends DeviceNotifier<Host> {
       }
     } else {
       addSystemErrorLog(
-        'Message "${messageNotifier(messageId).state.name}" dropped, reason: Host "${state.name}" is not Recipient of the Frame',
+        'Message "${messageNotifier(messageId).state.name}" dropped, reason: Host "${state.name}" is not recipient of the Frame',
       );
 
       addErrorLog(
         messageId,
-        'Dropped, reason: Host "${state.name}" is not Recipient of the Frame',
+        'Dropped, reason: Host "${state.name}" is not recipient of the Frame',
+      );
+
+      addErrorLog(
+        state.id,
+        'Drop message "${messageNotifier(messageId).state.name}", reason: not recipient of the Frame',
       );
 
       messageNotifier(messageId).dropMessage();
@@ -171,7 +177,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     newArpTable[ipAddress] = macAddress;
     state = state.copyWith(arpTable: newArpTable);
 
-    addInfoLog(state.id, 'Update ARP table $ipAddress => $macAddress');
+    addInfoLog(state.id, 'Update ARP table $ipAddress -> $macAddress');
   }
 
   String _dequeueMessage() {
@@ -508,10 +514,16 @@ class HostNotifier extends DeviceNotifier<Host> {
           messageNotifier(messageId).dropMessage();
           _sendArpReply(dataLinkLayer[MessageKey.source.name]!, senderIp);
         } else {
-          addInfoLog(
+          addErrorLog(
             messageId,
             'Dropped, reason: ARP Request is not for host "${state.name}"',
           );
+
+          addErrorLog(
+            state.id,
+            'Drop "${messageNotifier(messageId).state.name}", reason: not recipient of the ARP Request',
+          );
+
           messageNotifier(messageId).dropMessage();
         }
       case OperationType.reply:
@@ -536,6 +548,7 @@ class HostNotifier extends DeviceNotifier<Host> {
 
   void _receiveIpv4Msg(String messageId, Map<String, String> dataLinkLayer) {
     final networkLayer = messageNotifier(messageId).popLayer();
+
     addInfoLog(messageId, 'Network Layer removed');
 
     _updateArpTable(
@@ -565,7 +578,12 @@ class HostNotifier extends DeviceNotifier<Host> {
 
       addErrorLog(
         messageId,
-        'Dropped, reason: Host "${state.name}" is not Recipient of the Packet',
+        'Dropped, reason: Host "${state.name}" is not recipient of the Packet',
+      );
+
+      addErrorLog(
+        state.id,
+        'Drop message "${messageNotifier(messageId).state.name}", reason: not recipient of the Packet',
       );
 
       messageNotifier(messageId).dropMessage();
