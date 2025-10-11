@@ -19,7 +19,7 @@ class SimScreen {
     this.isInfoPanelOpen = false,
     this.selectedDeviceOnConn = '',
     this.selectedDeviceOnInfo = '',
-    this.messageSpeed = 5.0,
+    this.messageSpeed = 3.0,
     this.arpReqTimeout = 30.0,
   });
 

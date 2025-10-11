@@ -22,7 +22,6 @@ import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 //* Finalization of UI
 //* message osi model stack panel
 //? should we include the port at the info panel in each device?
-//! 4 switch bug Implement STP - Spanning Tree Protocol
 
 class SimulationScreen extends ConsumerStatefulWidget {
   static const canvasSize = Size(100_000.0, 100_000.0);

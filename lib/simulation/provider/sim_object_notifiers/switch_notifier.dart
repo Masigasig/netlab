@@ -105,6 +105,19 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
 
     final port = state.conIdToPortMap[fromConId]!;
 
+    //* Temporary solution to unImplemented STP (Spanning Tree Protocol)
+    if (state.macTable.containsKey(sourceMac) &&
+        state.macTable[sourceMac] != port) {
+      addErrorLog(messageId, 'Dropped duplicated message');
+      addErrorLog(
+        state.id,
+        'Dropped message "${messageNotifier(messageId).state.name}", reason: duplicated message',
+      );
+      messageNotifier(messageId).dropMessage();
+
+      return;
+    }
+
     _updateMacTable(sourceMac, port);
 
     _switchQ.add({'messageId': messageId, 'fromConId': fromConId});

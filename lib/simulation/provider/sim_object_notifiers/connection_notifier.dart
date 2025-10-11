@@ -24,6 +24,7 @@ final connectionWidgetsProvider =
 
 class ConnectionNotifier extends SimObjectNotifier<Connection> {
   final String arg;
+  double get _speed => ref.read(simScreenProvider).messageSpeed * 100;
 
   ConnectionNotifier(this.arg);
 
@@ -85,8 +86,7 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
                 Offset(deviceFrom.posX, deviceFrom.posY))
             .distance;
 
-    final speed = ref.read(simScreenProvider).messageSpeed * 100;
-    final duration = Duration(milliseconds: (distance / speed).round() * 1000);
+    final duration = Duration(milliseconds: (distance / _speed).round() * 1000);
 
     messageNotifier(
       messageId,
