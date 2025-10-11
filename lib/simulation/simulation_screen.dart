@@ -19,11 +19,8 @@ import 'package:netlab/simulation/widgets/setttings_popup.dart';
 import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 
 //* TODO's:
-//* Finalize unit of the speed of message
 //* Finalization of UI
 //* message osi model stack panel
-//? should we clear all logs at stop? or only the device log and keeping the system log
-//? should we add a log even simulation is not playing?
 //? should we include the port at the info panel in each device?
 //! 4 switch bug Implement STP - Spanning Tree Protocol
 

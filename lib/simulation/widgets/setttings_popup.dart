@@ -43,9 +43,9 @@ class _SettingsPopupState extends ConsumerState<SetttingsPopup> {
                   ),
                   Slider(
                     value: tempMsgSpeed,
-                    min: 50,
-                    max: 500,
-                    divisions: 450,
+                    min: 1,
+                    max: 10,
+                    divisions: 9,
                     onChanged: (value) => setState(() {
                       tempMsgSpeed = value;
                     }),
