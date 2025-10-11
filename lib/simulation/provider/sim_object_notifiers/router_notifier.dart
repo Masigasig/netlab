@@ -186,11 +186,6 @@ class RouterNotifier extends DeviceNotifier<Router> {
       Eth.eth2 => state.copyWith(eth2conId: newConId),
       Eth.eth3 => state.copyWith(eth3conId: newConId),
     };
-
-    addInfoLog(
-      state.id,
-      '${eth.name} connected to connection "${connectionNotifier(newConId).state.name}"',
-    );
   }
 
   void removeConIdByConId(String conId) {

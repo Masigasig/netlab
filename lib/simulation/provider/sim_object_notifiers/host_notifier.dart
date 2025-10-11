@@ -138,11 +138,6 @@ class HostNotifier extends DeviceNotifier<Host> {
   void updateConnectionId(String connectionId) {
     if (connectionId == '') {
       addInfoLog(state.id, 'Connection Removed');
-    } else {
-      addInfoLog(
-        state.id,
-        'Connected to ${connectionNotifier(connectionId).state.name}',
-      );
     }
     state = state.copyWith(connectionId: connectionId);
   }

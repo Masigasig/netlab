@@ -123,11 +123,6 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
       Port.port4 => state.copyWith(port4conId: conId),
       Port.port5 => state.copyWith(port5conId: conId),
     };
-
-    addInfoLog(
-      state.id,
-      'Connected to ${connectionNotifier(conId).state.name}',
-    );
   }
 
   void removeConIdByConId(String conId) {
