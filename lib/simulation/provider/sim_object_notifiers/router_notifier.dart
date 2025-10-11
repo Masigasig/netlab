@@ -39,6 +39,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
       _routerQ.clear();
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.invalidate(routerPendingArpReqProvider(arg));
+        ref.invalidate(simObjectLogProvider(arg));
       });
     });
 
@@ -138,12 +139,12 @@ class RouterNotifier extends DeviceNotifier<Router> {
       }
     } else {
       addSystemErrorLog(
-        'Message "${messageNotifier(messageId).state.name}" dropped, reason: router "${state.name}" is not Recipient of the Frame',
+        'Message "${messageNotifier(messageId).state.name}" dropped, reason: router "${state.name}" is not recipient of the Frame',
       );
 
       addErrorLog(
         messageId,
-        'Dropped, reason: router "${state.name}" is not Recipient of the Frame',
+        'Dropped, reason: router "${state.name}" is not recipient of the Frame',
       );
 
       messageNotifier(messageId).dropMessage();
@@ -159,6 +160,8 @@ class RouterNotifier extends DeviceNotifier<Router> {
       Eth.eth2 => state.copyWith(eth2IpAddress: newIp),
       Eth.eth3 => state.copyWith(eth3IpAddress: newIp),
     };
+
+    addInfoLog(state.id, 'Update ${eth.name} Ipv4 Address to $newIp');
   }
 
   void updateSubnetMaskByEthName(String ethName, String newSubnetMask) {
@@ -170,6 +173,8 @@ class RouterNotifier extends DeviceNotifier<Router> {
       Eth.eth2 => state.copyWith(eth2SubnetMask: newSubnetMask),
       Eth.eth3 => state.copyWith(eth3SubnetMask: newSubnetMask),
     };
+
+    addInfoLog(state.id, 'Update ${eth.name} subnet mask to $newSubnetMask');
   }
 
   void updateConIdByEthName(String ethName, String newConId) {
@@ -181,6 +186,11 @@ class RouterNotifier extends DeviceNotifier<Router> {
       Eth.eth2 => state.copyWith(eth2conId: newConId),
       Eth.eth3 => state.copyWith(eth3conId: newConId),
     };
+
+    addInfoLog(
+      state.id,
+      '${eth.name} connected to connection "${connectionNotifier(newConId).state.name}"',
+    );
   }
 
   void removeConIdByConId(String conId) {
@@ -193,6 +203,11 @@ class RouterNotifier extends DeviceNotifier<Router> {
     } else if (state.eth3conId == conId) {
       state = state.copyWith(eth3conId: '');
     }
+
+    addInfoLog(
+      state.id,
+      'Removed connection "${connectionNotifier(conId).state.name}"',
+    );
   }
 
   void addStaticRoute({required String networkId, required String interface_}) {
@@ -206,6 +221,11 @@ class RouterNotifier extends DeviceNotifier<Router> {
     };
 
     state = state.copyWith(routingTable: newRoutingTable);
+
+    addInfoLog(
+      state.id,
+      'Static Route add, networkId: $networkId , interface: $interface_',
+    );
   }
 
   void updateOrAddRoutingEntry({
@@ -256,6 +276,8 @@ class RouterNotifier extends DeviceNotifier<Router> {
     newRoutingTable.remove(networkId);
 
     state = state.copyWith(routingTable: newRoutingTable);
+
+    addInfoLog(state.id, 'networkId $networkId removed from the routing table');
   }
 
   void _updateArpTable(String ipAddress, String macAddress) {
@@ -389,6 +411,12 @@ class RouterNotifier extends DeviceNotifier<Router> {
       ref
           .read(routerPendingArpReqProvider(state.id).notifier)
           .addPendingRequest(arpTargetIp, ref.read(simClockProvider));
+
+      if (connectionId.isEmpty) {
+        //* message will be dropped because no connection for arpRqst
+        sendMessageToConnection(connectionId, messageId, state.id);
+        return;
+      }
 
       _sendArpRqst(arpTargetIp, connectionId);
       _routerQ.add({'messageId': messageId, 'fromConId': fromConId});
@@ -556,7 +584,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
     messageNotifier(message.id).updatePosition(state.posX, state.posY);
     messageNotifier(message.id).updateCurrentPlaceId(state.id);
 
-    addInfoLog(message.id, 'Is at Router "${state.name}"');
+    addInfoLog(message.id, 'Is at router "${state.name}"');
 
     final newArpLayer = {
       MessageKey.operation.name: OperationType.reply.name,
@@ -610,7 +638,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
       case OperationType.request:
         if (targetIp == state.conIdToIpAddrMap[fromConId]) {
           addSystemSuccessLog(
-            '"${messageNotifier(messageId).state.name}" successfully arrive at Router "${state.name}"',
+            '"${messageNotifier(messageId).state.name}" successfully arrive at router "${state.name}"',
           );
 
           addSuccessLog(
@@ -631,9 +659,14 @@ class RouterNotifier extends DeviceNotifier<Router> {
             fromConId,
           );
         } else {
-          addInfoLog(
+          addErrorLog(
             messageId,
             'Dropped, reason: ARP Request is not for Router "${state.name}"',
+          );
+
+          addErrorLog(
+            state.id,
+            'Drop "${messageNotifier(messageId).state.name}", reason: not recipient of the ARP Request',
           );
 
           messageNotifier(messageId).dropMessage();

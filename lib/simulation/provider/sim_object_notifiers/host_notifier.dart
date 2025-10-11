@@ -334,7 +334,7 @@ class HostNotifier extends DeviceNotifier<Host> {
           .addPendingRequest(lookupIp, ref.read(simClockProvider));
 
       if (state.connectionId.isEmpty) {
-        //* message will be dropped
+        //* message will be dropped because no connection for arpRqst
         sendMessageToConnection(state.connectionId, messageId, state.id);
         return;
       }
