@@ -31,29 +31,9 @@ class ModuleCompletionButton extends StatelessWidget {
             return const SizedBox.shrink();
           }
 
-          // Check if quiz has been passed
+          // Hide button if quiz hasn't been passed
           if (!quizController!.hasPassed()) {
-            return Center(
-              child: Column(
-                children: [
-                  const Icon(
-                    Icons.warning_amber_rounded,
-                    color: Colors.orange,
-                    size: 24,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'You need to score at least ${ModuleQuizController.requiredScore}% to complete this module',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: cs.onSurfaceVariant,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ],
-              ),
-            );
+            return const SizedBox.shrink();
           }
 
           return _buildButton(cs);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../quiz/controllers/quiz_controller.dart';
 import 'quiz_progress_card.dart';
-import 'quiz_result_card.dart';
+import 'quiz_result_bottom_sheet.dart';
 
 class SubmitQuizButton extends StatelessWidget {
   final ModuleQuizController quizController;
@@ -24,6 +24,7 @@ class SubmitQuizButton extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Progress card (always show when not submitted)
             if (!isSubmitted) ...[
               QuizProgressCard(
                 answeredCount: answeredCount,
@@ -33,7 +34,7 @@ class SubmitQuizButton extends StatelessWidget {
               const SizedBox(height: 16),
             ],
 
-            // Submit button OR results
+            // Submit button
             if (!isSubmitted)
               ElevatedButton.icon(
                 onPressed: allAnswered && !isLoading
@@ -66,9 +67,17 @@ class SubmitQuizButton extends StatelessWidget {
                 ),
               )
             else
-              QuizResultsCard(
-                quizController: quizController,
-                onRetry: () => _handleRetry(context),
+              // Show "View Results" button if already submitted
+              OutlinedButton.icon(
+                onPressed: () => _showResults(context),
+                icon: const Icon(Icons.assessment),
+                label: const Text('View Results'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
               ),
 
             if (!isSubmitted && !allAnswered) ...[
@@ -99,8 +108,12 @@ class SubmitQuizButton extends StatelessWidget {
             content: const Text('Quiz submitted successfully!'),
             backgroundColor: Theme.of(context).colorScheme.primary,
             behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 2),
           ),
         );
+
+        // Show results in bottom sheet
+        await _showResults(context);
       }
     } catch (e) {
       if (context.mounted) {
@@ -113,6 +126,14 @@ class SubmitQuizButton extends StatelessWidget {
         );
       }
     }
+  }
+
+  Future<void> _showResults(BuildContext context) async {
+    await QuizResultBottomSheet.show(
+      context,
+      quizController: quizController,
+      onRetry: () => _handleRetry(context),
+    );
   }
 
   void _handleRetry(BuildContext context) {
