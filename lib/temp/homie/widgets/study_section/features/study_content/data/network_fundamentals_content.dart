@@ -17,12 +17,28 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         type: ContentType.reading,
       ),
       ContentModule(
+        id: 'nf_quiz',
+        title: 'Network Fundamentals Quiz',
+        description: '',
+        icon: Icons.quiz,
+        duration: 10,
+        type: ContentType.quiz,
+      ),
+      ContentModule(
         id: 'nf_host',
         title: 'Host',
         description: '',
         icon: Icons.computer, // HugeIcons.strokeRoundedComputerActivity,
         duration: 25,
         type: ContentType.reading,
+      ),
+      ContentModule(
+        id: 'nf_host_quiz',
+        title: 'Host Concepts Quiz',
+        description: 'Test your understanding of network hosts',
+        icon: Icons.quiz,
+        duration: 10,
+        type: ContentType.quiz,
       ),
       ContentModule(
         id: 'nf_internet',
@@ -57,11 +73,12 @@ class NetworkFundamentalsContent extends BaseTopicContent {
         type: ContentType.lab,
       ),
       ContentModule(
-        id: 'nf_quiz',
-        title: 'Network Fundamentals Quiz',
-        description: '',
+        id: 'nf_topic_quiz',
+        title: 'Network Fundamentals Topic Quiz',
+        description:
+            'Final assessment covering all network fundamentals concepts',
         icon: Icons.quiz,
-        duration: 10,
+        duration: 15,
         type: ContentType.quiz,
       ),
     ];

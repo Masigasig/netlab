@@ -7,6 +7,8 @@ import '../data/network_fundamentals/network_network.dart';
 import '../data/network_fundamentals/network_ip.dart';
 import '../data/network_fundamentals/network_osi.dart';
 import '../data/network_fundamentals/network_fundamentals_quiz.dart';
+import '../data/network_fundamentals_topic_quiz.dart';
+import '../data/network_fundamentals/host_quiz.dart';
 
 import '../data/switching_routing/intro_switching.dart';
 import '../data/switching_routing/mac_address_table.dart';
@@ -50,6 +52,8 @@ class ContentRegistry {
     'nf_ip': NetworkIPContent(),
     'nf_osi': NetworkOSIContent(),
     'nf_quiz': NFQuiz(),
+    'nf_topic_quiz': NetworkFundamentalsTopicQuiz(),
+    'nf_host_quiz': HostQuiz(),
 
     // switching and routing
     'sr_intro_switching': SwitchingIntroContent(),
