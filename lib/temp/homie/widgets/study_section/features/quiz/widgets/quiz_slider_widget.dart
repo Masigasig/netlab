@@ -19,12 +19,18 @@ class QuizSliderWidget extends StatefulWidget {
 }
 
 class _QuizSliderWidgetState extends State<QuizSliderWidget> {
-  final PageController _pageController = PageController();
+  late final PageController _pageController;
   int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
+    _initializeQuiz();
+    _setupControllerListener();
+  }
+
+  void _initializeQuiz() {
+    _pageController = PageController();
     // Register all questions with the controller
     for (int i = 0; i < widget.quizDataList.length; i++) {
       widget.quizController.registerQuestion(
@@ -34,8 +40,31 @@ class _QuizSliderWidgetState extends State<QuizSliderWidget> {
     }
   }
 
+  void _setupControllerListener() {
+    widget.quizController.addListener(_handleQuizStateChange);
+  }
+
+  void _handleQuizStateChange() {
+    if (!widget.quizController.isSubmitted &&
+        widget.quizController.answeredQuestions == 0) {
+      resetToFirstQuestion();
+    }
+  }
+
+  void resetToFirstQuestion() {
+    _pageController.animateToPage(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+    setState(() {
+      _currentPage = 0;
+    });
+  }
+
   @override
   void dispose() {
+    widget.quizController.removeListener(_handleQuizStateChange);
     _pageController.dispose();
     super.dispose();
   }

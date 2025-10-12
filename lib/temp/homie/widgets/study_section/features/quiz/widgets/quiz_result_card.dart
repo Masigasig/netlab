@@ -100,12 +100,14 @@ class QuizResultsCard extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 24),
-        OutlinedButton.icon(
-          onPressed: onRetry,
-          icon: const Icon(Icons.refresh),
-          label: const Text('Try Again'),
-        ),
+        if (!quizController.hasPassed()) ...[
+          const SizedBox(height: 24),
+          OutlinedButton.icon(
+            onPressed: onRetry,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Try Again'),
+          ),
+        ],
       ],
     );
   }

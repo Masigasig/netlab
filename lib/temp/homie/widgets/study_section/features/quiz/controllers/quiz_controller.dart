@@ -3,7 +3,7 @@ import '../../../core/services/progress_service.dart';
 
 /// Controller for managing all quiz answers in a module
 class ModuleQuizController extends ChangeNotifier {
-  static const int requiredScore = 80;
+  static const int requiredScore = 75;
 
   final String topicId;
   final String moduleId;
@@ -148,8 +148,20 @@ class ModuleQuizController extends ChangeNotifier {
     return stats['passed'] as bool;
   }
 
-  /// Reset the quiz state (allow retrying)
+  /// Reset the quiz state and randomize questions (allow retrying)
   void reset() {
+    if (hasPassed()) return; // Don't allow reset if already passed
+
+    // Randomize the order of questions
+    final indices = _correctAnswers.keys.toList()..shuffle();
+    final newCorrectAnswers = <int, int>{};
+
+    for (int i = 0; i < indices.length; i++) {
+      newCorrectAnswers[i] = _correctAnswers[indices[i]]!;
+    }
+
+    _correctAnswers.clear();
+    _correctAnswers.addAll(newCorrectAnswers);
     _answers.clear();
     _isSubmitted = false;
     _isLoading = false;
