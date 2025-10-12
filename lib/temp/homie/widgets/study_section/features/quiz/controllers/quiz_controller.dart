@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/services/progress_service.dart';
 
 /// Controller for managing all quiz answers in a module
@@ -7,12 +8,9 @@ class ModuleQuizController extends ChangeNotifier {
 
   final String topicId;
   final String moduleId;
-
-  // Map of questionIndex -> selectedAnswerIndex
   final Map<int, int> _answers = {};
-
-  // Map of questionIndex -> correctAnswerIndex
   final Map<int, int> _correctAnswers = {};
+  final Map<int, bool> _cachedResults = {};
 
   // Track submission state
   bool _isSubmitted = false;
@@ -57,10 +55,18 @@ class ModuleQuizController extends ChangeNotifier {
   bool? isAnswerCorrect(int questionIndex) {
     if (!_isSubmitted) return null;
 
+    // First check cached results from storage
+    if (_cachedResults.containsKey(questionIndex)) {
+      return _cachedResults[questionIndex];
+    }
+
+    // Otherwise calculate from correct answers if available
     final selectedAnswer = _answers[questionIndex];
     final correctAnswer = _correctAnswers[questionIndex];
 
     if (selectedAnswer == null) return false;
+    if (correctAnswer == null) return null; // Question not registered yet
+
     return selectedAnswer == correctAnswer;
   }
 
@@ -85,6 +91,9 @@ class ModuleQuizController extends ChangeNotifier {
         final selectedAnswer = entry.value;
         final correctAnswer = _correctAnswers[questionIndex];
         final isCorrect = selectedAnswer == correctAnswer;
+
+        // Cache the result
+        _cachedResults[questionIndex] = isCorrect;
 
         // Save whether correct/incorrect
         await ProgressService.saveQuizResult(
@@ -120,17 +129,27 @@ class ModuleQuizController extends ChangeNotifier {
     }
 
     int correct = 0;
-    for (final entry in _answers.entries) {
-      final questionIndex = entry.key;
-      final selectedAnswer = entry.value;
-      final correctAnswer = _correctAnswers[questionIndex];
+    final total = _answers.length;
 
-      if (selectedAnswer == correctAnswer) {
-        correct++;
+    // Calculate correct answers using cached results
+    for (final questionIndex in _answers.keys) {
+      // Use cached results if available (from storage)
+      if (_cachedResults.containsKey(questionIndex)) {
+        if (_cachedResults[questionIndex] == true) {
+          correct++;
+        }
+      }
+      // Otherwise calculate from correct answers if registered
+      else if (_correctAnswers.containsKey(questionIndex)) {
+        final selectedAnswer = _answers[questionIndex];
+        final correctAnswer = _correctAnswers[questionIndex];
+
+        if (selectedAnswer == correctAnswer) {
+          correct++;
+        }
       }
     }
 
-    final total = _answers.length;
     final percentage = total > 0 ? ((correct / total) * 100).round() : 0;
     final passed = percentage >= requiredScore;
 
@@ -152,50 +171,64 @@ class ModuleQuizController extends ChangeNotifier {
   void reset() {
     if (hasPassed()) return;
     _answers.clear();
+    _cachedResults.clear();
     _isSubmitted = false;
     _isLoading = false;
     notifyListeners();
   }
 
-  /// Load previous answers from progress service
   Future<void> loadPreviousAnswers() async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      // Wait a bit for all questions to register first
-      await Future.delayed(const Duration(milliseconds: 100));
+      final prefs = await SharedPreferences.getInstance();
 
-      // Check if any quiz results exist and restore them
+      // Load all saved answers for this module
+      final answerPrefix = 'quiz_answer_${topicId}_${moduleId}_';
+      final resultPrefix = 'quiz_score_${topicId}_${moduleId}_';
+
       bool hasAnyResults = false;
 
-      // Check each registered question
-      for (final entry in _correctAnswers.entries) {
-        final questionIndex = entry.key;
+      // Find all answer keys for this module
+      final answerKeys = prefs
+          .getKeys()
+          .where((key) => key.startsWith(answerPrefix))
+          .toList();
 
-        // Check if this question was answered
-        final result = await ProgressService.getQuizResult(
-          topicId,
-          moduleId,
-          questionIndex,
-        );
+      debugPrint(
+        'Loading quiz answers for $moduleId: Found ${answerKeys.length} saved answers',
+      );
 
-        // Get the selected answer
-        final selectedAnswer = await ProgressService.getQuizAnswer(
-          topicId,
-          moduleId,
-          questionIndex,
-        );
+      for (final key in answerKeys) {
+        // Extract question index from key
+        final questionIndexStr = key.substring(answerPrefix.length);
+        final questionIndex = int.tryParse(questionIndexStr);
 
-        if (result != null && selectedAnswer != null) {
+        if (questionIndex == null) continue;
+
+        // Get the saved answer
+        final selectedAnswer = prefs.getInt(key);
+
+        // Check if there's a result for this question
+        final resultKey = '$resultPrefix$questionIndex';
+        final result = prefs.getBool(resultKey);
+
+        if (selectedAnswer != null && result != null) {
           hasAnyResults = true;
-          // Restore the selected answer
           _answers[questionIndex] = selectedAnswer;
+          _cachedResults[questionIndex] = result; // Cache the result!
+          debugPrint(
+            'Restored Q$questionIndex: answer=$selectedAnswer, correct=$result',
+          );
         }
       }
 
       if (hasAnyResults) {
         _isSubmitted = true;
+        debugPrint(
+          'Quiz marked as submitted with ${_answers.length} answers, ${_cachedResults.values.where((r) => r).length} correct',
+        );
       }
     } catch (e) {
       debugPrint('Error loading previous answers: $e');
