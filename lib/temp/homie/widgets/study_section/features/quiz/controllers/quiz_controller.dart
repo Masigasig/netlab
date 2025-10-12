@@ -150,18 +150,7 @@ class ModuleQuizController extends ChangeNotifier {
 
   /// Reset the quiz state and randomize questions (allow retrying)
   void reset() {
-    if (hasPassed()) return; // Don't allow reset if already passed
-
-    // Randomize the order of questions
-    final indices = _correctAnswers.keys.toList()..shuffle();
-    final newCorrectAnswers = <int, int>{};
-
-    for (int i = 0; i < indices.length; i++) {
-      newCorrectAnswers[i] = _correctAnswers[indices[i]]!;
-    }
-
-    _correctAnswers.clear();
-    _correctAnswers.addAll(newCorrectAnswers);
+    if (hasPassed()) return;
     _answers.clear();
     _isSubmitted = false;
     _isLoading = false;
