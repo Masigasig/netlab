@@ -101,14 +101,14 @@ class _NavItemState extends State<NavItem> {
         ? colorScheme.secondary
         : colorScheme.onSurface;
 
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+        child: MouseRegion(
+          onEnter: (_) => setState(() => _isHovered = true),
+          onExit: (_) => setState(() => _isHovered = false),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [HugeIcon(icon: widget.icon, color: iconColor)],
