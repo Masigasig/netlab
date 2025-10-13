@@ -29,38 +29,42 @@ class SideBar extends StatelessWidget {
     final String currentLocation = GoRouterState.of(context).uri.path;
 
     return Container(
-      width: 70,
+      width: 55,
       color: Theme.of(context).colorScheme.surfaceContainerLow,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Column(
-          children: [
-            NavItem(
-              icon: HugeIcons.strokeRoundedDashboardSquare03,
-              label: 'Dashboard',
-              isActive: currentLocation == '/dashboard',
-              onTap: () => context.go('/dashboard'),
-            ),
-            NavItem(
-              icon: HugeIcons.strokeRounded3DView,
-              label: 'Simulation',
-              isActive: currentLocation == '/home',
-              onTap: () => context.go('/home'),
-            ),
-            NavItem(
-              icon: HugeIcons.strokeRoundedBookOpen02,
-              label: 'Study',
-              isActive: currentLocation == '/study',
-              onTap: () => context.go('/study'),
-            ),
-            NavItem(
-              icon: HugeIcons.strokeRoundedSettings01,
-              label: 'Settings',
-              isActive: currentLocation == '/settings',
-              onTap: () => context.go('/settings'),
-            ),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          NavItem(
+            icon: HugeIcons.strokeRoundedDashboardSquare03,
+            isActive: currentLocation == '/dashboard',
+            onTap: () => context.go('/dashboard'),
+          ),
+          const SizedBox(height: 16),
+          //*TODO: Tools Screen
+          NavItem(
+            icon: HugeIcons.strokeRoundedCalculator01,
+            isActive: false,
+            onTap: () => {},
+          ),
+          const SizedBox(height: 16),
+          NavItem(
+            icon: HugeIcons.strokeRounded3DView,
+            isActive: currentLocation == '/home',
+            onTap: () => context.go('/home'),
+          ),
+          const SizedBox(height: 16),
+          NavItem(
+            icon: HugeIcons.strokeRoundedBookOpen02,
+            isActive: currentLocation == '/study',
+            onTap: () => context.go('/study'),
+          ),
+          const SizedBox(height: 16),
+          NavItem(
+            icon: HugeIcons.strokeRoundedSettings01,
+            isActive: currentLocation == '/settings',
+            onTap: () => context.go('/settings'),
+          ),
+        ],
       ),
     );
   }
@@ -68,14 +72,12 @@ class SideBar extends StatelessWidget {
 
 class NavItem extends StatefulWidget {
   final List<List<dynamic>> icon;
-  final String label;
   final bool isActive;
   final VoidCallback onTap;
 
   const NavItem({
     super.key,
     required this.icon,
-    required this.label,
     required this.isActive,
     required this.onTap,
   });
@@ -85,15 +87,23 @@ class NavItem extends StatefulWidget {
 }
 
 class _NavItemState extends State<NavItem> {
-  //* TODO: Implement hover effect
-  // bool _isHovered = false;
+  bool _isHovered = false;
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('NavItem Widget rebuilt: ${widget.label}');
+    debugPrint('NavItem Widget rebuilt:');
+
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    final Color iconColor = widget.isActive
+        ? colorScheme.secondary
+        : _isHovered
+        ? colorScheme.secondary
+        : colorScheme.onSurface;
+
     return MouseRegion(
-      // onEnter: (_) => setState(() => _isHovered = true),
-      // onExit: (_) => setState(() => _isHovered = false),
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
       child: GestureDetector(
         onTap: widget.onTap,
         child: Container(
@@ -101,27 +111,7 @@ class _NavItemState extends State<NavItem> {
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              widget.isActive
-                  ? HugeIcon(
-                      icon: widget.icon,
-                      color: Theme.of(context).colorScheme.secondary,
-                    )
-                  : HugeIcon(
-                      icon: widget.icon,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-
-              Text(
-                widget.label,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: widget.isActive
-                      ? Theme.of(context).colorScheme.secondary
-                      : Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-            ],
+            children: [HugeIcon(icon: widget.icon, color: iconColor)],
           ),
         ),
       ),
