@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:netlab/core/components/app_theme.dart';
+import 'package:netlab/core/themes/app_theme.dart';
 
 class SettingScreen extends ConsumerWidget {
   const SettingScreen({super.key});

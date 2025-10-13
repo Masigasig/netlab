@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../core/models/study_topic.dart';
 import '../core/services/progress_service.dart';
 import '../features/study_content/services/module_registry.dart';
-import 'package:netlab/core/components/app_theme.dart';
+import 'package:netlab/core/themes/app_theme.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
 class TopicCard extends StatefulWidget {

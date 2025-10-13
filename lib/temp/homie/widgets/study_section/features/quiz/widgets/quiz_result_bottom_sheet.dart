@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:netlab/core/components/app_theme.dart';
+import 'package:netlab/core/themes/app_theme.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 import '../../quiz/controllers/quiz_controller.dart';
 

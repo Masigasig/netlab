@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/models/quiz_data.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
-import 'package:netlab/core/components/app_theme.dart';
+import 'package:netlab/core/themes/app_theme.dart';
 import '../controllers/quiz_controller.dart';
 
 class QuizWidget extends StatefulWidget {

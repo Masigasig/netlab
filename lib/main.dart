@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/core/routing/go_router.dart';
-import 'package:netlab/core/components/app_theme.dart';
+import 'package:netlab/core/themes/app_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

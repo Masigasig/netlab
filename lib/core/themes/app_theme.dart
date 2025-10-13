@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app_color.dart';
-import 'button_style.dart';
+import '../components/button_style.dart';
 
 export 'app_color.dart';
-export 'button_style.dart';
-export 'app_styles.dart';
+export '../components/button_style.dart';
+export '../components/app_styles.dart';
 
 class AppThemes {
   static ThemeData get lightTheme => ThemeData(

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:netlab/temp/homie/widgets/study_section/core/models/study_topic.dart';
 import 'package:netlab/temp/homie/widgets/study_section/widgets/topic_card.dart';
-import 'package:netlab/core/components/app_theme.dart';
+import 'package:netlab/core/themes/app_theme.dart';
 import 'package:netlab/temp/homie/widgets/study_section/core/services/progress_service.dart';
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/module_registry.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';

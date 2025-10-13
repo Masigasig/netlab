@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import '../models/dashboard_stats.dart';
-import 'package:netlab/core/components/app_theme.dart';
+import 'package:netlab/core/themes/app_theme.dart';
 import 'stat_card.dart';
 
 class StatsGrid extends StatelessWidget {
