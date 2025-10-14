@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:netlab/tools/ip_converter.dart';
 import 'package:netlab/tools/ip_subnet_analyzer.dart';
 
 class ToolScreen extends StatelessWidget {
@@ -23,6 +25,10 @@ class ToolScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    SizedBox(height: 24),
+
+                    IpConverter(),
+
                     SizedBox(height: 24),
 
                     IpSubnetAnalyzer(),
