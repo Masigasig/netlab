@@ -548,17 +548,13 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
                         ),
                       );
                     },
-              icon: HugeIcon(
+              icon: const HugeIcon(
                 icon: HugeIcons.strokeRoundedPropertyAdd,
-                color: Theme.of(context).colorScheme.onPrimary,
                 size: 16,
               ),
-              label: Text(
+              label: const Text(
                 'Add Static Route',
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
+                style: TextStyle(fontSize: 10),
               ),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(

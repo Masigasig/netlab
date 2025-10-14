@@ -13,6 +13,12 @@ class AppButtonStyles {
         ),
       );
 
+  static TextButtonThemeData get lightTextButtonTheme => TextButtonThemeData(
+    style: TextButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    ),
+  );
+
   static OutlinedButtonThemeData get lightOutlinedButtonTheme =>
       OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
@@ -26,13 +32,6 @@ class AppButtonStyles {
           ),
         ),
       );
-
-  static TextButtonThemeData get lightTextButtonTheme => TextButtonThemeData(
-    style: TextButton.styleFrom(
-      foregroundColor: AppColors.primaryBlue,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-    ),
-  );
 
   static FilledButtonThemeData get lightFilledButtonTheme =>
       FilledButtonThemeData(
@@ -49,11 +48,17 @@ class AppButtonStyles {
       ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.lightBlue,
-          foregroundColor: AppColors.deepNavy,
+          foregroundColor: AppColors.textLight,
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       );
+
+  static TextButtonThemeData get darkTextButtonTheme => TextButtonThemeData(
+    style: TextButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    ),
+  );
 
   static OutlinedButtonThemeData get darkOutlinedButtonTheme =>
       OutlinedButtonThemeData(
@@ -65,13 +70,6 @@ class AppButtonStyles {
           ),
         ),
       );
-
-  static TextButtonThemeData get darkTextButtonTheme => TextButtonThemeData(
-    style: TextButton.styleFrom(
-      foregroundColor: AppColors.lightBlue,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-    ),
-  );
 
   static FilledButtonThemeData get darkFilledButtonTheme =>
       FilledButtonThemeData(

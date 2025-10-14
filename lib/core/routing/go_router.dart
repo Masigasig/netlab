@@ -4,8 +4,10 @@ import 'package:flutter/material.dart'
 
 import 'package:netlab/core/components/app_layout.dart' show AppLayout;
 
+import 'package:netlab/tools/tool_screen.dart' show ToolScreen;
 import 'package:netlab/home/home_screen.dart' show HomeScreen;
 import 'package:netlab/settings/setting_screen.dart' show SettingScreen;
+
 import 'package:netlab/simulation/simulation_screen.dart' show SimulationScreen;
 import 'package:netlab/temp/homie/widgets/study_section/widgets/layouts/study.dart'
     show StudyScreen;
@@ -33,10 +35,11 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class Routes {
   // Base paths
-  static const home = '/home';
-  static const settings = '/settings';
-  static const study = '/study';
   static const dashboard = '/dashboard';
+  static const tools = '/tools';
+  static const home = '/home';
+  static const study = '/study';
+  static const settings = '/settings';
 
   // Relative paths
   static const simulationRelative = 'simulation';
@@ -68,6 +71,14 @@ final router = GoRouter(
       },
       routes: [
         GoRoute(
+          path: Routes.dashboard,
+          builder: (context, state) => const DashboardScreen(),
+        ),
+        GoRoute(
+          path: Routes.tools,
+          builder: (context, state) => const ToolScreen(),
+        ),
+        GoRoute(
           path: Routes.home,
           builder: (context, state) => const HomeScreen(),
           routes: [
@@ -78,10 +89,6 @@ final router = GoRouter(
               builder: (context, state) => const SimulationScreen(),
             ),
           ],
-        ),
-        GoRoute(
-          path: Routes.settings,
-          builder: (context, state) => const SettingScreen(),
         ),
         GoRoute(
           path: Routes.study,
@@ -130,8 +137,8 @@ final router = GoRouter(
           ],
         ),
         GoRoute(
-          path: Routes.dashboard,
-          builder: (context, state) => const DashboardScreen(),
+          path: Routes.settings,
+          builder: (context, state) => const SettingScreen(),
         ),
       ],
     ),

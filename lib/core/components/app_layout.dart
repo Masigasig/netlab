@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
+
+import 'package:netlab/core/routing/go_router.dart';
 
 class AppLayout extends StatelessWidget {
   final Widget child;
@@ -36,33 +37,32 @@ class SideBar extends StatelessWidget {
         children: [
           NavItem(
             icon: HugeIcons.strokeRoundedDashboardSquare03,
-            isActive: currentLocation == '/dashboard',
-            onTap: () => context.go('/dashboard'),
+            isActive: currentLocation == Routes.dashboard,
+            onTap: () => context.go(Routes.dashboard),
           ),
           const SizedBox(height: 16),
-          //*TODO: Tools Screen
           NavItem(
             icon: HugeIcons.strokeRoundedCalculator01,
-            isActive: false,
-            onTap: () => {},
+            isActive: currentLocation == Routes.tools,
+            onTap: () => context.go(Routes.tools),
           ),
           const SizedBox(height: 16),
           NavItem(
             icon: HugeIcons.strokeRounded3DView,
-            isActive: currentLocation == '/home',
-            onTap: () => context.go('/home'),
+            isActive: currentLocation == Routes.home,
+            onTap: () => context.go(Routes.home),
           ),
           const SizedBox(height: 16),
           NavItem(
             icon: HugeIcons.strokeRoundedBookOpen02,
-            isActive: currentLocation == '/study',
-            onTap: () => context.go('/study'),
+            isActive: currentLocation == Routes.study,
+            onTap: () => context.go(Routes.study),
           ),
           const SizedBox(height: 16),
           NavItem(
             icon: HugeIcons.strokeRoundedSettings01,
-            isActive: currentLocation == '/settings',
-            onTap: () => context.go('/settings'),
+            isActive: currentLocation == Routes.settings,
+            onTap: () => context.go(Routes.settings),
           ),
         ],
       ),
