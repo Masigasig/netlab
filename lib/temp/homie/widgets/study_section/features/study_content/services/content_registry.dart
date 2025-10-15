@@ -50,6 +50,8 @@ import '../data/quizzes/chapter_quiz/host_to_host_chapter_quiz/address_resolutio
 import '../data/quizzes/chapter_quiz/host_to_host_chapter_quiz/packet_transmission_reception_quiz.dart';
 import '../data/quizzes/chapter_quiz/host_to_host_chapter_quiz/subsequent_communication_quiz.dart';
 
+import '../data/quizzes/topic_quiz/host_to_host_topic_quiz.dart';
+
 import '../data/switching_routing/intro_switching.dart';
 import '../data/switching_routing/mac_address_table.dart';
 import '../data/switching_routing/switch_operation.dart';
@@ -121,6 +123,9 @@ class ContentRegistry {
     'hh_arp_quiz': AddressResolutionProtocolQuiz(),
     'hh_packet_transmission_quiz': PacketTransmissionReceptionQuiz(),
     'hh_subsequent_communication_quiz': SubsequentCommunicationQuiz(),
+
+    // host to host topic quiz
+    'hh_topic_quiz': HostToHostTopicQuiz(),
 
     // switching and routing
     'sr_intro_switching': SwitchingIntroContent(),
