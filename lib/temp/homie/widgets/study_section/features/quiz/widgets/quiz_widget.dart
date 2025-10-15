@@ -24,11 +24,6 @@ class _QuizWidgetState extends State<QuizWidget> {
   @override
   void initState() {
     super.initState();
-    // Register this question with the controller
-    widget.quizController.registerQuestion(
-      widget.questionIndex,
-      widget.quizData.correctAnswerIndex,
-    );
   }
 
   @override

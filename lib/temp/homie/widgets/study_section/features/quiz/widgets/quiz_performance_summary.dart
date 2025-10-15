@@ -68,7 +68,7 @@ class QuizPerformanceSummary extends StatelessWidget {
                         Text(
                           '${performance.text} You answered ${stats['correct']} out of ${stats['total']} questions correctly',
                           style: TextStyle(
-                            color: cs.onSurfaceVariant,
+                            color: cs.onSurface.withAlpha(128),
                             fontSize: 14,
                           ),
                         ),

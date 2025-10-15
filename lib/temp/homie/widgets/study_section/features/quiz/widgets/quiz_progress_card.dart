@@ -46,7 +46,10 @@ class QuizProgressCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   '$answeredCount of $totalCount questions answered',
-                  style: TextStyle(fontSize: 12, color: cs.onSurfaceVariant),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: cs.onSurface.withAlpha(128),
+                  ),
                 ),
               ],
             ),
@@ -56,7 +59,7 @@ class QuizProgressCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: allAnswered ? cs.primary : cs.onSurfaceVariant,
+              color: allAnswered ? cs.primary : cs.onSurface.withAlpha(128),
             ),
           ),
         ],

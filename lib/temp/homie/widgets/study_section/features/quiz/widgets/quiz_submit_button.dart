@@ -87,7 +87,7 @@ class SubmitQuizButton extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 12,
-                  color: cs.onSurfaceVariant,
+                  color: cs.onSurface.withAlpha(128),
                   fontStyle: FontStyle.italic,
                 ),
               ),

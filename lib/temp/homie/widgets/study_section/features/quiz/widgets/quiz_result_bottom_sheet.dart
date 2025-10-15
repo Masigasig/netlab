@@ -105,7 +105,7 @@ class _QuizResultBottomSheetState extends State<QuizResultBottomSheet>
       subtitle = 'You\'re making great progress!';
       performanceIcon = Icons.thumb_up;
     } else {
-      performanceColor = cs.errorContainer;
+      performanceColor = cs.error;
       performanceText = 'Keep Practicing!';
       subtitle = 'Review the material and try again!';
       performanceIcon = Icons.school;
@@ -253,10 +253,10 @@ class _QuizResultBottomSheetState extends State<QuizResultBottomSheet>
                           width: double.infinity,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: cs.errorContainer,
+                            color: performanceColor.withAlpha(26),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: cs.error.withAlpha(128),
+                              color: performanceColor.withAlpha(77),
                               width: 1.5,
                             ),
                           ),
@@ -264,7 +264,7 @@ class _QuizResultBottomSheetState extends State<QuizResultBottomSheet>
                             children: [
                               Icon(
                                 Icons.info_outline,
-                                color: cs.error,
+                                color: performanceColor,
                                 size: 24,
                               ),
                               const SizedBox(width: 12),
@@ -272,7 +272,7 @@ class _QuizResultBottomSheetState extends State<QuizResultBottomSheet>
                                 child: Text(
                                   'Score ${ModuleQuizController.requiredScore}% or higher to unlock the next module',
                                   style: TextStyle(
-                                    color: cs.onErrorContainer,
+                                    color: performanceColor,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                   ),
