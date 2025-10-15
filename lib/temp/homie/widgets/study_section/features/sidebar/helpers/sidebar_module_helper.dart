@@ -8,7 +8,6 @@ class SidebarModuleHelper {
     required IconData moduleIcon,
   }) {
     if (isCompleted) return Icons.check_circle;
-    if (!isAccessible) return Icons.lock;
     return moduleIcon;
   }
 
@@ -25,7 +24,6 @@ class SidebarModuleHelper {
     required ColorScheme colorScheme,
   }) {
     if (isCompleted) return colorScheme.primary.withAlpha(51);
-    if (!isAccessible) return colorScheme.onSurfaceVariant;
     return typeColor;
   }
 
@@ -36,7 +34,6 @@ class SidebarModuleHelper {
     required ColorScheme colorScheme,
   }) {
     if (isCompleted) return colorScheme.primary;
-    if (!isAccessible) return colorScheme.onSurfaceVariant;
     return colorScheme.onPrimary;
   }
 
@@ -46,9 +43,6 @@ class SidebarModuleHelper {
     required bool isSelected,
     required ColorScheme colorScheme,
   }) {
-    if (!isAccessible) {
-      return colorScheme.onSurfaceVariant.withAlpha(153);
-    }
     return isSelected
         ? colorScheme.onSurface.withAlpha(230)
         : colorScheme.onSurface.withAlpha(204);
@@ -59,9 +53,7 @@ class SidebarModuleHelper {
     required bool isAccessible,
     required ColorScheme colorScheme,
   }) {
-    return isAccessible
-        ? colorScheme.onSurfaceVariant.withAlpha(153)
-        : colorScheme.onSurfaceVariant.withAlpha(128);
+    return colorScheme.onSurfaceVariant.withAlpha(153);
   }
 
   /// Get badge background color
@@ -70,7 +62,7 @@ class SidebarModuleHelper {
     required Color typeColor,
     required ColorScheme colorScheme,
   }) {
-    return isAccessible ? typeColor : colorScheme.onSurfaceVariant;
+    return typeColor;
   }
 
   /// Get badge text color
@@ -78,7 +70,7 @@ class SidebarModuleHelper {
     required bool isAccessible,
     required ColorScheme colorScheme,
   }) {
-    return isAccessible ? colorScheme.onPrimary : colorScheme.onSurfaceVariant;
+    return colorScheme.onPrimary;
   }
 
   /// Check if container should have a border
@@ -89,15 +81,5 @@ class SidebarModuleHelper {
     return isCompleted
         ? Border.all(color: colorScheme.primary, width: 1.5)
         : null;
-  }
-
-  /// Show locked module message
-  static void showLockedMessage(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Complete the previous module to unlock this one'),
-        duration: Duration(seconds: 2),
-      ),
-    );
   }
 }

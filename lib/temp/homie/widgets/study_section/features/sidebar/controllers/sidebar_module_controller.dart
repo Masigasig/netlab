@@ -9,7 +9,6 @@ class SidebarModuleController {
   final VoidCallback? onStateChanged;
 
   bool isCompleted = false;
-  bool isAccessible = false;
   bool isLoading = true;
 
   SidebarModuleController({
@@ -20,7 +19,7 @@ class SidebarModuleController {
     this.onStateChanged,
   });
 
-  // Load both completion and accessibility status
+  // Load completion status only
   Future<void> loadModuleStatus() async {
     isLoading = true;
     onStateChanged?.call();
@@ -28,30 +27,13 @@ class SidebarModuleController {
     // Check completion
     isCompleted = await ProgressService.isChapterCompleted(topicId, moduleId);
 
-    // Check accessibility using the shared controller
-    isAccessible = await ModuleProgressController.isModuleAccessible(
-      topicId: topicId,
-      modules: allModules,
-      moduleIndex: moduleIndex,
-    );
-
     isLoading = false;
     onStateChanged?.call();
   }
 
-  // Check if module can be tapped
-  bool canTap() => isAccessible;
-
   Future<void> refresh() async {
     // Check completion
     isCompleted = await ProgressService.isChapterCompleted(topicId, moduleId);
-
-    // Check accessibility using the shared controller
-    isAccessible = await ModuleProgressController.isModuleAccessible(
-      topicId: topicId,
-      modules: allModules,
-      moduleIndex: moduleIndex,
-    );
 
     onStateChanged?.call();
   }

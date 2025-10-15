@@ -246,41 +246,6 @@ class _QuizResultBottomSheetState extends State<QuizResultBottomSheet>
                         ),
                       ),
                       const SizedBox(height: 24),
-
-                      // Warning message if failed - shows passing score requirement
-                      if (!passed)
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: performanceColor.withAlpha(26),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: performanceColor.withAlpha(77),
-                              width: 1.5,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.info_outline,
-                                color: performanceColor,
-                                size: 24,
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Text(
-                                  'Score ${ModuleQuizController.requiredScore}% or higher to unlock the next module',
-                                  style: TextStyle(
-                                    color: performanceColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                     ],
                   ),
                 ),

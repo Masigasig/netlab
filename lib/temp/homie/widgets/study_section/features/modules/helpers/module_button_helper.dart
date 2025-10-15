@@ -52,7 +52,7 @@ class ModuleButtonHelper {
     required bool isLastModule,
   }) {
     if (!isLastModule && !isCompleted) {
-      return 'Complete this module to unlock the next one';
+      // return 'Complete this module to unlock the next one';
     }
     return null;
   }

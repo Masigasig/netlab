@@ -25,14 +25,12 @@ class TopicCard extends StatefulWidget {
 class _TopicCardState extends State<TopicCard> {
   double _progress = 0.0;
   int _totalChapters = 0;
-  bool _isAccessible = false;
 
   @override
   void initState() {
     super.initState();
     _setTotalChapters();
     _loadProgress();
-    _checkAccessibility();
   }
 
   @override
@@ -59,29 +57,6 @@ class _TopicCardState extends State<TopicCard> {
     }
   }
 
-  Future<void> _checkAccessibility() async {
-    final currentIndex = widget.orderedTopicIds.indexOf(widget.topic.id);
-    if (currentIndex == 0) {
-      // First topic is always accessible
-      setState(() => _isAccessible = true);
-      return;
-    }
-
-    final previousTopicId = widget.orderedTopicIds[currentIndex - 1];
-    final completedChapters = await ProgressService.getCompletedChaptersByTopic(
-      previousTopicId,
-    );
-
-    final totalChapters = ModuleRegistry.getLessonCount(previousTopicId);
-
-    if (mounted) {
-      setState(() {
-        _isAccessible =
-            totalChapters > 0 && completedChapters.length == totalChapters;
-      });
-    }
-  }
-
   @override
   void didUpdateWidget(TopicCard oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -89,191 +64,105 @@ class _TopicCardState extends State<TopicCard> {
         !listEquals(oldWidget.orderedTopicIds, widget.orderedTopicIds)) {
       _setTotalChapters();
       _loadProgress();
-      _checkAccessibility();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
-    return Stack(
-      children: [
-        Container(
-          margin: AppStyles.cardMargin,
-          padding: AppStyles.cardPadding,
-          decoration: AppStyles.surfaceCard(context),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      margin: AppStyles.cardMargin,
+      padding: AppStyles.cardPadding,
+      decoration: AppStyles.surfaceCard(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Lessons count + Progress
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Lessons count + Progress
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Lessons count chipbadge - now shows dynamic count
-                  AppStyles.chipBadge(
-                    context: context,
-                    text: '$_totalChapters lessons',
-                    icon: Icons.book_outlined,
-                  ),
-
-                  _buildProgressIndicator(),
-                ],
+              // Lessons count chipbadge - now shows dynamic count
+              AppStyles.chipBadge(
+                context: context,
+                text: '$_totalChapters lessons',
+                icon: Icons.book_outlined,
               ),
 
-              const SizedBox(height: 20),
+              _buildProgressIndicator(),
+            ],
+          ),
 
-              // Title
-              Text(
-                widget.topic.title,
-                style: AppTextStyles.forSurface(
-                  AppTextStyles.headerMedium,
-                  context,
-                ),
-              ),
+          const SizedBox(height: 20),
 
-              const SizedBox(height: 8),
+          // Title
+          Text(
+            widget.topic.title,
+            style: AppTextStyles.forSurface(
+              AppTextStyles.headerMedium,
+              context,
+            ),
+          ),
 
-              // Subtitle
-              Text(
-                widget.topic.subtitle,
-                style: AppTextStyles.withOpacity(
-                  AppTextStyles.forSurface(AppTextStyles.bodyMedium, context),
-                  0.7,
-                ),
-              ),
+          const SizedBox(height: 8),
 
-              const SizedBox(height: 16),
+          // Subtitle
+          Text(
+            widget.topic.subtitle,
+            style: AppTextStyles.withOpacity(
+              AppTextStyles.forSurface(AppTextStyles.bodyMedium, context),
+              0.7,
+            ),
+          ),
 
-              // Description
-              Text(
-                widget.topic.description,
-                style: AppTextStyles.withOpacity(
-                  AppTextStyles.forSurface(AppTextStyles.bodySmall, context),
-                  0.5,
-                ),
-              ),
+          const SizedBox(height: 16),
 
-              const SizedBox(height: 20),
+          // Description
+          Text(
+            widget.topic.description,
+            style: AppTextStyles.withOpacity(
+              AppTextStyles.forSurface(AppTextStyles.bodySmall, context),
+              0.5,
+            ),
+          ),
 
-              // Metadata row
-              Text(
-                widget.topic.readTime,
-                style: AppTextStyles.withOpacity(
-                  AppTextStyles.forSurface(
-                    AppTextStyles.subtitleSmall,
-                    context,
-                  ),
-                  0.5,
-                ),
-              ),
+          const SizedBox(height: 20),
 
-              const SizedBox(height: 24),
+          // Metadata row
+          Text(
+            widget.topic.readTime,
+            style: AppTextStyles.withOpacity(
+              AppTextStyles.forSurface(AppTextStyles.subtitleSmall, context),
+              0.5,
+            ),
+          ),
 
-              // Start button (right aligned) with lock indicator
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  if (!_isAccessible) ...[
-                    Icon(
-                      Icons.lock,
-                      size: 16,
-                      color: cs.onSurfaceVariant.withAlpha(128),
-                    ),
-                    const SizedBox(width: 8),
-                  ],
-                  OutlinedButton(
-                    onPressed: _isAccessible
-                        ? widget.onTap
-                        : () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Complete the previous topic to unlock this one',
-                                ),
-                                duration: Duration(seconds: 2),
-                              ),
-                            );
-                          },
-                    style: AppButtonStyles.opacityButton(context).copyWith(
-                      shape: WidgetStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32),
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      _progress >= 1.0
-                          ? 'Review'
-                          : _progress > 0
-                          ? 'Continue'
-                          : 'Start',
-                      style: AppTextStyles.label,
+          const SizedBox(height: 24),
+
+          // Start button (right aligned)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              OutlinedButton(
+                onPressed: widget.onTap,
+                style: AppButtonStyles.opacityButton(context).copyWith(
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32),
                     ),
                   ),
-                ],
+                ),
+                child: Text(
+                  _progress >= 1.0
+                      ? 'Review'
+                      : _progress > 0
+                      ? 'Continue'
+                      : 'Start',
+                  style: AppTextStyles.label,
+                ),
               ),
             ],
           ),
-        ),
-
-        // Lock overlay for inaccessible topics
-        if (!_isAccessible)
-          Positioned.fill(
-            child: Container(
-              margin: AppStyles.cardMargin,
-              decoration: BoxDecoration(
-                color: cs.surface.withAlpha(210),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: cs.surfaceContainerHighest,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.lock,
-                        size: 48,
-                        color: cs.onSurfaceVariant,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Locked',
-                      style: AppTextStyles.forSurface(
-                        AppTextStyles.primaryCustom(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        context,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: Text(
-                        'Complete the previous topic to unlock',
-                        textAlign: TextAlign.center,
-                        style: AppTextStyles.withOpacity(
-                          AppTextStyles.forSurface(
-                            AppTextStyles.bodySmall,
-                            context,
-                          ),
-                          0.7,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 

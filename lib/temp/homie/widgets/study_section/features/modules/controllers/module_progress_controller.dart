@@ -86,38 +86,6 @@ class ModuleProgressController {
     onProgressChanged?.call();
   }
 
-  // Check if a module is accessible based on previous module completion
-  static Future<bool> isModuleAccessible({
-    required String topicId,
-    required List<dynamic> modules,
-    required int moduleIndex,
-  }) async {
-    // First module is always accessible
-    if (moduleIndex == 0) return true;
-
-    // Check if the previous module is completed
-    final previousModule = modules[moduleIndex - 1];
-    return await ProgressService.isChapterCompleted(topicId, previousModule.id);
-  }
-
-  // Get the next accessible module index
-  static Future<int?> getNextAccessibleModuleIndex({
-    required String topicId,
-    required List<dynamic> modules,
-    required int currentIndex,
-  }) async {
-    for (int i = currentIndex + 1; i < modules.length; i++) {
-      if (await isModuleAccessible(
-        topicId: topicId,
-        modules: modules,
-        moduleIndex: i,
-      )) {
-        return i;
-      }
-    }
-    return null;
-  }
-
   void dispose() {
     _isDisposed = true;
     stopTracking();

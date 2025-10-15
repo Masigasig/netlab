@@ -59,13 +59,9 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
   }
 
   void _handleTap() {
-    if (_controller.canTap()) {
-      widget.onTap();
-      // Refresh status after tap
-      _controller.refresh();
-    } else {
-      SidebarModuleHelper.showLockedMessage(context);
-    }
+    widget.onTap();
+    // Refresh status after tap
+    _controller.refresh();
   }
 
   @override
@@ -90,22 +86,7 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
               ? Border.all(color: cs.primary.withAlpha(51))
               : null,
         ),
-        child: Stack(
-          children: [
-            _buildModuleListTile(cs),
-
-            // Lock overlay for inaccessible modules
-            if (!_controller.isAccessible)
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: cs.surface.withAlpha(77),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-          ],
-        ),
+        child: _buildModuleListTile(cs),
       ),
       index: widget.index,
       staggerDelay: 80,
@@ -163,7 +144,7 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
         decoration: BoxDecoration(
           color: SidebarModuleHelper.getContainerColor(
             isCompleted: _controller.isCompleted,
-            isAccessible: _controller.isAccessible,
+            isAccessible: true, // Always accessible now
             typeColor: typeColor,
             colorScheme: cs,
           ),
@@ -176,12 +157,12 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
         child: Icon(
           SidebarModuleHelper.getModuleIcon(
             isCompleted: _controller.isCompleted,
-            isAccessible: _controller.isAccessible,
+            isAccessible: true,
             moduleIcon: widget.module.icon,
           ),
           color: SidebarModuleHelper.getIconColor(
             isCompleted: _controller.isCompleted,
-            isAccessible: _controller.isAccessible,
+            isAccessible: true,
             colorScheme: cs,
           ),
           size: SidebarModuleHelper.getIconSize(
@@ -202,31 +183,19 @@ class _SidebarModuleItemState extends State<SidebarModuleItem> {
         overflow: TextOverflow.ellipsis,
       ),
 
-      subtitle: Row(
-        children: [
-          Text(
-            '${widget.module.duration} min',
-            style: AppTextStyles.forSecondary(
-              AppTextStyles.secondaryCustom(fontSize: 11),
-              context,
-            ),
-          ),
-          if (!_controller.isAccessible) ...[
-            const SizedBox(width: 6),
-            Icon(
-              Icons.lock,
-              size: 10,
-              color: cs.onSurfaceVariant.withAlpha(128),
-            ),
-          ],
-        ],
+      subtitle: Text(
+        '${widget.module.duration} min',
+        style: AppTextStyles.forSecondary(
+          AppTextStyles.secondaryCustom(fontSize: 11),
+          context,
+        ),
       ),
 
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         decoration: BoxDecoration(
           color: SidebarModuleHelper.getBadgeColor(
-            isAccessible: _controller.isAccessible,
+            isAccessible: true,
             typeColor: typeColor,
             colorScheme: cs,
           ),
