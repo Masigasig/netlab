@@ -17,6 +17,15 @@ class HostToHostContent extends BaseTopicContent {
         duration: 2,
       ),
       ContentModule(
+        id: 'hh_host_overview_quiz',
+        title: 'Host-to-Host Communication Quiz',
+        description:
+            'Test your knowledge on host-to-host communication concepts.',
+        icon: Icons.quiz,
+        type: ContentType.quiz,
+        duration: 5,
+      ),
+      ContentModule(
         id: 'h2h_preparing',
         title: 'Preparing to Send Data',
         description:
@@ -24,6 +33,15 @@ class HostToHostContent extends BaseTopicContent {
         icon: Icons.send,
         type: ContentType.reading,
         duration: 2,
+      ),
+      ContentModule(
+        id: 'hh_preparing_quiz',
+        title: 'Preparing to Send Data Quiz',
+        description:
+            'Test your knowledge on how IP headers and MAC addresses work together for delivery.',
+        icon: Icons.quiz,
+        type: ContentType.quiz,
+        duration: 5,
       ),
       ContentModule(
         id: 'h2h_arp',
@@ -35,6 +53,15 @@ class HostToHostContent extends BaseTopicContent {
         duration: 3,
       ),
       ContentModule(
+        id: 'hh_arp_quiz',
+        title: 'Address Resolution Protocol (ARP) Quiz',
+        description:
+            'Test your knowledge on how ARP maps IP addresses to MAC addresses.',
+        icon: Icons.quiz,
+        type: ContentType.quiz,
+        duration: 5,
+      ),
+      ContentModule(
         id: 'h2h_packet_flow',
         title: 'Packet Transmission and Reception',
         description:
@@ -44,12 +71,30 @@ class HostToHostContent extends BaseTopicContent {
         duration: 3,
       ),
       ContentModule(
+        id: 'hh_packet_transmission_quiz',
+        title: 'Packet Transmission and Reception Quiz',
+        description:
+            'Test your knowledge on how packets are transmitted and received.',
+        icon: Icons.quiz,
+        type: ContentType.quiz,
+        duration: 5,
+      ),
+      ContentModule(
         id: 'h2h_efficiency',
         title: 'Subsequent Communication',
         description: 'How ARP caching speeds up communication between hosts.',
         icon: Icons.flash_on,
         type: ContentType.reading,
         duration: 2,
+      ),
+      ContentModule(
+        id: 'hh_subsequent_communication_quiz',
+        title: 'Subsequent Communication Quiz',
+        description:
+            'Test your knowledge on how ARP caching speeds up communication between hosts.',
+        icon: Icons.quiz,
+        type: ContentType.quiz,
+        duration: 5,
       ),
       ContentModule(
         id: 'h2h_summary',

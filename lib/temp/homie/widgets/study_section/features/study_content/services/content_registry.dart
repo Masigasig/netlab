@@ -44,6 +44,12 @@ import '../data/host_to_host/hth_efficiency.dart';
 import '../data/host_to_host/hth_summary.dart';
 import '../data/host_to_host/hth_quiz.dart';
 
+import '../data/quizzes/chapter_quiz/host_to_host_chapter_quiz/host_overview_quiz.dart';
+import '../data/quizzes/chapter_quiz/host_to_host_chapter_quiz/preparing_to_send_data_quiz.dart';
+import '../data/quizzes/chapter_quiz/host_to_host_chapter_quiz/address_resolution_protocol_quiz.dart';
+import '../data/quizzes/chapter_quiz/host_to_host_chapter_quiz/packet_transmission_reception_quiz.dart';
+import '../data/quizzes/chapter_quiz/host_to_host_chapter_quiz/subsequent_communication_quiz.dart';
+
 import '../data/switching_routing/intro_switching.dart';
 import '../data/switching_routing/mac_address_table.dart';
 import '../data/switching_routing/switch_operation.dart';
@@ -108,6 +114,13 @@ class ContentRegistry {
     'h2h_efficiency': HostToHostEfficiencyContent(),
     'h2h_summary': HostToHostSummaryContent(),
     'h2h_quiz': H2HQuiz(),
+
+    // host to host chapter quiz
+    'hh_host_overview_quiz': HostOverviewQuiz(),
+    'hh_preparing_quiz': PreparingToSendDataQuiz(),
+    'hh_arp_quiz': AddressResolutionProtocolQuiz(),
+    'hh_packet_transmission_quiz': PacketTransmissionReceptionQuiz(),
+    'hh_subsequent_communication_quiz': SubsequentCommunicationQuiz(),
 
     // switching and routing
     'sr_intro_switching': SwitchingIntroContent(),
