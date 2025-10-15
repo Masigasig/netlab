@@ -3,7 +3,7 @@ import '../../../../models/quiz_data.dart';
 
 class HostOverviewQuiz implements ModuleContent {
   @override
-  String get moduleId => 'hh_host_overview_quiz';
+  String get moduleId => 'h2h_host_overview_quiz';
 
   @override
   List<ContentBlock> getContent() {

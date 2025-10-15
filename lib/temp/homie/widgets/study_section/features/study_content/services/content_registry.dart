@@ -42,7 +42,6 @@ import '../data/host_to_host/hth_arp.dart';
 import '../data/host_to_host/hth_packet_flow.dart';
 import '../data/host_to_host/hth_efficiency.dart';
 import '../data/host_to_host/hth_summary.dart';
-import '../data/host_to_host/hth_quiz.dart';
 
 import '../data/quizzes/chapter_quiz/host_to_host_chapter_quiz/host_overview_quiz.dart';
 import '../data/quizzes/chapter_quiz/host_to_host_chapter_quiz/preparing_to_send_data_quiz.dart';
@@ -61,7 +60,17 @@ import '../data/switching_routing/host_router.dart';
 import '../data/switching_routing/router_connection.dart';
 import '../data/switching_routing/routing_table.dart';
 import '../data/switching_routing/routing_types.dart';
-import '../data/switching_routing/switching_routing_quiz.dart';
+
+import '../data/quizzes/chapter_quiz/switching_routing_chapter_quiz/intro_to_switching_quiz.dart';
+import '../data/quizzes/chapter_quiz/switching_routing_chapter_quiz/mac_address_table_quiz.dart';
+import '../data/quizzes/chapter_quiz/switching_routing_chapter_quiz/switch_operations_quiz.dart';
+import '../data/quizzes/chapter_quiz/switching_routing_chapter_quiz/introduction_to_routing_quiz.dart';
+import '../data/quizzes/chapter_quiz/switching_routing_chapter_quiz/router_vs_host_quiz.dart';
+import '../data/quizzes/chapter_quiz/switching_routing_chapter_quiz/router_network_connections_quiz.dart';
+import '../data/quizzes/chapter_quiz/switching_routing_chapter_quiz/routing_table_quiz.dart';
+import '../data/quizzes/chapter_quiz/switching_routing_chapter_quiz/routing_types_quiz.dart';
+
+import '../data/quizzes/topic_quiz/switching_routing_topic_quiz.dart';
 
 class ContentRegistry {
   static final Map<String, ModuleContent> _contents = {
@@ -115,17 +124,16 @@ class ContentRegistry {
     'h2h_packet_flow': HostToHostPacketFlowContent(),
     'h2h_efficiency': HostToHostEfficiencyContent(),
     'h2h_summary': HostToHostSummaryContent(),
-    'h2h_quiz': H2HQuiz(),
 
     // host to host chapter quiz
-    'hh_host_overview_quiz': HostOverviewQuiz(),
-    'hh_preparing_quiz': PreparingToSendDataQuiz(),
-    'hh_arp_quiz': AddressResolutionProtocolQuiz(),
-    'hh_packet_transmission_quiz': PacketTransmissionReceptionQuiz(),
-    'hh_subsequent_communication_quiz': SubsequentCommunicationQuiz(),
+    'h2h_host_overview_quiz': HostOverviewQuiz(),
+    'h2h_preparing_quiz': PreparingToSendDataQuiz(),
+    'h2h_arp_quiz': AddressResolutionProtocolQuiz(),
+    'h2h_packet_transmission_quiz': PacketTransmissionReceptionQuiz(),
+    'h2h_subsequent_communication_quiz': SubsequentCommunicationQuiz(),
 
     // host to host topic quiz
-    'hh_topic_quiz': HostToHostTopicQuiz(),
+    'h2h_topic_quiz': HostToHostTopicQuiz(),
 
     // switching and routing
     'sr_intro_switching': SwitchingIntroContent(),
@@ -137,7 +145,19 @@ class ContentRegistry {
     'sr_network_connections': RoutingNetworkConnectionsContent(),
     'sr_routing_table': RoutingTableContent(),
     'sr_routing_types': RoutingTypesContent(),
-    'sr_quiz': RoutingSwitchingQuiz(),
+
+    // switching and routing chapter quizzes
+    'sr_intro_switching_quiz': IntroToSwitchingQuiz(),
+    'sr_mac_address_table_quiz': MacAddressTableQuiz(),
+    'sr_switch_operations_quiz': SwitchOperationsQuiz(),
+    'sr_introduction_to_routing_quiz': IntroductionToRoutingQuiz(),
+    'sr_router_vs_host_quiz': RouterVsHostQuiz(),
+    'sr_router_network_connections_quiz': RouterNetworkConnectionsQuiz(),
+    'sr_routing_table_quiz': RoutingTableQuiz(),
+    'sr_routing_types_quiz': RoutingTypesQuiz(),
+
+    // switching and routing topic quiz
+    'sr_topic_quiz': SwitchingRoutingTopicQuiz(),
   };
 
   static List<ContentBlock> getContent(String moduleId) {

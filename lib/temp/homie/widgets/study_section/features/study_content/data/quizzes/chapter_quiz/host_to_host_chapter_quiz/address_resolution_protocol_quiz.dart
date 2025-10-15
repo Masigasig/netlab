@@ -3,7 +3,7 @@ import '../../../../models/quiz_data.dart';
 
 class AddressResolutionProtocolQuiz implements ModuleContent {
   @override
-  String get moduleId => 'hh_arp_quiz';
+  String get moduleId => 'h2h_arp_quiz';
 
   @override
   List<ContentBlock> getContent() {

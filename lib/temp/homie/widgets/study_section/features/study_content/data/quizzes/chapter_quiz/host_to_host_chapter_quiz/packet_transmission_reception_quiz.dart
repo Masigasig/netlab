@@ -3,7 +3,7 @@ import '../../../../models/quiz_data.dart';
 
 class PacketTransmissionReceptionQuiz implements ModuleContent {
   @override
-  String get moduleId => 'hh_packet_transmission_quiz';
+  String get moduleId => 'h2h_packet_transmission_quiz';
 
   @override
   List<ContentBlock> getContent() {

@@ -3,7 +3,7 @@ import '../../../../models/quiz_data.dart';
 
 class SubsequentCommunicationQuiz implements ModuleContent {
   @override
-  String get moduleId => 'hh_subsequent_communication_quiz';
+  String get moduleId => 'h2h_subsequent_communication_quiz';
 
   @override
   List<ContentBlock> getContent() {

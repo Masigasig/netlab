@@ -11,7 +11,7 @@ class HostToHostTopicQuiz implements ModuleContent {
   final TopicQuizManager _quizManager = TopicQuizManager();
 
   @override
-  String get moduleId => 'hh_topic_quiz';
+  String get moduleId => 'h2h_topic_quiz';
 
   @override
   List<ContentBlock> getContent() {

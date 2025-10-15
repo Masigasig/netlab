@@ -3,7 +3,7 @@ import '../../../../models/quiz_data.dart';
 
 class PreparingToSendDataQuiz implements ModuleContent {
   @override
-  String get moduleId => 'hh_preparing_quiz';
+  String get moduleId => 'h2h_preparing_quiz';
 
   @override
   List<ContentBlock> getContent() {
