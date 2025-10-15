@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 
 class SubnetConverter extends StatefulWidget {
   const SubnetConverter({super.key});
@@ -15,27 +15,33 @@ class _SubnetConverterState extends State<SubnetConverter> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return SizedBox(
       width: double.infinity,
       child: Card(
         elevation: 0,
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Subnet Mask Converter',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.headerMedium,
+                  context,
+                ),
               ),
               const SizedBox(height: 24),
-              // Add your subnet conversion UI elements here
+
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
                   label: Text(
-                    'Conversion Type :',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
+                    'Conversion Type',
+                    style: AppTextStyles.withColor(
+                      AppTextStyles.subtitleMedium,
+                      cs.secondary,
                     ),
                   ),
                   border: OutlineInputBorder(
@@ -43,21 +49,34 @@ class _SubnetConverterState extends State<SubnetConverter> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary,
-                      width: 2,
-                    ),
+                    borderSide: BorderSide(color: cs.secondary, width: 2),
                   ),
                 ),
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.bodyMedium,
+                  context,
+                ),
                 initialValue: subnetConvType,
-                items: const [
+                items: [
                   DropdownMenuItem(
                     value: 'CIDR to Subnet',
-                    child: Text('CIDR → Subnet Mask'),
+                    child: Text(
+                      'CIDR → Subnet Mask',
+                      style: AppTextStyles.forSurface(
+                        AppTextStyles.bodyMedium,
+                        context,
+                      ),
+                    ),
                   ),
                   DropdownMenuItem(
                     value: 'Subnet to CIDR',
-                    child: Text('Subnet Mask → CIDR'),
+                    child: Text(
+                      'Subnet Mask → CIDR',
+                      style: AppTextStyles.forSurface(
+                        AppTextStyles.bodyMedium,
+                        context,
+                      ),
+                    ),
                   ),
                 ],
                 onChanged: (value) {
@@ -68,32 +87,43 @@ class _SubnetConverterState extends State<SubnetConverter> {
                 },
               ),
               const SizedBox(height: 16),
+
               TextField(
                 controller: subnetConvController,
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.bodyMedium,
+                  context,
+                ),
                 decoration: InputDecoration(
-                  label: Text(
-                    subnetConvType == 'CIDR to Subnet' ? 'CIDR' : 'Subnet Mask',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
+                  labelText: subnetConvType == 'CIDR to Subnet'
+                      ? 'CIDR'
+                      : 'Subnet Mask',
+                  labelStyle: AppTextStyles.withColor(
+                    AppTextStyles.subtitleMedium,
+                    cs.secondary,
                   ),
                   hintText: subnetConvType == 'CIDR to Subnet'
                       ? '24'
                       : '255.255.255.0',
+                  hintStyle: AppTextStyles.withOpacity(
+                    AppTextStyles.withColor(
+                      AppTextStyles.bodySmall,
+                      cs.secondary,
+                    ),
+                    0.5,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary,
-                      width: 2,
-                    ),
+                    borderSide: BorderSide(color: cs.secondary, width: 2),
                   ),
                 ),
                 onChanged: (_) => setState(() {}),
               ),
               const SizedBox(height: 16),
+
               if (subnetConvController.text.isNotEmpty)
                 _buildSubnetConvResult(),
             ],
@@ -104,15 +134,27 @@ class _SubnetConverterState extends State<SubnetConverter> {
   }
 
   Widget _buildSubnetConvResult() {
+    final cs = Theme.of(context).colorScheme;
+
     try {
       final result = subnetConvType == 'CIDR to Subnet'
           ? _cidrToSubnet(subnetConvController.text)
           : _subnetToCidr(subnetConvController.text);
-      return Padding(
-        padding: const EdgeInsets.all(16.0),
+
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: cs.primaryContainer.withValues(alpha: 0.3),
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: SelectableText(
           result,
-          style: const TextStyle(fontSize: 18, fontFamily: 'monospace'),
+          style: AppTextStyles.secondaryCustom(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            height: 1.6,
+          ).copyWith(fontFamily: 'monospace'),
         ),
       );
     } catch (e) {
@@ -130,9 +172,9 @@ class _SubnetConverterState extends State<SubnetConverter> {
             Expanded(
               child: Text(
                 errorMessage,
-                style: const TextStyle(
-                  color: AppColors.errorColor,
-                  fontSize: 15,
+                style: AppTextStyles.withColor(
+                  AppTextStyles.bodyMedium,
+                  AppColors.errorColor,
                 ),
               ),
             ),
@@ -188,5 +230,11 @@ class _SubnetConverterState extends State<SubnetConverter> {
         .split('.')
         .map((e) => int.parse(e).toRadixString(2).padLeft(8, '0'))
         .join('.');
+  }
+
+  @override
+  void dispose() {
+    subnetConvController.dispose();
+    super.dispose();
   }
 }

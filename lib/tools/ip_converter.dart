@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 
 class IpConverter extends StatefulWidget {
   const IpConverter({super.key});
@@ -15,26 +15,35 @@ class _IpConverterState extends State<IpConverter> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return SizedBox(
       width: double.infinity,
       child: Card(
         elevation: 0,
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              // Title
+              Text(
                 'IPv4 Converter',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.headerMedium,
+                  context,
+                ),
               ),
               const SizedBox(height: 24),
+
+              // Conversion Type Dropdown
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
                   label: Text(
-                    'Conversion Type :',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
+                    'Conversion Type',
+                    style: AppTextStyles.withColor(
+                      AppTextStyles.subtitleMedium,
+                      cs.secondary,
                     ),
                   ),
                   border: OutlineInputBorder(
@@ -42,38 +51,37 @@ class _IpConverterState extends State<IpConverter> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary,
-                      width: 2,
-                    ),
+                    borderSide: BorderSide(color: cs.secondary, width: 2),
                   ),
                 ),
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.bodyMedium,
+                  context,
+                ),
                 initialValue: ipConvType,
-                items: const [
-                  DropdownMenuItem(
-                    value: 'Decimal to Binary',
-                    child: Text('Decimal → Binary'),
+                items: [
+                  _buildDropdownItem(
+                    'Decimal to Binary',
+                    'Decimal → Binary',
+                    context,
                   ),
-                  DropdownMenuItem(
-                    value: 'Decimal to Hex',
-                    child: Text('Decimal → Hex'),
+                  _buildDropdownItem(
+                    'Decimal to Hex',
+                    'Decimal → Hex',
+                    context,
                   ),
-                  DropdownMenuItem(
-                    value: 'Binary to Decimal',
-                    child: Text('Binary → Decimal'),
+                  _buildDropdownItem(
+                    'Binary to Decimal',
+                    'Binary → Decimal',
+                    context,
                   ),
-                  DropdownMenuItem(
-                    value: 'Binary to Hex',
-                    child: Text('Binary → Hex'),
+                  _buildDropdownItem('Binary to Hex', 'Binary → Hex', context),
+                  _buildDropdownItem(
+                    'Hex to Decimal',
+                    'Hex → Decimal',
+                    context,
                   ),
-                  DropdownMenuItem(
-                    value: 'Hex to Decimal',
-                    child: Text('Hex → Decimal'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Hex to Binary',
-                    child: Text('Hex → Binary'),
-                  ),
+                  _buildDropdownItem('Hex to Binary', 'Hex → Binary', context),
                 ],
                 onChanged: (value) {
                   setState(() {
@@ -83,30 +91,41 @@ class _IpConverterState extends State<IpConverter> {
                 },
               ),
               const SizedBox(height: 16),
+
+              // Input Field
               TextField(
                 controller: ipConvController,
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.bodyMedium,
+                  context,
+                ),
                 decoration: InputDecoration(
-                  label: Text(
-                    _getIPLabel(ipConvType),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
+                  labelText: _getIPLabel(ipConvType),
+                  labelStyle: AppTextStyles.withColor(
+                    AppTextStyles.subtitleMedium,
+                    cs.secondary,
                   ),
                   hintText: _getIPHint(ipConvType),
+                  hintStyle: AppTextStyles.withOpacity(
+                    AppTextStyles.withColor(
+                      AppTextStyles.bodySmall,
+                      cs.secondary,
+                    ),
+                    0.5,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary,
-                      width: 2,
-                    ),
+                    borderSide: BorderSide(color: cs.secondary, width: 2),
                   ),
                 ),
                 onChanged: (_) => setState(() {}),
               ),
               const SizedBox(height: 16),
+
+              // Result Display
               if (ipConvController.text.isNotEmpty) _buildIPConvResult(),
             ],
           ),
@@ -115,14 +134,39 @@ class _IpConverterState extends State<IpConverter> {
     );
   }
 
+  DropdownMenuItem<String> _buildDropdownItem(
+    String value,
+    String text,
+    BuildContext context,
+  ) {
+    return DropdownMenuItem(
+      value: value,
+      child: Text(
+        text,
+        style: AppTextStyles.forSurface(AppTextStyles.bodyMedium, context),
+      ),
+    );
+  }
+
   Widget _buildIPConvResult() {
+    final cs = Theme.of(context).colorScheme;
+
     try {
       final result = _convertIP(ipConvType, ipConvController.text);
-      return Padding(
-        padding: const EdgeInsets.all(16.0),
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: cs.primaryContainer.withValues(alpha: 0.3),
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: SelectableText(
           result,
-          style: const TextStyle(fontSize: 18, fontFamily: 'monospace'),
+          style: AppTextStyles.secondaryCustom(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            height: 1.6,
+          ).copyWith(fontFamily: 'monospace'),
         ),
       );
     } catch (e) {
@@ -140,9 +184,9 @@ class _IpConverterState extends State<IpConverter> {
             Expanded(
               child: Text(
                 errorMessage,
-                style: const TextStyle(
-                  color: AppColors.errorColor,
-                  fontSize: 15,
+                style: AppTextStyles.withColor(
+                  AppTextStyles.bodyMedium,
+                  AppColors.errorColor,
                 ),
               ),
             ),
@@ -172,9 +216,9 @@ class _IpConverterState extends State<IpConverter> {
   }
 
   String _getIPLabel(String type) {
-    if (type.startsWith('Decimal')) return 'IP Address :';
-    if (type.startsWith('Binary')) return 'Binary IP :';
-    return 'Hex IP :';
+    if (type.startsWith('Decimal')) return 'IP Address';
+    if (type.startsWith('Binary')) return 'Binary IP';
+    return 'Hex IP';
   }
 
   String _getIPHint(String type) {
@@ -232,5 +276,11 @@ class _IpConverterState extends State<IpConverter> {
       default:
         return '';
     }
+  }
+
+  @override
+  void dispose() {
+    ipConvController.dispose();
+    super.dispose();
   }
 }

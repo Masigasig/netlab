@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 
 class IpSubnetAnalyzer extends StatefulWidget {
   const IpSubnetAnalyzer({super.key});
@@ -22,6 +22,8 @@ class _IpSubnetAnalyzerState extends State<IpSubnetAnalyzer> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -31,66 +33,92 @@ class _IpSubnetAnalyzerState extends State<IpSubnetAnalyzer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              // Title
+              Text(
                 'IP & Subnet Analyzer',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.headerMedium,
+                  context,
+                ),
               ),
               const SizedBox(height: 24),
+
+              // Input fields
               Row(
                 children: [
+                  // IPv4 input
                   Expanded(
                     flex: 3,
                     child: TextField(
-                      autofocus: true,
                       controller: ipController,
+                      style: AppTextStyles.forSurface(
+                        AppTextStyles.bodyMedium,
+                        context,
+                      ),
                       decoration: InputDecoration(
                         label: Text(
-                          'IPv4 Address :',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
+                          'IPv4 Address',
+                          style: AppTextStyles.withColor(
+                            AppTextStyles.subtitleMedium,
+                            cs.secondary,
                           ),
                         ),
                         hintText: '192.168.1.2',
+                        hintStyle: AppTextStyles.withOpacity(
+                          AppTextStyles.withColor(
+                            AppTextStyles.bodySmall,
+                            cs.secondary,
+                          ),
+                          0.5,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).colorScheme.secondary,
-                            width: 2,
-                          ),
+                          borderSide: BorderSide(color: cs.secondary, width: 2),
                         ),
                       ),
                       onChanged: (_) => setState(() {}),
                     ),
                   ),
                   const SizedBox(width: 16),
+
+                  // CIDR input
                   Expanded(
                     flex: 1,
                     child: TextField(
                       controller: cidrController,
+                      style: AppTextStyles.forSurface(
+                        AppTextStyles.bodyMedium,
+                        context,
+                      ),
                       decoration: InputDecoration(
                         prefixText: '/ ',
-                        prefixStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
+                        prefixStyle: AppTextStyles.bodyMedium.copyWith(
+                          color: cs.onSurface,
                         ),
                         label: Text(
-                          'SubnetMask(CIDR) :',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
+                          'Subnet Mask (CIDR)',
+                          style: AppTextStyles.withColor(
+                            AppTextStyles.subtitleMedium,
+                            cs.secondary,
                           ),
                         ),
                         hintText: '24',
+                        hintStyle: AppTextStyles.withOpacity(
+                          AppTextStyles.withColor(
+                            AppTextStyles.bodySmall,
+                            cs.secondary,
+                          ),
+                          0.5,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).colorScheme.secondary,
-                            width: 2,
-                          ),
+                          borderSide: BorderSide(color: cs.secondary, width: 2),
                         ),
                       ),
                       onChanged: (_) => setState(() {}),
@@ -99,6 +127,7 @@ class _IpSubnetAnalyzerState extends State<IpSubnetAnalyzer> {
                 ],
               ),
               const SizedBox(height: 24),
+
               _buildAnalyzerResults(),
             ],
           ),
@@ -108,6 +137,8 @@ class _IpSubnetAnalyzerState extends State<IpSubnetAnalyzer> {
   }
 
   Widget _buildAnalyzerResults() {
+    final cs = Theme.of(context).colorScheme;
+
     try {
       final result = _analyzeNetwork(ipController.text, cidrController.text);
       return Column(
@@ -120,17 +151,26 @@ class _IpSubnetAnalyzerState extends State<IpSubnetAnalyzer> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: AppColors.errorColor),
+          color: cs.errorContainer.withOpacity(0.1),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.error_outline, color: AppColors.errorColor),
+            const Icon(
+              Icons.error_outline,
+              color: AppColors.errorColor,
+              size: 22,
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 e.toString().replaceFirst('Exception: ', ''),
-                style: const TextStyle(
-                  color: AppColors.errorColor,
-                  fontSize: 15,
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.errorColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  context,
                 ),
               ),
             ),
@@ -142,20 +182,27 @@ class _IpSubnetAnalyzerState extends State<IpSubnetAnalyzer> {
 
   Widget _buildRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 220,
             child: Text(
               '$label:',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              style: AppTextStyles.forSurface(
+                AppTextStyles.subtitleXL.copyWith(fontWeight: FontWeight.w600),
+                context,
+              ),
             ),
           ),
           Expanded(
             child: SelectableText(
               value,
-              style: const TextStyle(fontSize: 16, fontFamily: 'monospace'),
+              style: AppTextStyles.forSurface(
+                AppTextStyles.bodyMedium.copyWith(fontFamily: 'monospace'),
+                context,
+              ),
             ),
           ),
         ],
@@ -164,7 +211,7 @@ class _IpSubnetAnalyzerState extends State<IpSubnetAnalyzer> {
   }
 
   Map<String, String> _analyzeNetwork(String ipStr, String cidrStr) {
-    //* Validate CIDR
+    // Validate CIDR
     final cidr = int.tryParse(cidrStr);
     if (cidr == null) {
       throw Exception('Invalid CIDR format. Please enter a number (e.g., 24)');
@@ -173,7 +220,7 @@ class _IpSubnetAnalyzerState extends State<IpSubnetAnalyzer> {
       throw Exception('CIDR must be between 0 and 32. You entered: $cidr');
     }
 
-    //* Validate IP format
+    // Validate IP format
     final parts = ipStr.split('.');
     if (parts.length != 4) {
       throw Exception(
@@ -181,7 +228,7 @@ class _IpSubnetAnalyzerState extends State<IpSubnetAnalyzer> {
       );
     }
 
-    //* Validate each octet
+    // Validate octets
     final octets = <int>[];
     for (int i = 0; i < parts.length; i++) {
       final val = int.tryParse(parts[i]);
