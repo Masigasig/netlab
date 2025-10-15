@@ -1,8 +1,8 @@
-import '../models/content_block.dart';
-import '../models/quiz_data.dart';
-import '../../quiz/helpers/topic_quiz_manager.dart';
-import 'network_fundamentals/network_fundamentals_quiz.dart';
-import 'network_fundamentals/host_quiz.dart';
+import '../../../models/content_block.dart';
+import '../../../models/quiz_data.dart';
+import '../../../../quiz/helpers/topic_quiz_manager.dart';
+import '../chapter_quiz/network_fudamentals_chapter_quiz/network_fundamentals_quiz.dart';
+import '../chapter_quiz/network_fudamentals_chapter_quiz/host_quiz.dart';
 
 class NetworkFundamentalsTopicQuiz implements ModuleContent {
   final TopicQuizManager _quizManager = TopicQuizManager();
@@ -54,7 +54,7 @@ class NetworkFundamentalsTopicQuiz implements ModuleContent {
       chapterQuizzes: chapterQuizzes,
       topicSpecificQuestions: topicSpecificQuestions,
       totalQuestions: 10,
-      questionsPerChapter: 4,
+      questionsPerChapter: 1,
     );
   }
 }

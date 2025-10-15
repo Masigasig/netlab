@@ -6,9 +6,15 @@ import '../data/network_fundamentals/host.dart';
 import '../data/network_fundamentals/network_network.dart';
 import '../data/network_fundamentals/network_ip.dart';
 import '../data/network_fundamentals/network_osi.dart';
-import '../data/network_fundamentals/network_fundamentals_quiz.dart';
-import '../data/network_fundamentals_topic_quiz.dart';
-import '../data/network_fundamentals/host_quiz.dart';
+
+import '../data/quizzes/chapter_quiz/network_fudamentals_chapter_quiz/host_quiz.dart';
+import '../data/quizzes/chapter_quiz/network_fudamentals_chapter_quiz/network_fundamentals_quiz.dart';
+import '../data/quizzes/chapter_quiz/network_fudamentals_chapter_quiz/internet_quiz.dart';
+import '../data/quizzes/chapter_quiz/network_fudamentals_chapter_quiz/network_quiz.dart';
+import '../data/quizzes/chapter_quiz/network_fudamentals_chapter_quiz/network_ip_quiz.dart';
+import '../data/quizzes/chapter_quiz/network_fudamentals_chapter_quiz/osi_quiz.dart';
+
+import '../data/quizzes/topic_quiz/network_fundamentals_topic_quiz.dart';
 
 import '../data/switching_routing/intro_switching.dart';
 import '../data/switching_routing/mac_address_table.dart';
@@ -51,9 +57,15 @@ class ContentRegistry {
     'nf_network': NetworkContent(),
     'nf_ip': NetworkIPContent(),
     'nf_osi': NetworkOSIContent(),
+
     'nf_quiz': NFQuiz(),
-    'nf_topic_quiz': NetworkFundamentalsTopicQuiz(),
     'nf_host_quiz': HostQuiz(),
+    'nf_internet_quiz': InternetQuiz(),
+    'nf_network_quiz': NetworkQuiz(),
+    'nf_network_ip_quiz': NetworkIpQuiz(),
+    'nf_osi_model_quiz': OsiModelQuiz(),
+
+    'nf_topic_quiz': NetworkFundamentalsTopicQuiz(),
 
     // switching and routing
     'sr_intro_switching': SwitchingIntroContent(),
