@@ -95,121 +95,185 @@ class _TopicCardState extends State<TopicCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: AppStyles.cardMargin,
-      padding: AppStyles.cardPadding,
-      decoration: AppStyles.surfaceCard(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Lessons count + Progress
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final cs = Theme.of(context).colorScheme;
+
+    return Stack(
+      children: [
+        Container(
+          margin: AppStyles.cardMargin,
+          padding: AppStyles.cardPadding,
+          decoration: AppStyles.surfaceCard(context),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Lessons count chipbadge - now shows dynamic count
-              AppStyles.chipBadge(
-                context: context,
-                text: '$_totalChapters lessons',
-                icon: Icons.book_outlined,
+              // Lessons count + Progress
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Lessons count chipbadge - now shows dynamic count
+                  AppStyles.chipBadge(
+                    context: context,
+                    text: '$_totalChapters lessons',
+                    icon: Icons.book_outlined,
+                  ),
+
+                  _buildProgressIndicator(),
+                ],
               ),
 
-              _buildProgressIndicator(),
-            ],
-          ),
+              const SizedBox(height: 20),
 
-          const SizedBox(height: 20),
-
-          // Title
-          Text(
-            widget.topic.title,
-            style: AppTextStyles.forSurface(
-              AppTextStyles.headerMedium,
-              context,
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // Subtitle
-          Text(
-            widget.topic.subtitle,
-            style: AppTextStyles.withOpacity(
-              AppTextStyles.forSurface(AppTextStyles.bodyMedium, context),
-              0.7,
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Description
-          Text(
-            widget.topic.description,
-            style: AppTextStyles.withOpacity(
-              AppTextStyles.forSurface(AppTextStyles.bodySmall, context),
-              0.5,
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          // Metadata row
-          Text(
-            widget.topic.readTime,
-            style: AppTextStyles.withOpacity(
-              AppTextStyles.forSurface(AppTextStyles.subtitleSmall, context),
-              0.5,
-            ),
-          ),
-
-          const SizedBox(height: 24),
-
-          // Start button (right aligned) with lock indicator
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (!_isAccessible) ...[
-                Icon(
-                  Icons.lock,
-                  size: 16,
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurfaceVariant.withAlpha(128),
+              // Title
+              Text(
+                widget.topic.title,
+                style: AppTextStyles.forSurface(
+                  AppTextStyles.headerMedium,
+                  context,
                 ),
-                const SizedBox(width: 8),
-              ],
-              OutlinedButton(
-                onPressed: _isAccessible
-                    ? widget.onTap
-                    : () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Complete the previous topic to unlock this one',
-                            ),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      },
-                style: AppButtonStyles.opacityButton(context).copyWith(
-                  shape: WidgetStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32),
+              ),
+
+              const SizedBox(height: 8),
+
+              // Subtitle
+              Text(
+                widget.topic.subtitle,
+                style: AppTextStyles.withOpacity(
+                  AppTextStyles.forSurface(AppTextStyles.bodyMedium, context),
+                  0.7,
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Description
+              Text(
+                widget.topic.description,
+                style: AppTextStyles.withOpacity(
+                  AppTextStyles.forSurface(AppTextStyles.bodySmall, context),
+                  0.5,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Metadata row
+              Text(
+                widget.topic.readTime,
+                style: AppTextStyles.withOpacity(
+                  AppTextStyles.forSurface(
+                    AppTextStyles.subtitleSmall,
+                    context,
+                  ),
+                  0.5,
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Start button (right aligned) with lock indicator
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if (!_isAccessible) ...[
+                    Icon(
+                      Icons.lock,
+                      size: 16,
+                      color: cs.onSurfaceVariant.withAlpha(128),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                  OutlinedButton(
+                    onPressed: _isAccessible
+                        ? widget.onTap
+                        : () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Complete the previous topic to unlock this one',
+                                ),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          },
+                    style: AppButtonStyles.opacityButton(context).copyWith(
+                      shape: WidgetStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      _progress >= 1.0
+                          ? 'Review'
+                          : _progress > 0
+                          ? 'Continue'
+                          : 'Start',
+                      style: AppTextStyles.label,
                     ),
                   ),
-                ),
-                child: Text(
-                  _progress >= 1.0
-                      ? 'Review'
-                      : _progress > 0
-                      ? 'Continue'
-                      : 'Start',
-                  style: AppTextStyles.label,
-                ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        ),
+
+        // Lock overlay for inaccessible topics
+        if (!_isAccessible)
+          Positioned.fill(
+            child: Container(
+              margin: AppStyles.cardMargin,
+              decoration: BoxDecoration(
+                color: cs.surface.withAlpha(210),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: cs.surfaceContainerHighest,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.lock,
+                        size: 48,
+                        color: cs.onSurfaceVariant,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Locked',
+                      style: AppTextStyles.forSurface(
+                        AppTextStyles.primaryCustom(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        context,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Text(
+                        'Complete the previous topic to unlock',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.withOpacity(
+                          AppTextStyles.forSurface(
+                            AppTextStyles.bodySmall,
+                            context,
+                          ),
+                          0.7,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 

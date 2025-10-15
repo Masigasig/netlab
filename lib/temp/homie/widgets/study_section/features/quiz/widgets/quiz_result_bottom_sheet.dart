@@ -69,8 +69,7 @@ class _QuizResultBottomSheetState extends State<QuizResultBottomSheet>
   void _showCelebration() {
     Future.delayed(const Duration(milliseconds: 300), () {
       if (mounted) {
-        // You can add confetti package here: confetti package
-        // For now, we'll use a simple animated icon
+        // wala pa po possible lottie lag
       }
     });
   }
