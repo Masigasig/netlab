@@ -48,57 +48,57 @@ class NetworkIpQuiz implements ModuleContent {
               'A subnet mask defines which part of an IP address identifies the network and which part identifies the host.',
         ),
       ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question: 'What is the default subnet mask for a Class C network?',
-          options: [
-            '255.0.0.0',
-            '255.255.0.0',
-            '255.255.255.0',
-            '255.255.255.255',
-          ],
-          correctAnswerIndex: 2,
-          explanation:
-              'The default subnet mask for Class C networks is 255.255.255.0, meaning the first three octets define the network.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question: 'Which of the following is a private IP address?',
-          options: ['8.8.8.8', '172.16.0.1', '198.51.100.5', '203.0.113.1'],
-          correctAnswerIndex: 1,
-          explanation:
-              '172.16.0.1 belongs to the private IP range (172.16.0.0 – 172.31.255.255).',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question: 'What is the purpose of a default gateway?',
-          options: [
-            'To allow devices to access other networks or the Internet',
-            'To store DNS records',
-            'To provide Wi-Fi connectivity',
-            'To encrypt network traffic',
-          ],
-          correctAnswerIndex: 0,
-          explanation:
-              'A default gateway routes traffic from a local network to external networks such as the Internet.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question:
-              'True or False: Every device on the Internet must have a unique public IP address.',
-          options: ['True', 'False'],
-          correctAnswerIndex: 0,
-          explanation:
-              'True — each device that directly connects to the Internet must have a unique public IP to communicate properly.',
-        ),
-      ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question: 'What is the default subnet mask for a Class C network?',
+      //     options: [
+      //       '255.0.0.0',
+      //       '255.255.0.0',
+      //       '255.255.255.0',
+      //       '255.255.255.255',
+      //     ],
+      //     correctAnswerIndex: 2,
+      //     explanation:
+      //         'The default subnet mask for Class C networks is 255.255.255.0, meaning the first three octets define the network.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question: 'Which of the following is a private IP address?',
+      //     options: ['8.8.8.8', '172.16.0.1', '198.51.100.5', '203.0.113.1'],
+      //     correctAnswerIndex: 1,
+      //     explanation:
+      //         '172.16.0.1 belongs to the private IP range (172.16.0.0 – 172.31.255.255).',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question: 'What is the purpose of a default gateway?',
+      //     options: [
+      //       'To allow devices to access other networks or the Internet',
+      //       'To store DNS records',
+      //       'To provide Wi-Fi connectivity',
+      //       'To encrypt network traffic',
+      //     ],
+      //     correctAnswerIndex: 0,
+      //     explanation:
+      //         'A default gateway routes traffic from a local network to external networks such as the Internet.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question:
+      //         'True or False: Every device on the Internet must have a unique public IP address.',
+      //     options: ['True', 'False'],
+      //     correctAnswerIndex: 0,
+      //     explanation:
+      //         'True — each device that directly connects to the Internet must have a unique public IP to communicate properly.',
+      //   ),
+      // ),
     ];
   }
 }

@@ -16,6 +16,34 @@ import '../data/quizzes/chapter_quiz/network_fudamentals_chapter_quiz/osi_quiz.d
 
 import '../data/quizzes/topic_quiz/network_fundamentals_topic_quiz.dart';
 
+import '../data/network_devices/repeater.dart';
+import '../data/network_devices/hub.dart';
+import '../data/network_devices/bridge.dart';
+import '../data/network_devices/switch.dart';
+import '../data/network_devices/router.dart';
+
+import '../data/quizzes/chapter_quiz/network_devices_chapter_quiz/repeater_quiz.dart';
+import '../data/quizzes/chapter_quiz/network_devices_chapter_quiz/hub_quiz.dart';
+import '../data/quizzes/chapter_quiz/network_devices_chapter_quiz/bridge_quiz.dart';
+import '../data/quizzes/chapter_quiz/network_devices_chapter_quiz/switch_quiz.dart';
+import '../data/quizzes/chapter_quiz/network_devices_chapter_quiz/router_quiz.dart';
+
+import '../data/quizzes/topic_quiz/network_devices_topic_quiz.dart';
+
+import '../data/subnetting/subnetting_intro.dart';
+import '../data/subnetting/subnetting_attributes.dart';
+import '../data/subnetting/subnetting_cidr.dart';
+import '../data/subnetting/subnetting_example.dart';
+import '../data/subnetting/subnetting_practice.dart';
+
+import '../data/host_to_host/hth_overview.dart';
+import '../data/host_to_host/hth_preparing.dart';
+import '../data/host_to_host/hth_arp.dart';
+import '../data/host_to_host/hth_packet_flow.dart';
+import '../data/host_to_host/hth_efficiency.dart';
+import '../data/host_to_host/hth_summary.dart';
+import '../data/host_to_host/hth_quiz.dart';
+
 import '../data/switching_routing/intro_switching.dart';
 import '../data/switching_routing/mac_address_table.dart';
 import '../data/switching_routing/switch_operation.dart';
@@ -27,27 +55,6 @@ import '../data/switching_routing/routing_table.dart';
 import '../data/switching_routing/routing_types.dart';
 import '../data/switching_routing/switching_routing_quiz.dart';
 
-import '../data/network_devices/repeater.dart';
-import '../data/network_devices/hub.dart';
-import '../data/network_devices/bridge.dart';
-import '../data/network_devices/switch.dart';
-import '../data/network_devices/router.dart';
-import '../data/network_devices/network_devices_quiz.dart';
-
-import '../data/host_to_host/hth_overview.dart';
-import '../data/host_to_host/hth_preparing.dart';
-import '../data/host_to_host/hth_arp.dart';
-import '../data/host_to_host/hth_packet_flow.dart';
-import '../data/host_to_host/hth_efficiency.dart';
-import '../data/host_to_host/hth_summary.dart';
-import '../data/host_to_host/hth_quiz.dart';
-
-import '../data/subnetting/subnetting_intro.dart';
-import '../data/subnetting/subnetting_attributes.dart';
-import '../data/subnetting/subnetting_cidr.dart';
-import '../data/subnetting/subnetting_example.dart';
-import '../data/subnetting/subnetting_practice.dart';
-
 class ContentRegistry {
   static final Map<String, ModuleContent> _contents = {
     // network fundamentals
@@ -58,6 +65,7 @@ class ContentRegistry {
     'nf_ip': NetworkIPContent(),
     'nf_osi': NetworkOSIContent(),
 
+    // network fundamentals chapter quizzes
     'nf_quiz': NFQuiz(),
     'nf_host_quiz': HostQuiz(),
     'nf_internet_quiz': InternetQuiz(),
@@ -65,7 +73,41 @@ class ContentRegistry {
     'nf_network_ip_quiz': NetworkIpQuiz(),
     'nf_osi_model_quiz': OsiModelQuiz(),
 
+    // network fundamentals topic quiz
     'nf_topic_quiz': NetworkFundamentalsTopicQuiz(),
+
+    // network devices
+    'nd_repeater': RepeaterContent(),
+    'nd_hub': HubContent(),
+    'nd_bridge': BridgeContent(),
+    'nd_switch': SwitchContent(),
+    'nd_router': RouterContent(),
+
+    // network devices chapter quizzes
+    'nd_repeater_quiz': RepeaterQuiz(),
+    'nd_hub_quiz': HubQuiz(),
+    'nd_bridge_quiz': BridgeQuiz(),
+    'nd_switch_quiz': SwitchQuiz(),
+    'nd_router_quiz': RouterQuiz(),
+
+    // network devices topic quiz
+    'nd_topic_quiz': NetworkDevicesTopicQuiz(),
+
+    // subnetting
+    'sub_intro': SubnettingIntroContent(),
+    'sub_attributes': SubnettingAttributesContent(),
+    'sub_cidr': SubnettingCidrContent(),
+    'sub_example': SubnettingExampleContent(),
+    'sub_practice': SubnettingPracticeContent(),
+
+    // host to host
+    'h2h_overview': HostToHostOverviewContent(),
+    'h2h_preparing': HostToHostPreparingContent(),
+    'h2h_arp': HostToHostArpContent(),
+    'h2h_packet_flow': HostToHostPacketFlowContent(),
+    'h2h_efficiency': HostToHostEfficiencyContent(),
+    'h2h_summary': HostToHostSummaryContent(),
+    'h2h_quiz': H2HQuiz(),
 
     // switching and routing
     'sr_intro_switching': SwitchingIntroContent(),
@@ -78,30 +120,6 @@ class ContentRegistry {
     'sr_routing_table': RoutingTableContent(),
     'sr_routing_types': RoutingTypesContent(),
     'sr_quiz': RoutingSwitchingQuiz(),
-
-    // network devices
-    'nd_repeater': RepeaterContent(),
-    'nd_hub': HubContent(),
-    'nd_bridge': BridgeContent(),
-    'nd_switch': SwitchContent(),
-    'nd_router': RouterContent(),
-    'nd_quiz': NetworkingDevicesQuiz(),
-
-    // host to host
-    'h2h_overview': HostToHostOverviewContent(),
-    'h2h_preparing': HostToHostPreparingContent(),
-    'h2h_arp': HostToHostArpContent(),
-    'h2h_packet_flow': HostToHostPacketFlowContent(),
-    'h2h_efficiency': HostToHostEfficiencyContent(),
-    'h2h_summary': HostToHostSummaryContent(),
-    'h2h_quiz': H2HQuiz(),
-
-    // subnetting
-    'sub_intro': SubnettingIntroContent(),
-    'sub_attributes': SubnettingAttributesContent(),
-    'sub_cidr': SubnettingCidrContent(),
-    'sub_example': SubnettingExampleContent(),
-    'sub_practice': SubnettingPracticeContent(),
   };
 
   static List<ContentBlock> getContent(String moduleId) {

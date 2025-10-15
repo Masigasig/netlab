@@ -63,62 +63,62 @@ class HostQuiz implements ModuleContent {
               'Hosts are categorized as clients and servers—clients request data or services, while servers provide them.',
         ),
       ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question: 'What does a client do in a network?',
-          options: [
-            'Responds to other devices’ requests',
-            'Initiates a request for data or services',
-            'Controls all network communication',
-            'Blocks incoming connections',
-          ],
-          correctAnswerIndex: 1,
-          explanation:
-              'A client initiates communication by requesting data or services from a server.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question: 'What does a server do in a network?',
-          options: [
-            'Sends requests to clients',
-            'Responds to client requests and provides resources',
-            'Manages local printers only',
-            'Converts analog signals to digital',
-          ],
-          correctAnswerIndex: 1,
-          explanation:
-              'A server responds to client requests and provides data, services, or resources on a network.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question:
-              'True or False: Any device that sends or receives data over a network is considered a host.',
-          options: ['True', 'False'],
-          correctAnswerIndex: 0,
-          explanation:
-              'This is true—any device capable of sending or receiving network data qualifies as a host.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question: 'The role of a host (client or server) in a network is:',
-          options: [
-            'To store only local files',
-            'To participate in communication by sending or receiving data',
-            'To build network cables',
-            'To configure routers',
-          ],
-          correctAnswerIndex: 1,
-          explanation:
-              'A host’s main role is to communicate on the network by sending or receiving data.',
-        ),
-      ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question: 'What does a client do in a network?',
+      //     options: [
+      //       'Responds to other devices’ requests',
+      //       'Initiates a request for data or services',
+      //       'Controls all network communication',
+      //       'Blocks incoming connections',
+      //     ],
+      //     correctAnswerIndex: 1,
+      //     explanation:
+      //         'A client initiates communication by requesting data or services from a server.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question: 'What does a server do in a network?',
+      //     options: [
+      //       'Sends requests to clients',
+      //       'Responds to client requests and provides resources',
+      //       'Manages local printers only',
+      //       'Converts analog signals to digital',
+      //     ],
+      //     correctAnswerIndex: 1,
+      //     explanation:
+      //         'A server responds to client requests and provides data, services, or resources on a network.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question:
+      //         'True or False: Any device that sends or receives data over a network is considered a host.',
+      //     options: ['True', 'False'],
+      //     correctAnswerIndex: 0,
+      //     explanation:
+      //         'This is true—any device capable of sending or receiving network data qualifies as a host.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question: 'The role of a host (client or server) in a network is:',
+      //     options: [
+      //       'To store only local files',
+      //       'To participate in communication by sending or receiving data',
+      //       'To build network cables',
+      //       'To configure routers',
+      //     ],
+      //     correctAnswerIndex: 1,
+      //     explanation:
+      //         'A host’s main role is to communicate on the network by sending or receiving data.',
+      //   ),
+      // ),
     ];
   }
 }

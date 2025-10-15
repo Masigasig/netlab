@@ -48,37 +48,37 @@ class NetworkQuiz implements ModuleContent {
               'A switch connects multiple devices within a LAN and forwards data to the correct destination device.',
         ),
       ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question:
-              'True or False: A LAN (Local Area Network) covers a wide geographic area.',
-          options: ['True', 'False'],
-          correctAnswerIndex: 1,
-          explanation:
-              'False — a LAN covers a limited area like a home, school, or office building.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question: 'Which of the following networks spans the largest area?',
-          options: ['LAN', 'MAN', 'WAN', 'PAN'],
-          correctAnswerIndex: 2,
-          explanation:
-              'A WAN (Wide Area Network) covers a very large area, often connecting multiple LANs across countries or continents.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question: 'What device connects different networks together?',
-          options: ['Hub', 'Switch', 'Router', 'Bridge'],
-          correctAnswerIndex: 2,
-          explanation:
-              'A router connects multiple networks and directs data packets between them.',
-        ),
-      ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question:
+      //         'True or False: A LAN (Local Area Network) covers a wide geographic area.',
+      //     options: ['True', 'False'],
+      //     correctAnswerIndex: 1,
+      //     explanation:
+      //         'False — a LAN covers a limited area like a home, school, or office building.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question: 'Which of the following networks spans the largest area?',
+      //     options: ['LAN', 'MAN', 'WAN', 'PAN'],
+      //     correctAnswerIndex: 2,
+      //     explanation:
+      //         'A WAN (Wide Area Network) covers a very large area, often connecting multiple LANs across countries or continents.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question: 'What device connects different networks together?',
+      //     options: ['Hub', 'Switch', 'Router', 'Bridge'],
+      //     correctAnswerIndex: 2,
+      //     explanation:
+      //         'A router connects multiple networks and directs data packets between them.',
+      //   ),
+      // ),
     ];
   }
 }

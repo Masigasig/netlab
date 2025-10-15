@@ -50,75 +50,75 @@ class InternetQuiz implements ModuleContent {
               'False — the Internet connects millions of devices across different networks globally, not just local ones.',
         ),
       ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question:
-              'Which of the following best describes how the Internet works?',
-          options: [
-            'It connects all devices using a single wire',
-            'It links many smaller networks together',
-            'It requires a direct cable between every device',
-            'It only works through satellites',
-          ],
-          correctAnswerIndex: 1,
-          explanation:
-              'The Internet links thousands of smaller networks together to form a global communication system.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question: 'What does the Internet allow users to access?',
-          options: [
-            'Only files on their own computer',
-            'Resources from different networks',
-            'Data from USB drives only',
-            'Offline databases',
-          ],
-          correctAnswerIndex: 1,
-          explanation:
-              'Through the Internet, users can access resources and data from remote servers or networks.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question:
-              'Do devices need to be on the same local network to communicate through the Internet?',
-          options: ['Yes', 'No'],
-          correctAnswerIndex: 1,
-          explanation:
-              'No — devices can communicate over the Internet even if they are on different local networks.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question:
-              'Which of the following is an example of using the Internet?',
-          options: [
-            'Sending an email',
-            'Browsing a website',
-            'Watching an online video',
-            'All of the above',
-          ],
-          correctAnswerIndex: 3,
-          explanation:
-              'All of these are examples of Internet use — they all require online data transmission.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question:
-              'True or False: The Internet connects millions of networks and devices across the globe.',
-          options: ['True', 'False'],
-          correctAnswerIndex: 0,
-          explanation:
-              'True — the Internet connects countless devices and networks worldwide, enabling global communication.',
-        ),
-      ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question:
+      //         'Which of the following best describes how the Internet works?',
+      //     options: [
+      //       'It connects all devices using a single wire',
+      //       'It links many smaller networks together',
+      //       'It requires a direct cable between every device',
+      //       'It only works through satellites',
+      //     ],
+      //     correctAnswerIndex: 1,
+      //     explanation:
+      //         'The Internet links thousands of smaller networks together to form a global communication system.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question: 'What does the Internet allow users to access?',
+      //     options: [
+      //       'Only files on their own computer',
+      //       'Resources from different networks',
+      //       'Data from USB drives only',
+      //       'Offline databases',
+      //     ],
+      //     correctAnswerIndex: 1,
+      //     explanation:
+      //         'Through the Internet, users can access resources and data from remote servers or networks.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question:
+      //         'Do devices need to be on the same local network to communicate through the Internet?',
+      //     options: ['Yes', 'No'],
+      //     correctAnswerIndex: 1,
+      //     explanation:
+      //         'No — devices can communicate over the Internet even if they are on different local networks.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question:
+      //         'Which of the following is an example of using the Internet?',
+      //     options: [
+      //       'Sending an email',
+      //       'Browsing a website',
+      //       'Watching an online video',
+      //       'All of the above',
+      //     ],
+      //     correctAnswerIndex: 3,
+      //     explanation:
+      //         'All of these are examples of Internet use — they all require online data transmission.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question:
+      //         'True or False: The Internet connects millions of networks and devices across the globe.',
+      //     options: ['True', 'False'],
+      //     correctAnswerIndex: 0,
+      //     explanation:
+      //         'True — the Internet connects countless devices and networks worldwide, enabling global communication.',
+      //   ),
+      // ),
     ];
   }
 }

@@ -50,33 +50,33 @@ class NFQuiz implements ModuleContent {
               'The original idea behind networking was to allow one computer to share data with another.',
         ),
       ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question:
-              'What device is commonly used to connect multiple computers within the same network?',
-          options: ['Monitor', 'Switch', 'Keyboard', 'Flash drive'],
-          correctAnswerIndex: 1,
-          explanation:
-              'A switch connects multiple devices in a local area network (LAN) to enable communication.',
-        ),
-      ),
-      ContentBlock(
-        type: ContentBlockType.quiz,
-        content: QuizData(
-          question:
-              'Which of the following actions is possible because of computer networks?',
-          options: [
-            'Sending emails',
-            'Browsing the internet',
-            'Sharing files',
-            'All of the above',
-          ],
-          correctAnswerIndex: 3,
-          explanation:
-              'Computer networks enable communication, file sharing, and internet access — all of the above.',
-        ),
-      ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question:
+      //         'What device is commonly used to connect multiple computers within the same network?',
+      //     options: ['Monitor', 'Switch', 'Keyboard', 'Flash drive'],
+      //     correctAnswerIndex: 1,
+      //     explanation:
+      //         'A switch connects multiple devices in a local area network (LAN) to enable communication.',
+      //   ),
+      // ),
+      // ContentBlock(
+      //   type: ContentBlockType.quiz,
+      //   content: QuizData(
+      //     question:
+      //         'Which of the following actions is possible because of computer networks?',
+      //     options: [
+      //       'Sending emails',
+      //       'Browsing the internet',
+      //       'Sharing files',
+      //       'All of the above',
+      //     ],
+      //     correctAnswerIndex: 3,
+      //     explanation:
+      //         'Computer networks enable communication, file sharing, and internet access — all of the above.',
+      //   ),
+      // ),
     ];
   }
 }

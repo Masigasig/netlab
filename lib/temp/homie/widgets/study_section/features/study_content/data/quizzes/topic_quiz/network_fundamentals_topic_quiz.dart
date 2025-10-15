@@ -3,6 +3,10 @@ import '../../../models/quiz_data.dart';
 import '../../../../quiz/helpers/topic_quiz_manager.dart';
 import '../chapter_quiz/network_fudamentals_chapter_quiz/network_fundamentals_quiz.dart';
 import '../chapter_quiz/network_fudamentals_chapter_quiz/host_quiz.dart';
+import '../chapter_quiz/network_fudamentals_chapter_quiz/internet_quiz.dart';
+import '../chapter_quiz/network_fudamentals_chapter_quiz/network_quiz.dart';
+import '../chapter_quiz/network_fudamentals_chapter_quiz/network_ip_quiz.dart';
+import '../chapter_quiz/network_fudamentals_chapter_quiz/osi_quiz.dart';
 
 class NetworkFundamentalsTopicQuiz implements ModuleContent {
   final TopicQuizManager _quizManager = TopicQuizManager();
@@ -12,7 +16,14 @@ class NetworkFundamentalsTopicQuiz implements ModuleContent {
 
   @override
   List<ContentBlock> getContent() {
-    final chapterQuizzes = [NFQuiz().getContent(), HostQuiz().getContent()];
+    final chapterQuizzes = [
+      NFQuiz().getContent(),
+      HostQuiz().getContent(),
+      InternetQuiz().getContent(),
+      NetworkQuiz().getContent(),
+      NetworkIpQuiz().getContent(),
+      OsiModelQuiz().getContent(),
+    ];
 
     final topicSpecificQuestions = [
       ContentBlock(
