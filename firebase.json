@@ -1,0 +1,25 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "appId": "1:397682013161:android:2cd4cf4616196a8ec11178",
+                    "fileOutput": "android/app/google-services.json",
+                    "projectId": "netlab-8c22e"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "configurations": {
+                        "android": "1:397682013161:android:2cd4cf4616196a8ec11178",
+                        "ios": "1:397682013161:ios:d1f2b9a7d2e87121c11178",
+                        "macos": "1:397682013161:ios:d1f2b9a7d2e87121c11178",
+                        "web": "1:397682013161:web:5b2d77ddaaa4a015c11178",
+                        "windows": "1:397682013161:web:593974a167143b6bc11178"
+                    },
+                    "projectId": "netlab-8c22e"
+                }
+            }
+        }
+    }
+}
