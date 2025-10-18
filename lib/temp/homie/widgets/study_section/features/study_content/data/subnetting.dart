@@ -3,7 +3,11 @@ import 'package:netlab/temp/homie/widgets/study_section/widgets/base_topic_conte
 import 'package:netlab/temp/homie/widgets/study_section/core/models/content_module.dart';
 
 class SubnettingContent extends BaseTopicContent {
-  const SubnettingContent({super.key, required super.topic});
+  const SubnettingContent({
+    super.key,
+    required super.topic,
+    super.initialModuleId,
+  });
 
   @override
   List<ContentModule> getContentModules() {

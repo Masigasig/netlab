@@ -23,8 +23,8 @@ import 'package:netlab/temp/homie/widgets/study_section/features/study_content/d
     show HostToHostContent;
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/subnetting.dart'
     show SubnettingContent;
-import 'package:netlab/temp/homie/widgets/study_section/core/models/study_topic.dart'
-    show StudyTopic;
+import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/study_topic_service.dart'
+    show StudyTopicsService;
 
 export 'package:go_router/go_router.dart';
 
@@ -98,40 +98,80 @@ final router = GoRouter(
               path: Routes.networkFundamentalsRelative,
               parentNavigatorKey: _rootNavigatorKey,
               builder: (context, state) {
-                final topic = state.extra as StudyTopic;
-                return NetworkFundamentalsContent(topic: topic);
+                final (
+                  topic,
+                  initialModuleId,
+                ) = StudyTopicsService.extractTopicData(
+                  state,
+                  'network_fundamentals',
+                );
+
+                return NetworkFundamentalsContent(
+                  topic: topic,
+                  initialModuleId: initialModuleId,
+                );
               },
             ),
             GoRoute(
               path: Routes.switchingRoutingRelative,
               parentNavigatorKey: _rootNavigatorKey,
               builder: (context, state) {
-                final topic = state.extra as StudyTopic;
-                return RoutingSwitchingContent(topic: topic);
+                final (
+                  topic,
+                  initialModuleId,
+                ) = StudyTopicsService.extractTopicData(
+                  state,
+                  'switching_routing',
+                );
+
+                return RoutingSwitchingContent(
+                  topic: topic,
+                  initialModuleId: initialModuleId,
+                );
               },
             ),
             GoRoute(
               path: Routes.networkDevicesRelative,
               parentNavigatorKey: _rootNavigatorKey,
               builder: (context, state) {
-                final topic = state.extra as StudyTopic;
-                return NetworkDevicesContent(topic: topic);
+                final (
+                  topic,
+                  initialModuleId,
+                ) = StudyTopicsService.extractTopicData(
+                  state,
+                  'network_devices',
+                );
+
+                return NetworkDevicesContent(
+                  topic: topic,
+                  initialModuleId: initialModuleId,
+                );
               },
             ),
             GoRoute(
               path: Routes.hostToHostRelative,
               parentNavigatorKey: _rootNavigatorKey,
               builder: (context, state) {
-                final topic = state.extra as StudyTopic;
-                return HostToHostContent(topic: topic);
+                final (topic, initialModuleId) =
+                    StudyTopicsService.extractTopicData(state, 'host_to_host');
+
+                return HostToHostContent(
+                  topic: topic,
+                  initialModuleId: initialModuleId,
+                );
               },
             ),
             GoRoute(
               path: Routes.subnettingRelative,
               parentNavigatorKey: _rootNavigatorKey,
               builder: (context, state) {
-                final topic = state.extra as StudyTopic;
-                return SubnettingContent(topic: topic);
+                final (topic, initialModuleId) =
+                    StudyTopicsService.extractTopicData(state, 'subnetting');
+
+                return SubnettingContent(
+                  topic: topic,
+                  initialModuleId: initialModuleId,
+                );
               },
             ),
           ],

@@ -151,7 +151,7 @@ class _IpSubnetAnalyzerState extends State<IpSubnetAnalyzer> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: AppColors.errorColor),
-          color: cs.errorContainer.withOpacity(0.1),
+          color: cs.errorContainer.withAlpha(22),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,

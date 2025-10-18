@@ -9,8 +9,13 @@ import '../features/modules/widgets/module_content_view.dart';
 // ignore_for_file: deprecated_member_use
 abstract class BaseTopicContent extends StatefulWidget {
   final StudyTopic topic;
+  final String? initialModuleId;
 
-  const BaseTopicContent({super.key, required this.topic});
+  const BaseTopicContent({
+    super.key,
+    required this.topic,
+    this.initialModuleId,
+  });
 
   List<ContentModule> getContentModules();
 
@@ -24,6 +29,19 @@ class _BaseTopicContentState extends State<BaseTopicContent> {
   int? selectedModuleIndex;
 
   List<ContentModule> getContentModules() => widget.getContentModules();
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.initialModuleId != null) {
+      final modules = getContentModules();
+      final index = modules.indexWhere((m) => m.id == widget.initialModuleId);
+      if (index != -1) {
+        selectedModuleIndex = index;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

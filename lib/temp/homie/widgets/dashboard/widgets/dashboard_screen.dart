@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '../controllers/dashboard_controller.dart';
+import '../services/continue_learning_service.dart';
 import 'dashboard_main_content.dart';
 import 'dashboard_sidebar.dart';
+import 'package:netlab/core/routing/go_router.dart';
+import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/study_topic_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -78,14 +81,58 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  void _navigateToContinueLearning() {
-    // TODO: Navigate to the last studied topic/module
-    // Navigator.pushNamed(context, '/study');
+  Future<void> _navigateToContinueLearning() async {
+    final destination =
+        await ContinueLearningService.getContinueLearningDestination();
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(destination.reason),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+
+    _navigateToTopicContent(destination.topicId, destination.moduleId);
+  }
+
+  void _navigateToTopicContent(String topicId, String moduleId) {
+    final topic = StudyTopicsService.getTopicById(topicId);
+
+    if (topic == null) {
+      context.go(Routes.study);
+      return;
+    }
+
+    String routePath;
+
+    switch (topicId) {
+      case 'network_fundamentals':
+        routePath = Routes.networkFundamentals;
+        break;
+      case 'switching_routing':
+        routePath = Routes.switchingRouting;
+        break;
+      case 'network_devices':
+        routePath = Routes.networkDevices;
+        break;
+      case 'host_to_host':
+        routePath = Routes.hostToHost;
+        break;
+      case 'subnetting':
+        routePath = Routes.subnetting;
+        break;
+      default:
+        context.go(Routes.study);
+        return;
+    }
+
+    context.go(routePath, extra: {'topic': topic, 'initialModuleId': moduleId});
   }
 
   void _navigateToBrowseTopics() {
-    // TODO: Navigate to topics list
-    // Navigator.pushNamed(context, '/topics');
+    context.go(Routes.study);
   }
 
   @override

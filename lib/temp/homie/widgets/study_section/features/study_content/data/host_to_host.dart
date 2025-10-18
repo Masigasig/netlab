@@ -3,7 +3,11 @@ import 'package:netlab/temp/homie/widgets/study_section/widgets/base_topic_conte
 import 'package:netlab/temp/homie/widgets/study_section/core/models/content_module.dart';
 
 class HostToHostContent extends BaseTopicContent {
-  const HostToHostContent({super.key, required super.topic});
+  const HostToHostContent({
+    super.key,
+    required super.topic,
+    super.initialModuleId,
+  });
 
   @override
   List<ContentModule> getContentModules() {
