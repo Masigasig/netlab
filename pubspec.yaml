@@ -47,8 +47,8 @@ dependencies:
   shared_preferences: ^2.5.3
   firebase_core: ^4.2.0  # Linux not supported
   firebase_auth: ^6.1.1  # linux not supported
-  google_sign_in: ^7.2.0  # Linux/Windows not supported
   cloud_firestore: ^6.0.3  # Linux not supported
+  google_sign_in_all_platforms: ^2.0.2
 
 dev_dependencies:
   flutter_test:
