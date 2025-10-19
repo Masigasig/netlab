@@ -128,12 +128,13 @@ Youtube Videos you might find helpful (don't get stuck on tutorial hell, watch i
 
 Current version:
     dart = Dart SDK version: 3.9.2
-    flutter = Flutter 3.35.4
+    flutter = Flutter 3.35.6
 
     Android: 
         compileSdk = 36
         buildToolsVersion = "36.0.0"
         ndkVersion = "29.0.13599879"
         cmake = "4.0.3"
+        java = 17
 
 -->
