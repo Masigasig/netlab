@@ -21,7 +21,6 @@ import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 //* TODO's:
 //* Finalization of UI
 //* message osi model stack panel
-//* popup should be scrollable if overflow
 //! bug of connection if there are many message
 
 class SimulationScreen extends ConsumerStatefulWidget {

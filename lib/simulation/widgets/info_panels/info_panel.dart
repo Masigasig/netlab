@@ -49,7 +49,7 @@ class InfoPanel extends ConsumerWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: SizedBox(
-            width: 250,
+            width: 275,
             child: Column(
               children: [
                 _InfoPanelTabBar(tabConfig),

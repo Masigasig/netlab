@@ -30,7 +30,7 @@ class LogPanel extends ConsumerWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: SizedBox(
-              width: 175,
+              width: 225,
               child: Column(
                 children: [
                   SizedBox(
@@ -139,7 +139,7 @@ class _DeviceLogState extends ConsumerState<_DeviceLog> {
                           ),
                           children: [
                             TextSpan(
-                              text: '[ ',
+                              text: '[',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),
@@ -151,7 +151,7 @@ class _DeviceLogState extends ConsumerState<_DeviceLog> {
                               ),
                             ),
                             TextSpan(
-                              text: ' ]  ',
+                              text: '] ',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),
@@ -275,7 +275,7 @@ class _SystemLogState extends ConsumerState<_SystemLog> {
                           ),
                           children: [
                             TextSpan(
-                              text: '[ ',
+                              text: '[',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),
@@ -287,7 +287,7 @@ class _SystemLogState extends ConsumerState<_SystemLog> {
                               ),
                             ),
                             TextSpan(
-                              text: ' ]  ',
+                              text: '] ',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),

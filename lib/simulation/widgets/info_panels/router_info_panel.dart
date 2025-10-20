@@ -470,7 +470,7 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
                     ),
                     dataTextStyle: const TextStyle(
                       fontSize: 10,
-                      fontWeight: FontWeight.w100,
+                      fontWeight: FontWeight.w400,
                     ),
                     border: TableBorder(
                       horizontalInside: BorderSide(
@@ -480,17 +480,17 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
                     ),
                     columns: const [
                       DataColumn(
-                        columnWidth: FixedColumnWidth(40),
+                        columnWidth: FixedColumnWidth(45),
                         headingRowAlignment: MainAxisAlignment.center,
                         label: Center(child: Text("Type")),
                       ),
                       DataColumn(
-                        columnWidth: FixedColumnWidth(90),
+                        columnWidth: FixedColumnWidth(100),
                         headingRowAlignment: MainAxisAlignment.center,
                         label: Center(child: Text("Network Id")),
                       ),
                       DataColumn(
-                        columnWidth: FixedColumnWidth(75),
+                        columnWidth: FixedColumnWidth(85),
                         headingRowAlignment: MainAxisAlignment.center,
                         label: Center(child: Text("Interface")),
                       ),

@@ -21,7 +21,7 @@ class DevicePanel extends ConsumerWidget {
 
     return Positioned(
       bottom: 8,
-      left: 20,
+      left: 0,
       right: 0,
       child: Center(
         child: Card(
