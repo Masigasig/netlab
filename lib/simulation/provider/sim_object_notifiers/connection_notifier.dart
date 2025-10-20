@@ -109,6 +109,10 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
     deviceNotifier.receiveMessage(messageId, state.id);
   }
 
+  String getConnectedDeviceName(String simObjectId) => _getDeviceById(
+    simObjectId == state.conAId ? state.conBId : state.conAId,
+  ).name;
+
   Device _getDeviceById(String simObjectId) {
     if (simObjectId.startsWith(SimObjectType.host.label)) {
       return ref.read(hostProvider(simObjectId));

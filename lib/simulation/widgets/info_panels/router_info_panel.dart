@@ -228,8 +228,89 @@ class _RouterInfoTabViewState extends ConsumerState<_RouterInfoTabView> {
                   );
                 },
               ),
+
+              Consumer(
+                builder: (context, ref, child) {
+                  final eth0conId = ref.watch(
+                    routerProvider(selectedDeviceId).select((r) => r.eth0conId),
+                  );
+
+                  final eth1conId = ref.watch(
+                    routerProvider(selectedDeviceId).select((r) => r.eth1conId),
+                  );
+
+                  final eth2conId = ref.watch(
+                    routerProvider(selectedDeviceId).select((r) => r.eth2conId),
+                  );
+
+                  final eth3conId = ref.watch(
+                    routerProvider(selectedDeviceId).select((r) => r.eth3conId),
+                  );
+
+                  final ethConIds = [
+                    eth0conId,
+                    eth1conId,
+                    eth2conId,
+                    eth3conId,
+                  ];
+
+                  return _buildConnectedDeviceCard(selectedDeviceId, ethConIds);
+                },
+              ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Card _buildConnectedDeviceCard(String deviceId, List<String> ethConIds) {
+    List<Widget> buildConnectionRows() {
+      return List.generate(ethConIds.length, (index) {
+        final conId = ethConIds[index];
+        final label = 'eth$index';
+
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Row(
+            children: [
+              Image.asset(
+                AppImage.ethernet,
+                width: 15,
+                height: 15,
+                color: conId.isEmpty
+                    ? Theme.of(context).colorScheme.onSurface
+                    : Colors.green,
+              ),
+              const SizedBox(width: 5),
+              Expanded(
+                child: Text(
+                  conId.isEmpty
+                      ? '$label :  Not connected'
+                      : '$label :  ${ref.read(connectionProvider(conId).notifier).getConnectedDeviceName(deviceId)}',
+                ),
+              ),
+            ],
+          ),
+        );
+      });
+    }
+
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Connected Device :',
+              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 4),
+            ...buildConnectionRows(),
+          ],
         ),
       ),
     );

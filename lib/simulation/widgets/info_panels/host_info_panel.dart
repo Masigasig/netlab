@@ -38,6 +38,9 @@ class _HostInfoTabViewState extends ConsumerState<_HostInfoTabView> {
     final macAddress = ref.watch(
       hostProvider(selectedDeviceId).select((h) => h.macAddress),
     );
+    final conId = ref.watch(
+      hostProvider(selectedDeviceId).select((h) => h.connectionId),
+    );
 
     return Padding(
       padding: const EdgeInsets.all(4.0),
@@ -90,8 +93,50 @@ class _HostInfoTabViewState extends ConsumerState<_HostInfoTabView> {
                     .updateDefaultGateway(value),
               ),
               _InfoPanelField(label: 'Mac Address :', value: macAddress),
+
+              _buildConnectedDeviceCard(selectedDeviceId, conId),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Card _buildConnectedDeviceCard(String deviceId, String conId) {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Connected Device :',
+              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Image.asset(
+                  AppImage.ethernet,
+                  width: 15,
+                  height: 15,
+                  color: conId.isEmpty
+                      ? Theme.of(context).colorScheme.onSurface
+                      : Colors.green,
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: conId.isEmpty
+                      ? const Text('eth0 :  Not connected')
+                      : Text(
+                          'eth0 :  ${ref.read(connectionProvider(conId).notifier).getConnectedDeviceName(deviceId)}',
+                        ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

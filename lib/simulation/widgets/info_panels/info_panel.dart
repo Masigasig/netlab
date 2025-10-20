@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
+import 'package:netlab/core/constants/app_image.dart';
+
 import 'package:netlab/simulation/core/enums.dart';
 import 'package:netlab/simulation/core/ipv4_address_manager.dart';
 import 'package:netlab/simulation/core/validator.dart';
