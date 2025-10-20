@@ -1,20 +1,26 @@
 class DashboardStats {
-  final int completedModules;
-  final int totalModules;
-  final double averageQuizScore;
-  final int totalStudyTimeMinutes;
-  final int topicsInProgress;
   final int totalTopics;
-  final double overallProgressPercentage;
+  final int totalChapters;
+  final int completedQuizzes;
+  final int totalQuizzes;
+  final double averageQuizTimeSeconds;
+  final int totalStudyTimeMinutes;
+
+  // Quiz performance breakdown
+  final int correctAnswers;
+  final int wrongAnswers;
+  final int undiscoveredQuestions;
 
   DashboardStats({
-    required this.completedModules,
-    required this.totalModules,
-    required this.averageQuizScore,
-    required this.totalStudyTimeMinutes,
-    required this.topicsInProgress,
     required this.totalTopics,
-    required this.overallProgressPercentage,
+    required this.totalChapters,
+    required this.completedQuizzes,
+    required this.totalQuizzes,
+    required this.averageQuizTimeSeconds,
+    required this.totalStudyTimeMinutes,
+    required this.correctAnswers,
+    required this.wrongAnswers,
+    required this.undiscoveredQuestions,
   });
 
   String get studyTimeFormatted {
@@ -22,5 +28,20 @@ class DashboardStats {
     return '${hours}h';
   }
 
-  int get remainingModules => totalModules - completedModules;
+  String get topicsChaptersFormatted => '$totalTopics/$totalChapters';
+  String get completedQuizzesFormatted => '$completedQuizzes/$totalQuizzes';
+  String get avgQuizTimeFormatted =>
+      '${averageQuizTimeSeconds.toStringAsFixed(1)}s';
+
+  int get totalQuestions =>
+      correctAnswers + wrongAnswers + undiscoveredQuestions;
+
+  double get correctPercentage =>
+      totalQuestions > 0 ? (correctAnswers / totalQuestions) * 100 : 0.0;
+
+  double get wrongPercentage =>
+      totalQuestions > 0 ? (wrongAnswers / totalQuestions) * 100 : 0.0;
+
+  double get undiscoveredPercentage =>
+      totalQuestions > 0 ? (undiscoveredQuestions / totalQuestions) * 100 : 0.0;
 }

@@ -15,6 +15,12 @@ class DashboardService {
       'nf_ip',
       'nf_osi',
       'nf_quiz',
+      'nf_host_quiz',
+      'nf_internet_quiz',
+      'nf_network_ip_quiz',
+      'nf_network_quiz',
+      'nf_osi_model_quiz',
+      'nf_topic_quiz',
     ],
     'switching_routing': [
       'sr_intro_switching',
@@ -27,6 +33,15 @@ class DashboardService {
       'sr_routing_table',
       'sr_routing_types',
       'sr_quiz',
+      'sr_intro_switching_quiz',
+      'sr_introduction_to_routing_quiz',
+      'sr_mac_address_table_quiz',
+      'sr_router_network_connections_quiz',
+      'sr_router_vs_host_quiz',
+      'sr_routing_table_quiz',
+      'sr_routing_types_quiz',
+      'sr_switch_operations_quiz',
+      'sr_topic_quiz',
     ],
     'network_devices': [
       'nd_repeater',
@@ -35,6 +50,26 @@ class DashboardService {
       'nd_switch',
       'nd_router',
       'nd_quiz',
+      'nd_bridge_quiz',
+      'nd_switch_quiz',
+      'nd_router_quiz',
+      'nd_hub_quiz',
+      'nd_repeater_quiz',
+      'nd_topic_quiz',
+    ],
+    'host_to_host': [
+      'h2h_overview',
+      'h2h_host_overview_quiz',
+      'h2h_preparing',
+      'h2h_preparing_quiz',
+      'h2h_arp',
+      'h2h_arp_quiz',
+      'h2h_packet_flow',
+      'h2h_packet_transmission_quiz',
+      'h2h_efficiency',
+      'h2h_subsequent_communication_quiz',
+      'h2h_summary',
+      'h2h_topic_quiz',
     ],
     'subnetting': [
       'sub_intro',
@@ -50,33 +85,25 @@ class DashboardService {
   static Future<DashboardStats> getDashboardStats() async {
     final topicIds = _topicModules.keys.toList();
 
-    int totalModules = 0;
-    int completedModules = 0;
+    int totalChapters = 0;
     int totalStudyTime = 0;
-    int topicsInProgress = 0;
-    double totalQuizScore = 0;
-    int quizCount = 0;
+    int completedQuizzes = 0;
+    int totalQuizzes = 0;
+    double totalQuizTime = 0;
+    int quizTimeCount = 0;
+
+    int correctAnswers = 0;
+    int wrongAnswers = 0;
+    int undiscoveredQuestions = 0;
 
     // Iterate through all topics and their modules
     for (final topicId in topicIds) {
       final moduleIds = _topicModules[topicId]!;
-      bool hasCompletedModule = false;
-      bool hasIncompleteModule = false;
 
       for (final moduleId in moduleIds) {
-        totalModules++;
-
-        // Check completion status
-        final isCompleted = await ProgressService.isChapterCompleted(
-          topicId,
-          moduleId,
-        );
-
-        if (isCompleted) {
-          completedModules++;
-          hasCompletedModule = true;
-        } else {
-          hasIncompleteModule = true;
+        // Only count non-quiz modules as chapters
+        if (!moduleId.contains('quiz')) {
+          totalChapters++;
         }
 
         // Get study time
@@ -86,40 +113,60 @@ class DashboardService {
         );
         totalStudyTime += moduleTime;
 
-        // Get quiz stats if available
-        final quizStats = await ProgressService.getModuleQuizStats(
-          topicId,
-          moduleId,
-        );
+        // Get quiz stats if module is a quiz
+        if (moduleId.contains('quiz')) {
+          totalQuizzes++;
 
-        if (quizStats['total'] > 0) {
-          totalQuizScore += quizStats['percentage'];
-          quizCount++;
+          final quizStats = await ProgressService.getModuleQuizStats(
+            topicId,
+            moduleId,
+          );
+
+          if (quizStats['total'] > 0) {
+            final correct = quizStats['correct'] as int;
+            final total = quizStats['total'] as int;
+            final wrong = total - correct;
+
+            correctAnswers += correct;
+            wrongAnswers += wrong;
+
+            // Check if quiz is completed (passed threshold of 60%)
+            final percentage = quizStats['percentage'] as int;
+            if (percentage >= 60) {
+              completedQuizzes++;
+            }
+
+            // Calculate quiz time (assuming avg 30 seconds per question if completed)
+            if (moduleTime > 0) {
+              final avgTimePerQuestion =
+                  (moduleTime * 60) / total; // Convert minutes to seconds
+              totalQuizTime += avgTimePerQuestion;
+              quizTimeCount++;
+            }
+          } else {
+            // Quiz not attempted - all questions are undiscovered
+            // Estimate 5 questions per quiz if not attempted
+            undiscoveredQuestions += 5;
+          }
         }
-      }
-
-      // A topic is in progress if it has at least one completed and one incomplete module
-      if (hasCompletedModule && hasIncompleteModule) {
-        topicsInProgress++;
       }
     }
 
-    // Calculate average quiz score
-    final averageQuizScore = quizCount > 0 ? totalQuizScore / quizCount : 0.0;
-
-    // Calculate overall progress percentage
-    final overallProgress = totalModules > 0
-        ? (completedModules / totalModules) * 100
+    // Calculate average quiz time per question
+    final averageQuizTime = quizTimeCount > 0
+        ? totalQuizTime / quizTimeCount
         : 0.0;
 
     return DashboardStats(
-      completedModules: completedModules,
-      totalModules: totalModules,
-      averageQuizScore: averageQuizScore,
-      totalStudyTimeMinutes: totalStudyTime,
-      topicsInProgress: topicsInProgress,
       totalTopics: topicIds.length,
-      overallProgressPercentage: overallProgress,
+      totalChapters: totalChapters,
+      completedQuizzes: completedQuizzes,
+      totalQuizzes: totalQuizzes,
+      averageQuizTimeSeconds: averageQuizTime,
+      totalStudyTimeMinutes: totalStudyTime,
+      correctAnswers: correctAnswers,
+      wrongAnswers: wrongAnswers,
+      undiscoveredQuestions: undiscoveredQuestions,
     );
   }
 
@@ -128,15 +175,14 @@ class DashboardService {
     final activities = <RecentActivity>[];
     final topicIds = _topicModules.keys.toList();
 
-    // Topic names for display
     final topicNames = {
       'network_fundamentals': 'Network Fundamentals',
       'switching_routing': 'Switching and Routing',
       'network_devices': 'Network Devices',
+      'subnetting': 'Subnetting',
       'host_to_host': 'Host-to-Host Communication',
     };
 
-    // Collect all completion timestamps
     for (final topicId in topicIds) {
       final moduleIds = _topicModules[topicId]!;
 
@@ -147,7 +193,6 @@ class DashboardService {
         );
 
         if (completionTime != null) {
-          // Get module name from ContentRegistry or use ID
           final moduleName = _getModuleName(moduleId);
 
           activities.add(
@@ -163,17 +208,13 @@ class DashboardService {
       }
     }
 
-    // Sort by most recent first
     activities.sort((a, b) => b.timestamp.compareTo(a.timestamp));
-
-    // Return limited results
     return activities.take(limit).toList();
   }
 
-  /// Get module display name from ID
   static String _getModuleName(String moduleId) {
-    // Map module IDs to readable names
     final moduleNames = {
+      // network fundamentals
       'nf_intro': 'Network Introduction',
       'nf_host': 'Host Concepts',
       'nf_internet': 'Internet Basics',
@@ -181,6 +222,14 @@ class DashboardService {
       'nf_ip': 'IP Addressing',
       'nf_osi': 'OSI Model',
       'nf_quiz': 'Fundamentals Quiz',
+      'nf_host_quiz': 'Host Quiz',
+      'nf_internet_quiz': 'Internet Quiz',
+      'nf_network_ip_quiz': 'Network & IP Quiz',
+      'nf_network_quiz': 'Network Quiz',
+      'nf_osi_model_quiz': 'OSI Model Quiz',
+      'nf_topic_quiz': 'Fundamentals Topic Quiz',
+
+      // switching routing
       'sr_intro_switching': 'Switching Introduction',
       'sr_mac_table': 'MAC Address Table',
       'sr_operations': 'Switch Operations',
@@ -191,19 +240,45 @@ class DashboardService {
       'sr_routing_table': 'Routing Table',
       'sr_routing_types': 'Routing Types',
       'sr_quiz': 'Switching & Routing Quiz',
+      'sr_intro_switching_quiz': 'Introduction to Switching Quiz',
+      'sr_introduction_to_routing_quiz': 'Introduction to Routing Quiz',
+      'sr_mac_address_table_quiz': 'MAC Address Table Quiz',
+      'sr_router_network_connections_quiz': 'Router Network Connections Quiz',
+      'sr_router_vs_host_quiz': 'Router vs Host Quiz',
+      'sr_routing_table_quiz': 'Routing Table Quiz',
+      'sr_routing_types_quiz': 'Routing Types Quiz',
+      'sr_switch_operations_quiz': 'Switch Operations Quiz',
+      'sr_topic_quiz': 'Switching & Routing Topic Quiz',
+
+      // network devices
       'nd_repeater': 'Repeater',
       'nd_hub': 'Hub',
       'nd_bridge': 'Bridge',
       'nd_switch': 'Switch',
       'nd_router': 'Router',
-      'nd_quiz': 'Network Devices Quiz',
-      'h2h_overview': 'H2H Overview',
-      'h2h_preparing': 'Preparing Communication',
-      'h2h_arp': 'ARP Process',
+      // 'nd_quiz': 'Network Devices Quiz',
+      'nd_bridge_quiz': 'Bridge Quiz',
+      'nd_switch_quiz': 'Switch Quiz',
+      'nd_router_quiz': 'Router Quiz',
+      'nd_hub_quiz': 'Hub Quiz',
+      'nd_repeater_quiz': 'Repeater Quiz',
+      'nd_topic_quiz': 'Network Devices Topic Quiz',
+
+      // host to host
+      'h2h_overview': 'Host-to-Host Communication',
+      'h2h_host_overview_quiz': 'Host-to-Host Communication Quiz',
+      'h2h_preparing': 'Preparing to Send Data',
+      'h2h_preparing_quiz': 'Preparing to Send Data Quiz',
+      'h2h_arp': 'Address Resolution Protocol (ARP)',
+      'h2h_arp_quiz': 'Address Resolution Protocol (ARP) Quiz',
       'h2h_packet_flow': 'Packet Flow',
+      'h2h_packet_transmission_quiz': 'Packet Transmission and Reception Quiz',
       'h2h_efficiency': 'Communication Efficiency',
-      'h2h_summary': 'H2H Summary',
-      'h2h_quiz': 'Host-to-Host Quiz',
+      'h2h_subsequent_communication_quiz': 'Subsequent Communication Quiz',
+      'h2h_summary': 'Host-to-Host Communication Summary',
+      'h2h_topic_quiz': 'Host-to-Host Communication Topic Quiz',
+
+      // subnetting
       'sub_intro': 'Introduction to Subnetting',
       'sub_attributes': 'Subnet Attributes',
       'sub_cidr': 'CIDR and Subnet Mask',
@@ -215,7 +290,6 @@ class DashboardService {
     return moduleNames[moduleId] ?? moduleId;
   }
 
-  /// Get current study streak in days
   static Future<int> getCurrentStreak() async {
     return await ProgressService.getStreak();
   }

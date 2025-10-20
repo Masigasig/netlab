@@ -21,7 +21,7 @@ class HostToHostContent extends BaseTopicContent {
         duration: 2,
       ),
       ContentModule(
-        id: 'hh_host_overview_quiz',
+        id: 'h2h_host_overview_quiz',
         title: 'Host-to-Host Communication Quiz',
         description:
             'Test your knowledge on host-to-host communication concepts.',
@@ -39,7 +39,7 @@ class HostToHostContent extends BaseTopicContent {
         duration: 2,
       ),
       ContentModule(
-        id: 'hh_preparing_quiz',
+        id: 'h2h_preparing_quiz',
         title: 'Preparing to Send Data Quiz',
         description:
             'Test your knowledge on how IP headers and MAC addresses work together for delivery.',
@@ -57,7 +57,7 @@ class HostToHostContent extends BaseTopicContent {
         duration: 3,
       ),
       ContentModule(
-        id: 'hh_arp_quiz',
+        id: 'h2h_arp_quiz',
         title: 'Address Resolution Protocol (ARP) Quiz',
         description:
             'Test your knowledge on how ARP maps IP addresses to MAC addresses.',
@@ -75,7 +75,7 @@ class HostToHostContent extends BaseTopicContent {
         duration: 3,
       ),
       ContentModule(
-        id: 'hh_packet_transmission_quiz',
+        id: 'h2h_packet_transmission_quiz',
         title: 'Packet Transmission and Reception Quiz',
         description:
             'Test your knowledge on how packets are transmitted and received.',
@@ -92,7 +92,7 @@ class HostToHostContent extends BaseTopicContent {
         duration: 2,
       ),
       ContentModule(
-        id: 'hh_subsequent_communication_quiz',
+        id: 'h2h_subsequent_communication_quiz',
         title: 'Subsequent Communication Quiz',
         description:
             'Test your knowledge on how ARP caching speeds up communication between hosts.',

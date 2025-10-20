@@ -88,4 +88,12 @@ class DashboardFormatters {
     final m = number / 1000000;
     return '${m.toStringAsFixed(m.truncateToDouble() == m ? 0 : 1)}M';
   }
+
+  /// Format quiz time in seconds
+  static String formatQuizTime(double seconds) {
+    if (seconds < 1) {
+      return '${(seconds * 1000).toStringAsFixed(0)}ms';
+    }
+    return '${seconds.toStringAsFixed(1)}s';
+  }
 }

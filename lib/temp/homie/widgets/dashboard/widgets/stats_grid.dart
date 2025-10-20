@@ -23,13 +23,13 @@ class StatsGrid extends StatelessWidget {
       children: [
         StatCard(
           icon: HugeIcon(
-            icon: HugeIcons.strokeRoundedNotebook02,
+            icon: HugeIcons.strokeRoundedBookOpen01,
             color: cs.primary,
             size: 16,
           ),
-          title: 'Modules',
-          value: '${stats.completedModules}',
-          subtitle: 'Completed',
+          title: 'Topics & Chapters',
+          value: stats.topicsChaptersFormatted,
+          subtitle: 'Available',
           color: cs.primary,
         ),
         StatCard(
@@ -38,9 +38,9 @@ class StatsGrid extends StatelessWidget {
             color: AppColors.warningColor,
             size: 16,
           ),
-          title: 'Quizzes',
-          value: '${stats.averageQuizScore.toStringAsFixed(0)}%',
-          subtitle: 'Avg. Score',
+          title: 'Total Quizzes',
+          value: stats.completedQuizzesFormatted,
+          subtitle: 'Passed',
           color: AppColors.warningColor,
         ),
         StatCard(
@@ -56,13 +56,13 @@ class StatsGrid extends StatelessWidget {
         ),
         StatCard(
           icon: const HugeIcon(
-            icon: HugeIcons.strokeRoundedAddToList,
+            icon: HugeIcons.strokeRoundedTimer02,
             color: Colors.purple,
             size: 16,
           ),
-          title: 'Topics',
-          value: '${stats.topicsInProgress}',
-          subtitle: 'In Progress',
+          title: 'Avg Quiz Time',
+          value: stats.avgQuizTimeFormatted,
+          subtitle: 'Per Question',
           color: Colors.purple,
         ),
       ],

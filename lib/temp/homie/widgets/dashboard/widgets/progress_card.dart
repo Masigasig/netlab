@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
+import 'package:netlab/core/themes/app_theme.dart';
 import '../models/dashboard_stats.dart';
 
 class ProgressCard extends StatelessWidget {
@@ -34,24 +35,23 @@ class ProgressCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Overall Progress',
+                'Quiz Performance',
                 style: AppTextStyles.forSurface(
                   AppTextStyles.subtitleXL,
                   context,
                 ),
               ),
-
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: cs.primary.withAlpha(51),
+                  color: AppColors.successColor.withAlpha(51),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
-                  '${stats.overallProgressPercentage.toStringAsFixed(0)}%',
+                  '${stats.correctPercentage.toStringAsFixed(0)}%',
                   style: AppTextStyles.withColor(
                     AppTextStyles.subtitleMedium,
-                    cs.primary,
+                    AppColors.successColor,
                   ),
                 ),
               ),
@@ -60,14 +60,34 @@ class ProgressCard extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          // Progress bar
+          // Three-segment progress bar
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
-              value: stats.overallProgressPercentage / 100,
-              minHeight: 8, // reduced from 12
-              backgroundColor: cs.surfaceContainerHigh,
-              valueColor: AlwaysStoppedAnimation<Color>(cs.primary),
+            child: SizedBox(
+              height: 8,
+              child: Row(
+                children: [
+                  if (stats.correctAnswers > 0)
+                    Expanded(
+                      flex: stats.correctAnswers,
+                      child: Container(color: AppColors.successColor),
+                    ),
+                  if (stats.wrongAnswers > 0)
+                    Expanded(
+                      flex: stats.wrongAnswers,
+                      child: Container(color: AppColors.errorColor),
+                    ),
+                  if (stats.undiscoveredQuestions > 0)
+                    Expanded(
+                      flex: stats.undiscoveredQuestions,
+                      child: Container(color: cs.onSurfaceVariant),
+                    ),
+                  if (stats.correctAnswers == 0 &&
+                      stats.wrongAnswers == 0 &&
+                      stats.undiscoveredQuestions == 0)
+                    Expanded(child: Container(color: cs.surfaceContainerHigh)),
+                ],
+              ),
             ),
           ),
 
@@ -78,21 +98,21 @@ class ProgressCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildProgressDetail(
-                'Completed',
-                '${stats.completedModules}/${stats.totalModules}',
-                cs,
+                'Correct',
+                '${stats.correctAnswers}',
+                AppColors.successColor,
               ),
               Container(height: 18, width: 1, color: cs.outline.withAlpha(77)),
               _buildProgressDetail(
-                'In Progress',
-                '${stats.topicsInProgress}',
-                cs,
+                'Wrong',
+                '${stats.wrongAnswers}',
+                AppColors.errorColor,
               ),
               Container(height: 18, width: 1, color: cs.outline.withAlpha(77)),
               _buildProgressDetail(
-                'Remaining',
-                '${stats.remainingModules}',
-                cs,
+                'Undiscovered',
+                '${stats.undiscoveredQuestions}',
+                cs.onSurfaceVariant,
               ),
             ],
           ),
@@ -101,13 +121,16 @@ class ProgressCard extends StatelessWidget {
     );
   }
 
-  Widget _buildProgressDetail(String label, String value, ColorScheme cs) {
+  Widget _buildProgressDetail(String label, String value, Color color) {
     return Builder(
       builder: (context) => Column(
         children: [
           Text(
             value,
-            style: AppTextStyles.forSurface(AppTextStyles.headerSmall, context),
+            style: AppTextStyles.withColor(
+              AppTextStyles.forSurface(AppTextStyles.headerSmall, context),
+              color,
+            ),
           ),
           const SizedBox(height: 2),
           Text(
