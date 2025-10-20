@@ -39,7 +39,6 @@ class RouterNotifier extends DeviceNotifier<Router> {
       _routerQ.clear();
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.invalidate(routerPendingArpReqProvider(arg));
-        ref.invalidate(simObjectLogProvider(arg));
       });
     });
 

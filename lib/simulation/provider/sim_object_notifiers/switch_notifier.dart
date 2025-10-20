@@ -27,10 +27,6 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
       _messageProcessingTimer?.cancel();
       _messageProcessingTimer = null;
       _switchQ.clear();
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.invalidate(simObjectLogProvider(arg));
-      });
     });
     return ref.read(switchMapProvider)[arg]!;
   }
@@ -244,7 +240,7 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
 
       addInfoLog(
         state.id,
-        'Forward message "${messageNotifier(messageId).state.name}" to connection "${connectionNotifier(connectionId)}"',
+        'Forward message "${messageNotifier(messageId).state.name}" to connection "${connectionNotifier(connectionId).state.name}"',
       );
 
       sendMessageToConnection(connectionId, messageId, state.id);

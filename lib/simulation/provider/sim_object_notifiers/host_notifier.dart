@@ -37,7 +37,6 @@ class HostNotifier extends DeviceNotifier<Host> {
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.invalidate(hostPendingArpReqProvider(arg));
-        ref.invalidate(simObjectLogProvider(arg));
       });
     });
     return ref.read(hostMapProvider)[arg]!;
