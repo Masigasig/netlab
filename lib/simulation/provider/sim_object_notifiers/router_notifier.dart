@@ -518,7 +518,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
         SimObjectType.message.createSimObject(
               name: 'ARP Requestf for $targetIp',
               srcId: state.id,
-              dstId: 'ARP Request',
+              dstId: 'ARP Request for $targetIp',
             )
             as Message;
 
@@ -567,7 +567,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
         SimObjectType.message.createSimObject(
               name: 'ARP Reply to $targetIp',
               srcId: state.id,
-              dstId: 'ARP Reply',
+              dstId: 'ARP Reply to $targetIp',
             )
             as Message;
 

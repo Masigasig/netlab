@@ -61,6 +61,7 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
 
   void receiveMessage(String messageId, String fromId) {
     messageNotifier(messageId).updateCurrentPlaceId(state.id);
+    messageNotifier(messageId).pushLayer({});
 
     addInfoLog(
       state.id,
@@ -93,6 +94,8 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
   }
 
   void sendMessage(String messageId) {
+    messageNotifier(messageId).popLayer();
+
     final deviceToId = ref.read(conDeviceToIdMapProvider(state.id))[messageId]!;
 
     final deviceNotifier = _getDeviceNotifierById(deviceToId);

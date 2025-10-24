@@ -20,7 +20,6 @@ import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 
 //* TODO's:
 //* Finalization of UI
-//* message osi model stack panel
 //! bug of connection if there are many message
 
 class SimulationScreen extends ConsumerStatefulWidget {
