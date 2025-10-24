@@ -1,8 +1,8 @@
 class DashboardStats {
-  final int totalTopics;
-  final int totalChapters;
-  final int completedQuizzes;
-  final int totalQuizzes;
+  final int totalChapterQuizzes;
+  final int completedChapterQuizzes;
+  final int totalTopicQuizzes;
+  final int completedTopicQuizzes;
   final double averageQuizTimeSeconds;
   final int totalStudyTimeMinutes;
 
@@ -12,10 +12,10 @@ class DashboardStats {
   final int undiscoveredQuestions;
 
   DashboardStats({
-    required this.totalTopics,
-    required this.totalChapters,
-    required this.completedQuizzes,
-    required this.totalQuizzes,
+    required this.totalChapterQuizzes,
+    required this.completedChapterQuizzes,
+    required this.totalTopicQuizzes,
+    required this.completedTopicQuizzes,
     required this.averageQuizTimeSeconds,
     required this.totalStudyTimeMinutes,
     required this.correctAnswers,
@@ -28,8 +28,10 @@ class DashboardStats {
     return '${hours}h';
   }
 
-  String get topicsChaptersFormatted => '$totalTopics/$totalChapters';
-  String get completedQuizzesFormatted => '$completedQuizzes/$totalQuizzes';
+  String get chapterQuizzesFormatted =>
+      '$completedChapterQuizzes/$totalChapterQuizzes';
+  String get topicQuizzesFormatted =>
+      '$completedTopicQuizzes/$totalTopicQuizzes';
   String get avgQuizTimeFormatted =>
       '${averageQuizTimeSeconds.toStringAsFixed(1)}s';
 

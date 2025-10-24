@@ -23,24 +23,24 @@ class StatsGrid extends StatelessWidget {
       children: [
         StatCard(
           icon: HugeIcon(
-            icon: HugeIcons.strokeRoundedBookOpen01,
+            icon: HugeIcons.strokeRoundedQuiz05,
             color: cs.primary,
             size: 16,
           ),
-          title: 'Topics & Chapters',
-          value: stats.topicsChaptersFormatted,
-          subtitle: 'Available',
+          title: 'Chapter Quizzes',
+          value: stats.chapterQuizzesFormatted,
+          subtitle: 'Completed',
           color: cs.primary,
         ),
         StatCard(
           icon: const HugeIcon(
-            icon: HugeIcons.strokeRoundedQuiz05,
+            icon: HugeIcons.strokeRoundedBookOpen01,
             color: AppColors.warningColor,
             size: 16,
           ),
-          title: 'Total Quizzes',
-          value: stats.completedQuizzesFormatted,
-          subtitle: 'Passed',
+          title: 'Topic Quizzes',
+          value: stats.topicQuizzesFormatted,
+          subtitle: 'Completed',
           color: AppColors.warningColor,
         ),
         StatCard(

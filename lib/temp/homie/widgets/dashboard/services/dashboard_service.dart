@@ -85,10 +85,11 @@ class DashboardService {
   static Future<DashboardStats> getDashboardStats() async {
     final topicIds = _topicModules.keys.toList();
 
-    int totalChapters = 0;
+    int totalChapterQuizzes = 0;
+    int completedChapterQuizzes = 0;
+    int totalTopicQuizzes = 0;
+    int completedTopicQuizzes = 0;
     int totalStudyTime = 0;
-    int completedQuizzes = 0;
-    int totalQuizzes = 0;
     double totalQuizTime = 0;
     int quizTimeCount = 0;
 
@@ -101,11 +102,6 @@ class DashboardService {
       final moduleIds = _topicModules[topicId]!;
 
       for (final moduleId in moduleIds) {
-        // Only count non-quiz modules as chapters
-        if (!moduleId.contains('quiz')) {
-          totalChapters++;
-        }
-
         // Get study time
         final moduleTime = await ProgressService.getStudyTime(
           topicId,
@@ -115,7 +111,11 @@ class DashboardService {
 
         // Get quiz stats if module is a quiz
         if (moduleId.contains('quiz')) {
-          totalQuizzes++;
+          if (moduleId.contains('topic_quiz')) {
+            totalTopicQuizzes++;
+          } else {
+            totalChapterQuizzes++;
+          }
 
           final quizStats = await ProgressService.getModuleQuizStats(
             topicId,
@@ -133,7 +133,11 @@ class DashboardService {
             // Check if quiz is completed (passed threshold of 60%)
             final percentage = quizStats['percentage'] as int;
             if (percentage >= 60) {
-              completedQuizzes++;
+              if (moduleId.contains('topic_quiz')) {
+                completedTopicQuizzes++;
+              } else {
+                completedChapterQuizzes++;
+              }
             }
 
             // Calculate quiz time (assuming avg 30 seconds per question if completed)
@@ -158,10 +162,10 @@ class DashboardService {
         : 0.0;
 
     return DashboardStats(
-      totalTopics: topicIds.length,
-      totalChapters: totalChapters,
-      completedQuizzes: completedQuizzes,
-      totalQuizzes: totalQuizzes,
+      totalChapterQuizzes: totalChapterQuizzes,
+      completedChapterQuizzes: completedChapterQuizzes,
+      totalTopicQuizzes: totalTopicQuizzes,
+      completedTopicQuizzes: completedTopicQuizzes,
       averageQuizTimeSeconds: averageQuizTime,
       totalStudyTimeMinutes: totalStudyTime,
       correctAnswers: correctAnswers,
