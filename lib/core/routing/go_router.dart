@@ -25,6 +25,8 @@ import 'package:netlab/temp/homie/widgets/study_section/features/study_content/d
     show SubnettingContent;
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/study_topic_service.dart'
     show StudyTopicsService;
+import 'package:netlab/temp/homie/widgets/tutorial/tutorial_screen.dart'
+    show TutorialScreen;
 
 export 'package:go_router/go_router.dart';
 
@@ -39,6 +41,7 @@ class Routes {
   static const tools = '/tools';
   static const home = '/home';
   static const study = '/study';
+  static const tutorial = '/tutorial';
   static const settings = '/settings';
 
   // Relative paths
@@ -89,6 +92,10 @@ final router = GoRouter(
               builder: (context, state) => const SimulationScreen(),
             ),
           ],
+        ),
+        GoRoute(
+          path: Routes.tutorial,
+          builder: (context, state) => const TutorialScreen(),
         ),
         GoRoute(
           path: Routes.study,
