@@ -516,7 +516,7 @@ class RouterNotifier extends DeviceNotifier<Router> {
   void _sendArpRqst(String targetIp, String fromConId) {
     final message =
         SimObjectType.message.createSimObject(
-              name: 'ARP Requestf for $targetIp',
+              name: 'ARP Request for $targetIp',
               srcId: state.id,
               dstId: 'ARP Request for $targetIp',
             )

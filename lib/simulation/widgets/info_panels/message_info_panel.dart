@@ -37,7 +37,13 @@ class _MessageInfoTabViewState extends ConsumerState<_MessageInfoTabView> {
       messageProvider(selectedDeviceId).select((m) => m.dstId),
     );
 
-    final srcHostName = ref.watch(hostProvider(srcId).select((h) => h.name));
+    String srcName = '';
+
+    if (srcId.startsWith(SimObjectType.host.label)) {
+      srcName = ref.read(hostProvider(srcId)).name;
+    } else if (srcId.startsWith(SimObjectType.router.label)) {
+      srcName = ref.read(routerProvider(srcId)).name;
+    }
 
     String dstHostName = dstId;
     if (dstId.startsWith(SimObjectType.host.label)) {
@@ -60,7 +66,7 @@ class _MessageInfoTabViewState extends ConsumerState<_MessageInfoTabView> {
                     .read(messageProvider(selectedDeviceId).notifier)
                     .updateName(value),
               ),
-              _InfoPanelField(label: 'From :', value: srcHostName),
+              _InfoPanelField(label: 'From :', value: srcName),
 
               _InfoPanelField(label: 'To :', value: dstHostName),
 
