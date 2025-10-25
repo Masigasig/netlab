@@ -20,7 +20,6 @@ import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
 
 //* TODO's:
 //* Finalization of UI
-//! bug of connection if there are many message
 
 class SimulationScreen extends ConsumerStatefulWidget {
   static const canvasSize = Size(100_000.0, 100_000.0);

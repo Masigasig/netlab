@@ -46,17 +46,6 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
             top: messagePosY - MessageWidget.size / 2,
             duration: messageDuration,
             curve: Curves.easeIn,
-            onEnd: () {
-              final currentPlaceId = ref
-                  .read(messageProvider(widget.simObjectId))
-                  .currentPlaceId;
-
-              if (currentPlaceId.startsWith(SimObjectType.connection.label)) {
-                ref
-                    .read(connectionProvider(currentPlaceId).notifier)
-                    .sendMessage(widget.simObjectId);
-              }
-            },
             child: GestureDetector(
               onTap: _handleTap,
               child: _messageWithLabel(),

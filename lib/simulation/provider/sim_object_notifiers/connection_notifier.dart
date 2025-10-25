@@ -24,7 +24,6 @@ final connectionWidgetsProvider =
 
 class ConnectionNotifier extends SimObjectNotifier<Connection> {
   final String arg;
-  double get _speed => ref.read(simScreenProvider).messageSpeed * 100;
 
   ConnectionNotifier(this.arg);
 
@@ -86,7 +85,17 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
                 Offset(deviceFrom.posX, deviceFrom.posY))
             .distance;
 
-    final duration = Duration(milliseconds: (distance / _speed).round() * 1000);
+    final currentSpeed =
+        ref.watch(simScreenProvider.select((s) => s.messageSpeed)) * 100;
+    final duration = Duration(
+      milliseconds: ((distance / currentSpeed) * 1000).toInt(),
+    );
+
+    Future.delayed(duration, () {
+      if (ref.read(conDeviceToIdMapProvider(state.id)).containsKey(messageId)) {
+        sendMessage(messageId);
+      }
+    });
 
     messageNotifier(
       messageId,
