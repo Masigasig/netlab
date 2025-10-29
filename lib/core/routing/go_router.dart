@@ -7,6 +7,7 @@ import 'package:netlab/core/components/app_layout.dart' show AppLayout;
 import 'package:netlab/tools/tool_screen.dart' show ToolScreen;
 import 'package:netlab/home/home_screen.dart' show HomeScreen;
 import 'package:netlab/settings/setting_screen.dart' show SettingScreen;
+import 'package:netlab/temp/splash_screen/splash_screen.dart' show SplashScreen;
 
 import 'package:netlab/simulation/simulation_screen.dart' show SimulationScreen;
 import 'package:netlab/temp/homie/widgets/study_section/widgets/layouts/study.dart'
@@ -36,6 +37,9 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class Routes {
+  // Add splash route
+  static const splash = '/';
+  
   // Base paths
   static const dashboard = '/dashboard';
   static const tools = '/tools';
@@ -63,10 +67,14 @@ class Routes {
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: Routes.home,
+  initialLocation: Routes.splash,
   debugLogDiagnostics: true,
   observers: [routeObserver],
   routes: [
+    GoRoute(
+      path: Routes.splash,
+      builder: (context, state) => const SplashScreen(),
+    ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) {
