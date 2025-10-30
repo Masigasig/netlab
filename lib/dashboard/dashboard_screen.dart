@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:netlab/dashboard/widgets/dashboard_sidebar.dart';
+import 'package:netlab/dashboard/widgets/stats_grid.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -13,7 +14,7 @@ class DashboardScreen extends StatelessWidget {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -56,7 +57,7 @@ class DashboardScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                //* TODO: stat card
+                const StatsGrid(),
                 const SizedBox(height: 16),
                 Text(
                   'Learning Progress',
