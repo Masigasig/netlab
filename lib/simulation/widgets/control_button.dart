@@ -167,7 +167,7 @@ class _PlayPauseButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    debugPrint('PlayPuaseButton Rebuilt');
+    debugPrint('PlayPauseButton Rebuilt');
     final isPlaying = ref.watch(simScreenProvider.select((s) => s.isPlaying));
 
     return _ControlButton(

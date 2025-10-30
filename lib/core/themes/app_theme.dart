@@ -13,8 +13,8 @@ class AppThemes {
     brightness: Brightness.light,
     colorScheme: AppColors.lightColorScheme,
     elevatedButtonTheme: AppButtonStyles.lightElevatedButtonTheme,
-    outlinedButtonTheme: AppButtonStyles.lightOutlinedButtonTheme,
     textButtonTheme: AppButtonStyles.lightTextButtonTheme,
+    outlinedButtonTheme: AppButtonStyles.lightOutlinedButtonTheme,
     filledButtonTheme: AppButtonStyles.lightFilledButtonTheme,
   );
 
@@ -23,8 +23,8 @@ class AppThemes {
     brightness: Brightness.dark,
     colorScheme: AppColors.darkColorScheme,
     elevatedButtonTheme: AppButtonStyles.darkElevatedButtonTheme,
-    outlinedButtonTheme: AppButtonStyles.darkOutlinedButtonTheme,
     textButtonTheme: AppButtonStyles.darkTextButtonTheme,
+    outlinedButtonTheme: AppButtonStyles.darkOutlinedButtonTheme,
     filledButtonTheme: AppButtonStyles.darkFilledButtonTheme,
   );
 }

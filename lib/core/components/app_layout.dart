@@ -35,12 +35,12 @@ class SideBar extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // NavItem(
-          //   icon: HugeIcons.strokeRoundedDashboardSquare03,
-          //   isActive: currentLocation == Routes.dashboard,
-          //   onTap: () => context.go(Routes.dashboard),
-          // ),
-          // const SizedBox(height: 16),
+          NavItem(
+            icon: HugeIcons.strokeRoundedDashboardSquare03,
+            isActive: currentLocation == Routes.dashboard,
+            onTap: () => context.go(Routes.dashboard),
+          ),
+          const SizedBox(height: 16),
           NavItem(
             icon: HugeIcons.strokeRoundedDashboardSquare03,
             isActive: currentLocation == Routes.tempDashBoard,
