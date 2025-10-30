@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:netlab/dashboard/widgets/dashboard_sidebar.dart';
+import 'package:netlab/dashboard/widgets/question_performance_card.dart';
 import 'package:netlab/dashboard/widgets/stats_grid.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -57,8 +58,6 @@ class DashboardScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const StatsGrid(),
-                const SizedBox(height: 16),
                 Text(
                   'Learning Progress',
                   style: TextStyle(
@@ -69,7 +68,9 @@ class DashboardScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                //* TODO: progressCard
+                const StatsGrid(),
+                const SizedBox(height: 16),
+                const QuestionPerformanceCard(),
               ],
             ),
           ),

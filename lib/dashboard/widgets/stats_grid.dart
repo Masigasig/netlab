@@ -93,8 +93,13 @@ class _StatCard extends StatelessWidget {
         border: Border.all(color: color.withAlpha(52), width: 1.5),
         boxShadow: [
           BoxShadow(
+            color: cs.onSurface.withAlpha(13),
+            blurRadius: 4,
+            offset: const Offset(2, 4),
+          ),
+          BoxShadow(
             color: color.withAlpha(26),
-            blurRadius: 10,
+            blurRadius: 15,
             offset: const Offset(-5, 10),
           ),
         ],
@@ -128,7 +133,6 @@ class _StatCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
