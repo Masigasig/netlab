@@ -6,14 +6,14 @@ import 'dashboard_sidebar.dart';
 import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/study_topic_service.dart';
 
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+class TempDashboardScreen extends StatefulWidget {
+  const TempDashboardScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<TempDashboardScreen> createState() => _TempDashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _TempDashboardScreenState extends State<TempDashboardScreen> {
   late DashboardController _controller;
 
   @override

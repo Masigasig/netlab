@@ -23,9 +23,10 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(milliseconds: 800),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _initializeApp();
   }
@@ -36,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.wait([
       _loadAssets(),
       _initializeServices(),
-      Future.delayed(const Duration(seconds: 3)),
+      Future.delayed(const Duration(seconds: 2)),
     ]);
 
     await _controller.reverse();
@@ -48,9 +49,11 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _loadAssets() async {
     const loader = SvgAssetLoader('assets/images/logo.svg');
-    await svg.cache
-        .putIfAbsent(loader.cacheKey(null), () => loader.loadBytes(null));
-    
+    await svg.cache.putIfAbsent(
+      loader.cacheKey(null),
+      () => loader.loadBytes(null),
+    );
+
     await Future.delayed(const Duration(milliseconds: 500));
   }
 

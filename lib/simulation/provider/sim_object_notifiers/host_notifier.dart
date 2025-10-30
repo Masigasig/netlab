@@ -189,7 +189,7 @@ class HostNotifier extends DeviceNotifier<Host> {
     _isProcessingMessages = false;
     _messageProcessingTimer?.cancel();
     _messageProcessingTimer = null;
-    addSystemInfoLog('Host "${state.name} stopped processing message');
+    addSystemInfoLog('Host "${state.name}" stopped processing message');
     addInfoLog(state.id, 'Stopped processing message');
   }
 

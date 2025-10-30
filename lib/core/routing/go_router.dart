@@ -4,6 +4,7 @@ import 'package:flutter/material.dart'
 
 import 'package:netlab/core/components/app_layout.dart' show AppLayout;
 
+import 'package:netlab/dashboard/dashboard_screen.dart' show DashboardScreen;
 import 'package:netlab/tools/tool_screen.dart' show ToolScreen;
 import 'package:netlab/home/home_screen.dart' show HomeScreen;
 import 'package:netlab/settings/setting_screen.dart' show SettingScreen;
@@ -13,7 +14,7 @@ import 'package:netlab/simulation/simulation_screen.dart' show SimulationScreen;
 import 'package:netlab/temp/homie/widgets/study_section/widgets/layouts/study.dart'
     show StudyScreen;
 import 'package:netlab/temp/homie/widgets/dashboard/widgets/dashboard_screen.dart'
-    show DashboardScreen;
+    show TempDashboardScreen;
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/network_fundamentals_content.dart'
     show NetworkFundamentalsContent;
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/routing_switching_content.dart'
@@ -39,7 +40,7 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 class Routes {
   // Add splash route
   static const splash = '/';
-  
+
   // Base paths
   static const dashboard = '/dashboard';
   static const tools = '/tools';
@@ -47,6 +48,8 @@ class Routes {
   static const study = '/study';
   static const tutorial = '/tutorial';
   static const settings = '/settings';
+
+  static const tempDashBoard = '/tempDashboard';
 
   // Relative paths
   static const simulationRelative = 'simulation';
@@ -84,6 +87,10 @@ final router = GoRouter(
         GoRoute(
           path: Routes.dashboard,
           builder: (context, state) => const DashboardScreen(),
+        ),
+        GoRoute(
+          path: Routes.tempDashBoard,
+          builder: (context, state) => const TempDashboardScreen(),
         ),
         GoRoute(
           path: Routes.tools,
