@@ -1,0 +1,172 @@
+{
+    "chapter_0": {
+        "title": "Network Fundamentals",
+        "subtitle": "Learn the basics of computer networking and how devices communicate",
+        "description": "Master the essential concepts of network topology, addressing, and protocols that form the backbone of modern communications.",
+        "lessons": {
+            "lesson_0": {
+                "title": "Getting to Networking",
+                "content_path": "assets/learning_material/material_content/chapter_0/lesson_0.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main purpose of a computer network?",
+                        "answers": [
+                            "To play games only",
+                            "To connect devices and share resources",
+                            "To keep devices isolated",
+                            "To store electricity"
+                        ],
+                        "correct_answer": "To connect devices and share resources",
+                        "explanation": "A computer network allows devices to connect and share resources like files, printers, and internet connections."
+                    },
+                    "question_1": {
+                        "question": "Which of the following devices can be part of a computer network?",
+                        "answers": [
+                            "Printers",
+                            "Routers",
+                            "Servers",
+                            "All of the above"
+                        ],
+                        "correct_answer": "All of the above",
+                        "explanation": "Printers, routers, and servers can all be part of a computer network."
+                    },
+                    "question_2": {
+                        "question": "What was the simple idea that started computer networking?",
+                        "answers": [
+                            "Using the internet for gaming",
+                            "One computer wanting to share data with another",
+                            "Creating social media",
+                            "Making faster processors"
+                        ],
+                        "correct_answer": "One computer wanting to share data with another",
+                        "explanation": "The original idea behind networking was to allow one computer to share data with another."
+                    }
+                }
+            },
+            "lesson_1": {
+                "title": "Host",
+                "content_path": "assets/learning_material/material_content/chapter_0/lesson_1.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is a host in a computer network?",
+                        "answers": [
+                            "A person who manages the network",
+                            "A device that connects to other devices and sends or receives data",
+                            "A cable used for connection",
+                            "A software application"
+                        ],
+                        "correct_answer": "A device that connects to other devices and sends or receives data",
+                        "explanation": "A host is any device that connects to other devices and can send or receive data over a network."
+                    },
+                    "question_1": {
+                        "question": "Which of the following devices can be considered a host?",
+                        "answers": [
+                            "Computer",
+                            "Smartphone",
+                            "Printer",
+                            "All of the above"
+                        ],
+                        "correct_answer": "All of the above",
+                        "explanation": "All devices that can send or receive data on a network, such as computers, smartphones, and printers, are considered hosts."
+                    },
+                    "question_2": {
+                        "question": "What determines if a device is a host?",
+                        "answers": [
+                            "Its size and power",
+                            "Its ability to send or receive traffic over a network",
+                            "Its manufacturer",
+                            "Its IP address format"
+                        ],
+                        "correct_answer": "Its ability to send or receive traffic over a network",
+                        "explanation": "A device is considered a host if it can send or receive network traffic, regardless of its type or size."
+                    }
+                }
+            }
+        }
+    },
+    "chapter_1": {
+        "title": "Switching and Routing",
+        "subtitle": "Understanding how data moves through networks and switching concepts",
+        "description": "Step-by-step walkthrough of routing protocols, switch configuration, and network path determination.",
+        "lessons": {
+            "lesson_0": {
+                "title": "Introduction to Switching",
+                "content_path": "assets/learning_material/material_content/chapter_1/lesson_0.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the primary function of a network switch in a LAN environment?",
+                        "answers": [
+                            "To broadcast all data to every connected device",
+                            "To forward data frames only to the destination device using MAC addresses",
+                            "To convert analog signals to digital signals",
+                            "To assign IP addresses to devices on the network"
+                        ],
+                        "correct_answer": "To forward data frames only to the destination device using MAC addresses",
+                        "explanation": "A switch operates at the Data Link layer and forwards data frames to the correct device by checking MAC addresses, reducing unnecessary traffic."
+                    },
+                    "question_1": {
+                        "question": "At which OSI layer does a traditional switch operate?",
+                        "answers": [
+                            "Layer 1 – Physical Layer",
+                            "Layer 2 – Data Link Layer",
+                            "Layer 3 – Network Layer",
+                            "Layer 4 – Transport Layer"
+                        ],
+                        "correct_answer": "Layer 2 – Data Link Layer",
+                        "explanation": "Switches primarily function at the Data Link layer (Layer 2) of the OSI model, using MAC addresses to forward frames within a LAN."
+                    },
+                    "question_2": {
+                        "question": "How does a switch improve network performance compared to a hub?",
+                        "answers": [
+                            "It allows multiple devices to communicate simultaneously without collisions",
+                            "It increases the power output of network signals",
+                            "It adds wireless functionality to wired networks",
+                            "It broadcasts all traffic to every port to ensure reliability"
+                        ],
+                        "correct_answer": "It allows multiple devices to communicate simultaneously without collisions",
+                        "explanation": "Switches create separate collision domains for each connected device, allowing multiple simultaneous communications and improving network efficiency."
+                    }
+                }
+            },
+            "lesson_1": {
+                "title": "Mac Address Table",
+                "content_path": "assets/learning_material/material_content/chapter_1/lesson_1.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main purpose of the MAC address table in a switch?",
+                        "answers": [
+                            "To store IP address-to-port mappings",
+                            "To map device MAC addresses to specific switch ports",
+                            "To keep a list of connected routers",
+                            "To assign MAC addresses to new devices"
+                        ],
+                        "correct_answer": "To map device MAC addresses to specific switch ports",
+                        "explanation": "The MAC address table records which device (by MAC address) is connected to which port, allowing the switch to forward frames accurately."
+                    },
+                    "question_1": {
+                        "question": "How does a switch learn which MAC addresses are connected to which ports?",
+                        "answers": [
+                            "By manually configuring them",
+                            "By analyzing the source MAC address of incoming frames",
+                            "By reading the IP header of packets",
+                            "By receiving routing updates from other switches"
+                        ],
+                        "correct_answer": "By analyzing the source MAC address of incoming frames",
+                        "explanation": "A switch learns MAC addresses dynamically by checking the source MAC address of each incoming frame and recording the port it arrived on."
+                    },
+                    "question_2": {
+                        "question": "What does a switch do when it receives a frame with a destination MAC address not found in its MAC table?",
+                        "answers": [
+                            "Drops the frame immediately",
+                            "Sends the frame to all ports except the incoming one (flooding)",
+                            "Requests the IP address from a DHCP server",
+                            "Sends an error message to the sender"
+                        ],
+                        "correct_answer": "Sends the frame to all ports except the incoming one (flooding)",
+                        "explanation": "When a destination MAC is unknown, the switch floods the frame to all ports except the source port, ensuring it reaches the intended recipient."
+                    }
+                }
+            }
+        }
+    }
+}
