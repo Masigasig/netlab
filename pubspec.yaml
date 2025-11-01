@@ -87,6 +87,10 @@ flutter:
     - assets/images/content_image/host_to_host/
     - assets/images/lottie/
     - assets/images/lottie/onboarding_screen/
+    - assets/learning_material/
+    - assets/learning_material/material_content/
+    - assets/learning_material/material_content/chapter_0/
+    - assets/learning_material/material_content/chapter_1/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

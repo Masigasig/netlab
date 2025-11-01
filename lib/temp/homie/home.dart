@@ -19,7 +19,7 @@ class _HomieScreenState extends State<HomieScreen> {
     const DashboardScreen(),
     const SimulatorScreen(),
     const TutorialScreen(),
-    const StudyScreen(),
+    const TempStudyScreen(),
   ];
 
   void _onSidebarTap(int index) {

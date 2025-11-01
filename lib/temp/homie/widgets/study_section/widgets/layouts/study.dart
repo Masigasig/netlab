@@ -10,14 +10,14 @@ import 'package:netlab/temp/core/constants/app_text.dart';
 import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/study_topic_service.dart';
 
-class StudyScreen extends StatefulWidget {
-  const StudyScreen({super.key});
+class TempStudyScreen extends StatefulWidget {
+  const TempStudyScreen({super.key});
 
   @override
-  State<StudyScreen> createState() => _StudyScreenState();
+  State<TempStudyScreen> createState() => _TempStudyScreenState();
 }
 
-class _StudyScreenState extends State<StudyScreen> {
+class _TempStudyScreenState extends State<TempStudyScreen> {
   @override
   void initState() {
     super.initState();

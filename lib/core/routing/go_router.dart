@@ -8,11 +8,10 @@ import 'package:netlab/dashboard/dashboard_screen.dart' show DashboardScreen;
 import 'package:netlab/tools/tool_screen.dart' show ToolScreen;
 import 'package:netlab/home/home_screen.dart' show HomeScreen;
 import 'package:netlab/settings/setting_screen.dart' show SettingScreen;
-import 'package:netlab/temp/splash_screen/splash_screen.dart' show SplashScreen;
 
 import 'package:netlab/simulation/simulation_screen.dart' show SimulationScreen;
 import 'package:netlab/temp/homie/widgets/study_section/widgets/layouts/study.dart'
-    show StudyScreen;
+    show TempStudyScreen;
 import 'package:netlab/temp/homie/widgets/dashboard/widgets/dashboard_screen.dart'
     show TempDashboardScreen;
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/network_fundamentals_content.dart'
@@ -50,6 +49,7 @@ class Routes {
   static const settings = '/settings';
 
   static const tempDashBoard = '/tempDashboard';
+  static const tempStudy = '/tempStudy';
 
   // Relative paths
   static const simulationRelative = 'simulation';
@@ -70,14 +70,10 @@ class Routes {
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: Routes.splash,
+  initialLocation: Routes.home,
   debugLogDiagnostics: true,
   observers: [routeObserver],
   routes: [
-    GoRoute(
-      path: Routes.splash,
-      builder: (context, state) => const SplashScreen(),
-    ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) {
@@ -113,8 +109,8 @@ final router = GoRouter(
           builder: (context, state) => const TutorialScreen(),
         ),
         GoRoute(
-          path: Routes.study,
-          builder: (context, state) => const StudyScreen(),
+          path: Routes.tempStudy,
+          builder: (context, state) => const TempStudyScreen(),
           routes: [
             GoRoute(
               path: Routes.networkFundamentalsRelative,

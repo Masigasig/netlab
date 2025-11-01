@@ -1,15 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
+import 'dart:convert';
 
-class SplashScreen extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:netlab/core/routing/go_router.dart';
+import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
+
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class _SplashScreenState extends ConsumerState<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fade;
@@ -41,12 +47,21 @@ class _SplashScreenState extends State<SplashScreen>
     await _controller.forward(); // Fade in
 
     await Future.wait([
-      // _loadJsonData(), // Load and assign JSON
+      _loadJsonData(), // Load and assign JSON
       Future.delayed(const Duration(seconds: 2)), // Optional delay
     ]);
     await _controller.reverse(); // Fade out
 
     if (mounted) context.go('/home'); // Navigate
+  }
+
+  Future<void> _loadJsonData() async {
+    final jsonString = await rootBundle.loadString(
+      'assets/learning_material/material_details.json',
+    );
+    final jsonData = json.decode(jsonString) as Map<String, dynamic>;
+
+    ref.read(materialDetailProvider.notifier).setContent(jsonData);
   }
 
   @override

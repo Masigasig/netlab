@@ -132,7 +132,7 @@ class _TempDashboardScreenState extends State<TempDashboardScreen> {
   }
 
   void _navigateToBrowseTopics() {
-    context.go(Routes.study);
+    context.go(Routes.tempStudy);
   }
 
   @override

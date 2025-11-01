@@ -43,7 +43,9 @@ class SideBar extends StatelessWidget {
           const SizedBox(height: 16),
           NavItem(
             icon: HugeIcons.strokeRoundedDashboardSquare03,
-            isActive: currentLocation == Routes.tempDashBoard,
+            isActive:
+                currentLocation == Routes.tempDashBoard ||
+                currentLocation == Routes.tempStudy,
             onTap: () => context.go(Routes.tempDashBoard),
           ),
           const SizedBox(height: 16),
@@ -63,12 +65,6 @@ class SideBar extends StatelessWidget {
             icon: HugeIcons.strokeRoundedIdea01,
             isActive: currentLocation == Routes.tutorial,
             onTap: () => context.go(Routes.tutorial),
-          ),
-          const SizedBox(height: 16),
-          NavItem(
-            icon: HugeIcons.strokeRoundedBookOpen02,
-            isActive: currentLocation == Routes.study,
-            onTap: () => context.go(Routes.study),
           ),
           const SizedBox(height: 16),
           NavItem(
