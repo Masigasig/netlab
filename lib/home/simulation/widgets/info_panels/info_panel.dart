@@ -4,11 +4,11 @@ import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/core/constants/app_image.dart';
 
-import 'package:netlab/simulation/core/enums.dart';
-import 'package:netlab/simulation/core/ipv4_address_manager.dart';
-import 'package:netlab/simulation/core/validator.dart';
-import 'package:netlab/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
-import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
+import 'package:netlab/home/simulation/core/enums.dart';
+import 'package:netlab/home/simulation/core/ipv4_address_manager.dart';
+import 'package:netlab/home/simulation/core/validator.dart';
+import 'package:netlab/home/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
+import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
 
 part 'info_panel_field.dart';
 part 'info_panel_popup.dart';

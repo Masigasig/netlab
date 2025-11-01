@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:netlab/simulation/model/log_entry.dart';
+import 'package:netlab/home/simulation/model/log_entry.dart';
 
 final simObjectLogProvider =
     NotifierProvider.family<SimObjectLogNotifier, List<LogEntry>, String>(

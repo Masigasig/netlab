@@ -5,18 +5,18 @@ import 'package:vector_math/vector_math_64.dart' show Vector3, Vector4;
 import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/core/utils/file_service.dart';
 
-import 'package:netlab/simulation/core/enums.dart';
-import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
-import 'package:netlab/simulation/widgets/conn_choice_panel.dart';
-import 'package:netlab/simulation/widgets/control_button.dart';
-import 'package:netlab/simulation/widgets/device_panel.dart';
-import 'package:netlab/simulation/widgets/floating_timer.dart';
-import 'package:netlab/simulation/widgets/grid_painter.dart';
-import 'package:netlab/simulation/widgets/info_panels/info_panel.dart';
-import 'package:netlab/simulation/widgets/log_panel.dart';
+import 'package:netlab/home/simulation/core/enums.dart';
+import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
+import 'package:netlab/home/simulation/widgets/conn_choice_panel.dart';
+import 'package:netlab/home/simulation/widgets/control_button.dart';
+import 'package:netlab/home/simulation/widgets/device_panel.dart';
+import 'package:netlab/home/simulation/widgets/floating_timer.dart';
+import 'package:netlab/home/simulation/widgets/grid_painter.dart';
+import 'package:netlab/home/simulation/widgets/info_panels/info_panel.dart';
+import 'package:netlab/home/simulation/widgets/log_panel.dart';
 // import 'package:netlab/simulation/widgets/loop_animator.dart';
-import 'package:netlab/simulation/widgets/setttings_popup.dart';
-import 'package:netlab/simulation/widgets/sim_object_widget_stack.dart';
+import 'package:netlab/home/simulation/widgets/setttings_popup.dart';
+import 'package:netlab/home/simulation/widgets/sim_object_widget_stack.dart';
 
 //* TODO's:
 //* Finalization of UI

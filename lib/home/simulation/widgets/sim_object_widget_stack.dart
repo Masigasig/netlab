@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:netlab/simulation/core/enums.dart';
-import 'package:netlab/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
-import 'package:netlab/simulation/simulation_screen.dart';
+import 'package:netlab/home/simulation/core/enums.dart';
+import 'package:netlab/home/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
+import 'package:netlab/home/simulation/simulation_screen.dart';
 
 class SimObjectWidgetStack extends ConsumerWidget {
   final SimObjectType type;

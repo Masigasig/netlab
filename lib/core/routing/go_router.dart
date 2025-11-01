@@ -8,9 +8,9 @@ import 'package:netlab/dashboard/dashboard_screen.dart';
 import 'package:netlab/dashboard/study/study_screen.dart';
 import 'package:netlab/tools/tool_screen.dart';
 import 'package:netlab/home/home_screen.dart';
+import 'package:netlab/home/simulation/simulation_screen.dart';
 import 'package:netlab/settings/setting_screen.dart';
 
-import 'package:netlab/simulation/simulation_screen.dart';
 
 import 'package:netlab/temp/homie/widgets/study_section/widgets/layouts/study.dart';
 import 'package:netlab/temp/homie/widgets/dashboard/widgets/dashboard_screen.dart';

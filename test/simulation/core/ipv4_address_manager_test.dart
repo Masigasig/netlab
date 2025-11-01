@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:netlab/simulation/core/ipv4_address_manager.dart';
+import 'package:netlab/home/simulation/core/ipv4_address_manager.dart';
 
 void main() {
   test('isValidIp returns true for valid IPs', () {

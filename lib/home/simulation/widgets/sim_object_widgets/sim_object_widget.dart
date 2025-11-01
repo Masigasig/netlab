@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/core/constants/app_image.dart';
-import 'package:netlab/simulation/core/enums.dart';
-import 'package:netlab/simulation/model/sim_objects/sim_object.dart'
+import 'package:netlab/home/simulation/core/enums.dart';
+import 'package:netlab/home/simulation/model/sim_objects/sim_object.dart'
     show Device, Host, Router, Switch;
-import 'package:netlab/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
-import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
+import 'package:netlab/home/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
+import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
 
 part 'connection_widget.dart';
 part 'device_widget.dart';

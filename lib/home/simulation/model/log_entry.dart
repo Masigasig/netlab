@@ -1,4 +1,4 @@
-import 'package:netlab/simulation/core/enums.dart';
+import 'package:netlab/home/simulation/core/enums.dart';
 
 class LogEntry {
   final String message;

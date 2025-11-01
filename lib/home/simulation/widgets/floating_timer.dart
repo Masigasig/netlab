@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:netlab/simulation/provider/sim_clock.dart';
+import 'package:netlab/home/simulation/provider/sim_clock.dart';
 
 class FloatingTimer extends ConsumerStatefulWidget {
   const FloatingTimer({super.key});

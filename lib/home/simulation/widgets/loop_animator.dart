@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
+import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
 
 //* Solution to the bug where animation is not rendering continuously when
 //* the app is built due to flutter optimization

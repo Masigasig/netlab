@@ -5,15 +5,15 @@ import 'package:flutter/material.dart' show WidgetsBinding;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 
-import 'package:netlab/simulation/core/enums.dart';
-import 'package:netlab/simulation/core/ipv4_address_manager.dart';
-import 'package:netlab/simulation/core/mac_address_manager.dart';
-import 'package:netlab/simulation/model/log_entry.dart';
-import 'package:netlab/simulation/model/sim_objects/sim_object.dart';
-import 'package:netlab/simulation/provider/logs_notifier.dart';
-import 'package:netlab/simulation/provider/sim_clock.dart';
-import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
-import 'package:netlab/simulation/widgets/sim_object_widgets/sim_object_widget.dart';
+import 'package:netlab/home/simulation/core/enums.dart';
+import 'package:netlab/home/simulation/core/ipv4_address_manager.dart';
+import 'package:netlab/home/simulation/core/mac_address_manager.dart';
+import 'package:netlab/home/simulation/model/log_entry.dart';
+import 'package:netlab/home/simulation/model/sim_objects/sim_object.dart';
+import 'package:netlab/home/simulation/provider/logs_notifier.dart';
+import 'package:netlab/home/simulation/provider/sim_clock.dart';
+import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
+import 'package:netlab/home/simulation/widgets/sim_object_widgets/sim_object_widget.dart';
 
 part 'connection_notifier.dart';
 part 'device_notifier.dart';

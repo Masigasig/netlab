@@ -1,5 +1,5 @@
-import 'package:netlab/simulation/core/enums.dart';
-import 'package:netlab/simulation/core/ipv4_address_manager.dart';
+import 'package:netlab/home/simulation/core/enums.dart';
+import 'package:netlab/home/simulation/core/ipv4_address_manager.dart';
 
 class Validator {
   static String? validateName(String? input) =>

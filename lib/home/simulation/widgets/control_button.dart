@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
+import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
 
 class UtilityControls extends StatelessWidget {
   final VoidCallback onExit;

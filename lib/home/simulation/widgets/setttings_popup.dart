@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:netlab/simulation/provider/sim_screen_notifier.dart';
+import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
 
 class SetttingsPopup extends ConsumerStatefulWidget {
   const SetttingsPopup({super.key});

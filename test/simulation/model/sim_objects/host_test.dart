@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:netlab/simulation/core/enums.dart';
-import 'package:netlab/simulation/core/mac_address_manager.dart';
-import 'package:netlab/simulation/model/sim_objects/sim_object.dart';
+import 'package:netlab/home/simulation/core/enums.dart';
+import 'package:netlab/home/simulation/core/mac_address_manager.dart';
+import 'package:netlab/home/simulation/model/sim_objects/sim_object.dart';
 
 void main() {
   late Host host;
