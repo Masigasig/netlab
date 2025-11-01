@@ -12,7 +12,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
+  late Animation<double> _fade;
 
   @override
   void initState() {
@@ -20,45 +20,15 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 1000),
     );
 
-    _fadeAnimation = Tween<double>(
+    _fade = Tween<double>(
       begin: 0.0,
       end: 1.0,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
-    _initializeApp();
-  }
-
-  Future<void> _initializeApp() async {
-    await _controller.forward();
-
-    await Future.wait([
-      _loadAssets(),
-      _initializeServices(),
-      Future.delayed(const Duration(seconds: 2)),
-    ]);
-
-    await _controller.reverse();
-
-    if (mounted) {
-      context.go('/home');
-    }
-  }
-
-  Future<void> _loadAssets() async {
-    const loader = SvgAssetLoader('assets/images/logo.svg');
-    await svg.cache.putIfAbsent(
-      loader.cacheKey(null),
-      () => loader.loadBytes(null),
-    );
-
-    await Future.delayed(const Duration(milliseconds: 500));
-  }
-
-  Future<void> _initializeServices() async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    _startSplash();
   }
 
   @override
@@ -67,28 +37,30 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
+  Future<void> _startSplash() async {
+    await _controller.forward(); // Fade in
+
+    await Future.wait([
+      // _loadJsonData(), // Load and assign JSON
+      Future.delayed(const Duration(seconds: 2)), // Optional delay
+    ]);
+    await _controller.reverse(); // Fade out
+
+    if (mounted) context.go('/home'); // Navigate
+  }
+
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
     return Scaffold(
-      backgroundColor: cs.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: FadeTransition(
-        opacity: _fadeAnimation,
+        opacity: _fade,
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 300,
-                height: 300,
-                padding: const EdgeInsets.all(24),
-                child: SvgPicture.asset(
-                  'assets/images/logo.svg',
-                  semanticsLabel: 'NetLab Logo',
-                ),
-              ),
-            ],
+          child: SvgPicture.asset(
+            'assets/images/logo.svg',
+            width: 200,
+            height: 200,
+            semanticsLabel: 'App Logo',
           ),
         ),
       ),
