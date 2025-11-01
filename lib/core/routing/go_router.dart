@@ -11,7 +11,6 @@ import 'package:netlab/home/home_screen.dart';
 import 'package:netlab/home/simulation/simulation_screen.dart';
 import 'package:netlab/settings/setting_screen.dart';
 
-
 import 'package:netlab/temp/homie/widgets/study_section/widgets/layouts/study.dart';
 import 'package:netlab/temp/homie/widgets/dashboard/widgets/dashboard_screen.dart';
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/data/network_fundamentals_content.dart';

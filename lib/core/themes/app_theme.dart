@@ -25,7 +25,7 @@ class AppThemes {
     elevatedButtonTheme: AppButtonStyles.darkElevatedButtonTheme,
     textButtonTheme: AppButtonStyles.darkTextButtonTheme,
     outlinedButtonTheme: AppButtonStyles.darkOutlinedButtonTheme,
-    filledButtonTheme: AppButtonStyles.darkFilledButtonTheme,
+    // filledButtonTheme: AppButtonStyles.darkFilledButtonTheme,
   );
 }
 

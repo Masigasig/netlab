@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../themes/app_color.dart';
 import '../../temp/core/constants/app_text.dart';
 
+//* TODO: Will remove all of this, we dont need to complitcate things
+//* turns out this is just a simple projcet we dont need to over engineer it
 class AppStyles {
   // MARK: - Standard Spacing & Dimensions
 
