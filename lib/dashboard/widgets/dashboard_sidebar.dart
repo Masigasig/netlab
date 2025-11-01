@@ -1,7 +1,8 @@
 import 'package:hugeicons/hugeicons.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:netlab/core/routing/go_router.dart';
 
 class DashboardSidebar extends ConsumerWidget {
   const DashboardSidebar({super.key});
@@ -48,9 +49,7 @@ class DashboardSidebar extends ConsumerWidget {
               ),
               label: 'Browse Topics',
               color: cs.secondary,
-              onTap: () => {
-                //* TODO: Browse topic function
-              },
+              onTap: () => {context.go(Routes.study)},
             ),
             const SizedBox(height: 24),
             Text(

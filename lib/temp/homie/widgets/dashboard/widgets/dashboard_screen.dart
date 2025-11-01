@@ -101,7 +101,7 @@ class _TempDashboardScreenState extends State<TempDashboardScreen> {
     final topic = StudyTopicsService.getTopicById(topicId);
 
     if (topic == null) {
-      context.go(Routes.study);
+      context.go(Routes.tempStudy);
       return;
     }
 
@@ -124,7 +124,7 @@ class _TempDashboardScreenState extends State<TempDashboardScreen> {
         routePath = Routes.subnetting;
         break;
       default:
-        context.go(Routes.study);
+        context.go(Routes.tempStudy);
         return;
     }
 
