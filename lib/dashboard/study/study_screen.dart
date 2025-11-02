@@ -52,9 +52,13 @@ class StudyScreen extends ConsumerWidget {
                   const SizedBox(height: 20),
 
                   ...json.entries.map((entry) {
+                    final chapterKey = entry.key;
                     final chapterData = entry.value;
 
-                    return ChapterCard(chapterData: chapterData);
+                    return ChapterCard(
+                      chapterId: chapterKey,
+                      chapterData: chapterData,
+                    );
                   }),
                 ],
               ),

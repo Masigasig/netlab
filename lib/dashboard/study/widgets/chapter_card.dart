@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
+import 'package:netlab/core/routing/go_router.dart';
+
 class ChapterCard extends ConsumerWidget {
+  final String chapterId;
   final Map<String, dynamic> chapterData;
 
-  const ChapterCard({super.key, required this.chapterData});
+  const ChapterCard({
+    super.key,
+    required this.chapterId,
+    required this.chapterData,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -120,7 +127,7 @@ class ChapterCard extends ConsumerWidget {
             children: [
               OutlinedButton(
                 onPressed: () {
-                  //* TODO: button function
+                  context.go('${Routes.study}/$chapterId');
                 },
                 style: ButtonStyle(
                   shape: WidgetStateProperty.all(

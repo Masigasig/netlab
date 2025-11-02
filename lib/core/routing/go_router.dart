@@ -6,6 +6,7 @@ import 'package:netlab/core/components/app_layout.dart';
 
 import 'package:netlab/dashboard/dashboard_screen.dart';
 import 'package:netlab/dashboard/study/study_screen.dart';
+import 'package:netlab/dashboard/study/widgets/chapter_screen.dart';
 import 'package:netlab/tools/tool_screen.dart';
 import 'package:netlab/home/home_screen.dart';
 import 'package:netlab/home/simulation/simulation_screen.dart';
@@ -29,13 +30,10 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class Routes {
-  // Add splash route
-  static const splash = '/';
-
   // Base paths
   static const dashboard = '/dashboard';
   static const tools = '/tools';
-  static const home = '/home';
+  static const home = '/';
   static const tutorial = '/tutorial';
   static const settings = '/settings';
 
@@ -54,7 +52,7 @@ class Routes {
   static const subnettingRelative = 'subnetting';
 
   // Full paths
-  static const simulation = '$home/$simulationRelative';
+  static const simulation = '$home$simulationRelative';
   static const study = '$dashboard/$studyRelative';
 
   static const networkFundamentals = '$tempStudy/$networkFundamentalsRelative';
@@ -83,6 +81,15 @@ final router = GoRouter(
             GoRoute(
               path: Routes.studyRelative,
               builder: (context, state) => const StudyScreen(),
+              routes: [
+                GoRoute(
+                  path: ':chapterId',
+                  builder: (context, state) {
+                    final chapterId = state.pathParameters['chapterId']!;
+                    return ChapterScreen(chapterId: chapterId);
+                  },
+                ),
+              ],
             ),
           ],
         ),
