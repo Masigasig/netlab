@@ -3,20 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/core/routing/go_router.dart';
+import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 
 class ChapterCard extends ConsumerWidget {
   final String chapterId;
-  final Map<String, dynamic> chapterData;
 
-  const ChapterCard({
-    super.key,
-    required this.chapterId,
-    required this.chapterData,
-  });
+  const ChapterCard({super.key, required this.chapterId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
+    final chapterData = ref
+        .read(materialDetailProvider.notifier)
+        .getChapterData(chapterId);
+
     final progress = 20 / 100; //* TODO :riverpod value
 
     return Container(

@@ -14,4 +14,12 @@ class MaterialDetailNotifier extends Notifier<Map<String, dynamic>> {
   void setContent(Map<String, dynamic> json) {
     state = json;
   }
+
+  Map<String, dynamic> getChapterData(String chapterId) {
+    return state[chapterId];
+  }
+
+  Map<String, dynamic> getLessonData(String chapterId, String lessonId) {
+    return state[chapterId]['lessons'][lessonId];
+  }
 }

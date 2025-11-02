@@ -1,12 +1,12 @@
 import 'package:go_router/go_router.dart';
-import 'package:flutter/material.dart'
-    show PageRoute, RouteObserver, NavigatorState, GlobalKey;
+import 'package:flutter/material.dart';
 
 import 'package:netlab/core/components/app_layout.dart';
 
 import 'package:netlab/dashboard/dashboard_screen.dart';
 import 'package:netlab/dashboard/study/study_screen.dart';
 import 'package:netlab/dashboard/study/widgets/chapter_screen.dart';
+import 'package:netlab/dashboard/study/widgets/lesson_content.dart';
 import 'package:netlab/tools/tool_screen.dart';
 import 'package:netlab/home/home_screen.dart';
 import 'package:netlab/home/simulation/simulation_screen.dart';
@@ -82,12 +82,35 @@ final router = GoRouter(
               path: Routes.studyRelative,
               builder: (context, state) => const StudyScreen(),
               routes: [
-                GoRoute(
-                  path: ':chapterId',
-                  builder: (context, state) {
+                ShellRoute(
+                  parentNavigatorKey: _rootNavigatorKey,
+                  builder: (context, state, child) {
                     final chapterId = state.pathParameters['chapterId']!;
-                    return ChapterScreen(chapterId: chapterId);
+                    return ChapterScreen(chapterId: chapterId, child: child);
                   },
+                  routes: [
+                    GoRoute(
+                      path: ':chapterId',
+                      builder: (context, state) {
+                        return const Placeholder();
+                      },
+                      routes: [
+                        GoRoute(
+                          path: ':lessonId',
+                          builder: (context, state) {
+                            final lessonId = state.pathParameters['lessonId']!;
+                            final chapterId =
+                                state.pathParameters['chapterId']!;
+
+                            return LessonContent(
+                              chapterId: chapterId,
+                              lessonId: lessonId,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
