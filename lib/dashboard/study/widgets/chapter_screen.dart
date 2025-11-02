@@ -1,8 +1,11 @@
+// ignore_for_file: dead_code
+//* remove the ignore deadcode after implementing riverpod
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/core/routing/go_router.dart';
+import 'package:netlab/core/themes/app_theme.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 
 class ChapterScreen extends ConsumerWidget {
@@ -23,6 +26,7 @@ class ChapterScreen extends ConsumerWidget {
         .getChapterData(chapterId);
 
     final lessons = chapterData['lessons'] as Map<String, dynamic>;
+
     final currentLessonId = GoRouterState.of(
       context,
     ).pathParameters['lessonId'];
@@ -34,10 +38,10 @@ class ChapterScreen extends ConsumerWidget {
           Container(
             width: 300,
             decoration: BoxDecoration(
-              color: cs.surfaceContainerLow,
-              // border: Border(
-              //   right: BorderSide(color: cs.outline.withAlpha(10), width: 1),
-              // ),
+              color: cs.surfaceContainerLow.withAlpha(100),
+              border: Border(
+                right: BorderSide(color: cs.secondary.withAlpha(40), width: 1),
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,32 +90,92 @@ class ChapterScreen extends ConsumerWidget {
                       final lessonId = lessons.keys.elementAt(index);
                       final lessonData = lessons[lessonId];
                       final isSelected = currentLessonId == lessonId;
+                      final isComplete = false; //* TODO riverpod value
 
-                      return ListTile(
-                        selected: isSelected,
-                        leading: CircleAvatar(
-                          radius: 12,
-                          backgroundColor: isSelected ? cs.primary : cs.outline,
-                          child: Text(
-                            '${index + 1}',
-                            style: TextStyle(
-                              color: isSelected ? cs.onPrimary : cs.onSurface,
-                              fontSize: 12,
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 4),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? cs.primary.withAlpha(20)
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(8),
+                          border: isSelected
+                              ? Border.all(color: cs.secondary.withAlpha(51))
+                              : null,
+                        ),
+                        child: ListTile(
+                          dense: true,
+                          leading: SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  top: 8,
+                                  left: 8,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(6),
+                                    width: 32,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? cs.secondary.withAlpha(30)
+                                          : cs.primary.withAlpha(30),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: HugeIcon(
+                                      icon: isSelected
+                                          ? HugeIcons.strokeRoundedBookOpen02
+                                          : isComplete
+                                          ? HugeIcons.strokeRoundedBook03
+                                          : HugeIcons.strokeRoundedBookOpen01,
+                                      color: isComplete
+                                          ? AppColors.successColor
+                                          : isSelected
+                                          ? cs.secondary
+                                          : cs.primary,
+                                    ),
+                                  ),
+                                ),
+                                if (isComplete)
+                                  const Positioned(
+                                    top: 0,
+                                    left: 0,
+                                    child: SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: HugeIcon(
+                                        icon: HugeIcons.strokeRoundedTick04,
+                                        color: AppColors.successColor,
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
-                        ),
-                        title: Text(
-                          lessonData['title'],
-                          style: TextStyle(
-                            color: isSelected ? cs.primary : cs.onSurface,
-                            fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.normal,
+                          title: Text(
+                            lessonData['title'],
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: cs.onSurface,
+                              fontSize: 13,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.normal,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
+                          subtitle: Text(
+                            isComplete ? 'Passed' : ' ',
+                            style: const TextStyle(
+                              color: AppColors.successColor,
+                            ),
+                          ),
+                          onTap: () {
+                            context.go('${Routes.study}/$chapterId/$lessonId');
+                          },
                         ),
-                        onTap: () {
-                          context.go('${Routes.study}/$chapterId/$lessonId');
-                        },
                       );
                     },
                   ),
