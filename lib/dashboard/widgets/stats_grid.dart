@@ -56,7 +56,7 @@ class StatsGrid extends ConsumerWidget {
             color: Colors.purple,
             size: 16,
           ),
-          title: 'Avg. Quiz Time',
+          title: 'Quiz Time',
           value: '1m, 3s', //* TODO: riverpod value
           subtitle: 'Per Questions',
           color: Colors.purple,
@@ -120,15 +120,17 @@ class _StatCard extends StatelessWidget {
                 child: icon,
               ),
               const SizedBox(width: 6),
-              Text(
-                title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  color: cs.onSurface,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: cs.onSurface,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

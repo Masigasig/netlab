@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:netlab/firebase_options.dart';
 import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/core/themes/app_theme.dart';
+import 'package:netlab/dashboard/study/provider/material_content_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 
 void main() async {
@@ -64,7 +65,7 @@ class _MyAppState extends ConsumerState<MyApp>
     await _controller.forward();
 
     await Future.wait([
-      _loadJsonData(),
+      _loadData(),
       Future.delayed(const Duration(seconds: 2)),
     ]);
 
@@ -73,12 +74,35 @@ class _MyAppState extends ConsumerState<MyApp>
     setState(() => _showSplash = false);
   }
 
-  Future<void> _loadJsonData() async {
+  Future<void> _loadData() async {
     final jsonString = await rootBundle.loadString(
       'assets/learning_material/material_details.json',
     );
     final jsonData = json.decode(jsonString) as Map<String, dynamic>;
     ref.read(materialDetailProvider.notifier).setContent(jsonData);
+
+    final Map<String, Map<String, String>> markdownContent = {};
+
+    for (final chapter in jsonData.entries) {
+      final chapterId = chapter.key;
+      markdownContent[chapterId] = {};
+
+      final lessons =
+          (chapter.value['lessons'] as Map<String, dynamic>).entries;
+      for (final lesson in lessons) {
+        final lessonId = lesson.key;
+        final contentPath = lesson.value['content_path'] as String;
+
+        try {
+          final markdownString = await rootBundle.loadString(contentPath);
+          markdownContent[chapterId]![lessonId] = markdownString;
+        } catch (e) {
+          debugPrint('Error loading markdown for $chapterId/$lessonId: $e');
+          markdownContent[chapterId]![lessonId] = 'Content not available';
+        }
+      }
+    }
+    ref.read(materialContentProvider.notifier).setContent(markdownContent);
   }
 
   @override
