@@ -40,6 +40,17 @@
                         ],
                         "correct_answer": "One computer wanting to share data with another",
                         "explanation": "The original idea behind networking was to allow one computer to share data with another."
+                    },
+                    "question_3": {
+                        "question": "What device is commonly used to connect multiple computers within the same network?",
+                        "answers": [
+                            "Monitor",
+                            "Switch",
+                            "Keyboard",
+                            "FlashDrive"
+                        ],
+                        "correct_answer": "Switch",
+                        "explanation": "A switch connects multiple devices in a local area network (LAN) to enable communication."
                     }
                 }
             },
