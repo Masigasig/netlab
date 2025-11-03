@@ -51,6 +51,7 @@ dependencies:
   cloud_firestore: ^6.0.3  # Linux not supported
   google_sign_in_all_platforms: ^2.0.2
   flutter_svg: ^2.2.1
+  flutter_markdown_plus: ^1.0.5
 
 dev_dependencies:
   flutter_test:
