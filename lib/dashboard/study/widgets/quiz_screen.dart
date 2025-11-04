@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hugeicons/hugeicons.dart';
+
 import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/dashboard/study/provider/quiz_state_notifier.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   final List<Map<String, dynamic>> questions;
@@ -300,7 +302,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           const Spacer(),
           _buildProgressIndicators(cs),
           const SizedBox(width: 20),
-          _buildActionButton(isLastQuestion),
+          _buildActionButton(isLastQuestion, cs),
         ],
       ),
     );
@@ -332,7 +334,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     );
   }
 
-  Widget _buildActionButton(bool isLastQuestion) {
+  Widget _buildActionButton(bool isLastQuestion, ColorScheme cs) {
     return ElevatedButton(
       onPressed: selectedAnswer == null
           ? null
@@ -340,7 +342,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               if (!isAnswerChecked) {
                 checkAnswer();
               } else if (isLastQuestion) {
-                finishQuiz();
+                finishQuiz(cs);
               } else {
                 nextQuestion();
               }
@@ -395,7 +397,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     }
   }
 
-  void finishQuiz() {
+  void finishQuiz(ColorScheme cs) {
     final totalQuestions = widget.questions.length;
     final correctAnswers = quizResults
         .where((r) => r['status'] == 'correct')
@@ -421,5 +423,154 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       print('  Selected Answer: ${quizResults[i]['selectedAnswer']}');
     }
     print('\n===================');
+
+    showResultDialog(
+      context: context,
+      isPassed: isPassed,
+      score: score,
+      correctAnswers: correctAnswers,
+      totalQuestions: totalQuestions,
+      passingScore: passingScore,
+      onClose: () => {
+        setState(() {
+          ref.read(quizStateProvider.notifier).setQuizState(false);
+        }),
+      },
+      cs: cs,
+    );
+  }
+
+  void showResultDialog({
+    required BuildContext context,
+    required bool isPassed,
+    required double score,
+    required int correctAnswers,
+    required int totalQuestions,
+    required VoidCallback onClose,
+    required double passingScore,
+    required ColorScheme cs,
+  }) {
+    final Color color = isPassed ? cs.secondary : AppColors.errorColor;
+    final String title = isPassed ? 'Excellent Work!' : 'Keep Practicing!';
+    final String subtitle = isPassed
+        ? 'You\'ve mastered this topic!'
+        : 'Review the material and try again!';
+    final String summary = '$correctAnswers out of $totalQuestions correct';
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: SizedBox(
+          height: 380,
+          width: 400,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 100,
+                height: 100,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isPassed
+                      ? cs.secondary.withAlpha(50)
+                      : AppColors.errorColor.withAlpha(50),
+                ),
+                child: HugeIcon(
+                  icon: isPassed
+                      ? HugeIcons.strokeRoundedChampion
+                      : HugeIcons.strokeRoundedBookEdit,
+                  color: isPassed ? cs.secondary : AppColors.errorColor,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  color: color,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: color.withAlpha(25),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: color.withAlpha(100), width: 2),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      'Your Score',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: color,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          score.toStringAsFixed(1),
+                          style: TextStyle(
+                            fontSize: 48,
+                            fontWeight: FontWeight.bold,
+                            color: color,
+                            height: 1,
+                          ),
+                        ),
+                        Text(
+                          '%',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: color,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      summary,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        color: color,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Passing score: ${passingScore.toStringAsFixed(0)}%',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 10,
+                        color: color,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ).then((_) => onClose());
   }
 }
