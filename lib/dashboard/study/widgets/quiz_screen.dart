@@ -50,256 +50,309 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      WidgetSpan(
-                        child: Icon(Icons.quiz, color: cs.primary, size: 22),
-                      ),
-                      const WidgetSpan(child: SizedBox(width: 8)),
-                      TextSpan(
-                        text: currentQuestion['question'],
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: kIsWeb
-                              ? 24
-                              : Platform.isWindows
-                              ? 24
-                              : 16,
-                          color: cs.onSurface,
-                          fontWeight: FontWeight.w600,
-                          height: 1.4,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
+                _buildQuestionHeader(currentQuestion, cs),
                 const SizedBox(height: 30),
-
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: (currentQuestion['answers'] as List).length,
-                    itemBuilder: (context, index) {
-                      final answer = currentQuestion['answers'][index];
-                      final isSelected = selectedAnswer == answer;
-                      final isCorrect =
-                          answer == currentQuestion['correctAnswer'];
-
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 10),
-                        decoration: BoxDecoration(
-                          color: isAnswerChecked && isCorrect
-                              ? cs.secondary.withAlpha(26)
-                              : isAnswerChecked && isSelected && !isCorrect
-                              ? AppColors.errorColor.withAlpha(26)
-                              : isSelected
-                              ? cs.primary.withAlpha(26)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: isAnswerChecked && isCorrect
-                                ? cs.secondary.withAlpha(77)
-                                : isAnswerChecked && isSelected && !isCorrect
-                                ? AppColors.errorColor.withAlpha(77)
-                                : cs.primary,
-                            width: isSelected ? 1 : 2,
-                          ),
-                        ),
-                        child: InkWell(
-                          onTap: () => selectAnswer(answer),
-                          borderRadius: BorderRadius.circular(16),
-                          child: Padding(
-                            padding: EdgeInsets.all(
-                              kIsWeb
-                                  ? 16
-                                  : Platform.isWindows
-                                  ? 16
-                                  : 8,
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 28,
-                                  height: 28,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: isAnswerChecked && isCorrect
-                                        ? cs.primary
-                                        : isAnswerChecked &&
-                                              isSelected &&
-                                              !isCorrect
-                                        ? AppColors.errorColor
-                                        : isSelected
-                                        ? cs.primary
-                                        : Colors.transparent,
-                                    border: Border.all(
-                                      color: cs.onSurfaceVariant,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      String.fromCharCode(65 + index),
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: kIsWeb
-                                            ? 14
-                                            : Platform.isWindows
-                                            ? 14
-                                            : 10,
-                                        fontWeight: FontWeight.normal,
-                                        color: isSelected
-                                            ? cs.onPrimary
-                                            : cs.onSurface,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                const SizedBox(width: 12),
-
-                                Expanded(
-                                  child: Text(
-                                    answer,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: kIsWeb
-                                          ? 14
-                                          : Platform.isWindows
-                                          ? 14
-                                          : 10,
-                                      height: 1.3,
-                                      color: cs.onSurface,
-                                    ),
-                                  ),
-                                ),
-                                if (isAnswerChecked && isCorrect)
-                                  Icon(Icons.check_circle, color: cs.secondary),
-                                if (isAnswerChecked && isSelected && !isCorrect)
-                                  const Icon(
-                                    Icons.cancel,
-                                    color: AppColors.errorColor,
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
-                if (isAnswerChecked)
-                  Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    padding: const EdgeInsets.all(12),
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Explanation:',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.normal,
-                            fontSize: kIsWeb
-                                ? 14
-                                : Platform.isWindows
-                                ? 14
-                                : 10,
-                            height: 1.3,
-                            color: cs.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          currentQuestion['explanation'],
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.normal,
-                            fontSize: kIsWeb
-                                ? 14
-                                : Platform.isWindows
-                                ? 14
-                                : 10,
-                            height: 1.3,
-                            color: cs.onSurface,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                _buildAnswersList(currentQuestion, cs),
+                if (isAnswerChecked) _buildExplanation(currentQuestion, cs),
               ],
             ),
           ),
         ),
 
-        Container(
-          height: 60,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          width: double.infinity,
-          color: cs.surfaceContainerLow.withAlpha(100),
+        _buildBottomBar(isLastQuestion, cs),
+      ],
+    );
+  }
+
+  Widget _buildQuestionHeader(
+    Map<String, dynamic> currentQuestion,
+    ColorScheme cs,
+  ) {
+    return Text.rich(
+      TextSpan(
+        children: [
+          WidgetSpan(child: Icon(Icons.quiz, color: cs.primary, size: 22)),
+          const WidgetSpan(child: SizedBox(width: 8)),
+          TextSpan(
+            text: currentQuestion['question'],
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: kIsWeb
+                  ? 24
+                  : Platform.isWindows
+                  ? 24
+                  : 16,
+              color: cs.onSurface,
+              fontWeight: FontWeight.w600,
+              height: 1.4,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAnswersList(
+    Map<String, dynamic> currentQuestion,
+    ColorScheme cs,
+  ) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: (currentQuestion['answers'] as List).length,
+        itemBuilder: (context, index) {
+          final answer = currentQuestion['answers'][index];
+          final isCorrect = answer == currentQuestion['correctAnswer'];
+
+          return _buildAnswerItem(
+            answer: answer,
+            isCorrect: isCorrect,
+            index: index,
+            cs: cs,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildAnswerItem({
+    required String answer,
+    required bool isCorrect,
+    required int index,
+    required ColorScheme cs,
+  }) {
+    final isSelected = selectedAnswer == answer;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: _getAnswerDecoration(isSelected, isCorrect, cs),
+      child: InkWell(
+        onTap: () => selectAnswer(answer),
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: EdgeInsets.all(
+            kIsWeb
+                ? 16
+                : Platform.isWindows
+                ? 16
+                : 8,
+          ),
           child: Row(
             children: [
-              Text(
-                'Question ${currentQuestionIndex + 1} of ${widget.questions.length}',
-              ),
+              _buildAnswerCircle(index, isSelected, isCorrect, cs),
 
-              const Spacer(),
+              const SizedBox(width: 12),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(widget.questions.length, (index) {
-                  Color circleColor = Colors.transparent;
-
-                  if (index < quizResults.length) {
-                    circleColor = quizResults[index]['status'] == 'correct'
-                        ? cs.secondary
-                        : AppColors.errorColor;
-                  }
-
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: 12,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: circleColor,
-                      border: Border.all(color: cs.primary, width: 1),
-                    ),
-                  );
-                }),
-              ),
-
-              const SizedBox(width: 20),
-
-              ElevatedButton(
-                onPressed: selectedAnswer == null
-                    ? null
-                    : () {
-                        if (!isAnswerChecked) {
-                          checkAnswer();
-                        } else if (isLastQuestion) {
-                          finishQuiz();
-                        } else {
-                          nextQuestion();
-                        }
-                      },
-
+              Expanded(
                 child: Text(
-                  !isAnswerChecked
-                      ? 'Check Answer'
-                      : isLastQuestion
-                      ? 'Finish'
-                      : 'Next Question',
+                  answer,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.normal,
+                    fontSize: kIsWeb
+                        ? 14
+                        : Platform.isWindows
+                        ? 14
+                        : 10,
+                    height: 1.3,
+                    color: cs.onSurface,
+                  ),
                 ),
               ),
+
+              _buildAnswerIcon(isSelected, isCorrect, cs),
             ],
           ),
         ),
-      ],
+      ),
+    );
+  }
+
+  BoxDecoration _getAnswerDecoration(
+    bool isSelected,
+    bool isCorrect,
+    ColorScheme cs,
+  ) {
+    return BoxDecoration(
+      color: isAnswerChecked && isCorrect
+          ? cs.secondary.withAlpha(26)
+          : isAnswerChecked && isSelected && !isCorrect
+          ? AppColors.errorColor.withAlpha(26)
+          : isSelected
+          ? cs.primary.withAlpha(26)
+          : Colors.transparent,
+      borderRadius: BorderRadius.circular(16),
+      border: Border.all(
+        color: isAnswerChecked && isCorrect
+            ? cs.secondary.withAlpha(77)
+            : isAnswerChecked && isSelected && !isCorrect
+            ? AppColors.errorColor.withAlpha(77)
+            : cs.primary,
+        width: isSelected ? 1 : 2,
+      ),
+    );
+  }
+
+  Widget _buildAnswerCircle(
+    int index,
+    bool isSelected,
+    bool isCorrect,
+    ColorScheme cs,
+  ) {
+    return Container(
+      width: 28,
+      height: 28,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isAnswerChecked && isCorrect
+            ? cs.primary
+            : isAnswerChecked && isSelected && !isCorrect
+            ? AppColors.errorColor
+            : isSelected
+            ? cs.primary
+            : Colors.transparent,
+        border: Border.all(color: cs.onSurfaceVariant, width: 1),
+      ),
+      child: Center(
+        child: Text(
+          String.fromCharCode(65 + index),
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: kIsWeb
+                ? 14
+                : Platform.isWindows
+                ? 14
+                : 10,
+            fontWeight: FontWeight.normal,
+            color: isSelected ? cs.onPrimary : cs.onSurface,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAnswerIcon(bool isSelected, bool isCorrect, ColorScheme cs) {
+    if (isAnswerChecked && isCorrect) {
+      return Icon(Icons.check_circle, color: cs.secondary);
+    }
+    if (isAnswerChecked && isSelected && !isCorrect) {
+      return const Icon(Icons.cancel, color: AppColors.errorColor);
+    }
+
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildExplanation(
+    Map<String, dynamic> currentQuestion,
+    ColorScheme cs,
+  ) {
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.all(12),
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Explanation:',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.normal,
+              fontSize: kIsWeb
+                  ? 14
+                  : Platform.isWindows
+                  ? 14
+                  : 10,
+              height: 1.3,
+              color: cs.onSurface,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            currentQuestion['explanation'],
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.normal,
+              fontSize: kIsWeb
+                  ? 14
+                  : Platform.isWindows
+                  ? 14
+                  : 10,
+              height: 1.3,
+              color: cs.onSurface,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomBar(bool isLastQuestion, ColorScheme cs) {
+    return Container(
+      height: 60,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      width: double.infinity,
+      color: cs.surfaceContainerLow.withAlpha(100),
+      child: Row(
+        children: [
+          Text(
+            'Question ${currentQuestionIndex + 1} of ${widget.questions.length}',
+          ),
+          const Spacer(),
+          _buildProgressIndicators(cs),
+          const SizedBox(width: 20),
+          _buildActionButton(isLastQuestion),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProgressIndicators(ColorScheme cs) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(widget.questions.length, (index) {
+        Color circleColor = Colors.transparent;
+
+        if (index < quizResults.length) {
+          circleColor = quizResults[index]['status'] == 'correct'
+              ? cs.secondary
+              : AppColors.errorColor;
+        }
+
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: circleColor,
+            border: Border.all(color: cs.primary, width: 1),
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildActionButton(bool isLastQuestion) {
+    return ElevatedButton(
+      onPressed: selectedAnswer == null
+          ? null
+          : () {
+              if (!isAnswerChecked) {
+                checkAnswer();
+              } else if (isLastQuestion) {
+                finishQuiz();
+              } else {
+                nextQuestion();
+              }
+            },
+
+      child: Text(
+        !isAnswerChecked
+            ? 'Check Answer'
+            : isLastQuestion
+            ? 'Finish'
+            : 'Next Question',
+      ),
     );
   }
 
