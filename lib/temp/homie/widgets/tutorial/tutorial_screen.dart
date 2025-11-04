@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'models/tutorial_section.dart';
-import 'data/tutorial_data.dart';
-import 'widgets/tutorial_section_card.dart';
-import 'widgets/tutorial_item_tile.dart';
+import 'models/tutorial_content.dart';
+import 'services/tutorial_json_service.dart';
+import 'widgets/sidebar/tutorial_sidebar.dart';
+import 'widgets/content/tutorial_content_viewer.dart';
 import 'widgets/welcome_screen.dart';
-import 'widgets/tutorial_content_screen.dart';
-import 'package:netlab/temp/core/constants/app_text.dart';
 
 class TutorialScreen extends StatefulWidget {
   const TutorialScreen({super.key});
@@ -15,166 +13,141 @@ class TutorialScreen extends StatefulWidget {
 }
 
 class _TutorialScreenState extends State<TutorialScreen> {
-  final Set<String> expandedSections = {};
-  late final ColorScheme cs = Theme.of(context).colorScheme;
-  String? selectedSectionId;
-  int? selectedItemIndex;
-  late final List<TutorialSection> sections = TutorialData.getSections();
+  List<TutorialSection>? _sections;
+  bool _isLoading = true;
+  String? _error;
 
-  void toggleSection(String sectionId) {
+  final Set<String> _expandedSections = {};
+  String? _selectedSectionId;
+  int? _selectedItemIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTutorials();
+  }
+
+  Future<void> _loadTutorials() async {
+    try {
+      final sections = await TutorialJsonService.loadTutorials();
+      setState(() {
+        _sections = sections;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _toggleSection(String sectionId) {
     setState(() {
-      if (expandedSections.contains(sectionId)) {
-        expandedSections.remove(sectionId);
+      if (_expandedSections.contains(sectionId)) {
+        _expandedSections.remove(sectionId);
+        if (_selectedSectionId == sectionId) {
+          _selectedSectionId = null;
+          _selectedItemIndex = null;
+        }
       } else {
-        expandedSections.add(sectionId);
-      }
-
-      if (!expandedSections.contains(sectionId) &&
-          selectedSectionId == sectionId) {
-        selectedSectionId = null;
-        selectedItemIndex = null;
+        _expandedSections.add(sectionId);
       }
     });
   }
 
-  void selectItem(String sectionId, int index) {
+  void _selectItem(String sectionId, int index) {
     setState(() {
-      selectedSectionId = sectionId;
-      selectedItemIndex = index;
-      if (!expandedSections.contains(sectionId)) {
-        expandedSections.add(sectionId);
-      }
+      _selectedSectionId = sectionId;
+      _selectedItemIndex = index;
+      _expandedSections.add(sectionId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final selectedSection = selectedSectionId != null
-        ? sections.firstWhere((s) => s.id == selectedSectionId)
+    if (_isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    if (_error != null) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 64, color: Colors.red),
+              const SizedBox(height: 16),
+              Text(
+                'Failed to load tutorials',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                _error!,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              FilledButton.icon(
+                onPressed: () {
+                  setState(() {
+                    _isLoading = true;
+                    _error = null;
+                  });
+                  _loadTutorials();
+                },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (_sections == null || _sections!.isEmpty) {
+      return const Scaffold(
+        body: Center(child: Text('No tutorials available')),
+      );
+    }
+
+    final selectedSection = _selectedSectionId != null
+        ? _sections!.firstWhere((s) => s.id == _selectedSectionId)
         : null;
 
     return Scaffold(
       body: SafeArea(
         child: Row(
           children: [
-            Container(
-              width: 320,
-              decoration: BoxDecoration(
-                color: cs.surface,
-                border: Border(
-                  right: BorderSide(color: cs.outline.withAlpha(26), width: 1),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header
-                  Padding(
-                    padding: const EdgeInsets.all(32),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Tutorial',
-                          style: AppTextStyles.forSurface(
-                            AppTextStyles.custom(
-                              fontSize: 42,
-                              height: 1.2,
-                              letterSpacing: -1.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            context,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Guides to help you master the app',
-                          style: AppTextStyles.forSurface(
-                            AppTextStyles.bodyMedium.copyWith(height: 1.5),
-                            context,
-                          ).copyWith(color: cs.onSurface.withAlpha(179)),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Topics Label
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
-                    child: Text(
-                      'Topics',
-                      style: AppTextStyles.forSurface(
-                        AppTextStyles.label.copyWith(letterSpacing: 0.5),
-                        context,
-                      ),
-                    ),
-                  ),
-
-                  // Sections List
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(32, 0, 32, 32),
-                      itemCount: sections.length,
-                      itemBuilder: (context, index) {
-                        final section = sections[index];
-                        final isExpanded = expandedSections.contains(
-                          section.id,
-                        );
-
-                        return Column(
-                          children: [
-                            TutorialSectionCard(
-                              section: section,
-                              isExpanded: isExpanded,
-                              onTap: () => toggleSection(section.id),
-                            ),
-                            if (isExpanded) ...[
-                              const SizedBox(height: 8),
-                              ...List.generate(section.items.length, (
-                                itemIndex,
-                              ) {
-                                final item = section.items[itemIndex];
-                                final isSelected =
-                                    selectedSectionId == section.id &&
-                                    selectedItemIndex == itemIndex;
-
-                                return TutorialItemTile(
-                                  item: item,
-                                  isSelected: isSelected,
-                                  onTap: () =>
-                                      selectItem(section.id, itemIndex),
-                                );
-                              }),
-                            ],
-                            const SizedBox(height: 12),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+            // Sidebar
+            TutorialSidebar(
+              sections: _sections!,
+              expandedSections: _expandedSections,
+              selectedSectionId: _selectedSectionId,
+              selectedItemIndex: _selectedItemIndex,
+              onToggleSection: _toggleSection,
+              onSelectItem: _selectItem,
             ),
 
             // Content Area
             Expanded(
-              child: selectedSection == null || selectedItemIndex == null
+              child: selectedSection == null || _selectedItemIndex == null
                   ? const WelcomeScreen()
-                  : TutorialContentScreen(
+                  : TutorialContentViewer(
                       section: selectedSection,
-                      itemIndex: selectedItemIndex!,
-                      onPrevious: selectedItemIndex! > 0
-                          ? () => selectItem(
-                              selectedSectionId!,
-                              selectedItemIndex! - 1,
+                      itemIndex: _selectedItemIndex!,
+                      onPrevious: _selectedItemIndex! > 0
+                          ? () => _selectItem(
+                              _selectedSectionId!,
+                              _selectedItemIndex! - 1,
                             )
                           : null,
                       onNext:
-                          selectedItemIndex! < selectedSection.items.length - 1
-                          ? () => selectItem(
-                              selectedSectionId!,
-                              selectedItemIndex! + 1,
+                          _selectedItemIndex! < selectedSection.items.length - 1
+                          ? () => _selectItem(
+                              _selectedSectionId!,
+                              _selectedItemIndex! + 1,
                             )
                           : null,
                     ),

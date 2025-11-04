@@ -1,0 +1,395 @@
+{
+  "sections": [
+    {
+      "id": "getting-started",
+      "title": "Getting Started",
+      "description": "Learn the basics of the Netlab simulation screen and its features",
+      "icon": "lightbulb_outline",
+      "items": [
+        {
+          "title": "Simulation Screen Overview",
+          "description": "Welcome to the Simulation Screen — the core workspace of Netlab, where you can create, configure, and visualize your network setups in real time.",
+          "icon": "cable_outlined",
+          "images": [
+            {
+              "path": "assets/images/canvas_plain.jpg",
+              "caption": "Overview of the Netlab Simulation Screen"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "This is where you'll drag devices, connect them, and observe how data flows across your simulated network."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "utility-buttons",
+      "title": "Utility Buttons",
+      "description": "Essential buttons for project management and navigation",
+      "icon": "construction",
+      "items": [
+        {
+          "title": "Back Button",
+          "description": "Navigate back to the Home Screen",
+          "icon": "arrow_back",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/utility_buttons/backbutton.jpg",
+              "caption": "Back button location in the top-left corner"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Back button is located in the top-left corner of the screen. Clicking it returns you to the Home Screen."
+            }
+          ]
+        },
+        {
+          "title": "Save Button",
+          "description": "Save your current simulation project",
+          "icon": "save",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/utility_buttons/save_button.jpg",
+              "caption": "Step 1: Click the Save button to open the file dialog"
+            },
+            {
+              "path": "assets/tutorial_material/images/utility_buttons/disable_save_button.jpg",
+              "caption": "Step 2: The Save button is disabled during simulation"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Save button opens your device's file system, allowing you to save your current simulation as a project file."
+            },
+            {
+              "type": "tip",
+              "content": "The save button is disabled when the simulation is running."
+            }
+          ]
+        },
+        {
+          "title": "Load Button",
+          "description": "Load an existing simulation project",
+          "icon": "folder_open",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/utility_buttons/load_button.jpg",
+              "caption": "Step 1: Click the Load button to browse files"
+            },
+            {
+              "path": "assets/tutorial_material/images/utility_buttons/disable_load_button.jpg",
+              "caption": "Step 2: The Load button is disabled during simulation"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Load button allows you to browse your saved files and load an existing project back into the simulation screen."
+            },
+            {
+              "type": "tip",
+              "content": "The load button is disabled when the simulation is running."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control-buttons",
+      "title": "Control Buttons",
+      "description": "Essential controls for managing your simulation",
+      "icon": "control_camera",
+      "items": [
+        {
+          "title": "Settings Button",
+          "description": "Configure simulation parameters and behavior",
+          "icon": "settings",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/control_buttons/settings_button.jpg",
+              "caption": "Step 1: Click the Settings button to open settings menu"
+            },
+            {
+              "path": "assets/tutorial_material/images/control_buttons/settings_open.jpg",
+              "caption": "Step 2: Settings panel when opened"
+            },
+            {
+              "path": "assets/tutorial_material/images/control_buttons/setting_disable.jpg",
+              "caption": "Step 3: Settings button is disabled during simulation"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Settings button opens the settings menu where you can adjust simulation parameters:"
+            },
+            {
+              "type": "bulletList",
+              "content": [
+                "Message Speed - Controls how fast messages travel",
+                "ARP Request Timeout - Sets timeout duration for ARP requests"
+              ]
+            },
+            {
+              "type": "tip",
+              "content": "The Settings button is disabled while the simulation is running to prevent changing parameters mid-simulation."
+            }
+          ]
+        },
+        {
+          "title": "Log Panel Button",
+          "description": "View system and device logs",
+          "icon": "article",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/control_buttons/log_pannel_button.jpg",
+              "caption": "Log Panel showing network events"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Log Panel button displays the Log Panel, which records events happening in your network. Logs can guide you to specific actions or devices for easier troubleshooting."
+            }
+          ]
+        },
+        {
+          "title": "Play Button",
+          "description": "Start or pause the simulation",
+          "icon": "play_arrow",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/control_buttons/play_button.jpg",
+              "caption": "Play button to start/resume simulation"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Play button starts or resumes the simulation, allowing messages to begin transferring between devices."
+            }
+          ]
+        },
+        {
+          "title": "Center Button",
+          "description": "Recenter the canvas view",
+          "icon": "center_focus_strong",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/control_buttons/center_button.jpg",
+              "caption": "Center button to reset view"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Center button recenters the canvas view back to the main area if you've panned away."
+            }
+          ]
+        },
+        {
+          "title": "Reset Canvas Button",
+          "description": "Clear all devices and start fresh",
+          "icon": "restart_alt",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/control_buttons/reset_canvas_button.jpg",
+              "caption": "Reset button to clear canvas"
+            },
+            {
+              "path": "assets/tutorial_material/images/control_buttons/reset_canvas_disable.jpg",
+              "caption": "Reset button is disabled during simulation"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Reset button clears the canvas, removing all devices and messages, letting you start over with a fresh workspace."
+            }
+          ]
+        },
+        {
+          "title": "Add Button",
+          "description": "Access the Device Panel to add network components",
+          "icon": "add_circle",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/utility_buttons/add_device_button.jpg",
+              "caption": "Step 1: Click the Add button to open Device Panel"
+            },
+            {
+              "path": "assets/tutorial_material/images/utility_buttons/add_device_open.jpg",
+              "caption": "Step 2: Drag devices onto the canvas"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Add button is located at the bottom center of the screen. When pressed, it toggles the Device Panel (or Drawer), which displays available network devices."
+            },
+            {
+              "type": "tip",
+              "content": "You can drag and drop devices directly from the panel onto the canvas to start building your network."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "log-panel",
+      "title": "Log Panel",
+      "description": "Monitor network events and device activities",
+      "icon": "list_alt",
+      "items": [
+        {
+          "title": "System Log Panel",
+          "description": "View global network events",
+          "icon": "terminal",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/log_panel/log_pannel_system.jpg",
+              "caption": "System Log showing global events"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The System Log shows global network events, such as when a simulation starts, stops, or when messages are sent."
+            }
+          ]
+        },
+        {
+          "title": "Device Log Panel",
+          "description": "Monitor individual device activities",
+          "icon": "devices",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/log_panel/log_pannel_device.jpg",
+              "caption": "Device Log showing device-specific events"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Device Log displays logs specific to individual devices, detailing their activities and interactions."
+            },
+            {
+              "type": "tip",
+              "content": "Use the logs to analyze how data flows through your network, detect issues, or verify that your configuration is working as intended."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "info-panel",
+      "title": "Information Panels",
+      "description": "Detailed information about network components",
+      "icon": "info",
+      "items": [
+        {
+          "title": "Host Information Panel",
+          "description": "View and configure host device settings",
+          "icon": "computer",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/information_panel/host_info_edited.jpg",
+              "caption": "Host Information Panel"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "When you click on a host device, the Information Panel shows:"
+            }
+          ]
+        },
+        {
+          "title": "Switch Information Panel",
+          "description": "View switch configuration and MAC table",
+          "icon": "router",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/information_panel/switch_mac_table_edited.jpg",
+              "caption": "Switch Information Panel"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Switch Information Panel shows the MAC Table, which dynamically learns connected devices' MAC addresses as packets are transmitted through the switch."
+            }
+          ]
+        },
+        {
+          "title": "Router Information Panel",
+          "description": "Configure and monitor router settings",
+          "icon": "wifi_tethering",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/information_panel/router_interface_0_edited.jpg",
+              "caption": "Router Interface Configuration 0"
+            },
+            {
+              "path": "assets/tutorial_material/images/information_panel/router_arp_edited.jpg",
+              "caption": "Router ARP Table View"
+            },
+            {
+              "path": "assets/tutorial_material/images/information_panel/routing_table_edited.jpg",
+              "caption": "Routing Table View"
+            },
+            {
+              "path": "assets/tutorial_material/images/information_panel/routing_add_static_route.png",
+              "caption": "Add Static Route Configuration"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "title": "Interface 0",
+              "content": "Configure the primary network interface of the router. Here you can set the IP address and subnet mask."
+            },
+            {
+              "type": "text",
+              "title": "ARP Table",
+              "content": "View the Address Resolution Protocol (ARP) table. This shows the mapping between IP addresses and MAC addresses for devices the router has communicated with."
+            },
+            {
+              "type": "text",
+              "title": "Routing Table",
+              "content": "View the routing table. This shows directly connected networks and learned routes. It is empty when the simulation is not playing."
+            },
+            {
+              "type": "text",
+              "title": "Static Routes",
+              "content": "Add and configure static routes manually."
+            }
+          ]
+        },
+        {
+          "title": "Message Information Panel",
+          "description": "Track message state and progress",
+          "icon": "mail",
+          "images": [
+            {
+              "path": "assets/tutorial_material/images/information_panel/image_info_panel_edted.jpg",
+              "caption": "Message Information Panel"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "The Message Information Panel displays the current state of a message, including its position in the OSI Model. This information updates live as the message travels through different devices and layers of the network."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../tutorial/models/tutorial_content.dart';
+import 'package:hugeicons/hugeicons.dart';
+import '../../models/tutorial_content.dart';
+import 'package:netlab/temp/core/constants/app_text.dart';
 
 class TutorialSidebar extends StatelessWidget {
   final List<TutorialSection> sections;
@@ -28,12 +30,13 @@ class TutorialSidebar extends StatelessWidget {
       decoration: BoxDecoration(
         color: cs.surface,
         border: Border(
-          right: BorderSide(color: cs.outline.withAlpha(26), width: 1),
+          right: BorderSide(color: cs.outline.withAlpha(70), width: 1),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header
           Padding(
             padding: const EdgeInsets.all(32),
             child: Column(
@@ -41,40 +44,40 @@ class TutorialSidebar extends StatelessWidget {
               children: [
                 Text(
                   'Tutorial',
-                  style: TextStyle(
-                    fontSize: 42,
-                    height: 1.2,
-                    letterSpacing: -1.0,
-                    fontWeight: FontWeight.w700,
-                    color: cs.onSurface,
+                  style: AppTextStyles.forSurface(
+                    AppTextStyles.headerLarge.copyWith(
+                      fontSize: 42,
+                      height: 1.2,
+                      letterSpacing: -1.0,
+                    ),
+                    context,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Guides to help you master the app',
-                  style: TextStyle(
-                    fontSize: 15,
+                  style: AppTextStyles.bodyMedium.copyWith(
                     height: 1.5,
-                    color: cs.onSurface.withAlpha(179),
+                    color: cs.onSurface.withAlpha(150),
                   ),
                 ),
               ],
             ),
           ),
 
+          // Topics Label
           Padding(
             padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
             child: Text(
               'TOPICS',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
+              style: AppTextStyles.bodySmall.copyWith(
                 letterSpacing: 0.8,
-                color: cs.onSurface.withAlpha(128),
+                color: cs.onSurface.withAlpha(150),
               ),
             ),
           ),
 
+          // Sections List
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.fromLTRB(32, 0, 32, 32),
@@ -117,6 +120,7 @@ class TutorialSidebar extends StatelessWidget {
   }
 }
 
+// Tutorial Section Card
 class TutorialSectionCard extends StatelessWidget {
   final TutorialSection section;
   final bool isExpanded;
@@ -135,7 +139,7 @@ class TutorialSectionCard extends StatelessWidget {
 
     return Material(
       color: isExpanded
-          ? cs.primaryContainer.withAlpha(77)
+          ? cs.primaryContainer.withAlpha(30)
           : Colors.transparent,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
@@ -148,10 +152,12 @@ class TutorialSectionCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: cs.primaryContainer.withAlpha(128),
+                  color: cs.primaryContainer.withAlpha(50),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(section.icon, size: 20, color: cs.primary),
+                child: section.isHugeIcon
+                    ? HugeIcon(icon: section.icon, size: 20, color: cs.primary)
+                    : Icon(section.icon, size: 20, color: cs.primary),
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -160,8 +166,7 @@ class TutorialSectionCard extends StatelessWidget {
                   children: [
                     Text(
                       section.title,
-                      style: TextStyle(
-                        fontSize: 15,
+                      style: AppTextStyles.bodyMedium.copyWith(
                         fontWeight: isExpanded
                             ? FontWeight.w600
                             : FontWeight.w500,
@@ -171,9 +176,10 @@ class TutorialSectionCard extends StatelessWidget {
                     const SizedBox(height: 3),
                     Text(
                       '${section.items.length} tutorial${section.items.length != 1 ? 's' : ''}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: cs.onSurface.withAlpha(153),
+                      style: AppTextStyles.forSurface(
+                        AppTextStyles.bodySmall,
+                        context,
+                        // opacity: 0.6,
                       ),
                     ),
                   ],
@@ -183,7 +189,7 @@ class TutorialSectionCard extends StatelessWidget {
                 isExpanded
                     ? Icons.keyboard_arrow_down_rounded
                     : Icons.keyboard_arrow_right_rounded,
-                color: cs.onSurface.withAlpha(102),
+                color: cs.onSurface.withAlpha(40),
                 size: 24,
               ),
             ],
@@ -194,6 +200,7 @@ class TutorialSectionCard extends StatelessWidget {
   }
 }
 
+// Tutorial Item Tile
 class TutorialItemTile extends StatelessWidget {
   final TutorialItem item;
   final bool isSelected;
@@ -221,30 +228,48 @@ class TutorialItemTile extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
               color: isSelected
-                  ? cs.primaryContainer.withAlpha(128)
+                  ? cs.primaryContainer.withAlpha(50)
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
-                Icon(
-                  item.icon,
-                  size: 18,
-                  color: isSelected ? cs.primary : cs.onSurface.withAlpha(153),
-                ),
+                item.isHugeIcon
+                    ? HugeIcon(
+                        icon: item.icon,
+                        size: 18,
+                        color: isSelected
+                            ? cs.primary
+                            : cs.onSurface.withAlpha(60),
+                      )
+                    : Icon(
+                        item.icon,
+                        size: 18,
+                        color: isSelected
+                            ? cs.primary
+                            : cs.onSurface.withAlpha(60),
+                      ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     item.title,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: isSelected
-                          ? FontWeight.w600
-                          : FontWeight.w500,
-                      color: isSelected
-                          ? cs.primary
-                          : cs.onSurface.withAlpha(204),
-                    ),
+                    style: isSelected
+                        ? AppTextStyles.forPrimary(
+                            AppTextStyles.bodyMedium.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                            context,
+                          )
+                        : AppTextStyles.forSurface(
+                            AppTextStyles.bodyMedium.copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
+                            context,
+                          ).copyWith(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withAlpha(180),
+                          ),
                   ),
                 ),
               ],
