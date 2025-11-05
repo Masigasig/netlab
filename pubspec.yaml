@@ -89,6 +89,8 @@ flutter:
     - assets/images/lottie/
     - assets/images/lottie/onboarding_screen/
     - assets/learning_material/
+    - assets/learning_material/images/chapter_0/
+    - assets/learning_material/images/chapter_1/
     - assets/learning_material/material_content/
     - assets/learning_material/material_content/chapter_0/
     - assets/learning_material/material_content/chapter_1/

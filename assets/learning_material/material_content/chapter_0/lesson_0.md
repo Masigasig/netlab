@@ -9,7 +9,7 @@ sending emails, sharing files, or browse the internet.
 So basically networking started with one computer wanting to share data with another. it can be 
 simple as two computers connected with a cable.
 
-![intro](resource:assets/images/content_image/network_fundamentals/intro.gif)
+![intro](resource:assets/learning_material/images/chapter_0/intro.gif)
 *Simple network: Two computers connected with a cable*
 
 And it is possible to connect more devices and link multiple networks together with switches, 
