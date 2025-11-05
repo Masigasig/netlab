@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 
 class StatsGrid extends ConsumerWidget {
   const StatsGrid({super.key});
@@ -10,6 +11,9 @@ class StatsGrid extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
+    final averageQuizTime = ref
+        .watch(questionStatusProvider.notifier)
+        .getAverageAnswerTime();
 
     return GridView.count(
       shrinkWrap: true,
@@ -50,14 +54,14 @@ class StatsGrid extends ConsumerWidget {
           subtitle: 'Total',
           color: AppColors.successColor,
         ),
-        const _StatCard(
-          icon: HugeIcon(
+        _StatCard(
+          icon: const HugeIcon(
             icon: HugeIcons.strokeRoundedTimer02,
             color: Colors.purple,
             size: 16,
           ),
           title: 'Quiz Time',
-          value: '1m, 3s', //* TODO: riverpod value
+          value: '${averageQuizTime.toStringAsFixed(1)} s',
           subtitle: 'Per Questions',
           color: Colors.purple,
         ),

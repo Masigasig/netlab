@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   final List<Map<String, dynamic>> questions;
@@ -379,7 +380,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         'chapterId': currentQuestion['chapterId'],
         'lessonId': currentQuestion['lessonId'],
         'questionId': currentQuestion['questionId'],
-        'status': isCorrect ? 'correct' : 'wrong',
+        'status': isCorrect ? 'correct' : 'incorrect',
         'time_answering': duration.inSeconds,
         'selectedAnswer': selectedAnswer,
       });
@@ -406,23 +407,23 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     const passingScore = 80.0;
     final isPassed = score >= passingScore;
 
-    print('=== QUIZ RESULTS ===');
-    print('Total Questions: $totalQuestions');
-    print('Correct Answers: $correctAnswers');
-    print('Score: ${score.toStringAsFixed(1)}%');
-    print('Passing Score: ${passingScore.toStringAsFixed(0)}%');
-    print('Status: ${isPassed ? 'PASSED ✓' : 'FAILED ✗'}');
-    print('\nDetailed Results:');
-    for (var i = 0; i < quizResults.length; i++) {
-      print('\nQuestion ${i + 1}:');
-      print('  Chapter ID: ${quizResults[i]['chapterId']}');
-      print('  Lesson ID: ${quizResults[i]['lessonId']}');
-      print('  Question ID: ${quizResults[i]['questionId']}');
-      print('  Status: ${quizResults[i]['status']}');
-      print('  Time Answering: ${quizResults[i]['time_answering']} seconds');
-      print('  Selected Answer: ${quizResults[i]['selectedAnswer']}');
+    final statusNotifier = ref.read(questionStatusProvider.notifier);
+
+    for (final result in quizResults) {
+      final chapterId = result['chapterId'] as String;
+      final lessonId = result['lessonId'] as String;
+      final questionId = result['questionId'] as String;
+      final status = result['status'] as String;
+      final time = result['time_answering'] as int;
+
+      statusNotifier.setStatus(
+        chapterId: chapterId,
+        lessonId: lessonId,
+        questionId: questionId,
+        status: status,
+        timeTaken: time,
+      );
     }
-    print('\n===================');
 
     showResultDialog(
       context: context,

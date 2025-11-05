@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 
 class QuestionPerformanceCard extends ConsumerWidget {
   const QuestionPerformanceCard({super.key});
@@ -10,11 +11,10 @@ class QuestionPerformanceCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
-
-    //* TODO: correct percentage
-    final correctAnswers = 7;
-    final wrongAnswers = 1;
-    final unansweredQuestions = 2;
+    final stats = ref.watch(questionStatusProvider.notifier).getQuestionStats();
+    final correctAnswers = stats['correct']!;
+    final wrongAnswers = stats['incorrect']!;
+    final unansweredQuestions = stats['unanswered']!;
     final correctPercentage =
         (correctAnswers /
             (correctAnswers + wrongAnswers + unansweredQuestions)) *

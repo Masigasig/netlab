@@ -12,6 +12,7 @@ import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/core/themes/app_theme.dart';
 import 'package:netlab/dashboard/study/provider/material_content_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
+import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -113,6 +114,7 @@ class _MyAppState extends ConsumerState<MyApp>
       }
     }
     ref.read(materialContentProvider.notifier).setContent(markdownContent);
+    await ref.read(questionStatusProvider.notifier).loadStatuses();
   }
 
   @override
