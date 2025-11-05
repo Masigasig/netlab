@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:netlab/core/utils/async_shared_prefs_notifier.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'app_color.dart';
 import '../components/button_style.dart';
 
@@ -34,8 +37,24 @@ final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(
 );
 
 class ThemeModeNotifier extends Notifier<ThemeMode> {
-  @override
-  ThemeMode build() => ThemeMode.system;
+  static const _key = 'theme_mode';
+  late final SharedPreferencesAsync _asyncPrefs;
 
-  void setThemeMode(ThemeMode mode) => state = mode;
+  @override
+  ThemeMode build() {
+    _asyncPrefs = ref.read(asyncSharedPrefsProvider);
+    return ThemeMode.system;
+  }
+
+  Future<void> loadThemeMode() async {
+    final index = await _asyncPrefs.getInt(_key);
+    if (index != null) {
+      state = ThemeMode.values[index];
+    }
+  }
+
+  Future<void> setThemeMode(ThemeMode mode) async {
+    state = mode;
+    await _asyncPrefs.setInt(_key, mode.index);
+  }
 }

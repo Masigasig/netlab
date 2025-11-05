@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:netlab/firebase_options.dart';
+
+import 'package:netlab/core/utils/async_shared_prefs_notifier.dart';
 import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/core/themes/app_theme.dart';
 import 'package:netlab/dashboard/study/provider/material_content_notifier.dart';
@@ -18,11 +20,18 @@ void main() async {
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
+  final asyncPrefs = SharedPreferencesAsync();
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]).then((_) {
-    runApp(const ProviderScope(child: MyApp()));
+    runApp(
+      ProviderScope(
+        overrides: [asyncSharedPrefsProvider.overrideWithValue(asyncPrefs)],
+        child: const MyApp(),
+      ),
+    );
   });
 }
 
@@ -62,6 +71,7 @@ class _MyAppState extends ConsumerState<MyApp>
   }
 
   Future<void> _startSplash() async {
+    await ref.read(themeModeProvider.notifier).loadThemeMode();
     await _controller.forward();
 
     await Future.wait([
