@@ -5,7 +5,9 @@ import 'package:netlab/core/components/app_layout.dart';
 
 import 'package:netlab/dashboard/dashboard_screen.dart';
 import 'package:netlab/dashboard/study/study_screen.dart';
+import 'package:netlab/dashboard/study/widgets/chapter_quiz_screen.dart';
 import 'package:netlab/dashboard/study/widgets/chapter_screen.dart';
+import 'package:netlab/dashboard/study/widgets/default_content.dart';
 import 'package:netlab/dashboard/study/widgets/lesson_content.dart';
 import 'package:netlab/tools/tool_screen.dart';
 import 'package:netlab/home/home_screen.dart';
@@ -92,7 +94,8 @@ final router = GoRouter(
                     GoRoute(
                       path: ':chapterId',
                       builder: (context, state) {
-                        return const Placeholder();
+                        final chapterId = state.pathParameters['chapterId']!;
+                        return DefaultContent(chapterId: chapterId);
                       },
                       routes: [
                         GoRoute(
@@ -101,6 +104,10 @@ final router = GoRouter(
                             final lessonId = state.pathParameters['lessonId']!;
                             final chapterId =
                                 state.pathParameters['chapterId']!;
+
+                            if (lessonId == 'chapter_quiz') {
+                              return ChapterQuizScreen(chapterId: chapterId);
+                            }
 
                             return LessonContent(
                               chapterId: chapterId,

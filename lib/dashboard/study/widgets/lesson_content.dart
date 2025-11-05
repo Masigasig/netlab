@@ -4,7 +4,6 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 import 'package:netlab/dashboard/study/provider/material_content_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
-import 'package:netlab/dashboard/study/provider/quiz_state_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/quiz_screen.dart';
 
 class LessonContent extends ConsumerStatefulWidget {
@@ -22,13 +21,15 @@ class LessonContent extends ConsumerStatefulWidget {
 }
 
 class _LessonContentState extends ConsumerState<LessonContent> {
+  bool isQuizing = false;
+
   @override
   void didUpdateWidget(covariant LessonContent oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (widget.lessonId != oldWidget.lessonId) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(quizStateProvider.notifier).setQuizState(false);
+      setState(() {
+        isQuizing = false;
       });
     }
   }
@@ -36,7 +37,6 @@ class _LessonContentState extends ConsumerState<LessonContent> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final isQuizing = ref.watch(quizStateProvider);
 
     final lessonContent = ref
         .read(materialContentProvider.notifier)
@@ -50,7 +50,17 @@ class _LessonContentState extends ConsumerState<LessonContent> {
             lessonId: widget.lessonId,
           );
 
-      return QuizScreen(questions: questions);
+      return QuizScreen(
+        questions: questions,
+        onClose: (isPassed) {
+          if (isPassed) {
+            //*TODO: set the lesson quiz completed
+          }
+          setState(() {
+            isQuizing = false;
+          });
+        },
+      );
     } else {
       return Column(
         children: [
@@ -88,7 +98,9 @@ class _LessonContentState extends ConsumerState<LessonContent> {
               children: [
                 ElevatedButton(
                   onPressed: () => {
-                    ref.read(quizStateProvider.notifier).setQuizState(true),
+                    setState(() {
+                      isQuizing = true;
+                    }),
                   },
                   child: const Text('Start Quiz'),
                 ),

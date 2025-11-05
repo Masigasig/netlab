@@ -7,12 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/core/themes/app_color.dart';
-import 'package:netlab/dashboard/study/provider/quiz_state_notifier.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   final List<Map<String, dynamic>> questions;
+  final void Function(bool isPassed) onClose;
 
-  const QuizScreen({super.key, required this.questions});
+  const QuizScreen({super.key, required this.questions, required this.onClose});
 
   @override
   ConsumerState<QuizScreen> createState() => _QuizScreenState();
@@ -431,11 +431,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       correctAnswers: correctAnswers,
       totalQuestions: totalQuestions,
       passingScore: passingScore,
-      onClose: () => {
-        setState(() {
-          ref.read(quizStateProvider.notifier).setQuizState(false);
-        }),
-      },
+      onClose: () => widget.onClose(isPassed),
       cs: cs,
     );
   }

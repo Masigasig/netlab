@@ -85,12 +85,101 @@ class ChapterScreen extends ConsumerWidget {
                 Expanded(
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
-                    itemCount: chapterData['lessons'].length,
+                    itemCount: chapterData['lessons'].length + 1,
                     itemBuilder: (context, index) {
+                      final isComplete = false; //* TODO riverpod value
+
+                      if (index == chapterData['lessons'].length) {
+                        final isSelected = currentLessonId == 'chapter_quiz';
+
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 4),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? cs.primary.withAlpha(20)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(8),
+                            border: isSelected
+                                ? Border.all(color: cs.secondary.withAlpha(51))
+                                : null,
+                          ),
+                          child: ListTile(
+                            dense: true,
+                            leading: SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    top: 8,
+                                    left: 8,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(6),
+                                      width: 32,
+                                      height: 32,
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? cs.secondary.withAlpha(30)
+                                            : cs.primary.withAlpha(30),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: HugeIcon(
+                                        icon: HugeIcons.strokeRoundedPen02,
+                                        color: isComplete
+                                            ? AppColors.successColor
+                                            : isSelected
+                                            ? cs.secondary
+                                            : cs.primary,
+                                      ),
+                                    ),
+                                  ),
+                                  if (isComplete)
+                                    const Positioned(
+                                      top: 0,
+                                      left: 0,
+                                      child: SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: HugeIcon(
+                                          icon: HugeIcons.strokeRoundedTick04,
+                                          color: AppColors.successColor,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                            title: Text(
+                              'Chapter Test',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: cs.onSurface,
+                                fontSize: 13,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            subtitle: Text(
+                              isComplete ? 'Passed' : ' ',
+                              style: const TextStyle(
+                                color: AppColors.successColor,
+                              ),
+                            ),
+                            onTap: () {
+                              context.go(
+                                '${Routes.study}/$chapterId/chapter_quiz',
+                              );
+                            },
+                          ),
+                        );
+                      }
+
                       final lessonId = lessons.keys.elementAt(index);
                       final lessonData = lessons[lessonId];
                       final isSelected = currentLessonId == lessonId;
-                      final isComplete = false; //* TODO riverpod value
 
                       return Container(
                         margin: const EdgeInsets.only(bottom: 4),
