@@ -6,6 +6,7 @@ import 'package:netlab/core/themes/app_color.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
+import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 
 class StatsGrid extends ConsumerWidget {
   const StatsGrid({super.key});
@@ -30,6 +31,10 @@ class StatsGrid extends ConsumerWidget {
     final totalNumberOfCompletedChapter = ref
         .watch(chapterQuizStatusProvider.notifier)
         .getCompletedChapterCount();
+
+    final totalStudyTime = ref
+        .read(studyTimeProvider.notifier)
+        .getFormattedTime();
 
     return GridView.count(
       shrinkWrap: true,
@@ -59,14 +64,14 @@ class StatsGrid extends ConsumerWidget {
           subtitle: 'Completed',
           color: AppColors.warningColor,
         ),
-        const _StatCard(
-          icon: HugeIcon(
+        _StatCard(
+          icon: const HugeIcon(
             icon: HugeIcons.strokeRoundedClock01,
             color: AppColors.successColor,
             size: 16,
           ),
           title: 'Study Time',
-          value: '1h, 34m', //* TODO: riverpod value
+          value: totalStudyTime,
           subtitle: 'Total',
           color: AppColors.successColor,
         ),

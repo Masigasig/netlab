@@ -5,6 +5,7 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:netlab/dashboard/study/provider/material_content_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
+import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/quiz_screen.dart';
 
 class LessonContent extends ConsumerStatefulWidget {
@@ -21,8 +22,49 @@ class LessonContent extends ConsumerStatefulWidget {
   ConsumerState<LessonContent> createState() => _LessonContentState();
 }
 
-class _LessonContentState extends ConsumerState<LessonContent> {
+class _LessonContentState extends ConsumerState<LessonContent>
+    with WidgetsBindingObserver {
+  late DateTime _entryTime;
   bool isQuizing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _entryTime = DateTime.now();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void deactivate() {
+    final exitTime = DateTime.now();
+    final duration = exitTime.difference(_entryTime);
+    final seconds = duration.inSeconds;
+
+    final notifier = ref.read(studyTimeProvider.notifier);
+
+    Future(() {
+      notifier.addTime(seconds);
+    });
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      final duration = DateTime.now().difference(_entryTime);
+      final notifier = ref.read(studyTimeProvider.notifier);
+      Future(() {
+        notifier.addTime(duration.inSeconds);
+      });
+      _entryTime = DateTime.now();
+    }
+  }
 
   @override
   void didUpdateWidget(covariant LessonContent oldWidget) {

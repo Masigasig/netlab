@@ -15,6 +15,7 @@ import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
+import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -119,6 +120,7 @@ class _MyAppState extends ConsumerState<MyApp>
     await ref.read(questionStatusProvider.notifier).loadStatuses();
     await ref.read(lessonStatusProvider.notifier).loadStatuses();
     await ref.read(chapterQuizStatusProvider.notifier).loadStatuses();
+    await ref.read(studyTimeProvider.notifier).loadTime();
   }
 
   @override
