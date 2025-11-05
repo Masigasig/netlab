@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,9 +37,9 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     final isLastQuestion = currentQuestionIndex == widget.questions.length - 1;
 
     final mainPadding = kIsWeb
-        ? const EdgeInsets.fromLTRB(70, 70, 70, 40)
+        ? const EdgeInsets.fromLTRB(50, 50, 50, 20)
         : Platform.isWindows
-        ? const EdgeInsets.fromLTRB(70, 70, 70, 40)
+        ? const EdgeInsets.fromLTRB(50, 50, 50, 20)
         : const EdgeInsets.fromLTRB(30, 30, 30, 15);
 
     return Column(
@@ -134,9 +132,9 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         child: Padding(
           padding: EdgeInsets.all(
             kIsWeb
-                ? 16
+                ? 14
                 : Platform.isWindows
-                ? 16
+                ? 14
                 : 8,
           ),
           child: Row(

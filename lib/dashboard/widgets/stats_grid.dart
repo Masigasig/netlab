@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
+import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 
 class StatsGrid extends ConsumerWidget {
@@ -14,6 +16,20 @@ class StatsGrid extends ConsumerWidget {
     final averageQuizTime = ref
         .watch(questionStatusProvider.notifier)
         .getAverageAnswerTime();
+
+    final totalNumberOfLessons = ref
+        .watch(lessonStatusProvider.notifier)
+        .getTotalLessonCount();
+    final totalNumberOfCompletedLessons = ref
+        .watch(lessonStatusProvider.notifier)
+        .getCompletedLessonCount();
+
+    final totalNumberOfChapter = ref
+        .watch(chapterQuizStatusProvider.notifier)
+        .getTotalChapterCount();
+    final totalNumberOfCompletedChapter = ref
+        .watch(chapterQuizStatusProvider.notifier)
+        .getCompletedChapterCount();
 
     return GridView.count(
       shrinkWrap: true,
@@ -28,18 +44,18 @@ class StatsGrid extends ConsumerWidget {
             size: 16,
           ),
           title: 'Chapter Test',
-          value: '10/20', //* TODO: riverpod value
+          value: '$totalNumberOfCompletedChapter/$totalNumberOfChapter',
           subtitle: 'Completed',
           color: cs.secondary,
         ),
-        const _StatCard(
-          icon: HugeIcon(
+        _StatCard(
+          icon: const HugeIcon(
             icon: HugeIcons.strokeRoundedQuiz03,
             color: AppColors.warningColor,
             size: 16,
           ),
           title: 'Quizzes',
-          value: '32/239', //* TODO: riverpod value
+          value: '$totalNumberOfCompletedLessons/$totalNumberOfLessons',
           subtitle: 'Completed',
           color: AppColors.warningColor,
         ),

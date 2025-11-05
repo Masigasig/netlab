@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/quiz_screen.dart';
 
@@ -24,9 +25,13 @@ class _ChapterQuizScreenState extends ConsumerState<ChapterQuizScreen> {
       return QuizScreen(
         questions: questions,
         onClose: (isPassed) {
-          if (isPassed) {
-            //*TODO: set the chapter quiz completed
-          }
+          ref
+              .read(chapterQuizStatusProvider.notifier)
+              .setChapterQuizCompleted(
+                chapterId: widget.chapterId,
+                isCompleted: isPassed,
+              );
+
           setState(() {
             isQuizing = false;
           });

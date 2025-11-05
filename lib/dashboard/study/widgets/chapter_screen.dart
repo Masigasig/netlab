@@ -1,11 +1,11 @@
-// ignore_for_file: dead_code
-//* remove the ignore deadcode after implementing riverpod
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/core/themes/app_theme.dart';
+import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
+import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 
 class ChapterScreen extends ConsumerWidget {
@@ -87,10 +87,11 @@ class ChapterScreen extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     itemCount: chapterData['lessons'].length + 1,
                     itemBuilder: (context, index) {
-                      final isComplete = false; //* TODO riverpod value
-
                       if (index == chapterData['lessons'].length) {
                         final isSelected = currentLessonId == 'chapter_quiz';
+                        final isComplete = ref
+                            .read(chapterQuizStatusProvider.notifier)
+                            .isChapterQuizCompleted(chapterId);
 
                         return Container(
                           margin: const EdgeInsets.only(bottom: 4),
@@ -180,6 +181,9 @@ class ChapterScreen extends ConsumerWidget {
                       final lessonId = lessons.keys.elementAt(index);
                       final lessonData = lessons[lessonId];
                       final isSelected = currentLessonId == lessonId;
+                      final isComplete = ref
+                          .watch(lessonStatusProvider.notifier)
+                          .isLessonCompleted(chapterId, lessonId);
 
                       return Container(
                         margin: const EdgeInsets.only(bottom: 4),

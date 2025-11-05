@@ -4,6 +4,7 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 import 'package:netlab/dashboard/study/provider/material_content_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
+import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/quiz_screen.dart';
 
 class LessonContent extends ConsumerStatefulWidget {
@@ -53,9 +54,14 @@ class _LessonContentState extends ConsumerState<LessonContent> {
       return QuizScreen(
         questions: questions,
         onClose: (isPassed) {
-          if (isPassed) {
-            //*TODO: set the lesson quiz completed
-          }
+          ref
+              .read(lessonStatusProvider.notifier)
+              .setLessonCompleted(
+                chapterId: widget.chapterId,
+                lessonId: widget.lessonId,
+                isCompleted: isPassed,
+              );
+
           setState(() {
             isQuizing = false;
           });
