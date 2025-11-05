@@ -4,6 +4,7 @@ import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/quiz_screen.dart';
 
+//* TODO: Designan moto Jade
 class ChapterQuizScreen extends ConsumerStatefulWidget {
   final String chapterId;
 

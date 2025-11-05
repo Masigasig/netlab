@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 
+//* TODO: Designan mo to JADE
 class DefaultContent extends ConsumerWidget {
   final String chapterId;
 
