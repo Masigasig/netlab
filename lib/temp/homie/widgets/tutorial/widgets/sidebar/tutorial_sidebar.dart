@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import '../../models/tutorial_content.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
+import 'package:netlab/temp/core/components/animations.dart';
 
 class TutorialSidebar extends StatelessWidget {
   final List<TutorialSection> sections;
@@ -42,23 +43,28 @@ class TutorialSidebar extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Tutorial',
-                  style: AppTextStyles.forSurface(
-                    AppTextStyles.headerLarge.copyWith(
-                      fontSize: 42,
-                      height: 1.2,
-                      letterSpacing: -1.0,
+                AnimationPresets.titleFadeIn(
+                  child: Text(
+                    'Tutorial',
+                    style: AppTextStyles.forSurface(
+                      AppTextStyles.headerLarge.copyWith(
+                        fontSize: 42,
+                        height: 1.2,
+                        letterSpacing: -1.0,
+                      ),
+                      context,
                     ),
-                    context,
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  'Guides to help you master the app',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    height: 1.5,
-                    color: cs.onSurface.withAlpha(150),
+                AnimationPresets.textFadeIn(
+                  delay: 200,
+                  child: Text(
+                    'Guides to help you master the app',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      height: 1.5,
+                      color: cs.onSurface.withAlpha(150),
+                    ),
                   ),
                 ),
               ],
@@ -88,10 +94,13 @@ class TutorialSidebar extends StatelessWidget {
 
                 return Column(
                   children: [
-                    TutorialSectionCard(
-                      section: section,
-                      isExpanded: isExpanded,
-                      onTap: () => onToggleSection(section.id),
+                    AnimationPresets.listItemSlideLeft(
+                      child: TutorialSectionCard(
+                        section: section,
+                        isExpanded: isExpanded,
+                        onTap: () => onToggleSection(section.id),
+                      ),
+                      index: index,
                     ),
                     if (isExpanded) ...[
                       const SizedBox(height: 8),

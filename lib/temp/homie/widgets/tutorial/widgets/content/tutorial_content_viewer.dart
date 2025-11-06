@@ -3,6 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import '../../models/tutorial_content.dart';
 import 'content_blocks/content_blocks.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
+import 'package:netlab/temp/core/components/animations.dart';
 
 class TutorialContentViewer extends StatefulWidget {
   final TutorialSection section;
@@ -66,19 +67,30 @@ class _TutorialContentViewerState extends State<TutorialContentViewer> {
           const SizedBox(height: 32),
 
           // Fixed Content: Title & Description
-          Text(
-            item.title,
-            style: AppTextStyles.headerLarge.copyWith(
-              color: cs.onSurface,
-              letterSpacing: -0.5,
+          KeyedSubtree(
+            key: ValueKey('title-${widget.itemIndex}'),
+            child: AnimationPresets.titleFadeIn(
+              child: Text(
+                item.title,
+                style: AppTextStyles.headerLarge.copyWith(
+                  color: cs.onSurface,
+                  letterSpacing: -0.5,
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 16),
-          Text(
-            item.description,
-            style: AppTextStyles.bodyLarge.copyWith(
-              height: 1.6,
-              color: cs.onSurface.withAlpha(200),
+          KeyedSubtree(
+            key: ValueKey('description-${widget.itemIndex}'),
+            child: AnimationPresets.textFadeIn(
+              delay: 200,
+              child: Text(
+                item.description,
+                style: AppTextStyles.bodyLarge.copyWith(
+                  height: 1.6,
+                  color: cs.onSurface.withAlpha(200),
+                ),
+              ),
             ),
           ),
 
@@ -87,48 +99,60 @@ class _TutorialContentViewerState extends State<TutorialContentViewer> {
           // Content Container with Image and Text
           Container(
             constraints: const BoxConstraints(maxHeight: 350),
-            child: PageView.builder(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentImageIndex = index;
-                });
-              },
-              itemCount: item.content.length,
-              itemBuilder: (context, index) {
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildContentBlock(item.content[index]),
-                      if (item.images != null && index < item.images!.length)
-                        ImageBlock(imagePath: item.images![index].path),
-                      if (item.imagePath != null && item.images == null)
-                        ImageBlock(imagePath: item.imagePath!),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                );
-              },
+            child: KeyedSubtree(
+              key: ValueKey('content-${widget.itemIndex}'),
+              child: AnimationPresets.cardEntrance(
+                delay: 400,
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _currentImageIndex = index;
+                    });
+                  },
+                  itemCount: item.content.length,
+                  itemBuilder: (context, index) {
+                    return SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildContentBlock(item.content[index]),
+                          if (item.images != null &&
+                              index < item.images!.length)
+                            ImageBlock(imagePath: item.images![index].path),
+                          if (item.imagePath != null && item.images == null)
+                            ImageBlock(imagePath: item.imagePath!),
+                          const SizedBox(height: 24),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
           ),
 
           const SizedBox(height: 16),
 
           // Slide Indicators
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              item.content.length + (item.imagePath != null ? 1 : 0),
-              (index) => Container(
-                width: 8,
-                height: 8,
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _currentImageIndex == index
-                      ? cs.primary
-                      : cs.onSurface.withAlpha(20),
+          KeyedSubtree(
+            key: ValueKey('indicators-${widget.itemIndex}'),
+            child: AnimationPresets.pageIndicator(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  item.content.length + (item.imagePath != null ? 1 : 0),
+                  (index) => Container(
+                    width: 8,
+                    height: 8,
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _currentImageIndex == index
+                          ? cs.primary
+                          : cs.onSurface.withAlpha(20),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -145,29 +169,32 @@ class _TutorialContentViewerState extends State<TutorialContentViewer> {
 
   Widget _buildBreadcrumb(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    return Row(
-      children: [
-        widget.section.isHugeIcon
-            ? HugeIcon(icon: widget.section.icon, size: 16, color: cs.primary)
-            : Icon(widget.section.icon, size: 16, color: cs.primary),
-        const SizedBox(width: 8),
-        Text(
-          widget.section.title,
-          style: AppTextStyles.subtitleLarge.copyWith(
-            color: cs.primary,
-            letterSpacing: 0.5,
+    return AnimationPresets.textFadeIn(
+      delay: 0,
+      child: Row(
+        children: [
+          widget.section.isHugeIcon
+              ? HugeIcon(icon: widget.section.icon, size: 16, color: cs.primary)
+              : Icon(widget.section.icon, size: 16, color: cs.primary),
+          const SizedBox(width: 8),
+          Text(
+            widget.section.title,
+            style: AppTextStyles.subtitleLarge.copyWith(
+              color: cs.primary,
+              letterSpacing: 0.5,
+            ),
           ),
-        ),
-        const SizedBox(width: 8),
-        const Icon(Icons.chevron_right, size: 16),
-        const SizedBox(width: 8),
-        Text(
-          'Tutorial ${widget.itemIndex + 1} of ${widget.section.items.length}',
-          style: AppTextStyles.subtitleLarge.copyWith(
-            // color: cs.onSurface.withAlpha(160),
+          const SizedBox(width: 8),
+          const Icon(Icons.chevron_right, size: 16),
+          const SizedBox(width: 8),
+          Text(
+            'Tutorial ${widget.itemIndex + 1} of ${widget.section.items.length}',
+            style: AppTextStyles.subtitleLarge.copyWith(
+              // color: cs.onSurface.withAlpha(160),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -264,17 +291,20 @@ class _TutorialContentViewerState extends State<TutorialContentViewer> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             if (widget.onPrevious != null)
-              OutlinedButton.icon(
-                onPressed: widget.onPrevious,
-                icon: const Icon(Icons.arrow_back, size: 18),
-                label: Text(
-                  'Previous Tutorial',
-                  style: AppTextStyles.buttonMedium,
-                ),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
+              AnimationPresets.buttonBounce(
+                delay: 600,
+                child: OutlinedButton.icon(
+                  onPressed: widget.onPrevious,
+                  icon: const Icon(Icons.arrow_back, size: 18),
+                  label: Text(
+                    'Previous Tutorial',
+                    style: AppTextStyles.buttonMedium,
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
                   ),
                 ),
               )
@@ -282,15 +312,21 @@ class _TutorialContentViewerState extends State<TutorialContentViewer> {
               const SizedBox(),
 
             if (widget.onNext != null)
-              FilledButton.icon(
-                onPressed: widget.onNext,
-                label: Text('Next Tutorial', style: AppTextStyles.buttonMedium),
-                icon: const Icon(Icons.arrow_forward, size: 18),
-                style: FilledButton.styleFrom(
-                  backgroundColor: cs.primary,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
+              AnimationPresets.buttonBounce(
+                delay: 600,
+                child: FilledButton.icon(
+                  onPressed: widget.onNext,
+                  label: Text(
+                    'Next Tutorial',
+                    style: AppTextStyles.buttonMedium,
+                  ),
+                  icon: const Icon(Icons.arrow_forward, size: 18),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: cs.primary,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
                   ),
                 ),
               )
