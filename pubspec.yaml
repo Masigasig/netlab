@@ -90,10 +90,14 @@ flutter:
     - assets/images/lottie/onboarding_screen/
     - assets/learning_material/
     - assets/learning_material/images/chapter_0/
-    - assets/learning_material/images/chapter_1/
+    - assets/learning_material/images/chapter_2/
+    - assets/learning_material/images/chapter_3/
     - assets/learning_material/material_content/
     - assets/learning_material/material_content/chapter_0/
     - assets/learning_material/material_content/chapter_1/
+    - assets/learning_material/material_content/chapter_2/
+    - assets/learning_material/material_content/chapter_3/
+    - assets/learning_material/material_content/chapter_4/
     - assets/tutorial_material/
     - assets/tutorial_material/images/control_buttons/
     - assets/tutorial_material/images/information_panel/

@@ -6,7 +6,7 @@
         "lessons": {
             "lesson_0": {
                 "title": "Getting to Networking",
-                "content_path": "assets/learning_material/material_content/chapter_0/lesson_0.md",
+                "content_path": "assets/learning_material/material_content/chapter_0/intro.md",
                 "questions": {
                     "question_0": {
                         "question": "What is the main purpose of a computer network?",
@@ -56,7 +56,7 @@
             },
             "lesson_1": {
                 "title": "Host",
-                "content_path": "assets/learning_material/material_content/chapter_0/lesson_1.md",
+                "content_path": "assets/learning_material/material_content/chapter_0/host.md",
                 "questions": {
                     "question_0": {
                         "question": "What is a host in a computer network?",
@@ -92,6 +92,160 @@
                         "explanation": "A device is considered a host if it can send or receive network traffic, regardless of its type or size."
                     }
                 }
+            },
+            "lesson_2": {
+                "title": "Internet",
+                "content_path": "assets/learning_material/material_content/chapter_0/internet.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the Internet?",
+                        "answers": [
+                            "A single large computer",
+                            "A vast collection of interconnected networks",
+                            "A type of web browser",
+                            "A local area network"
+                        ],
+                        "correct_answer": "A vast collection of interconnected networks",
+                        "explanation": "The Internet is a global system of interconnected computer networks that communicate using standard protocols."
+                    },
+                    "question_1": {
+                        "question": "What does the Internet enable devices around the world to do?",
+                        "answers": [
+                            "Store files locally",
+                            "Communicate and share information",
+                            "Disconnect from networks",
+                            "Block access to data"
+                        ],
+                        "correct_answer": "Communicate and share information",
+                        "explanation": "The Internet allows devices worldwide to connect, communicate, and exchange information."
+                    },
+                    "question_2": {
+                        "question": "True or False: The Internet only connects computers within the same local network.",
+                        "answers": [
+                            "True",
+                            "False"
+                        ],
+                        "correct_answer": "False",
+                        "explanation": "False — the Internet connects millions of devices across different networks globally, not just local ones."
+                    }
+                }
+            },
+            "lesson_3": {
+                "title": "Network",
+                "content_path": "assets/learning_material/material_content/chapter_0/network.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is a network?",
+                        "answers": [
+                            "A collection of isolated computers",
+                            "A group of computers connected to share resources",
+                            "A single mainframe computer",
+                            "An Internet service provider"
+                        ],
+                        "correct_answer": "A group of computers connected to share resources",
+                        "explanation": "A network is a group of interconnected computers or devices that share data and resources."
+                    },
+                    "question_1": {
+                        "question": "Which of the following is an example of a network device?",
+                        "answers": [
+                            "Printer",
+                            "Router",
+                            "Scanner",
+                            "Monitor"
+                        ],
+                        "correct_answer": "Router",
+                        "explanation": "A router is a networking device that forwards data packets between networks, making it a core network device."
+                    },
+                    "question_2": {
+                        "question": "What is the main function of a network switch?",
+                        "answers": [
+                            "To convert analog signals to digital",
+                            "To connect devices within the same local area network",
+                            "To provide wireless connectivity",
+                            "To assign IP addresses automatically"
+                        ],
+                        "correct_answer": "To connect devices within the same local area network",
+                        "explanation": "A switch connects multiple devices within a LAN and forwards data to the correct destination device."
+                    }
+                }
+            },
+            "lesson_4": {
+                "title": "IP Address",
+                "content_path": "assets/learning_material/material_content/chapter_0/ipaddress.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main purpose of an IP address?",
+                        "answers": [
+                            "To identify a device uniquely on a network",
+                            "To provide Internet speed",
+                            "To locate websites on search engines",
+                            "To store user credentials"
+                        ],
+                        "correct_answer": "To identify a device uniquely on a network",
+                        "explanation": "An IP address uniquely identifies a device on a network, allowing it to send and receive data."
+                    },
+                    "question_1": {
+                        "question": "Which of the following is a valid IPv4 address?",
+                        "answers": [
+                            "256.1.1.1",
+                            "192.168.1.1",
+                            "999.0.0.1",
+                            "1234.12.0.1"
+                        ],
+                        "correct_answer": "192.168.1.1",
+                        "explanation": "IPv4 addresses use four octets (0–255). The example 192.168.1.1 is a valid IPv4 address."
+                    },
+                    "question_2": {
+                        "question": "What does the subnet mask determine?",
+                        "answers": [
+                            "The physical layout of a network",
+                            "The division between network and host portions of an IP address",
+                            "The type of cabling used",
+                            "The Internet connection speed"
+                        ],
+                        "correct_answer": "The division between network and host portions of an IP address",
+                        "explanation": "A subnet mask defines which part of an IP address identifies the network and which part identifies the host."
+                    }
+                }
+            },
+            "lesson_5": {
+                "title": "OSI Model",
+                "content_path": "assets/learning_material/material_content/chapter_0/osimodel.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What does OSI stand for?",
+                        "answers": [
+                            "Open System Interconnection",
+                            "Operating System Interface",
+                            "Online Service Integration",
+                            "Open Signal Interface"
+                        ],
+                        "correct_answer": "Open System Interconnection",
+                        "explanation": "OSI stands for Open System Interconnection — a model that standardizes network communication functions."
+                    },
+                    "question_1": {
+                        "question": "How many layers does the OSI model have?",
+                        "answers": [
+                            "5",
+                            "6",
+                            "7",
+                            "8"
+                        ],
+                        "correct_answer": "7",
+                        "explanation": "The OSI model is composed of seven layers, each responsible for a specific aspect of data communication."
+                    },
+                    "question_2": {
+                        "question": "Which of the following is the correct order of OSI layers (from top to bottom)?",
+                        "answers": [
+                            "Physical, Data Link, Network, Transport, Session, Presentation, Application",
+                            "Application, Presentation, Session, Transport, Network, Data Link, Physical",
+                            "Application, Transport, Network, Data Link, Physical, Session, Presentation",
+                            "Network, Transport, Session, Application, Data Link, Physical, Presentation"
+                        ],
+                        "correct_answer": "Application, Presentation, Session, Transport, Network, Data Link, Physical",
+                        "explanation": "The OSI layers from top to bottom are: Application, Presentation, Session, Transport, Network, Data Link, and Physical."
+                    }
+                }
             }
         }
     },
@@ -102,7 +256,7 @@
         "lessons": {
             "lesson_0": {
                 "title": "Introduction to Switching",
-                "content_path": "assets/learning_material/material_content/chapter_1/lesson_0.md",
+                "content_path": "assets/learning_material/material_content/chapter_1/introswitch.md",
                 "questions": {
                     "question_0": {
                         "question": "What is the primary function of a network switch in a LAN environment?",
@@ -141,7 +295,7 @@
             },
             "lesson_1": {
                 "title": "Mac Address Table",
-                "content_path": "assets/learning_material/material_content/chapter_1/lesson_1.md",
+                "content_path": "assets/learning_material/material_content/chapter_1/macaddress.md",
                 "questions": {
                     "question_0": {
                         "question": "What is the main purpose of the MAC address table in a switch?",
@@ -175,6 +329,1137 @@
                         ],
                         "correct_answer": "Sends the frame to all ports except the incoming one (flooding)",
                         "explanation": "When a destination MAC is unknown, the switch floods the frame to all ports except the source port, ensuring it reaches the intended recipient."
+                    }
+                }
+            },
+            "lesson_2": {
+                "title": "Switch Operation",
+                "content_path": "assets/learning_material/material_content/chapter_1/switchoperation.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the primary function of a network switch?",
+                        "answers": [
+                            "To connect multiple networks together",
+                            "To forward frames based on MAC addresses",
+                            "To assign IP addresses to connected devices",
+                            "To filter packets using IP routing tables"
+                        ],
+                        "correct_answer": "To forward frames based on MAC addresses",
+                        "explanation": "A switch forwards Ethernet frames based on the MAC address table, directing traffic to the correct destination port."
+                    },
+                    "question_1": {
+                        "question": "When a switch receives a frame, which part of the frame does it examine to decide where to send it?",
+                        "answers": [
+                            "The source IP address",
+                            "The destination MAC address",
+                            "The frame checksum",
+                            "The VLAN tag"
+                        ],
+                        "correct_answer": "The destination MAC address",
+                        "explanation": "Switches operate at the Data Link layer (Layer 2) and use the destination MAC address to determine the correct output port for the frame."
+                    },
+                    "question_2": {
+                        "question": "What happens when a switch receives a broadcast frame?",
+                        "answers": [
+                            "It drops the frame immediately",
+                            "It sends the frame to the router only",
+                            "It forwards the frame to all ports except the one it was received on",
+                            "It only sends it to one random port"
+                        ],
+                        "correct_answer": "It forwards the frame to all ports except the one it was received on",
+                        "explanation": "Broadcast frames are sent to all ports except the incoming one, allowing all devices in the broadcast domain to receive it."
+                    },
+                    "question_3": {
+                        "question": "What does a switch do before forwarding a frame to its destination?",
+                        "answers": [
+                            "It checks for an entry in its MAC address table",
+                            "It assigns a new MAC address to the frame",
+                            "It converts the frame to a packet",
+                            "It sends the frame to the router for processing"
+                        ],
+                        "correct_answer": "It checks for an entry in its MAC address table",
+                        "explanation": "Before forwarding, the switch checks its MAC address table to determine the correct port to send the frame through."
+                    }
+                }
+            },
+            "lesson_3": {
+                "title": "Switch Frame Types",
+                "content_path": "assets/learning_material/material_content/chapter_1/switchframe.md",
+                "questions": {
+                    "question_0": {
+                        "question": "When a switch receives a frame with an unknown destination MAC address, what does it do?",
+                        "answers": [
+                            "Drops the frame immediately",
+                            "Sends the frame only to the source port",
+                            "Sends (floods) the frame to all ports",
+                            "Sends the frame to the router"
+                        ],
+                        "correct_answer": "Sends (floods) the frame to all ports",
+                        "explanation": "If the switch doesn’t know where the destination MAC is, it floods the frame to all ports so the correct device can respond. Once the switch learns the destination, it will send future frames directly to that device."
+                    },
+                    "question_1": {
+                        "question": "What type of frame is sent when a host makes an ARP Request?",
+                        "answers": [
+                            "Unicast Frame",
+                            "Multicast Frame",
+                            "Broadcast Frame",
+                            "Anycast Frame"
+                        ],
+                        "correct_answer": "Broadcast Frame",
+                        "explanation": "An ARP Request uses a broadcast frame because it needs to reach every device on the network. The destination MAC address is set to FF:FF:FF:FF:FF:FF, meaning all devices will receive it."
+                    }
+                }
+            },
+            "lesson_4": {
+                "title": "Introduction to Routing",
+                "content_path": "assets/learning_material/material_content/chapter_1/introrouting.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the primary function of a router in a network?",
+                        "answers": [
+                            "To amplify network signals",
+                            "To forward data between different networks",
+                            "To connect devices within the same LAN",
+                            "To assign MAC addresses to devices"
+                        ],
+                        "correct_answer": "To forward data between different networks",
+                        "explanation": "Routers are responsible for forwarding packets between different networks, enabling communication across network boundaries."
+                    },
+                    "question_1": {
+                        "question": "At which OSI layer does a router primarily operate?",
+                        "answers": [
+                            "Layer 1 – Physical Layer",
+                            "Layer 2 – Data Link Layer",
+                            "Layer 3 – Network Layer",
+                            "Layer 4 – Transport Layer"
+                        ],
+                        "correct_answer": "Layer 3 – Network Layer",
+                        "explanation": "Routers function mainly at the Network Layer (Layer 3), using IP addresses to determine packet forwarding paths."
+                    },
+                    "question_2": {
+                        "question": "Which type of address does a router use to make forwarding decisions?",
+                        "answers": [
+                            "MAC address",
+                            "Port address",
+                            "IP address",
+                            "Application address"
+                        ],
+                        "correct_answer": "IP address",
+                        "explanation": "Routers use IP addresses to determine the next hop in the path toward the destination network."
+                    },
+                    "question_3": {
+                        "question": "What is the term for the path that a packet takes from the source to the destination across multiple networks?",
+                        "answers": [
+                            "Transmission route",
+                            "Routing path",
+                            "Network link",
+                            "Frame circuit"
+                        ],
+                        "correct_answer": "Routing path",
+                        "explanation": "The routing path refers to the specific route a packet follows across interconnected networks to reach its destination."
+                    },
+                    "question_4": {
+                        "question": "True or False: Routers forward frames based on MAC addresses.",
+                        "answers": [
+                            "True",
+                            "False"
+                        ],
+                        "correct_answer": "False",
+                        "explanation": "False — switches use MAC addresses, while routers make forwarding decisions using IP addresses at Layer 3."
+                    },
+                    "question_5": {
+                        "question": "What is a routing table used for?",
+                        "answers": [
+                            "To store a list of MAC addresses",
+                            "To record the physical connections between devices",
+                            "To determine the best path to a destination network",
+                            "To monitor traffic collisions in a LAN"
+                        ],
+                        "correct_answer": "To determine the best path to a destination network",
+                        "explanation": "A routing table contains information about network destinations and the paths (next hops) used to reach them."
+                    },
+                    "question_6": {
+                        "question": "What does a router do when it receives a packet for a network it doesn’t recognize?",
+                        "answers": [
+                            "It floods the packet to all ports",
+                            "It drops the packet",
+                            "It assigns a new IP address to the packet",
+                            "It sends the packet to a switch"
+                        ],
+                        "correct_answer": "It drops the packet",
+                        "explanation": "If a router has no route for a destination network, it discards the packet and may send an ICMP “Destination Unreachable” message."
+                    },
+                    "question_7": {
+                        "question": "What is the “default gateway” in a network?",
+                        "answers": [
+                            "A backup router used only when the main fails",
+                            "A device that assigns IP addresses automatically",
+                            "The router interface that connects the local network to external networks",
+                            "The switch port connected to all hosts"
+                        ],
+                        "correct_answer": "The router interface that connects the local network to external networks",
+                        "explanation": "The default gateway is the router interface that forwards packets from a local network to other networks when no specific route exists."
+                    },
+                    "question_8": {
+                        "question": "Which of the following best describes the process of routing?",
+                        "answers": [
+                            "Deciding how to forward data frames within a LAN",
+                            "Determining the best path to a destination network",
+                            "Assigning addresses to hosts",
+                            "Amplifying signals for long-distance transmission"
+                        ],
+                        "correct_answer": "Determining the best path to a destination network",
+                        "explanation": "Routing is the process of determining the optimal path for data packets to reach their destination network."
+                    },
+                    "question_9": {
+                        "question": "What happens to the source and destination MAC addresses when a packet moves through multiple routers?",
+                        "answers": [
+                            "They stay the same throughout the path",
+                            "They change at each router hop",
+                            "Only the destination MAC changes",
+                            "Only the source MAC changes"
+                        ],
+                        "correct_answer": "They change at each router hop",
+                        "explanation": "Each router replaces both the source and destination MAC addresses at every hop since MAC addresses are only relevant within each local network segment."
+                    }
+                }
+            },
+            "lesson_5": {
+                "title": "Router vs Host",
+                "content_path": "assets/learning_material/material_content/chapter_1/hostvsrouter.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main difference between a router and a host in a network?",
+                        "answers": [
+                            "A host forwards data between networks, while a router generates data for applications",
+                            "A router forwards packets between networks, while a host sends and receives data within its own network",
+                            "Both perform the same role but at different speeds",
+                            "A host is a type of switch used in local networks"
+                        ],
+                        "correct_answer": "A router forwards packets between networks, while a host sends and receives data within its own network",
+                        "explanation": "Routers forward packets between different networks, while hosts generate and receive data within a network — routers move data across networks, hosts use that data locally."
+                    },
+                    "question_1": {
+                        "question": "At which OSI layer does a router primarily operate?",
+                        "answers": [
+                            "Layer 1 – Physical",
+                            "Layer 2 – Data Link",
+                            "Layer 3 – Network",
+                            "Layer 4 – Transport"
+                        ],
+                        "correct_answer": "Layer 3 – Network",
+                        "explanation": "Routers operate at the Network layer (Layer 3) of the OSI model, where IP addressing and routing decisions occur."
+                    },
+                    "question_2": {
+                        "question": "How does a router determine where to send data packets?",
+                        "answers": [
+                            "By checking the MAC address table",
+                            "By using its routing table to find the best path",
+                            "By broadcasting the packet to all ports",
+                            "By guessing based on previous transmissions"
+                        ],
+                        "correct_answer": "By using its routing table to find the best path",
+                        "explanation": "Routers use a routing table containing known network paths and next-hop addresses to decide the most efficient route for each packet."
+                    },
+                    "question_3": {
+                        "question": "Which statement best describes a host’s role in network communication?",
+                        "answers": [
+                            "It directs packets between multiple networks",
+                            "It only stores data but never sends it",
+                            "It generates, processes, and receives data within its own network",
+                            "It maintains network topology and routing tables"
+                        ],
+                        "correct_answer": "It generates, processes, and receives data within its own network",
+                        "explanation": "Hosts act as endpoints — they create and consume data. Unlike routers, hosts don’t forward packets between networks."
+                    },
+                    "question_4": {
+                        "question": "True or False: A router can act as a host if it has applications that send or receive data.",
+                        "answers": [
+                            "True",
+                            "False"
+                        ],
+                        "correct_answer": "True",
+                        "explanation": "True — while routers primarily forward data between networks, they can also act as hosts if they run applications that originate or consume network data."
+                    }
+                }
+            },
+            "lesson_6": {
+                "title": "Router Network Connections",
+                "content_path": "assets/learning_material/material_content/chapter_1/routernetwork.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the primary purpose of router network connections?",
+                        "answers": [
+                            "To connect end-user devices to a local switch",
+                            "To link multiple networks together for communication",
+                            "To provide power to connected devices",
+                            "To encrypt traffic between computers on the same LAN"
+                        ],
+                        "correct_answer": "To link multiple networks together for communication",
+                        "explanation": "Router network connections exist to connect different networks, allowing communication and data exchange between them — such as between LANs and WANs."
+                    },
+                    "question_1": {
+                        "question": "Which type of router interface connects directly to end-user devices within a local network?",
+                        "answers": [
+                            "WAN interface",
+                            "LAN interface",
+                            "Serial interface",
+                            "Loopback interface"
+                        ],
+                        "correct_answer": "LAN interface",
+                        "explanation": "LAN interfaces on routers connect to devices within the local network (like switches or PCs), providing internal communication before packets are routed externally."
+                    },
+                    "question_2": {
+                        "question": "What type of interface allows a router to connect to external networks such as the Internet?",
+                        "answers": [
+                            "Ethernet interface",
+                            "WAN interface",
+                            "Local interface",
+                            "Administrative interface"
+                        ],
+                        "correct_answer": "WAN interface",
+                        "explanation": "WAN interfaces connect routers to external or remote networks, like ISPs or other routers across long distances."
+                    },
+                    "question_3": {
+                        "question": "True or False: Routers can have both physical and logical interfaces for network connections.",
+                        "answers": [
+                            "True",
+                            "False"
+                        ],
+                        "correct_answer": "True",
+                        "explanation": "True — routers use physical interfaces (like Ethernet or serial ports) and logical interfaces (like VLANs or loopbacks) to manage and route traffic efficiently."
+                    },
+                    "question_4": {
+                        "question": "What is a loopback interface commonly used for in routers?",
+                        "answers": [
+                            "Providing a test or management IP address",
+                            "Physically connecting to other networks",
+                            "Powering network cables",
+                            "Transmitting wireless signals"
+                        ],
+                        "correct_answer": "Providing a test or management IP address",
+                        "explanation": "Loopback interfaces are virtual interfaces used mainly for testing, management, and network stability. They are always up as long as the router is operational."
+                    }
+                }
+            },
+            "lesson_7": {
+                "title": "Routing Table",
+                "content_path": "assets/learning_material/material_content/chapter_1/routingtable.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main function of a routing table in a router?",
+                        "answers": [
+                            "To store MAC addresses of connected devices",
+                            "To determine the best path for data packets to reach their destination",
+                            "To record bandwidth usage for each network interface",
+                            "To manage wireless access point connections"
+                        ],
+                        "correct_answer": "To determine the best path for data packets to reach their destination",
+                        "explanation": "A routing table stores information about network destinations and the best available paths, allowing routers to forward packets efficiently."
+                    },
+                    "question_1": {
+                        "question": "Which of the following pieces of information is typically found in a routing table entry?",
+                        "answers": [
+                            "Destination network, next hop, and outgoing interface",
+                            "MAC address, port number, and VLAN ID",
+                            "Username, password, and encryption key",
+                            "Application name, protocol type, and port speed"
+                        ],
+                        "correct_answer": "Destination network, next hop, and outgoing interface",
+                        "explanation": "Each routing table entry includes the destination network, the next-hop IP address, and the outgoing interface for forwarding packets."
+                    },
+                    "question_2": {
+                        "question": "What is the “next hop” in a routing table used for?",
+                        "answers": [
+                            "It identifies the next device or router to send a packet to",
+                            "It shows the application that generated the data",
+                            "It marks where the data will be stored temporarily",
+                            "It indicates the source of the original transmission"
+                        ],
+                        "correct_answer": "It identifies the next device or router to send a packet to",
+                        "explanation": "The “next hop” specifies the next device (usually another router) where a packet should be forwarded to reach its destination."
+                    },
+                    "question_3": {
+                        "question": "True or False: Routers can have both static and dynamic routes in their routing tables.",
+                        "answers": [
+                            "True",
+                            "False"
+                        ],
+                        "correct_answer": "True",
+                        "explanation": "True — routers can use static routes configured manually or dynamic routes learned automatically through routing protocols like OSPF or RIP."
+                    },
+                    "question_4": {
+                        "question": "Which type of route is automatically learned through routing protocols?",
+                        "answers": [
+                            "Static route",
+                            "Dynamic route",
+                            "Manual route",
+                            "Default route"
+                        ],
+                        "correct_answer": "Dynamic route",
+                        "explanation": "Dynamic routes are learned automatically through routing protocols, allowing routers to adapt to network changes without manual updates."
+                    }
+                }
+            },
+            "lesson_8": {
+                "title": "Routing Types",
+                "content_path": "assets/learning_material/material_content/chapter_1/routingtypes.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What are the two main types of routing?",
+                        "answers": [
+                            "Manual and Automatic Routing",
+                            "Static and Dynamic Routing",
+                            "Direct and Indirect Routing",
+                            "LAN and WAN Routing"
+                        ],
+                        "correct_answer": "Static and Dynamic Routing",
+                        "explanation": "Routing is categorized into Static Routing (manually configured) and Dynamic Routing (automatically learned through routing protocols)."
+                    },
+                    "question_1": {
+                        "question": "Which statement best describes static routing?",
+                        "answers": [
+                            "Routes are automatically updated using routing protocols",
+                            "Routes are manually configured and remain constant until changed by an administrator",
+                            "Routes depend on MAC address lookups",
+                            "Routes are temporary and deleted after every restart"
+                        ],
+                        "correct_answer": "Routes are manually configured and remain constant until changed by an administrator",
+                        "explanation": "Static routing requires manual configuration and does not change automatically, providing predictable and stable routing paths."
+                    },
+                    "question_2": {
+                        "question": "What is a key advantage of using dynamic routing over static routing?",
+                        "answers": [
+                            "It requires no configuration at all",
+                            "It automatically updates routes when network topology changes",
+                            "It uses less memory and CPU resources",
+                            "It is more secure by default"
+                        ],
+                        "correct_answer": "It automatically updates routes when network topology changes",
+                        "explanation": "Dynamic routing automatically updates and recalculates routes when network changes occur, providing greater flexibility in larger or changing networks."
+                    },
+                    "question_3": {
+                        "question": "True or False: Static routing is more suitable for small, stable networks.",
+                        "answers": [
+                            "True",
+                            "False"
+                        ],
+                        "correct_answer": "True",
+                        "explanation": "True — static routing works best in smaller, fixed networks where routes rarely change, making it simple and reliable."
+                    },
+                    "question_4": {
+                        "question": "Which of the following is an example of a dynamic routing protocol?",
+                        "answers": [
+                            "DNS",
+                            "OSPF",
+                            "ARP",
+                            "HTTP"
+                        ],
+                        "correct_answer": "OSPF",
+                        "explanation": "OSPF (Open Shortest Path First) is a dynamic routing protocol that allows routers to share route information and automatically update paths based on network conditions."
+                    }
+                }
+            }
+        }
+    },
+    "chapter_2": {
+        "title": "Network Devices",
+        "subtitle": "Learn about different types if network devices and their functions",
+        "description": "Comprehensive guide to routers, switches,and other networking equipment used in modern networks.",
+        "lessons": {
+            "lesson_0": {
+                "title": "Repeater",
+                "content_path": "assets/learning_material/material_content/chapter_2/repeater.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main function of a repeater?",
+                        "answers": [
+                            "To connect multiple networks together",
+                            "To regenerate and amplify signals in a network",
+                            "To convert digital signals into analog signals",
+                            "To filter data packets based on addresses"
+                        ],
+                        "correct_answer": "To regenerate and amplify signals in a network",
+                        "explanation": "A repeater regenerates and amplifies weak or distorted signals to extend the distance a signal can travel over a network."
+                    },
+                    "question_1": {
+                        "question": "At which layer of the OSI model does a repeater operate?",
+                        "answers": [
+                            "Physical layer",
+                            "Data Link layer",
+                            "Network layer",
+                            "Transport layer"
+                        ],
+                        "correct_answer": "Physical layer",
+                        "explanation": "A repeater operates at the Physical layer (Layer 1) because it deals with signal transmission and regeneration, not data interpretation."
+                    },
+                    "question_2": {
+                        "question": "Why are repeaters used in a network?",
+                        "answers": [
+                            "To increase the number of connected users",
+                            "To extend the range of a network by boosting signals",
+                            "To provide wireless access points",
+                            "To convert protocols between two networks"
+                        ],
+                        "correct_answer": "To extend the range of a network by boosting signals",
+                        "explanation": "Repeaters are used to extend the reach of a network by boosting or regenerating signals that weaken over long distances."
+                    }
+                }
+            },
+            "lesson_1": {
+                "title": "Hub",
+                "content_path": "assets/learning_material/material_content/chapter_2/hub.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main function of a hub in a network?",
+                        "answers": [
+                            "To regenerate and amplify signals",
+                            "To forward data packets to a specific destination",
+                            "To broadcast data to all connected devices",
+                            "To store MAC addresses for each port"
+                        ],
+                        "correct_answer": "To broadcast data to all connected devices",
+                        "explanation": "A hub broadcasts incoming data to all its ports, meaning every connected device receives the same data, regardless of the intended recipient."
+                    },
+                    "question_1": {
+                        "question": "At which OSI layer does a hub operate?",
+                        "answers": [
+                            "Physical layer (Layer 1)",
+                            "Data Link layer (Layer 2)",
+                            "Network layer (Layer 3)",
+                            "Transport layer (Layer 4)"
+                        ],
+                        "correct_answer": "Physical layer (Layer 1)",
+                        "explanation": "A hub operates at the Physical layer (Layer 1) of the OSI model because it deals with electrical or signal transmission, not data addressing or logic."
+                    },
+                    "question_2": {
+                        "question": "How does a hub handle network traffic?",
+                        "answers": [
+                            "It filters traffic and sends it only to the destination device",
+                            "It sends all traffic to all connected ports",
+                            "It stores data temporarily before forwarding it",
+                            "It converts digital data to analog signals"
+                        ],
+                        "correct_answer": "It sends all traffic to all connected ports",
+                        "explanation": "Hubs are simple devices that forward all incoming signals to every port, which can lead to unnecessary traffic on the network."
+                    }
+                }
+            },
+            "lesson_2": {
+                "title": "Bridge",
+                "content_path": "assets/learning_material/material_content/chapter_2/bridge.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main function of a bridge in a network?",
+                        "answers": [
+                            "To connect and filter traffic between two network segments",
+                            "To amplify electrical signals",
+                            "To broadcast data to all connected devices",
+                            "To assign IP addresses to hosts"
+                        ],
+                        "correct_answer": "To connect and filter traffic between two network segments",
+                        "explanation": "A bridge connects two or more network segments and filters traffic based on MAC addresses, improving efficiency and reducing collisions."
+                    },
+                    "question_1": {
+                        "question": "At which OSI layer does a bridge operate?",
+                        "answers": [
+                            "Physical layer (Layer 1)",
+                            "Data Link layer (Layer 2)",
+                            "Network layer (Layer 3)",
+                            "Transport layer (Layer 4)"
+                        ],
+                        "correct_answer": "Data Link layer (Layer 2)",
+                        "explanation": "Bridges operate at the Data Link layer (Layer 2) because they use MAC addresses to determine where to forward or filter frames."
+                    },
+                    "question_2": {
+                        "question": "How does a bridge decide whether to forward or block a data frame?",
+                        "answers": [
+                            "By checking the IP address of the sender",
+                            "By using the MAC address table it builds",
+                            "By broadcasting the frame to all ports",
+                            "By measuring signal strength"
+                        ],
+                        "correct_answer": "By using the MAC address table it builds",
+                        "explanation": "A bridge maintains a MAC address table that maps devices to specific ports. It uses this table to forward frames only where needed."
+                    }
+                }
+            },
+            "lesson_3": {
+                "title": "Switch",
+                "content_path": "assets/learning_material/material_content/chapter_2/switch.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main function of a network switch?",
+                        "answers": [
+                            "To connect multiple network segments and manage traffic intelligently",
+                            "To connect computers wirelessly",
+                            "To assign IP addresses to devices",
+                            "To amplify electrical signals between cables"
+                        ],
+                        "correct_answer": "To connect multiple network segments and manage traffic intelligently",
+                        "explanation": "A switch connects multiple devices in a network and directs data only to the intended recipient using MAC address information, improving efficiency."
+                    },
+                    "question_1": {
+                        "question": "At which OSI layer does a typical network switch operate?",
+                        "answers": [
+                            "Physical Layer (Layer 1)",
+                            "Data Link Layer (Layer 2)",
+                            "Network Layer (Layer 3)",
+                            "Application Layer (Layer 7)"
+                        ],
+                        "correct_answer": "Data Link Layer (Layer 2)",
+                        "explanation": "Most switches operate at the Data Link layer (Layer 2), using MAC addresses to make forwarding decisions."
+                    },
+                    "question_2": {
+                        "question": "How does a switch determine which port to send a frame to?",
+                        "answers": [
+                            "By checking the source IP address",
+                            "By using a MAC address table built from learned addresses",
+                            "By sending the frame to all connected devices",
+                            "By randomly selecting a port"
+                        ],
+                        "correct_answer": "By using a MAC address table built from learned addresses",
+                        "explanation": "Switches maintain a MAC address table that maps device addresses to ports. They use it to forward frames only where needed."
+                    }
+                }
+            },
+            "lesson_4": {
+                "title": "Router",
+                "content_path": "assets/learning_material/material_content/chapter_2/router.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main function of a router in a network?",
+                        "answers": [
+                            "To connect multiple devices within the same local network",
+                            "To forward data packets between different networks",
+                            "To boost signal strength between devices",
+                            "To assign MAC addresses to hosts"
+                        ],
+                        "correct_answer": "To forward data packets between different networks",
+                        "explanation": "A router connects multiple networks and forwards data packets between them based on IP addresses, enabling communication across networks."
+                    },
+                    "question_1": {
+                        "question": "At which OSI layer does a router primarily operate?",
+                        "answers": [
+                            "Physical Layer (Layer 1)",
+                            "Data Link Layer (Layer 2)",
+                            "Network Layer (Layer 3)",
+                            "Transport Layer (Layer 4)"
+                        ],
+                        "correct_answer": "Network Layer (Layer 3)",
+                        "explanation": "Routers operate mainly at the Network Layer (Layer 3), using IP addresses to determine the best path for forwarding packets."
+                    },
+                    "question_2": {
+                        "question": "What information does a router use to determine the best path for forwarding data?",
+                        "answers": [
+                            "MAC address table",
+                            "IP routing table",
+                            "Device hostname",
+                            "Physical cable connections"
+                        ],
+                        "correct_answer": "IP routing table",
+                        "explanation": "Routers use a routing table that contains network destinations and next-hop addresses to decide where to forward packets."
+                    }
+                }
+            }
+        }
+    },
+    "chapter_3": {
+        "title": "Host-to-Host Communication",
+        "subtitle": "How devices communicate over a network",
+        "description": "Covers IP and MAC addressing, subnetting, the ARP process, packet delivery, and caching for efficient host-to-host communication.",
+        "lessons": {
+            "lesson_0": {
+                "title": "Host-to-Host Communication",
+                "content_path": "assets/learning_material/material_content/chapter_3/hosttohost.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is a host in a network?",
+                        "answers": [
+                            "A device that provides network cables",
+                            "Any device that sends or receives data over a network",
+                            "A special server that manages routers",
+                            "Only a computer running a web browser"
+                        ],
+                        "correct_answer": "Any device that sends or receives data over a network",
+                        "explanation": "A host is any device connected to a network that can send or receive data — including computers, printers, and mobile devices."
+                    },
+                    "question_1": {
+                        "question": "What must every host on a network have to communicate?",
+                        "answers": [
+                            "A unique IP address",
+                            "The same MAC address as others",
+                            "A physical cable connection",
+                            "A shared hostname"
+                        ],
+                        "correct_answer": "A unique IP address",
+                        "explanation": "Each host must have a unique IP address to be identified and communicate properly on a network."
+                    },
+                    "question_2": {
+                        "question": "Which of the following is an example of a host device?",
+                        "answers": [
+                            "Router",
+                            "Switch",
+                            "Laptop",
+                            "Network hub"
+                        ],
+                        "correct_answer": "Laptop",
+                        "explanation": "A laptop is considered a host device because it generates, sends, and receives data within the network."
+                    },
+                    "question_3": {
+                        "question": "True or False: Hosts cannot communicate directly without a router.",
+                        "answers": [
+                            "True",
+                            "False"
+                        ],
+                        "correct_answer": "False",
+                        "explanation": "False — hosts within the same network (subnet) can communicate directly without the need for a router."
+                    },
+                    "question_4": {
+                        "question": "What allows hosts to communicate with other networks beyond their local one?",
+                        "answers": [
+                            "Default gateway",
+                            "Switch",
+                            "Access point",
+                            "Firewall"
+                        ],
+                        "correct_answer": "Default gateway",
+                        "explanation": "A default gateway, usually a router, enables hosts to communicate outside their local network."
+                    },
+                    "question_5": {
+                        "question": "Which of the following best describes host-to-host communication?",
+                        "answers": [
+                            "The process of sharing data between two devices over a network",
+                            "A broadcast signal sent to all devices in a network",
+                            "A local-only file transfer",
+                            "An encrypted session for authentication"
+                        ],
+                        "correct_answer": "The process of sharing data between two devices over a network",
+                        "explanation": "Host-to-host communication refers to the exchange of data between two devices connected to a network."
+                    },
+                    "question_6": {
+                        "question": "Why is addressing important for host-to-host communication?",
+                        "answers": [
+                            "It defines the color of network cables used",
+                            "It ensures data is sent to the correct destination host",
+                            "It encrypts all messages on the network",
+                            "It reduces network congestion"
+                        ],
+                        "correct_answer": "It ensures data is sent to the correct destination host",
+                        "explanation": "Addressing ensures each data packet reaches the correct destination host, avoiding misdelivery in communication."
+                    }
+                }
+            },
+            "lesson_1": {
+                "title": "Preparing to Send Data",
+                "content_path": "assets/learning_material/material_content/chapter_3/preparation.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What happens before data is sent across a network?",
+                        "answers": [
+                            "The data is deleted to free up space",
+                            "The data is formatted, addressed, and encapsulated for transmission",
+                            "The data is automatically compressed by the router",
+                            "The data is divided randomly into small packets"
+                        ],
+                        "correct_answer": "The data is formatted, addressed, and encapsulated for transmission",
+                        "explanation": "Before sending, data goes through encapsulation — it is formatted, addressed, and broken into packets suitable for transmission."
+                    },
+                    "question_1": {
+                        "question": "What is encapsulation in the context of data transmission?",
+                        "answers": [
+                            "Adding control information to data as it moves through network layers",
+                            "Removing headers and footers from packets",
+                            "Encrypting data for secure communication",
+                            "Combining multiple packets into a single frame"
+                        ],
+                        "correct_answer": "Adding control information to data as it moves through network layers",
+                        "explanation": "Encapsulation is the process of adding headers and sometimes footers to data as it moves down the network layers to prepare it for transmission."
+                    },
+                    "question_2": {
+                        "question": "Which layer of the OSI model is responsible for packaging data into segments for transmission?",
+                        "answers": [
+                            "Application Layer",
+                            "Transport Layer",
+                            "Network Layer",
+                            "Physical Layer"
+                        ],
+                        "correct_answer": "Transport Layer",
+                        "explanation": "The Transport Layer segments data for transmission, ensuring it can be reassembled properly at the destination."
+                    },
+                    "question_3": {
+                        "question": "True or False: Only the sending device adds headers to data packets.",
+                        "answers": [
+                            "True",
+                            "False"
+                        ],
+                        "correct_answer": "False",
+                        "explanation": "False — both the sending and receiving devices use headers; the sender adds them during encapsulation, and the receiver reads them to interpret data properly."
+                    },
+                    "question_4": {
+                        "question": "What is included in a packet’s header?",
+                        "answers": [
+                            "Source and destination IP addresses",
+                            "User’s login credentials",
+                            "Device storage information",
+                            "File permissions"
+                        ],
+                        "correct_answer": "Source and destination IP addresses",
+                        "explanation": "Headers contain important information such as source and destination IP addresses to ensure proper delivery of packets."
+                    },
+                    "question_5": {
+                        "question": "Which protocol is primarily responsible for logical addressing during the data preparation process?",
+                        "answers": [
+                            "IP (Internet Protocol)",
+                            "HTTP (Hypertext Transfer Protocol)",
+                            "Ethernet",
+                            "DNS (Domain Name System)"
+                        ],
+                        "correct_answer": "IP (Internet Protocol)",
+                        "explanation": "The Internet Protocol (IP) handles logical addressing, assigning source and destination IP addresses to each packet during data preparation."
+                    },
+                    "question_6": {
+                        "question": "What ensures that large data files are properly divided before transmission?",
+                        "answers": [
+                            "Segmentation by the Transport Layer",
+                            "Encapsulation by the Network Layer",
+                            "Switch forwarding tables",
+                            "Encryption by the Application Layer"
+                        ],
+                        "correct_answer": "Segmentation by the Transport Layer",
+                        "explanation": "The Transport Layer divides large data into smaller segments, ensuring efficient transmission and correct reassembly at the destination."
+                    }
+                }
+            },
+            "lesson_2": {
+                "title": "Address Resolution Protocol (ARP)",
+                "content_path": "assets/learning_material/material_content/chapter_3/arp.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main purpose of the Address Resolution Protocol (ARP)?",
+                        "answers": [
+                            "To translate MAC addresses into IP addresses",
+                            "To translate IP addresses into MAC addresses",
+                            "To assign IP addresses automatically to devices",
+                            "To encrypt data between network hosts"
+                        ],
+                        "correct_answer": "To translate IP addresses into MAC addresses",
+                        "explanation": "ARP translates IP addresses into their corresponding MAC addresses so that devices on the same network can communicate at the data link layer."
+                    },
+                    "question_1": {
+                        "question": "When a device wants to send data to another host on the same network, what does it use to find the destination MAC address?",
+                        "answers": [
+                            "DHCP",
+                            "DNS",
+                            "ARP request",
+                            "ICMP echo"
+                        ],
+                        "correct_answer": "ARP request",
+                        "explanation": "The device sends an ARP request asking “Who has this IP address?” The host with that IP replies with its MAC address using an ARP reply."
+                    },
+                    "question_2": {
+                        "question": "What type of message does a device broadcast when performing an ARP request?",
+                        "answers": [
+                            "A unicast frame",
+                            "A broadcast frame",
+                            "A multicast packet",
+                            "A TCP segment"
+                        ],
+                        "correct_answer": "A broadcast frame",
+                        "explanation": "An ARP request is sent as a broadcast frame to all devices in the local network segment, allowing the correct host to respond."
+                    },
+                    "question_3": {
+                        "question": "What happens after a device receives an ARP reply?",
+                        "answers": [
+                            "It ignores the response",
+                            "It adds the IP-to-MAC mapping to its ARP cache",
+                            "It deletes the MAC address from memory",
+                            "It sends a new broadcast to confirm"
+                        ],
+                        "correct_answer": "It adds the IP-to-MAC mapping to its ARP cache",
+                        "explanation": "After receiving an ARP reply, the device stores the mapping of the IP and MAC address in its ARP cache for future communication."
+                    },
+                    "question_4": {
+                        "question": "True or False: ARP operates at the Network Layer of the OSI model.",
+                        "answers": [
+                            "True",
+                            "False"
+                        ],
+                        "correct_answer": "False",
+                        "explanation": "False — ARP operates between the Network (Layer 3) and Data Link (Layer 2) layers, linking IP addresses to MAC addresses."
+                    },
+                    "question_5": {
+                        "question": "Which of the following best describes the ARP table?",
+                        "answers": [
+                            "A database that stores IP-to-MAC address mappings",
+                            "A list of device hostnames on the network",
+                            "A routing table used for forwarding packets",
+                            "A list of connected network interfaces"
+                        ],
+                        "correct_answer": "A database that stores IP-to-MAC address mappings",
+                        "explanation": "An ARP table (or cache) stores recently learned IP-to-MAC address pairs, allowing faster communication between local hosts."
+                    },
+                    "question_6": {
+                        "question": "What problem does ARP solve in host-to-host communication?",
+                        "answers": [
+                            "Finding the correct IP address of a website",
+                            "Mapping a host’s IP address to its physical MAC address",
+                            "Preventing packet loss during transmission",
+                            "Encrypting data before sending it"
+                        ],
+                        "correct_answer": "Mapping a host’s IP address to its physical MAC address",
+                        "explanation": "ARP enables devices to map logical IP addresses to physical MAC addresses, which is essential for sending data within a local network."
+                    }
+                }
+            },
+            "lesson_3": {
+                "title": "Packet Transmission and Reception",
+                "content_path": "assets/learning_material/material_content/chapter_3/transmission.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What happens during the packet transmission process?",
+                        "answers": [
+                            "Data is converted into electrical signals or bits for transmission",
+                            "The receiving host creates new data",
+                            "Only the network layer processes the information",
+                            "Packets are stored permanently in routers"
+                        ],
+                        "correct_answer": "Data is converted into electrical signals or bits for transmission",
+                        "explanation": "During transmission, the sender encapsulates data into packets and converts them into signals (electrical, optical, or radio) for delivery across the network."
+                    },
+                    "question_1": {
+                        "question": "When a packet reaches the destination device, what process occurs?",
+                        "answers": [
+                            "Encapsulation",
+                            "Decapsulation",
+                            "Fragmentation",
+                            "Encryption"
+                        ],
+                        "correct_answer": "Decapsulation",
+                        "explanation": "At the receiver’s end, decapsulation occurs — each OSI layer removes its corresponding header information to interpret the data correctly."
+                    },
+                    "question_2": {
+                        "question": "In what order does encapsulation occur during packet creation?",
+                        "answers": [
+                            "Application → Transport → Network → Data Link → Physical",
+                            "Physical → Data Link → Network → Transport → Application",
+                            "Network → Application → Data Link → Physical → Transport",
+                            "Transport → Network → Physical → Application → Data Link"
+                        ],
+                        "correct_answer": "Application → Transport → Network → Data Link → Physical",
+                        "explanation": "Encapsulation occurs from top to bottom: each higher OSI layer passes data to the next lower layer, which adds its own header before transmission."
+                    },
+                    "question_3": {
+                        "question": "What is the purpose of headers added during encapsulation?",
+                        "answers": [
+                            "To store the application name",
+                            "To provide control and addressing information for each layer",
+                            "To encrypt the data",
+                            "To reduce data size"
+                        ],
+                        "correct_answer": "To provide control and addressing information for each layer",
+                        "explanation": "Headers include addressing, sequencing, and control information that help devices deliver and reassemble packets properly."
+                    },
+                    "question_4": {
+                        "question": "What happens to headers during the decapsulation process at the destination?",
+                        "answers": [
+                            "They are removed one by one by each corresponding layer",
+                            "They are duplicated for record-keeping",
+                            "They are sent back to the sender",
+                            "They are combined into a single header"
+                        ],
+                        "correct_answer": "They are removed one by one by each corresponding layer",
+                        "explanation": "During decapsulation, each layer removes its header and passes the remaining data up the OSI stack until it reaches the application layer."
+                    },
+                    "question_5": {
+                        "question": "Which OSI layer is responsible for delivering packets to the correct physical device on the network?",
+                        "answers": [
+                            "Data Link Layer",
+                            "Network Layer",
+                            "Transport Layer",
+                            "Application Layer"
+                        ],
+                        "correct_answer": "Data Link Layer",
+                        "explanation": "The Data Link layer ensures that packets are delivered to the correct device on the same local network using MAC addresses."
+                    },
+                    "question_6": {
+                        "question": "Which OSI layer is responsible for identifying the correct destination IP address during transmission?",
+                        "answers": [
+                            "Network Layer",
+                            "Transport Layer",
+                            "Application Layer",
+                            "Session Layer"
+                        ],
+                        "correct_answer": "Network Layer",
+                        "explanation": "The Network layer uses IP addresses to determine the correct path and destination for packet delivery."
+                    }
+                }
+            },
+            "lesson_4": {
+                "title": "Subsequent Communication",
+                "content_path": "assets/learning_material/material_content/chapter_3/efficiency.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What happens during subsequent communications between two hosts after the first data exchange?",
+                        "answers": [
+                            "The ARP process is repeated every time",
+                            "The destination MAC address is retrieved from the ARP cache",
+                            "The sender must manually re-enter the destination IP",
+                            "The packet is sent without addressing information"
+                        ],
+                        "correct_answer": "The destination MAC address is retrieved from the ARP cache",
+                        "explanation": "Once the initial ARP process is done, subsequent communications use the stored MAC address in the ARP cache to send packets more efficiently."
+                    },
+                    "question_1": {
+                        "question": "Why is the ARP cache important for subsequent communication?",
+                        "answers": [
+                            "It stores frequently used MAC addresses for faster communication",
+                            "It blocks unknown IP addresses",
+                            "It encrypts all packets sent across the network",
+                            "It stores data backups of transmitted packets"
+                        ],
+                        "correct_answer": "It stores frequently used MAC addresses for faster communication",
+                        "explanation": "The ARP cache allows devices to quickly map IP addresses to MAC addresses, avoiding the need to repeat the ARP broadcast each time."
+                    },
+                    "question_2": {
+                        "question": "What happens if an entry in the ARP cache becomes outdated or invalid?",
+                        "answers": [
+                            "The ARP process is triggered again to refresh the entry",
+                            "The system automatically shuts down communication",
+                            "The MAC address is guessed based on the IP",
+                            "The device sends packets to all devices on the network"
+                        ],
+                        "correct_answer": "The ARP process is triggered again to refresh the entry",
+                        "explanation": "If a cache entry expires or changes, the sender performs another ARP request to update the correct mapping."
+                    },
+                    "question_3": {
+                        "question": "True or False: Once an ARP entry is learned, it stays permanently in the cache.",
+                        "answers": [
+                            "True",
+                            "False"
+                        ],
+                        "correct_answer": "False",
+                        "explanation": "False — ARP entries have a timeout period. If not refreshed, they are removed to keep the cache accurate and up-to-date."
+                    },
+                    "question_4": {
+                        "question": "How does caching improve the efficiency of subsequent communication?",
+                        "answers": [
+                            "By reducing the need for repeated ARP broadcasts",
+                            "By increasing the size of transmitted packets",
+                            "By encrypting all ARP messages",
+                            "By using only IP addresses instead of MAC addresses"
+                        ],
+                        "correct_answer": "By reducing the need for repeated ARP broadcasts",
+                        "explanation": "Caching eliminates the overhead of ARP requests for known devices, enabling faster and more efficient data delivery in future transmissions."
+                    }
+                }
+            },
+            "lesson_5": {
+                "title": "Key Takeaways",
+                "content_path": "assets/learning_material/material_content/chapter_3/summary.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main purpose of the Address Resolution Protocol (ARP)?",
+                        "answers": [
+                            "To assign IP addresses to devices automatically",
+                            "To map IP addresses to MAC addresses within a local network",
+                            "To send data between different networks",
+                            "To detect physical cable connections"
+                        ],
+                        "correct_answer": "To map IP addresses to MAC addresses within a local network",
+                        "explanation": "ARP’s main function is to link an IP address to its corresponding MAC address so devices on the same subnet can communicate properly. Without ARP, data could not be delivered to the correct hardware device on the network."
+                    }
+                }
+            }
+        }
+    },
+    "chapter_4": {
+        "title": "Subnetting",
+        "subtitle": "Master IP subnetting and network segmentation",
+        "description": "Learn how to divide networks into subnets, calculate subnet masks, and optimize IP address allocation for efficient network management.",
+        "lessons": {
+            "lesson_0": {
+                "title": "Introduction to Subnetting",
+                "content_path": "assets/learning_material/material_content/chapter_4/intro.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What is the main purpose of subnetting in a network?",
+                        "answers": [
+                            "To increase the number of broadcast messages",
+                            "To divide a large network into smaller, more efficient segments",
+                            "To connect different networks together",
+                            "To convert IP addresses into MAC addresses"
+                        ],
+                        "correct_answer": "To divide a large network into smaller, more efficient segments",
+                        "explanation": "Subnetting breaks a large network into smaller subnets to improve performance, reduce unnecessary traffic, and enhance security. It helps network administrators manage IP addresses more efficiently and maintain better control over the network."
+                    }
+                }
+            },
+            "lesson_1": {
+                "title": "Subnet Attributes",
+                "content_path": "assets/learning_material/material_content/chapter_4/attributes.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What does the Network ID in a subnet represent?",
+                        "answers": [
+                            "The last IP address used for broadcasting",
+                            "The first usable IP address for devices",
+                            "The address that identifies the subnet itself",
+                            "The next available subnet in the network"
+                        ],
+                        "correct_answer": "The address that identifies the subnet itself",
+                        "explanation": "The Network ID is the first address in a subnet and is used to identify that specific subnet. It cannot be assigned to any device, as it represents the entire network segment."
+                    }
+                }
+            },
+            "lesson_2": {
+                "title": "CIDR and Subnet Masks",
+                "content_path": "assets/learning_material/material_content/chapter_4/cidr.md",
+                "questions": {
+                    "question_0": {
+                        "question": "What does the /24 in the CIDR notation 192.168.1.0/24 represent?",
+                        "answers": [
+                            "The total number of hosts in the network",
+                            "The number of bits used for the host portion",
+                            "The number of bits used for the network portion",
+                            "The subnet mask in binary form"
+                        ],
+                        "correct_answer": "The number of bits used for the network portion",
+                        "explanation": "In CIDR notation, /24 means that 24 bits are used for the network part of the IP address. This corresponds to a subnet mask of 255.255.255.0, which helps devices identify which IPs are within the same network."
+                    }
+                }
+            },
+            "lesson_3": {
+                "title": "Subnetting Example",
+                "content_path": "assets/learning_material/material_content/chapter_4/example.md",
+                "questions": {
+                    "question_0": {
+                        "question": "In the subnetting example using 142.2.0.0/25, how many usable host IP addresses does each subnet have?",
+                        "answers": [
+                            "32 usable IP addresses",
+                            "30 usable IP addresses",
+                            "25 usable IP addresses",
+                            "20 usable IP addresses"
+                        ],
+                        "correct_answer": "30 usable IP addresses",
+                        "explanation": "Each subnet created from 142.2.0.0/25 has 32 total addresses, but 2 are reserved — one for the network ID and one for the broadcast address. This leaves 30 usable IP addresses for devices in each subnet."
+                    }
+                }
+            },
+            "lesson_4": {
+                "title": "Subnetting Practice",
+                "content_path": "assets/learning_material/material_content/chapter_4/practice.md",
+                "questions": {
+                    "question_0": {
+                        "question": "Why is consistent practice important when learning subnetting?",
+                        "answers": [
+                            "Because subnetting relies only on memorizing IP ranges",
+                            "Because understanding binary and performing calculations accurately requires hands-on experience",
+                            "Because subnetting changes frequently in modern networks",
+                            "Because tools automatically handle subnetting without user input"
+                        ],
+                        "correct_answer": "Because understanding binary and performing calculations accurately requires hands-on experience",
+                        "explanation": "Subnetting involves calculating subnet masks, ranges, and host counts using binary concepts. Regular practice helps build accuracy and confidence in performing these calculations manually."
                     }
                 }
             }
