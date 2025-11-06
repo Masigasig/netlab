@@ -36,7 +36,7 @@ class ChapterScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 300,
+            width: 315,
             decoration: BoxDecoration(
               color: cs.surfaceContainerLow.withAlpha(100),
               border: Border(

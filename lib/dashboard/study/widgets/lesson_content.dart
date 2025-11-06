@@ -120,6 +120,24 @@ class _LessonContentState extends ConsumerState<LessonContent>
                 data: lessonContent,
                 //* Costumize this as needed
                 styleSheet: MarkdownStyleSheet(
+                  p: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                    height: 1.5,
+                    color: cs.onSurface,
+                  ),
+                  h1: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: cs.onSurface,
+                  ),
+                  h3: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    height: 1.5,
+                    color: cs.onSurface,
+                  ),
                   blockquote: TextStyle(
                     fontFamily: 'Poppins',
                     color: cs.onSurface,
