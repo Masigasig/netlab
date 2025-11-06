@@ -7,6 +7,7 @@ import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
+import 'package:netlab/temp/core/components/animations.dart';
 
 class StatsGrid extends ConsumerWidget {
   const StatsGrid({super.key});
@@ -52,6 +53,7 @@ class StatsGrid extends ConsumerWidget {
           value: '$totalNumberOfCompletedChapter/$totalNumberOfChapter',
           subtitle: 'Completed',
           color: cs.secondary,
+          index: 0,
         ),
         _StatCard(
           icon: const HugeIcon(
@@ -63,6 +65,7 @@ class StatsGrid extends ConsumerWidget {
           value: '$totalNumberOfCompletedLessons/$totalNumberOfLessons',
           subtitle: 'Completed',
           color: AppColors.warningColor,
+          index: 1,
         ),
         _StatCard(
           icon: const HugeIcon(
@@ -74,6 +77,7 @@ class StatsGrid extends ConsumerWidget {
           value: totalStudyTime,
           subtitle: 'Total',
           color: AppColors.successColor,
+          index: 2,
         ),
         _StatCard(
           icon: const HugeIcon(
@@ -85,6 +89,7 @@ class StatsGrid extends ConsumerWidget {
           value: '${averageQuizTime.toStringAsFixed(1)} s',
           subtitle: 'Per Questions',
           color: Colors.purple,
+          index: 3,
         ),
       ],
     );
@@ -97,6 +102,7 @@ class _StatCard extends StatelessWidget {
   final String value;
   final String subtitle;
   final Color color;
+  final int index;
 
   const _StatCard({
     required this.icon,
@@ -104,92 +110,96 @@ class _StatCard extends StatelessWidget {
     required this.value,
     required this.subtitle,
     required this.color,
+    required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
 
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: cs.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withAlpha(52), width: 1.5),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: cs.onSurface.withAlpha(13),
-        //     blurRadius: 4,
-        //     offset: const Offset(2, 4),
-        //   ),
-        //   BoxShadow(
-        //     color: color.withAlpha(26),
-        //     blurRadius: 15,
-        //     offset: const Offset(-5, 10),
-        //   ),
-        // ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: color.withAlpha(30),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: icon,
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    color: cs.onSurface,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
+    return AnimationPresets.cardEntrance(
+      delay: index * 100,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: cs.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color.withAlpha(52), width: 1.5),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: cs.onSurface.withAlpha(13),
+          //     blurRadius: 4,
+          //     offset: const Offset(2, 4),
+          //   ),
+          //   BoxShadow(
+          //     color: color.withAlpha(26),
+          //     blurRadius: 15,
+          //     offset: const Offset(-5, 10),
+          //   ),
+          // ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: color.withAlpha(30),
+                    borderRadius: BorderRadius.circular(6),
                   ),
+                  child: icon,
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      color: cs.onSurface,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  value,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: cs.onSurface,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                value,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  color: cs.onSurface,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    color: cs.onSurface.withAlpha(180),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                subtitle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  color: cs.onSurface.withAlpha(180),
-                  fontSize: 10,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

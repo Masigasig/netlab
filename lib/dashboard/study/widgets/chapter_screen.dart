@@ -7,6 +7,7 @@ import 'package:netlab/core/themes/app_theme.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
+import 'package:netlab/temp/core/components/animations.dart';
 
 class ChapterScreen extends ConsumerWidget {
   final String chapterId;
@@ -185,89 +186,94 @@ class ChapterScreen extends ConsumerWidget {
                           .watch(lessonStatusProvider.notifier)
                           .isLessonCompleted(chapterId, lessonId);
 
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 4),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? cs.primary.withAlpha(20)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(8),
-                          border: isSelected
-                              ? Border.all(color: cs.secondary.withAlpha(51))
-                              : null,
-                        ),
-                        child: ListTile(
-                          dense: true,
-                          leading: SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  top: 8,
-                                  left: 8,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(6),
-                                    width: 32,
-                                    height: 32,
-                                    decoration: BoxDecoration(
-                                      color: isSelected
-                                          ? cs.secondary.withAlpha(30)
-                                          : cs.primary.withAlpha(30),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: HugeIcon(
-                                      icon: isSelected
-                                          ? HugeIcons.strokeRoundedBookOpen02
-                                          : isComplete
-                                          ? HugeIcons.strokeRoundedBook03
-                                          : HugeIcons.strokeRoundedBookOpen01,
-                                      color: isComplete
-                                          ? AppColors.successColor
-                                          : isSelected
-                                          ? cs.secondary
-                                          : cs.primary,
-                                    ),
-                                  ),
-                                ),
-                                if (isComplete)
-                                  const Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    child: SizedBox(
-                                      width: 16,
-                                      height: 16,
+                      return AnimationPresets.listItemSlideLeft(
+                        index: index,
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 4),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? cs.primary.withAlpha(20)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(8),
+                            border: isSelected
+                                ? Border.all(color: cs.secondary.withAlpha(51))
+                                : null,
+                          ),
+                          child: ListTile(
+                            dense: true,
+                            leading: SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    top: 8,
+                                    left: 8,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(6),
+                                      width: 32,
+                                      height: 32,
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? cs.secondary.withAlpha(30)
+                                            : cs.primary.withAlpha(30),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
                                       child: HugeIcon(
-                                        icon: HugeIcons.strokeRoundedTick04,
-                                        color: AppColors.successColor,
+                                        icon: isSelected
+                                            ? HugeIcons.strokeRoundedBookOpen02
+                                            : isComplete
+                                            ? HugeIcons.strokeRoundedBook03
+                                            : HugeIcons.strokeRoundedBookOpen01,
+                                        color: isComplete
+                                            ? AppColors.successColor
+                                            : isSelected
+                                            ? cs.secondary
+                                            : cs.primary,
                                       ),
                                     ),
                                   ),
-                              ],
+                                  if (isComplete)
+                                    const Positioned(
+                                      top: 0,
+                                      left: 0,
+                                      child: SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: HugeIcon(
+                                          icon: HugeIcons.strokeRoundedTick04,
+                                          color: AppColors.successColor,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
-                          ),
-                          title: Text(
-                            lessonData['title'],
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: cs.onSurface,
-                              fontSize: 13,
-                              fontWeight: isSelected
-                                  ? FontWeight.w600
-                                  : FontWeight.normal,
+                            title: Text(
+                              lessonData['title'],
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: cs.onSurface,
+                                fontSize: 13,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          subtitle: Text(
-                            isComplete ? 'Passed' : ' ',
-                            style: const TextStyle(
-                              color: AppColors.successColor,
+                            subtitle: Text(
+                              isComplete ? 'Passed' : ' ',
+                              style: const TextStyle(
+                                color: AppColors.successColor,
+                              ),
                             ),
+                            onTap: () {
+                              context.go(
+                                '${Routes.study}/$chapterId/$lessonId',
+                              );
+                            },
                           ),
-                          onTap: () {
-                            context.go('${Routes.study}/$chapterId/$lessonId');
-                          },
                         ),
                       );
                     },

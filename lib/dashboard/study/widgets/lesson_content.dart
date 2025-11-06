@@ -8,6 +8,7 @@ import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/quiz_screen.dart';
+import 'package:netlab/temp/core/components/animations.dart';
 
 class LessonContent extends ConsumerStatefulWidget {
   final String chapterId;
@@ -124,43 +125,45 @@ class _LessonContentState extends ConsumerState<LessonContent>
       return Column(
         children: [
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-              child: Markdown(
-                selectable: true,
-                data: lessonContent,
-                //* Costumize this as needed
-                styleSheet: MarkdownStyleSheet(
-                  p: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    height: 1.5,
-                    color: cs.onSurface,
+            child: AnimationPresets.textFadeIn(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                child: Markdown(
+                  selectable: true,
+                  data: lessonContent,
+                  //* Costumize this as needed
+                  styleSheet: MarkdownStyleSheet(
+                    p: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      height: 1.5,
+                      color: cs.onSurface,
+                    ),
+                    h1: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: cs.onSurface,
+                    ),
+                    h3: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 18,
+                      height: 1.5,
+                      color: cs.onSurface,
+                    ),
+                    blockquote: TextStyle(
+                      fontFamily: 'Poppins',
+                      color: cs.onSurface,
+                    ),
+                    blockquoteDecoration: BoxDecoration(
+                      color: cs.primary.withAlpha(52),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(width: 1, color: cs.primary),
+                    ),
+                    blockquotePadding: const EdgeInsets.all(20),
+                    blockSpacing: 30,
+                    blockquoteAlign: WrapAlignment.start,
                   ),
-                  h1: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: cs.onSurface,
-                  ),
-                  h3: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 18,
-                    height: 1.5,
-                    color: cs.onSurface,
-                  ),
-                  blockquote: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: cs.onSurface,
-                  ),
-                  blockquoteDecoration: BoxDecoration(
-                    color: cs.primary.withAlpha(52),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(width: 1, color: cs.primary),
-                  ),
-                  blockquotePadding: const EdgeInsets.all(20),
-                  blockSpacing: 30,
-                  blockquoteAlign: WrapAlignment.start,
                 ),
               ),
             ),
@@ -173,13 +176,15 @@ class _LessonContentState extends ConsumerState<LessonContent>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ElevatedButton(
-                  onPressed: () => {
-                    setState(() {
-                      isQuizing = true;
-                    }),
-                  },
-                  child: const Text('Start Quiz'),
+                AnimationPresets.buttonBounce(
+                  child: ElevatedButton(
+                    onPressed: () => {
+                      setState(() {
+                        isQuizing = true;
+                      }),
+                    },
+                    child: const Text('Start Quiz'),
+                  ),
                 ),
                 const SizedBox(width: 20),
               ],

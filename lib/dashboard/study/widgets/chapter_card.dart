@@ -6,6 +6,7 @@ import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
+import 'package:netlab/temp/core/components/animations.dart';
 
 class ChapterCard extends ConsumerWidget {
   final String chapterId;
@@ -66,38 +67,46 @@ class ChapterCard extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: cs.surfaceContainerLow,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(
-                    color: cs.secondary.withAlpha(52),
-                    width: 1.5,
+              AnimationPresets.cardEntrance(
+                delay: 100,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
                   ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    HugeIcon(
-                      icon: HugeIcons.strokeRoundedBookBookmark02,
-                      size: 16,
-                      color: cs.primary,
+                  decoration: BoxDecoration(
+                    color: cs.surfaceContainerLow,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: cs.secondary.withAlpha(52),
+                      width: 1.5,
                     ),
-                    const SizedBox(width: 6),
-                    Text(
-                      '${chapterData['lessons'].length} lessons',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: cs.onSurface,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AnimationPresets.iconSlide(
+                        child: HugeIcon(
+                          icon: HugeIcons.strokeRoundedBookBookmark02,
+                          size: 16,
+                          color: cs.primary,
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 6),
+                      AnimationPresets.textFadeIn(
+                        delay: 200,
+                        child: Text(
+                          '${chapterData['lessons'].length} lessons',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: cs.onSurface,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               _buildProgressIndicator(progress: progress, colorScheme: cs),
@@ -145,27 +154,30 @@ class ChapterCard extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              OutlinedButton(
-                onPressed: () {
-                  context.go('${Routes.study}/$chapterId');
-                },
-                style: ButtonStyle(
-                  shape: WidgetStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32),
+              AnimationPresets.buttonBounce(
+                delay: 300,
+                child: OutlinedButton(
+                  onPressed: () {
+                    context.go('${Routes.study}/$chapterId');
+                  },
+                  style: ButtonStyle(
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
                     ),
                   ),
-                ),
-                child: Text(
-                  progress >= 1.0
-                      ? 'Review'
-                      : progress > 0
-                      ? 'Continue'
-                      : 'Start',
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
+                  child: Text(
+                    progress >= 1.0
+                        ? 'Review'
+                        : progress > 0
+                        ? 'Continue'
+                        : 'Start',
+                    style: const TextStyle(
+                      fontFamily: 'Inter',
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

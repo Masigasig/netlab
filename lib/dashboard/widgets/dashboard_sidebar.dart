@@ -7,6 +7,7 @@ import 'package:netlab/core/themes/app_color.dart';
 import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
+import 'package:netlab/temp/core/components/animations.dart';
 
 class DashboardSidebar extends ConsumerWidget {
   const DashboardSidebar({super.key});
@@ -23,49 +24,61 @@ class DashboardSidebar extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Quick Actions',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: cs.onSurface,
-              ),
-            ),
-            const SizedBox(height: 12),
-            _buildActionButton(
-              icon: HugeIcon(
-                icon: HugeIcons.strokeRoundedPlay,
-                color: cs.onPrimary,
-                size: 18,
-              ),
-              label: 'Continue Learning',
-              color: cs.primary,
-              onTap: () => {
-                context.go(
-                  '${Routes.study}/${history[0]['chapterId']}/${history[0]['lessonId']}',
+            AnimationPresets.textFadeIn(
+              delay: 100,
+              child: Text(
+                'Quick Actions',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: cs.onSurface,
                 ),
-              },
+              ),
             ),
             const SizedBox(height: 12),
-            _buildActionButton(
-              icon: HugeIcon(
-                icon: HugeIcons.strokeRoundedSearch02,
-                color: cs.onPrimary,
-                size: 18,
+            AnimationPresets.cardEntrance(
+              delay: 200,
+              child: _buildActionButton(
+                icon: HugeIcon(
+                  icon: HugeIcons.strokeRoundedPlay,
+                  color: cs.onPrimary,
+                  size: 18,
+                ),
+                label: 'Continue Learning',
+                color: cs.primary,
+                onTap: () => {
+                  context.go(
+                    '${Routes.study}/${history[0]['chapterId']}/${history[0]['lessonId']}',
+                  ),
+                },
               ),
-              label: 'Browse Topics',
-              color: cs.secondary,
-              onTap: () => {context.go(Routes.study)},
             ),
-            const SizedBox(height:12),
-            Text(
-              'Recent Activity',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: cs.onSurface,
+            const SizedBox(height: 12),
+            AnimationPresets.cardEntrance(
+              delay: 300,
+              child: _buildActionButton(
+                icon: HugeIcon(
+                  icon: HugeIcons.strokeRoundedSearch02,
+                  color: cs.onPrimary,
+                  size: 18,
+                ),
+                label: 'Browse Topics',
+                color: cs.secondary,
+                onTap: () => {context.go(Routes.study)},
+              ),
+            ),
+            const SizedBox(height: 12),
+            AnimationPresets.textFadeIn(
+              delay: 400,
+              child: Text(
+                'Recent Activity',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: cs.onSurface,
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -93,62 +106,68 @@ class DashboardSidebar extends ConsumerWidget {
                         .watch(lessonStatusProvider.notifier)
                         .isLessonCompleted(chapterId, lessonId);
 
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: cs.onSurface.withAlpha(100)),
-                      ),
-                      child: ListTile(
-                        dense: true,
-                        leading: Container(
-                          padding: const EdgeInsets.all(6),
-                          width: 28,
-                          height: 28,
-                          decoration: BoxDecoration(
-                            color: isComplete
-                                ? AppColors.successColor.withAlpha(30)
-                                : cs.primary.withAlpha(30),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: HugeIcon(
-                            icon: isComplete
-                                ? HugeIcons.strokeRoundedBook03
-                                : HugeIcons.strokeRoundedBookOpen01,
-                            color: isComplete
-                                ? AppColors.successColor
-                                : cs.primary,
+                    return AnimationPresets.listItemSlideLeft(
+                      index: index,
+                      staggerDelay: 80,
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: cs.onSurface.withAlpha(100),
                           ),
                         ),
-                        title: Text(
-                          lessonTitle,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: cs.onSurface,
-                            fontSize: 11,
-                            fontWeight: FontWeight.normal,
+                        child: ListTile(
+                          dense: true,
+                          leading: Container(
+                            padding: const EdgeInsets.all(6),
+                            width: 28,
+                            height: 28,
+                            decoration: BoxDecoration(
+                              color: isComplete
+                                  ? AppColors.successColor.withAlpha(30)
+                                  : cs.primary.withAlpha(30),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: HugeIcon(
+                              icon: isComplete
+                                  ? HugeIcons.strokeRoundedBook03
+                                  : HugeIcons.strokeRoundedBookOpen01,
+                              color: isComplete
+                                  ? AppColors.successColor
+                                  : cs.primary,
+                            ),
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        subtitle: Text(
-                          chapterTitle,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: cs.onSurface,
-                            fontSize: 8,
-                            fontWeight: FontWeight.normal,
+                          title: Text(
+                            lessonTitle,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: cs.onSurface,
+                              fontSize: 11,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        trailing: Text(
-                          readableTimeStamp,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: cs.onSurface,
-                            fontSize: 8,
-                            fontWeight: FontWeight.normal,
+                          subtitle: Text(
+                            chapterTitle,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: cs.onSurface,
+                              fontSize: 8,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          trailing: Text(
+                            readableTimeStamp,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: cs.onSurface,
+                              fontSize: 8,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                         ),
                       ),
@@ -157,7 +176,12 @@ class DashboardSidebar extends ConsumerWidget {
                 ),
               )
             else
-              const Expanded(child: Center(child: Text('No Recent Activity'))),
+              Expanded(
+                child: AnimationPresets.textFadeIn(
+                  delay: 500,
+                  child: const Center(child: Text('No Recent Activity')),
+                ),
+              ),
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:netlab/tools/ip_converter.dart';
 import 'package:netlab/tools/subnet_converter.dart';
 import 'package:netlab/tools/ip_subnet_analyzer.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
+import 'package:netlab/temp/core/components/animations.dart';
 
 class ToolScreen extends StatelessWidget {
   const ToolScreen({super.key});
@@ -24,43 +25,61 @@ class ToolScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Network Tools',
-                      style: AppTextStyles.forSurface(
-                        AppTextStyles.headerLarge.copyWith(
-                          fontSize: 42,
-                          height: 1.2,
-                          letterSpacing: -1.0,
+                    AnimationPresets.titleFadeIn(
+                      delay: 100,
+                      child: Text(
+                        'Network Tools',
+                        style: AppTextStyles.forSurface(
+                          AppTextStyles.headerLarge.copyWith(
+                            fontSize: 42,
+                            height: 1.2,
+                            letterSpacing: -1.0,
+                          ),
+                          context,
                         ),
-                        context,
                       ),
                     ),
                     const SizedBox(height: 16),
 
-                    Container(
-                      constraints: const BoxConstraints(maxWidth: 500),
-                      child: Text(
-                        'Powerful networking utilities to help you convert IP addresses, analyze subnets, and perform network calculations with ease.',
-                        style: AppTextStyles.forSurface(
-                          AppTextStyles.bodyMedium.copyWith(height: 1.5),
-                          context,
-                        ).copyWith(color: cs.onSurface.withAlpha(179)),
+                    AnimationPresets.textFadeIn(
+                      delay: 300,
+                      child: Container(
+                        constraints: const BoxConstraints(maxWidth: 500),
+                        child: Text(
+                          'Powerful networking utilities to help you convert IP addresses, analyze subnets, and perform network calculations with ease.',
+                          style: AppTextStyles.forSurface(
+                            AppTextStyles.bodyMedium.copyWith(height: 1.5),
+                            context,
+                          ).copyWith(color: cs.onSurface.withAlpha(179)),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
 
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: [
-                    IpConverter(),
-                    SizedBox(height: 24),
-                    SubnetConverter(),
-                    SizedBox(height: 24),
-                    IpSubnetAnalyzer(),
-                    SizedBox(height: 24),
+                    AnimationPresets.cardEntrance(
+                      delay: 500,
+                      scaleFrom: 0.95,
+                      child: const IpConverter(),
+                    ),
+                    const SizedBox(height: 24),
+                    AnimationPresets.cardEntrance(
+                      delay: 650,
+                      scaleFrom: 0.95,
+                      child: const SubnetConverter(),
+                    ),
+                    const SizedBox(height: 24),
+                    AnimationPresets.cardEntrance(
+                      delay: 800,
+                      scaleFrom: 0.95,
+                      child: const IpSubnetAnalyzer(),
+                    ),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),

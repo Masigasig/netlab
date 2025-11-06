@@ -136,7 +136,7 @@ class HomeContent extends StatelessWidget {
               delay: 850,
               child: OutlinedButton(
                 onPressed: () {
-                  //* TODO: navigate to study pag ok na
+                  context.go(Routes.study);
                 },
                 style: OutlinedButton.styleFrom(
                   foregroundColor: cs.onSurface,
