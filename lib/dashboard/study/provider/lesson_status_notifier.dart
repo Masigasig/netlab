@@ -61,6 +61,29 @@ class LessonStatusNotifier extends Notifier<Map<String, bool>> {
     return state.length;
   }
 
+  int getTotalLessonCountInChapter(String chapterId) {
+    final material = ref.read(materialDetailProvider);
+    final lessons = material[chapterId]?['lessons'] as Map<String, dynamic>?;
+
+    return lessons?.length ?? 0;
+  }
+
+  int getCompletedLessonCountInChapter(String chapterId) {
+    final material = ref.read(materialDetailProvider);
+    final lessons = material[chapterId]?['lessons'] as Map<String, dynamic>?;
+
+    if (lessons == null) return 0;
+
+    int count = 0;
+    for (final lessonId in lessons.keys) {
+      final key = '${chapterId}_$lessonId';
+      if (state[key] == true) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   Future<void> resetAll() async {
     final material = ref.read(materialDetailProvider);
     final Map<String, bool> resetState = {};

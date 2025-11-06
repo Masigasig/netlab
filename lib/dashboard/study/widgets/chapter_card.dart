@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/core/routing/go_router.dart';
+import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
+import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 
 class ChapterCard extends ConsumerWidget {
@@ -17,7 +19,25 @@ class ChapterCard extends ConsumerWidget {
         .read(materialDetailProvider.notifier)
         .getChapterData(chapterId);
 
-    final progress = 20 / 100; //* TODO :riverpod value
+    final totalTask =
+        ref
+            .read(lessonStatusProvider.notifier)
+            .getTotalLessonCountInChapter(chapterId) +
+        1;
+    final totalFinishTask = ref
+        .read(lessonStatusProvider.notifier)
+        .getCompletedLessonCountInChapter(chapterId);
+
+    final isChapterTestFinished = ref
+        .read(chapterQuizStatusProvider.notifier)
+        .isChapterQuizCompleted(chapterId);
+
+    double progress;
+    if (isChapterTestFinished) {
+      progress = (1 + totalFinishTask) / totalTask;
+    } else {
+      progress = totalFinishTask / totalTask;
+    }
 
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
