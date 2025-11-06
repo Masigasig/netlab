@@ -57,7 +57,7 @@ class HomeContent extends StatelessWidget {
           child: CustomGradientText(
             text: 'NetLab Network Simulator',
             gradientWords: const ['NetLab'],
-            fontSize: 48,
+            fontSize: 40,
             fontWeight: FontWeight.w600,
             letterSpacing: -1,
             height: 1.1,
@@ -66,7 +66,7 @@ class HomeContent extends StatelessWidget {
             defaultColor: cs.onSurface,
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 12),
 
         // Description
         AnimationPresets.textFadeIn(
@@ -80,7 +80,7 @@ class HomeContent extends StatelessWidget {
             ).copyWith(color: cs.onSurface.withAlpha(179)),
           ),
         ),
-        const SizedBox(height: 40),
+        const SizedBox(height: 16),
 
         // CTA Buttons
         Row(
@@ -101,7 +101,7 @@ class HomeContent extends StatelessWidget {
                     foregroundColor: cs.onPrimary,
                     shadowColor: Colors.transparent,
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
+                      horizontal: 20,
                       vertical: 20,
                     ),
                     shape: RoundedRectangleBorder(
@@ -118,7 +118,7 @@ class HomeContent extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       const HugeIcon(
                         icon: HugeIcons.strokeRoundedArrowRight02,
                         color: Colors.white,
@@ -142,7 +142,7 @@ class HomeContent extends StatelessWidget {
                   foregroundColor: cs.onSurface,
                   side: BorderSide(color: cs.onSurface.withAlpha(77)),
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
+                    horizontal: 25,
                     vertical: 20,
                   ),
                   shape: RoundedRectangleBorder(
@@ -154,7 +154,7 @@ class HomeContent extends StatelessWidget {
                     HugeIcon(
                       icon: HugeIcons.strokeRoundedBookOpen02,
                       color: cs.onSurface,
-                      size: 18,
+                      size: 14,
                     ),
                     const SizedBox(width: 8),
                     Text(

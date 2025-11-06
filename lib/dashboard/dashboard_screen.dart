@@ -57,7 +57,10 @@ class DashboardScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 5),
+                const SizedBox(height: 14),
+                const StatsGrid(),
+                const SizedBox(height: 14),
                 Text(
                   'Learning Progress',
                   style: TextStyle(
@@ -67,9 +70,7 @@ class DashboardScreen extends StatelessWidget {
                     color: cs.onSurface,
                   ),
                 ),
-                const SizedBox(height: 16),
-                const StatsGrid(),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
                 const QuestionPerformanceCard(),
               ],
             ),

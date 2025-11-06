@@ -116,18 +116,18 @@ class _StatCard extends StatelessWidget {
         color: cs.surfaceContainerLow,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: color.withAlpha(52), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: cs.onSurface.withAlpha(13),
-            blurRadius: 4,
-            offset: const Offset(2, 4),
-          ),
-          BoxShadow(
-            color: color.withAlpha(26),
-            blurRadius: 15,
-            offset: const Offset(-5, 10),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: cs.onSurface.withAlpha(13),
+        //     blurRadius: 4,
+        //     offset: const Offset(2, 4),
+        //   ),
+        //   BoxShadow(
+        //     color: color.withAlpha(26),
+        //     blurRadius: 15,
+        //     offset: const Offset(-5, 10),
+        //   ),
+        // ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

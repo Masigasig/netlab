@@ -155,7 +155,7 @@ class _ChapterQuizScreenState extends ConsumerState<ChapterQuizScreen> {
                     ),
                   ),
                   child: Text(
-                    'Start Quiz',
+                    'Start Test',
                     style: AppTextStyles.withColor(
                       AppTextStyles.buttonLarge,
                       Theme.of(context).colorScheme.onPrimary,

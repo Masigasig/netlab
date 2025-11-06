@@ -23,10 +23,11 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(32),
+                padding: const EdgeInsets.all(20),
                 child: Text(
                   'Settings',
                   style: AppTextStyles.forSurface(

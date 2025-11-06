@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
           BackgroundGridPattern(),
           SafeArea(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 60, vertical: 40),
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
               child: Row(
                 children: [
                   Expanded(child: HomeContent()),

@@ -27,7 +27,7 @@ class TutorialSidebar extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
 
     return Container(
-      width: 320,
+      width: 300,
       decoration: BoxDecoration(
         color: cs.surface,
         border: Border(
@@ -39,7 +39,7 @@ class TutorialSidebar extends StatelessWidget {
         children: [
           // Header
           Padding(
-            padding: const EdgeInsets.all(32),
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

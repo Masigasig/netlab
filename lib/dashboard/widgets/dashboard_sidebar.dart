@@ -58,7 +58,7 @@ class DashboardSidebar extends ConsumerWidget {
               color: cs.secondary,
               onTap: () => {context.go(Routes.study)},
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height:12),
             Text(
               'Recent Activity',
               style: TextStyle(
@@ -68,7 +68,7 @@ class DashboardSidebar extends ConsumerWidget {
                 color: cs.onSurface,
               ),
             ),
-
+            const SizedBox(height: 12),
             if (history.isNotEmpty)
               Expanded(
                 child: ListView.builder(
@@ -94,7 +94,7 @@ class DashboardSidebar extends ConsumerWidget {
                         .isLessonCompleted(chapterId, lessonId);
 
                     return Container(
-                      margin: const EdgeInsets.only(bottom: 4),
+                      margin: const EdgeInsets.only(bottom: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: cs.onSurface.withAlpha(100)),
@@ -103,8 +103,8 @@ class DashboardSidebar extends ConsumerWidget {
                         dense: true,
                         leading: Container(
                           padding: const EdgeInsets.all(6),
-                          width: 32,
-                          height: 32,
+                          width: 28,
+                          height: 28,
                           decoration: BoxDecoration(
                             color: isComplete
                                 ? AppColors.successColor.withAlpha(30)
@@ -125,7 +125,7 @@ class DashboardSidebar extends ConsumerWidget {
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             color: cs.onSurface,
-                            fontSize: 13,
+                            fontSize: 11,
                             fontWeight: FontWeight.normal,
                           ),
                           maxLines: 2,
@@ -209,11 +209,11 @@ class DashboardSidebar extends ConsumerWidget {
     final diff = now.difference(timestamp);
 
     if (diff.inSeconds < 60) {
-      return '${diff.inSeconds} seconds ago';
+      return '${diff.inSeconds} sec ago';
     } else if (diff.inMinutes < 60) {
-      return '${diff.inMinutes} minutes ago';
+      return '${diff.inMinutes} mins ago';
     } else if (diff.inHours < 24) {
-      return '${diff.inHours} hours ago';
+      return '${diff.inHours} hrs ago';
     } else if (diff.inDays < 7) {
       return '${diff.inDays} days ago';
     } else if (diff.inDays < 30) {
