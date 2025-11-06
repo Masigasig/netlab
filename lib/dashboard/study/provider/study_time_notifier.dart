@@ -51,4 +51,16 @@ class StudyTimeNotifier extends Notifier<String> {
       return '${seconds}s';
     }
   }
+
+  Future<Map<String, dynamic>> exportData() async {
+    return {'totalStudyTime': state};
+  }
+
+  Future<void> restoreFromBackup(Map<String, dynamic> data) async {
+    final studyTime = data['totalStudyTime'] as String?;
+    if (studyTime == null) return;
+
+    state = studyTime;
+    await _prefs.setString(_key, studyTime);
+  }
 }

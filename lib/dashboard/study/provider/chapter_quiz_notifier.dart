@@ -63,4 +63,25 @@ class ChapterQuizStatusNotifier extends Notifier<Map<String, bool>> {
 
     state = resetState;
   }
+
+  Future<Map<String, dynamic>> exportData() async {
+    return {'chapterQuizzes': state};
+  }
+
+  Future<void> restoreFromBackup(Map<String, dynamic> data) async {
+    final chapterQuizzes = data['chapterQuizzes'] as Map<String, dynamic>?;
+    if (chapterQuizzes == null) return;
+
+    final Map<String, bool> restored = {};
+
+    for (final entry in chapterQuizzes.entries) {
+      final chapterId = entry.key;
+      final isCompleted = entry.value as bool? ?? false;
+
+      restored[chapterId] = isCompleted;
+      await _prefs.setBool('$_prefix$chapterId', isCompleted);
+    }
+
+    state = restored;
+  }
 }

@@ -103,4 +103,25 @@ class LessonStatusNotifier extends Notifier<Map<String, bool>> {
 
     state = resetState;
   }
+
+  Future<Map<String, dynamic>> exportData() async {
+    return {'lessons': state};
+  }
+
+  Future<void> restoreFromBackup(Map<String, dynamic> data) async {
+    final lessons = data['lessons'] as Map<String, dynamic>?;
+    if (lessons == null) return;
+
+    final Map<String, bool> restored = {};
+
+    for (final entry in lessons.entries) {
+      final key = entry.key;
+      final isCompleted = entry.value as bool? ?? false;
+
+      restored[key] = isCompleted;
+      await _prefs.setBool('$_prefix$key', isCompleted);
+    }
+
+    state = restored;
+  }
 }

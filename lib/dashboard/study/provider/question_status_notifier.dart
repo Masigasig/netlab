@@ -139,4 +139,34 @@ class QuestionStatusNotifier
     if (answeredCount == 0) return 0.0;
     return totalTime / answeredCount;
   }
+
+  Future<Map<String, dynamic>> exportData() async {
+    return {'questions': state};
+  }
+
+  Future<void> restoreFromBackup(Map<String, dynamic> data) async {
+    final questions = data['questions'] as Map<String, dynamic>?;
+    if (questions == null) return;
+
+    final Map<String, Map<String, String>> restored = {};
+
+    for (final entry in questions.entries) {
+      final key = entry.key;
+      final value = entry.value as Map<String, dynamic>;
+
+      restored[key] = {
+        'status': value['status'] as String? ?? 'unanswered',
+        'time': value['time'] as String? ?? '0',
+      };
+
+      // Save to SharedPreferences
+      await _prefs.setString(
+        '$_prefix${key}_status',
+        restored[key]!['status']!,
+      );
+      await _prefs.setString('$_prefix${key}_time', restored[key]!['time']!);
+    }
+
+    state = restored;
+  }
 }

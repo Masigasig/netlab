@@ -66,4 +66,28 @@ class LessonHistoryNotifier extends Notifier<List<Map<String, String>>> {
     state = [];
     await _prefs.remove(_key);
   }
+
+  Future<List<Map<String, dynamic>>> exportData() async {
+    return state.map((item) => Map<String, dynamic>.from(item)).toList();
+  }
+
+  Future<void> restoreFromBackup(List<Map<String, dynamic>> data) async {
+    final List<Map<String, String>> restored = data.map((item) {
+      return {
+        'chapterId': item['chapterId'] as String? ?? '',
+        'lessonId': item['lessonId'] as String? ?? '',
+        'timestamp': item['timestamp'] as String? ?? '',
+      };
+    }).toList();
+
+    state = restored;
+
+    final encoded = restored
+        .map(
+          (item) =>
+              '${item['chapterId']}|${item['lessonId']}|${item['timestamp']}',
+        )
+        .toList();
+    await _prefs.setStringList(_key, encoded);
+  }
 }

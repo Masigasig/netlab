@@ -6,6 +6,7 @@ import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
+import 'package:netlab/settings/providers/firebase_backup_service.dart';
 import 'widgets/section_title.dart';
 import 'widgets/setting_card.dart';
 import 'widgets/theme_selector.dart';
@@ -115,10 +116,15 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                         width: 120,
                         child: OutlinedButton(
                           onPressed: () {
-                            // TODO: Implement load progress
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const BackupDialog(isLoad: true);
+                              },
+                            );
                           },
                           child: Text(
-                            'Connect',
+                            'Load',
                             style: AppTextStyles.buttonMedium,
                           ),
                         ),
@@ -140,10 +146,15 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                         width: 120,
                         child: OutlinedButton(
                           onPressed: () {
-                            // TODO: Implement sync progress
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const BackupDialog(isLoad: false);
+                              },
+                            );
                           },
                           child: Text(
-                            'Connect',
+                            'Save',
                             style: AppTextStyles.buttonMedium,
                           ),
                         ),
