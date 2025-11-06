@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/core/routing/go_router.dart';
+import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
+import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
+import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 
 class DashboardSidebar extends ConsumerWidget {
   const DashboardSidebar({super.key});
@@ -10,6 +14,7 @@ class DashboardSidebar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
+    final history = ref.watch(lessonHistoryProvider);
 
     return SizedBox(
       width: 250,
@@ -37,7 +42,9 @@ class DashboardSidebar extends ConsumerWidget {
               label: 'Continue Learning',
               color: cs.primary,
               onTap: () => {
-                //* TODO: Continue Learning function
+                context.go(
+                  '${Routes.study}/${history[0]['chapterId']}/${history[0]['lessonId']}',
+                ),
               },
             ),
             const SizedBox(height: 12),
@@ -61,10 +68,96 @@ class DashboardSidebar extends ConsumerWidget {
                 color: cs.onSurface,
               ),
             ),
-            const Expanded(
-              //* TODO: Recent Activity
-              child: Placeholder(),
-            ),
+
+            if (history.isNotEmpty)
+              Expanded(
+                child: ListView.builder(
+                  itemCount: history.length,
+                  itemBuilder: (context, index) {
+                    final lessonId = history[index]['lessonId']!;
+                    final chapterId = history[index]['chapterId']!;
+                    final timestampStr = history[index]['timestamp'];
+                    final timestamp = DateTime.tryParse(timestampStr ?? '');
+                    final readableTimeStamp = timestamp != null
+                        ? _formatTimeAgo(timestamp)
+                        : 'Unknown time';
+
+                    final lessonTitle = ref.read(
+                      materialDetailProvider,
+                    )[chapterId]['lessons'][lessonId]['title'];
+                    final chapterTitle = ref.read(
+                      materialDetailProvider,
+                    )[chapterId]['title'];
+
+                    final isComplete = ref
+                        .watch(lessonStatusProvider.notifier)
+                        .isLessonCompleted(chapterId, lessonId);
+
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: cs.onSurface.withAlpha(100)),
+                      ),
+                      child: ListTile(
+                        dense: true,
+                        leading: Container(
+                          padding: const EdgeInsets.all(6),
+                          width: 32,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            color: isComplete
+                                ? AppColors.successColor.withAlpha(30)
+                                : cs.primary.withAlpha(30),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: HugeIcon(
+                            icon: isComplete
+                                ? HugeIcons.strokeRoundedBook03
+                                : HugeIcons.strokeRoundedBookOpen01,
+                            color: isComplete
+                                ? AppColors.successColor
+                                : cs.primary,
+                          ),
+                        ),
+                        title: Text(
+                          lessonTitle,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: cs.onSurface,
+                            fontSize: 13,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          chapterTitle,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: cs.onSurface,
+                            fontSize: 8,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: Text(
+                          readableTimeStamp,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: cs.onSurface,
+                            fontSize: 8,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              )
+            else
+              const Expanded(child: Center(child: Text('No Recent Activity'))),
           ],
         ),
       ),
@@ -109,5 +202,29 @@ class DashboardSidebar extends ConsumerWidget {
         );
       },
     );
+  }
+
+  String _formatTimeAgo(DateTime timestamp) {
+    final now = DateTime.now();
+    final diff = now.difference(timestamp);
+
+    if (diff.inSeconds < 60) {
+      return '${diff.inSeconds} seconds ago';
+    } else if (diff.inMinutes < 60) {
+      return '${diff.inMinutes} minutes ago';
+    } else if (diff.inHours < 24) {
+      return '${diff.inHours} hours ago';
+    } else if (diff.inDays < 7) {
+      return '${diff.inDays} days ago';
+    } else if (diff.inDays < 30) {
+      final weeks = (diff.inDays / 7).floor();
+      return '$weeks week${weeks > 1 ? 's' : ''} ago';
+    } else if (diff.inDays < 365) {
+      final months = (diff.inDays / 30).floor();
+      return '$months month${months > 1 ? 's' : ''} ago';
+    } else {
+      final years = (diff.inDays / 365).floor();
+      return '$years year${years > 1 ? 's' : ''} ago';
+    }
   }
 }

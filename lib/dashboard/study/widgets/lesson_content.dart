@@ -5,6 +5,7 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:netlab/dashboard/study/provider/material_content_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
+import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/quiz_screen.dart';
 
@@ -31,6 +32,11 @@ class _LessonContentState extends ConsumerState<LessonContent>
   void initState() {
     super.initState();
     _entryTime = DateTime.now();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(lessonHistoryProvider.notifier)
+          .addToHistory(widget.chapterId, widget.lessonId);
+    });
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -71,6 +77,11 @@ class _LessonContentState extends ConsumerState<LessonContent>
     super.didUpdateWidget(oldWidget);
 
     if (widget.lessonId != oldWidget.lessonId) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref
+            .read(lessonHistoryProvider.notifier)
+            .addToHistory(widget.chapterId, widget.lessonId);
+      });
       setState(() {
         isQuizing = false;
       });
