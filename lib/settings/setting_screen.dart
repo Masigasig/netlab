@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
+import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
+import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
+import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
+import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 import 'widgets/section_title.dart';
 import 'widgets/setting_card.dart';
 import 'widgets/theme_selector.dart';
@@ -138,6 +144,84 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                           },
                           child: Text(
                             'Connect',
+                            style: AppTextStyles.buttonMedium,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  AnimationPresets.cardEntrance(
+                    delay: 850,
+                    scaleFrom: 0.95,
+                    child: SettingCard(
+                      icon: HugeIcon(
+                        icon: HugeIcons.strokeRoundedDelete02,
+                        color: Theme.of(context).colorScheme.onSurface,
+                        size: 20,
+                      ),
+                      label: 'Reset Progress',
+                      child: SizedBox(
+                        width: 120,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Confirm Reset'),
+                                  content: const Text(
+                                    'Are you sure you want to reset your progress? This action cannot be undone.',
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        Navigator.of(context).pop();
+
+                                        await ref
+                                            .read(
+                                              questionStatusProvider.notifier,
+                                            )
+                                            .reset();
+                                        await ref
+                                            .read(lessonStatusProvider.notifier)
+                                            .resetAll();
+                                        await ref
+                                            .read(
+                                              chapterQuizStatusProvider
+                                                  .notifier,
+                                            )
+                                            .resetAll();
+                                        await ref
+                                            .read(studyTimeProvider.notifier)
+                                            .reset();
+                                        await ref
+                                            .read(
+                                              lessonHistoryProvider.notifier,
+                                            )
+                                            .clearHistory();
+                                      },
+                                      style: TextButton.styleFrom(
+                                        foregroundColor: AppColors.errorColor,
+                                      ),
+                                      child: const Text('Reset'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: AppColors.errorColor),
+                            foregroundColor: AppColors.errorColor,
+                          ),
+                          child: Text(
+                            'Reset',
                             style: AppTextStyles.buttonMedium,
                           ),
                         ),

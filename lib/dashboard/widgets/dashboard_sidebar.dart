@@ -45,12 +45,19 @@ class DashboardSidebar extends ConsumerWidget {
                   color: cs.onPrimary,
                   size: 18,
                 ),
-                label: 'Continue Learning',
+                label: history.isNotEmpty
+                    ? 'Continue Learning'
+                    : 'Start Learning',
                 color: cs.primary,
                 onTap: () => {
-                  context.go(
-                    '${Routes.study}/${history[0]['chapterId']}/${history[0]['lessonId']}',
-                  ),
+                  if (history.isNotEmpty)
+                    {
+                      context.go(
+                        '${Routes.study}/${history[0]['chapterId']}/${history[0]['lessonId']}',
+                      ),
+                    }
+                  else
+                    {context.go(Routes.study)},
                 },
               ),
             ),
