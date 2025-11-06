@@ -12,16 +12,14 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         children: [
           BackgroundGridPattern(),
-          SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
-              child: Row(
-                children: [
-                  Expanded(child: HomeContent()),
-                  SizedBox(width: 80),
-                  Expanded(child: HomeVisualCard()),
-                ],
-              ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
+            child: Row(
+              children: [
+                Expanded(child: HomeContent()),
+                SizedBox(width: 80),
+                Expanded(child: HomeVisualCard()),
+              ],
             ),
           ),
         ],

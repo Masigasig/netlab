@@ -117,43 +117,41 @@ class _TutorialScreenState extends State<TutorialScreen> {
         : null;
 
     return Scaffold(
-      body: SafeArea(
-        child: Row(
-          children: [
-            // Sidebar
-            TutorialSidebar(
-              sections: _sections!,
-              expandedSections: _expandedSections,
-              selectedSectionId: _selectedSectionId,
-              selectedItemIndex: _selectedItemIndex,
-              onToggleSection: _toggleSection,
-              onSelectItem: _selectItem,
-            ),
+      body: Row(
+        children: [
+          // Sidebar
+          TutorialSidebar(
+            sections: _sections!,
+            expandedSections: _expandedSections,
+            selectedSectionId: _selectedSectionId,
+            selectedItemIndex: _selectedItemIndex,
+            onToggleSection: _toggleSection,
+            onSelectItem: _selectItem,
+          ),
 
-            // Content Area
-            Expanded(
-              child: selectedSection == null || _selectedItemIndex == null
-                  ? const WelcomeScreen()
-                  : TutorialContentViewer(
-                      section: selectedSection,
-                      itemIndex: _selectedItemIndex!,
-                      onPrevious: _selectedItemIndex! > 0
-                          ? () => _selectItem(
-                              _selectedSectionId!,
-                              _selectedItemIndex! - 1,
-                            )
-                          : null,
-                      onNext:
-                          _selectedItemIndex! < selectedSection.items.length - 1
-                          ? () => _selectItem(
-                              _selectedSectionId!,
-                              _selectedItemIndex! + 1,
-                            )
-                          : null,
-                    ),
-            ),
-          ],
-        ),
+          // Content Area
+          Expanded(
+            child: selectedSection == null || _selectedItemIndex == null
+                ? const WelcomeScreen()
+                : TutorialContentViewer(
+                    section: selectedSection,
+                    itemIndex: _selectedItemIndex!,
+                    onPrevious: _selectedItemIndex! > 0
+                        ? () => _selectItem(
+                            _selectedSectionId!,
+                            _selectedItemIndex! - 1,
+                          )
+                        : null,
+                    onNext:
+                        _selectedItemIndex! < selectedSection.items.length - 1
+                        ? () => _selectItem(
+                            _selectedSectionId!,
+                            _selectedItemIndex! + 1,
+                          )
+                        : null,
+                  ),
+          ),
+        ],
       ),
     );
   }
