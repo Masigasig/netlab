@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/core/themes/app_theme.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 
 class IpSubnetAnalyzer extends StatefulWidget {

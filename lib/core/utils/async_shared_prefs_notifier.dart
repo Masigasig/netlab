@@ -2,5 +2,5 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final asyncSharedPrefsProvider = Provider<SharedPreferencesAsync>((ref) {
-  throw UnimplementedError(); // overridden in main
+  throw UnimplementedError(); //* overridden in main
 });

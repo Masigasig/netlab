@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:netlab/core/utils/async_shared_prefs_notifier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app_color.dart';
-import '../components/button_style.dart';
+import 'package:netlab/core/components/button_style.dart';
+import 'package:netlab/core/themes/app_color.dart';
+import 'package:netlab/core/utils/async_shared_prefs_notifier.dart';
 
-export 'app_color.dart';
+export 'package:netlab/core/themes/app_color.dart';
 export '../components/button_style.dart';
 export '../components/app_styles.dart';
 
