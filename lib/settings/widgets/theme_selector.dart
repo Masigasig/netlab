@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:netlab/core/themes/app_theme.dart';
+import 'package:netlab/core/provider/theme_mode_notifier.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
 import 'package:hugeicons/hugeicons.dart';
 

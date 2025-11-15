@@ -1,5 +1,6 @@
+import 'package:netlab/temp/core/constants/app_image.dart';
+
 import '../../models/content_block.dart';
-import 'package:netlab/core/constants/app_image.dart';
 
 class HubContent implements ModuleContent {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:netlab/core/utils/async_shared_prefs_notifier.dart';
+import 'package:netlab/core/provider/async_shared_prefs_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final studyTimeProvider = NotifierProvider<StudyTimeNotifier, String>(

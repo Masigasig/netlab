@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:netlab/core/components/button_style.dart';
-import 'package:netlab/core/themes/app_color.dart';
-import 'package:netlab/core/utils/async_shared_prefs_notifier.dart';
-
-export 'package:netlab/core/themes/app_color.dart';
 
 class AppThemes {
   static ThemeData get lightTheme => ThemeData(
@@ -28,29 +22,44 @@ class AppThemes {
   );
 }
 
-final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(
-  ThemeModeNotifier.new,
-);
+class AppColors {
+  static const Color primaryBlue = Color(0xFF3B82F6);
+  static const Color cyanAccent = Color(0xFF06B6D4);
+  static const Color lightSky = Color(0xFFE0F2FE);
+  static const Color oceanWhite = Color(0xFFFAFBFF);
+  static const Color textPrimary = Color(0xFF1E293B);
+  static const Color textSecondary = Color(0xFF64748B);
 
-class ThemeModeNotifier extends Notifier<ThemeMode> {
-  static const _key = 'theme_mode';
-  late final SharedPreferencesAsync _asyncPrefs;
+  static const Color lightBlue = Color(0xFF3B82F6);
+  static const Color deepNavy = Color(0xFF0F172A);
+  static const Color slateCard = Color(0xFF1E293B);
+  static const Color borderGray = Color(0xFF334155);
+  static const Color textLight = Color(0xFFF1F5F9);
 
-  @override
-  ThemeMode build() {
-    _asyncPrefs = ref.read(asyncSharedPrefsProvider);
-    return ThemeMode.system;
-  }
+  static const Color warningColor = Color(0xFFF59E0B);
+  static const Color successColor = Color(0xFF10B981);
+  static const Color errorColor = Color(0xFFEF4444);
+  static const Color infoColor = Color(0xFF3B82F6);
 
-  Future<void> loadThemeMode() async {
-    final index = await _asyncPrefs.getInt(_key);
-    if (index != null) {
-      state = ThemeMode.values[index];
-    }
-  }
+  static const ColorScheme lightColorScheme = ColorScheme.light(
+    primary: primaryBlue,
+    onPrimary: oceanWhite,
+    secondary: cyanAccent,
+    onSecondary: oceanWhite,
+    surface: oceanWhite,
+    surfaceContainerLow: lightSky,
+    onSurface: textPrimary,
+    onSurfaceVariant: textSecondary,
+  );
 
-  Future<void> setThemeMode(ThemeMode mode) async {
-    state = mode;
-    await _asyncPrefs.setInt(_key, mode.index);
-  }
+  static const ColorScheme darkColorScheme = ColorScheme.dark(
+    primary: lightBlue,
+    onPrimary: textLight,
+    secondary: cyanAccent,
+    onSecondary: textLight,
+    surface: deepNavy,
+    surfaceContainerLow: slateCard,
+    onSurface: textLight,
+    onSurfaceVariant: borderGray,
+  );
 }
