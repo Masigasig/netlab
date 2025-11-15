@@ -7,8 +7,6 @@ import 'package:netlab/core/themes/app_color.dart';
 import 'package:netlab/core/utils/async_shared_prefs_notifier.dart';
 
 export 'package:netlab/core/themes/app_color.dart';
-export '../components/button_style.dart';
-export '../components/app_styles.dart';
 
 class AppThemes {
   static ThemeData get lightTheme => ThemeData(
@@ -18,7 +16,6 @@ class AppThemes {
     elevatedButtonTheme: AppButtonStyles.lightElevatedButtonTheme,
     textButtonTheme: AppButtonStyles.lightTextButtonTheme,
     outlinedButtonTheme: AppButtonStyles.lightOutlinedButtonTheme,
-    filledButtonTheme: AppButtonStyles.lightFilledButtonTheme,
   );
 
   static ThemeData get darkTheme => ThemeData(
@@ -28,7 +25,6 @@ class AppThemes {
     elevatedButtonTheme: AppButtonStyles.darkElevatedButtonTheme,
     textButtonTheme: AppButtonStyles.darkTextButtonTheme,
     outlinedButtonTheme: AppButtonStyles.darkOutlinedButtonTheme,
-    // filledButtonTheme: AppButtonStyles.darkFilledButtonTheme,
   );
 }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netlab/core/themes/app_theme.dart';
-import '../../temp/core/constants/app_text.dart';
+import '../constants/app_text.dart';
 
 //* TODO: Will remove all of this, we dont need to complitcate things
 //* turns out this is just a simple projcet we dont need to over engineer it

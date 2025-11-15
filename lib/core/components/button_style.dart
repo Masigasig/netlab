@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:netlab/core/themes/app_theme.dart';
 
 class AppButtonStyles {
-  // Light Theme Button Styles
+  //* Light Theme Button Styles
   static ElevatedButtonThemeData get lightElevatedButtonTheme =>
       ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -33,17 +34,7 @@ class AppButtonStyles {
         ),
       );
 
-  static FilledButtonThemeData get lightFilledButtonTheme =>
-      FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          backgroundColor: AppColors.cyanAccent,
-          foregroundColor: AppColors.oceanWhite,
-          elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
-
-  // Dark Theme Button Styles
+  //* Dark Theme Button Styles
   static ElevatedButtonThemeData get darkElevatedButtonTheme =>
       ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -70,58 +61,4 @@ class AppButtonStyles {
           ),
         ),
       );
-
-  static FilledButtonThemeData get darkFilledButtonTheme =>
-      FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          backgroundColor: AppColors.lightBlue,
-          foregroundColor: AppColors.deepNavy,
-          elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
-
-  //? TODO: will remove below this line
-  // Custom Opacity Button Styles
-
-  // Light Theme Opacity Buttons
-  static ButtonStyle get lightOpacityButton => ElevatedButton.styleFrom(
-    backgroundColor: AppColors.primaryBlue.withAlpha(64), // 25% opacity
-    foregroundColor: AppColors.primaryBlue,
-    elevation: 0,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-  );
-
-  static ButtonStyle get lightOpacitySecondary => ElevatedButton.styleFrom(
-    backgroundColor: AppColors.cyanAccent.withAlpha(64), // 25% opacity
-    foregroundColor: AppColors.cyanAccent,
-    elevation: 0,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-  );
-
-  // Dark Theme Opacity Buttons
-  static ButtonStyle get darkOpacityButton => ElevatedButton.styleFrom(
-    backgroundColor: AppColors.lightBlue.withAlpha(77), // 30% opacity
-    foregroundColor: AppColors.lightBlue,
-    elevation: 0,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-  );
-
-  static ButtonStyle get darkOpacitySecondary => ElevatedButton.styleFrom(
-    backgroundColor: AppColors.cyanAccent.withAlpha(77), // 30% opacity
-    foregroundColor: AppColors.cyanAccent,
-    elevation: 0,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-  );
-
-  // Theme-aware opacity buttons that automatically switch
-  static ButtonStyle opacityButton(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return isDark ? darkOpacityButton : lightOpacityButton;
-  }
-
-  static ButtonStyle opacitySecondaryButton(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return isDark ? darkOpacitySecondary : lightOpacitySecondary;
-  }
 }
