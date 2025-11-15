@@ -7,7 +7,7 @@ import 'package:netlab/core/themes/app_theme.dart';
 import 'package:netlab/temp/homie/widgets/study_section/core/services/progress_service.dart';
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/module_registry.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
-import 'package:netlab/core/routing/go_router.dart';
+// import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/study_topic_service.dart';
 
 class TempStudyScreen extends StatefulWidget {
@@ -159,27 +159,27 @@ class _TempStudyScreenState extends State<TempStudyScreen> {
   }
 
   void _navigateToTopicContent(BuildContext context, StudyTopic topic) {
-    String routePath;
+    // String routePath;
 
-    switch (topic.id) {
-      case 'network_fundamentals':
-        routePath = Routes.networkFundamentals;
-        break;
-      case 'network_devices':
-        routePath = Routes.networkDevices;
-        break;
-      case 'subnetting':
-        routePath = Routes.subnetting;
-        break;
-      case 'host_to_host':
-        routePath = Routes.hostToHost;
-        break;
-      case 'switching_routing':
-        routePath = Routes.switchingRouting;
-        break;
-      default:
-        return;
-    }
-    context.push(routePath, extra: {'topic': topic, 'initialModuleId': null});
+    // switch (topic.id) {
+    //   case 'network_fundamentals':
+    //     routePath = Routes.networkFundamentals;
+    //     break;
+    //   case 'network_devices':
+    //     routePath = Routes.networkDevices;
+    //     break;
+    //   case 'subnetting':
+    //     routePath = Routes.subnetting;
+    //     break;
+    //   case 'host_to_host':
+    //     routePath = Routes.hostToHost;
+    //     break;
+    //   case 'switching_routing':
+    //     routePath = Routes.switchingRouting;
+    //     break;
+    //   default:
+    //     return;
+    // }
+    // context.push(routePath, extra: {'topic': topic, 'initialModuleId': null});
   }
 }

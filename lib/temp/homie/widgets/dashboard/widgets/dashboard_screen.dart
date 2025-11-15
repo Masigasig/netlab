@@ -3,8 +3,8 @@ import '../controllers/dashboard_controller.dart';
 import '../services/continue_learning_service.dart';
 import 'dashboard_main_content.dart';
 import 'dashboard_sidebar.dart';
-import 'package:netlab/core/routing/go_router.dart';
-import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/study_topic_service.dart';
+// import 'package:netlab/core/routing/go_router.dart';
+// import 'package:netlab/temp/homie/widgets/study_section/features/study_content/services/study_topic_service.dart';
 
 class TempDashboardScreen extends StatefulWidget {
   const TempDashboardScreen({super.key});
@@ -98,41 +98,41 @@ class _TempDashboardScreenState extends State<TempDashboardScreen> {
   }
 
   void _navigateToTopicContent(String topicId, String moduleId) {
-    final topic = StudyTopicsService.getTopicById(topicId);
+    // final topic = StudyTopicsService.getTopicById(topicId);
 
-    if (topic == null) {
-      context.go(Routes.tempStudy);
-      return;
-    }
+    // if (topic == null) {
+    //   context.go(Routes.tempStudy);
+    //   return;
+    // }
 
-    String routePath;
+    // String routePath;
 
-    switch (topicId) {
-      case 'network_fundamentals':
-        routePath = Routes.networkFundamentals;
-        break;
-      case 'switching_routing':
-        routePath = Routes.switchingRouting;
-        break;
-      case 'network_devices':
-        routePath = Routes.networkDevices;
-        break;
-      case 'host_to_host':
-        routePath = Routes.hostToHost;
-        break;
-      case 'subnetting':
-        routePath = Routes.subnetting;
-        break;
-      default:
-        context.go(Routes.tempStudy);
-        return;
-    }
+    // switch (topicId) {
+    //   case 'network_fundamentals':
+    //     routePath = Routes.networkFundamentals;
+    //     break;
+    //   case 'switching_routing':
+    //     routePath = Routes.switchingRouting;
+    //     break;
+    //   case 'network_devices':
+    //     routePath = Routes.networkDevices;
+    //     break;
+    //   case 'host_to_host':
+    //     routePath = Routes.hostToHost;
+    //     break;
+    //   case 'subnetting':
+    //     routePath = Routes.subnetting;
+    //     break;
+    //   default:
+    //     context.go(Routes.tempStudy);
+    //     return;
+    // }
 
-    context.go(routePath, extra: {'topic': topic, 'initialModuleId': moduleId});
+    // context.go(routePath, extra: {'topic': topic, 'initialModuleId': moduleId});
   }
 
   void _navigateToBrowseTopics() {
-    context.go(Routes.tempStudy);
+    // context.go(Routes.tempStudy);
   }
 
   @override
