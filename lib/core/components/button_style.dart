@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:netlab/core/themes/app_theme.dart';
+import 'package:netlab/core/themes/app_colors.dart';
 
 class AppButtonStyles {
   //* Light Theme Button Styles

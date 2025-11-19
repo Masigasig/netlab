@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:netlab/core/themes/app_theme.dart';
+import 'package:netlab/core/themes/app_colors.dart';
 import '../constants/app_text.dart';
 
 //* TODO: Will remove all of this, we dont need to complitcate things

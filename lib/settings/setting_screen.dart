@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:netlab/core/themes/app_theme.dart';
+
+import 'package:netlab/core/themes/app_colors.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
