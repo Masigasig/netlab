@@ -20,6 +20,7 @@ class SimObjectWidgetStack extends ConsumerWidget {
       SimObjectType.message => messageWidgetsProvider,
       SimObjectType.router => routerWidgetsProvider,
       SimObjectType.switch_ => switchWidgetsProvider,
+      SimObjectType.wirelessCon => wirelessConWidgetsProvider,
     };
 
     final widgets = ref.watch(provider);

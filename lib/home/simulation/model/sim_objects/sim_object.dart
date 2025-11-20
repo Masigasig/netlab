@@ -5,6 +5,7 @@ part 'host.dart';
 part 'message.dart';
 part 'router.dart';
 part 'switch.dart';
+part 'wireless_con.dart';
 
 abstract class SimObject {
   final String id;
@@ -33,6 +34,8 @@ abstract class SimObject {
         return Router.fromMap(map);
       case SimObjectType.switch_:
         return Switch.fromMap(map);
+      case SimObjectType.wirelessCon:
+        return WirelessCon.fromMap(map);
     }
   }
 }

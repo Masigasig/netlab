@@ -1,11 +1,11 @@
+// import 'dart:math';
 import 'package:flutter/material.dart' hide Router, Switch;
 import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/core/constants/app_image.dart';
 import 'package:netlab/home/simulation/core/enums.dart';
-import 'package:netlab/home/simulation/model/sim_objects/sim_object.dart'
-    show Device, Host, Router, Switch;
+import 'package:netlab/home/simulation/model/sim_objects/sim_object.dart';
 import 'package:netlab/home/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
 import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
 
@@ -15,6 +15,7 @@ part 'host_widget.dart';
 part 'message_widget.dart';
 part 'router_widget.dart';
 part 'switch_widget.dart';
+part 'wireless_con_widget.dart';
 
 abstract class SimObjectWidget extends ConsumerStatefulWidget {
   final String simObjectId;
@@ -33,6 +34,8 @@ abstract class SimObjectWidget extends ConsumerStatefulWidget {
         return RouterWidget(simObjectId: simObjectId);
       case SimObjectType.switch_:
         return SwitchWidget(simObjectId: simObjectId);
+      case SimObjectType.wirelessCon:
+        return WirelessConWidget(simObjectId: simObjectId);
     }
   }
 }

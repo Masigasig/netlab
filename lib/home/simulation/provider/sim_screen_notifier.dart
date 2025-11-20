@@ -429,6 +429,13 @@ class SimScreenNotifier extends Notifier<SimScreen> {
         ref
             .read(switchWidgetsProvider.notifier)
             .addSimObjectWidget(widget as SwitchWidget);
+      case SimObjectType.wirelessCon:
+        ref
+            .read(wirelessConMapProvider.notifier)
+            .addSimObject(object as WirelessCon);
+        ref
+            .read(wirelessConWidgetsProvider.notifier)
+            .addSimObjectWidget(widget as WirelessConWidget);
     }
   }
 }
@@ -443,6 +450,7 @@ extension SimObjectCreation on SimObjectType {
       SimObjectType.message => MessageWidget(simObjectId: simObjectId),
       SimObjectType.router => RouterWidget(simObjectId: simObjectId),
       SimObjectType.switch_ => SwitchWidget(simObjectId: simObjectId),
+      SimObjectType.wirelessCon => WirelessConWidget(simObjectId: simObjectId),
     };
   }
 
@@ -492,6 +500,12 @@ extension SimObjectCreation on SimObjectType {
         name: name,
         posX: posX,
         posY: posY,
+      ),
+      SimObjectType.wirelessCon => WirelessCon(
+        id: id,
+        name: name,
+        conAId: conAId,
+        conBId: conBId,
       ),
     };
   }

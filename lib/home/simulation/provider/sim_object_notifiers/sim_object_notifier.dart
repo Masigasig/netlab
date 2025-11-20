@@ -21,6 +21,7 @@ part 'host_notifier.dart';
 part 'message_notifier.dart';
 part 'router_notifier.dart';
 part 'switch_notifier.dart';
+part 'wireless_con_notifier.dart';
 
 abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
   @override
