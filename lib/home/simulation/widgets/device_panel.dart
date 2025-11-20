@@ -44,6 +44,10 @@ class DevicePanel extends ConsumerWidget {
                   imagePath: AppImage.host,
                 ),
                 _DeviceSpawner(
+                  type: SimObjectType.accessPoint,
+                  imagePath: AppImage.accessPoint,
+                ),
+                _DeviceSpawner(
                   type: SimObjectType.switch_,
                   imagePath: AppImage.switch_,
                 ),

@@ -15,6 +15,7 @@ class SimObjectWidgetStack extends ConsumerWidget {
     debugPrint('${type.label}Widget Stack Rebuilt');
 
     final provider = switch (type) {
+      SimObjectType.accessPoint => accessPointWidgetsProvider,
       SimObjectType.connection => connectionWidgetsProvider,
       SimObjectType.host => hostWidgetsProvider,
       SimObjectType.message => messageWidgetsProvider,

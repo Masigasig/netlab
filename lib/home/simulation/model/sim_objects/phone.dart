@@ -24,7 +24,7 @@ class Phone extends Device {
   }) : super(type: SimObjectType.phone);
 
   @override
-  Device copyWith({
+  Phone copyWith({
     String? name,
     double? posX,
     double? posY,

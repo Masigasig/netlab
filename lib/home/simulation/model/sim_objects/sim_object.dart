@@ -1,5 +1,6 @@
 import 'package:netlab/home/simulation/core/enums.dart';
 
+part 'access_point.dart';
 part 'connection.dart';
 part 'host.dart';
 part 'message.dart';
@@ -25,6 +26,8 @@ abstract class SimObject {
     final type = SimObjectType.values.byName(map['type']);
 
     switch (type) {
+      case SimObjectType.accessPoint:
+        return AccessPoint.fromMap(map);
       case SimObjectType.connection:
         return Connection.fromMap(map);
       case SimObjectType.host:

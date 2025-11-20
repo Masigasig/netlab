@@ -10,5 +10,5 @@ class AppImage {
   static const String arpMessage = '$_base/arp.png';
 
   static const String phone = '$_base/old_device/host.png';
-  static const String wap = '$_base/old_device/switch.png';
+  static const String accessPoint = '$_base/old_device/switch.png';
 }

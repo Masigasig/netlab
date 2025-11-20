@@ -9,6 +9,7 @@ import 'package:netlab/home/simulation/model/sim_objects/sim_object.dart';
 import 'package:netlab/home/simulation/provider/sim_object_notifiers/sim_object_notifier.dart';
 import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
 
+part 'access_point_widget.dart';
 part 'connection_widget.dart';
 part 'device_widget.dart';
 part 'host_widget.dart';
@@ -25,6 +26,8 @@ abstract class SimObjectWidget extends ConsumerStatefulWidget {
 
   factory SimObjectWidget.fromType(SimObjectType type, String simObjectId) {
     switch (type) {
+      case SimObjectType.accessPoint:
+        return AccessPointWidget(simObjectId: simObjectId);
       case SimObjectType.connection:
         return ConnectionWidget(simObjectId: simObjectId);
       case SimObjectType.host:

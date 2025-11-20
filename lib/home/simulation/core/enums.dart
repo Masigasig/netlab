@@ -1,4 +1,5 @@
 enum SimObjectType {
+  accessPoint,
   connection,
   host,
   message,
@@ -25,6 +26,8 @@ extension SimObjectTypeLabel on SimObjectType {
         return 'Switch';
       case SimObjectType.wirelessCon:
         return 'WirelessCon';
+      case SimObjectType.accessPoint:
+        return 'Access Point';
     }
   }
 }

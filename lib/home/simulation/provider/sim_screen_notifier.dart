@@ -402,6 +402,13 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     SimObjectWidget widget,
   ) {
     switch (type) {
+      case SimObjectType.accessPoint:
+        ref
+            .read(accessPointMapProvider.notifier)
+            .addSimObject(object as AccessPoint);
+        ref
+            .read(accessPointWidgetsProvider.notifier)
+            .addSimObjectWidget(widget as AccessPointWidget);
       case SimObjectType.connection:
         ref
             .read(connectionMapProvider.notifier)
@@ -450,6 +457,8 @@ extension SimObjectCreation on SimObjectType {
 
   SimObjectWidget createSimObjectWidget(String simObjectId) {
     return switch (this) {
+      SimObjectType.accessPoint => AccessPointWidget(simObjectId: simObjectId),
+
       SimObjectType.connection => ConnectionWidget(simObjectId: simObjectId),
       SimObjectType.host => HostWidget(simObjectId: simObjectId),
       SimObjectType.message => MessageWidget(simObjectId: simObjectId),
@@ -472,6 +481,12 @@ extension SimObjectCreation on SimObjectType {
     final id = generatePrefixedId();
 
     return switch (this) {
+      SimObjectType.accessPoint => AccessPoint(
+        id: id,
+        name: name,
+        posX: posX,
+        posY: posY,
+      ),
       SimObjectType.connection => Connection(
         id: id,
         name: name,

@@ -15,6 +15,7 @@ import 'package:netlab/home/simulation/provider/sim_clock.dart';
 import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
 import 'package:netlab/home/simulation/widgets/sim_object_widgets/sim_object_widget.dart';
 
+part 'access_point_notifier.dart';
 part 'connection_notifier.dart';
 part 'device_notifier.dart';
 part 'host_notifier.dart';
