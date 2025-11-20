@@ -419,6 +419,11 @@ class SimScreenNotifier extends Notifier<SimScreen> {
         ref
             .read(messageWidgetsProvider.notifier)
             .addSimObjectWidget(widget as MessageWidget);
+      case SimObjectType.phone:
+        ref.read(phoneMapProvider.notifier).addSimObject(object as Phone);
+        ref
+            .read(phoneWidgetsProvider.notifier)
+            .addSimObjectWidget(widget as PhoneWidget);
       case SimObjectType.router:
         ref.read(routerMapProvider.notifier).addSimObject(object as Router);
         ref
@@ -448,6 +453,7 @@ extension SimObjectCreation on SimObjectType {
       SimObjectType.connection => ConnectionWidget(simObjectId: simObjectId),
       SimObjectType.host => HostWidget(simObjectId: simObjectId),
       SimObjectType.message => MessageWidget(simObjectId: simObjectId),
+      SimObjectType.phone => PhoneWidget(simObjectId: simObjectId),
       SimObjectType.router => RouterWidget(simObjectId: simObjectId),
       SimObjectType.switch_ => SwitchWidget(simObjectId: simObjectId),
       SimObjectType.wirelessCon => WirelessConWidget(simObjectId: simObjectId),
@@ -484,6 +490,13 @@ extension SimObjectCreation on SimObjectType {
         name: name,
         srcId: srcId,
         dstId: dstId,
+      ),
+      SimObjectType.phone => Phone(
+        id: id,
+        name: name,
+        posX: posX,
+        posY: posY,
+        macAddress: MacAddressManager.generateMacAddress(),
       ),
       SimObjectType.router => Router(
         id: id,

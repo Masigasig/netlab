@@ -3,6 +3,7 @@ import 'package:netlab/home/simulation/core/enums.dart';
 part 'connection.dart';
 part 'host.dart';
 part 'message.dart';
+part 'phone.dart';
 part 'router.dart';
 part 'switch.dart';
 part 'wireless_con.dart';
@@ -30,6 +31,8 @@ abstract class SimObject {
         return Host.fromMap(map);
       case SimObjectType.message:
         return Message.fromMap(map);
+      case SimObjectType.phone:
+        return Phone.fromMap(map);
       case SimObjectType.router:
         return Router.fromMap(map);
       case SimObjectType.switch_:

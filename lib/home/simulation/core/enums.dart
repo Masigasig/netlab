@@ -1,4 +1,12 @@
-enum SimObjectType { connection, host, message, router, switch_, wirelessCon }
+enum SimObjectType {
+  connection,
+  host,
+  message,
+  phone,
+  router,
+  switch_,
+  wirelessCon,
+}
 
 extension SimObjectTypeLabel on SimObjectType {
   String get label {
@@ -9,6 +17,8 @@ extension SimObjectTypeLabel on SimObjectType {
         return 'Host';
       case SimObjectType.message:
         return 'Message';
+      case SimObjectType.phone:
+        return 'Phone';
       case SimObjectType.router:
         return 'Router';
       case SimObjectType.switch_:

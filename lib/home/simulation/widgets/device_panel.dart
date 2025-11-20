@@ -30,11 +30,15 @@ class DevicePanel extends ConsumerWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: const SizedBox(
-            width: 420,
+            width: 580,
             height: 110,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                _DeviceSpawner(
+                  type: SimObjectType.phone,
+                  imagePath: AppImage.phone,
+                ),
                 _DeviceSpawner(
                   type: SimObjectType.host,
                   imagePath: AppImage.host,

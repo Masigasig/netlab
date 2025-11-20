@@ -13,6 +13,7 @@ part 'connection_widget.dart';
 part 'device_widget.dart';
 part 'host_widget.dart';
 part 'message_widget.dart';
+part 'phone_widget.dart';
 part 'router_widget.dart';
 part 'switch_widget.dart';
 part 'wireless_con_widget.dart';
@@ -30,6 +31,8 @@ abstract class SimObjectWidget extends ConsumerStatefulWidget {
         return HostWidget(simObjectId: simObjectId);
       case SimObjectType.message:
         return MessageWidget(simObjectId: simObjectId);
+      case SimObjectType.phone:
+        return PhoneWidget(simObjectId: simObjectId);
       case SimObjectType.router:
         return RouterWidget(simObjectId: simObjectId);
       case SimObjectType.switch_:

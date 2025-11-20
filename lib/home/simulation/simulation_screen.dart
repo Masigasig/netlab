@@ -102,6 +102,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 
                     const SimObjectWidgetStack(type: SimObjectType.connection),
                     const SimObjectWidgetStack(type: SimObjectType.wirelessCon),
+                    const SimObjectWidgetStack(type: SimObjectType.phone),
                     const SimObjectWidgetStack(type: SimObjectType.host),
                     const SimObjectWidgetStack(type: SimObjectType.switch_),
                     const SimObjectWidgetStack(type: SimObjectType.router),

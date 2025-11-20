@@ -18,6 +18,7 @@ class SimObjectWidgetStack extends ConsumerWidget {
       SimObjectType.connection => connectionWidgetsProvider,
       SimObjectType.host => hostWidgetsProvider,
       SimObjectType.message => messageWidgetsProvider,
+      SimObjectType.phone => phoneWidgetsProvider,
       SimObjectType.router => routerWidgetsProvider,
       SimObjectType.switch_ => switchWidgetsProvider,
       SimObjectType.wirelessCon => wirelessConWidgetsProvider,

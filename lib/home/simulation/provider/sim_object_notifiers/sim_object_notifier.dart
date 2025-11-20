@@ -19,6 +19,7 @@ part 'connection_notifier.dart';
 part 'device_notifier.dart';
 part 'host_notifier.dart';
 part 'message_notifier.dart';
+part 'phone_notifier.dart';
 part 'router_notifier.dart';
 part 'switch_notifier.dart';
 part 'wireless_con_notifier.dart';
