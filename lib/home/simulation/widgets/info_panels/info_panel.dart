@@ -13,11 +13,14 @@ import 'package:netlab/home/simulation/provider/sim_screen_notifier.dart';
 part 'info_panel_field.dart';
 part 'info_panel_popup.dart';
 
+part 'access_point_info_panel.dart';
 part 'connection_info_panel.dart';
 part 'host_info_panel.dart';
 part 'message_info_panel.dart';
+part 'phone_info_panel.dart';
 part 'router_info_panel.dart';
 part 'switch_info_panel.dart';
+part 'wireless_con_info_panel.dart';
 
 class InfoPanel extends ConsumerWidget {
   const InfoPanel({super.key});
@@ -153,17 +156,44 @@ class _TabConfig {
   });
 
   static _TabConfig fromDeviceType(String deviceType) {
-    if (deviceType.startsWith(SimObjectType.connection.label)) {
+    if (deviceType.startsWith(SimObjectType.accessPoint.label)) {
+      return const _TabConfig(
+        length: 2,
+        tabs: [
+          Tab(child: Text('Info', textAlign: TextAlign.center)),
+          Tab(child: Text('Mac Table', textAlign: TextAlign.center)),
+        ],
+        views: [_AccessPointInfoTabView(), _APMacTableTabView()],
+      );
+    } else if (deviceType.startsWith(SimObjectType.connection.label)) {
       return const _TabConfig(
         length: 1,
         tabs: [Tab(child: Text('Info', textAlign: TextAlign.center))],
         views: [_ConnectionInfoTabView()],
+      );
+    } else if (deviceType.startsWith(SimObjectType.host.label)) {
+      return const _TabConfig(
+        length: 2,
+        tabs: [
+          Tab(child: Text('Info', textAlign: TextAlign.center)),
+          Tab(child: Text('ARP Table', textAlign: TextAlign.center)),
+        ],
+        views: [_HostInfoTabView(), _HostArpTableTabView()],
       );
     } else if (deviceType.startsWith(SimObjectType.message.label)) {
       return const _TabConfig(
         length: 1,
         tabs: [Tab(child: Text('Info', textAlign: TextAlign.center))],
         views: [_MessageInfoTabView()],
+      );
+    } else if (deviceType.startsWith(SimObjectType.phone.label)) {
+      return const _TabConfig(
+        length: 2,
+        tabs: [
+          Tab(child: Text('Info', textAlign: TextAlign.center)),
+          Tab(child: Text('ARP Table', textAlign: TextAlign.center)),
+        ],
+        views: [_PhoneInfoTabView(), _PhoneArpTableTabView()],
       );
     } else if (deviceType.startsWith(SimObjectType.router.label)) {
       return const _TabConfig(
@@ -189,13 +219,11 @@ class _TabConfig {
         views: [_SwitchInfoTabView(), _MacTableTabView()],
       );
     } else {
+      //* Means wireless con is selected
       return const _TabConfig(
-        length: 2,
-        tabs: [
-          Tab(child: Text('Info', textAlign: TextAlign.center)),
-          Tab(child: Text('ARP Table', textAlign: TextAlign.center)),
-        ],
-        views: [_HostInfoTabView(), _HostArpTableTabView()],
+        length: 1,
+        tabs: [Tab(child: Text('Info', textAlign: TextAlign.center))],
+        views: [_WirelessConInfoTabView()],
       );
     }
   }

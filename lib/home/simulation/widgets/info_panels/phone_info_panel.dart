@@ -1,13 +1,12 @@
 part of 'info_panel.dart';
 
-class _HostInfoTabView extends ConsumerStatefulWidget {
-  const _HostInfoTabView();
-
+class _PhoneInfoTabView extends ConsumerStatefulWidget {
+  const _PhoneInfoTabView();
   @override
-  ConsumerState<_HostInfoTabView> createState() => _HostInfoTabViewState();
+  ConsumerState<_PhoneInfoTabView> createState() => _PhoneInfoTabViewState();
 }
 
-class _HostInfoTabViewState extends ConsumerState<_HostInfoTabView> {
+class _PhoneInfoTabViewState extends ConsumerState<_PhoneInfoTabView> {
   final _scrollController = ScrollController();
 
   @override
@@ -18,29 +17,32 @@ class _HostInfoTabViewState extends ConsumerState<_HostInfoTabView> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('HostInfoTabView Rebuilt');
+    debugPrint('PhoneInfoTabView Rebuilt');
+
+    //TODO: connection for phone
 
     final selectedDeviceId = ref.watch(
       simScreenProvider.select((s) => s.selectedDeviceOnInfo),
     );
+
     final name = ref.watch(
-      hostProvider(selectedDeviceId).select((h) => h.name),
+      phoneProvider(selectedDeviceId).select((p) => p.name),
     );
     final ipAddress = ref.watch(
-      hostProvider(selectedDeviceId).select((h) => h.ipAddress),
+      phoneProvider(selectedDeviceId).select((p) => p.ipAddress),
     );
     final subnetMask = ref.watch(
-      hostProvider(selectedDeviceId).select((h) => h.subnetMask),
+      phoneProvider(selectedDeviceId).select((p) => p.subnetMask),
     );
     final defaultGateway = ref.watch(
-      hostProvider(selectedDeviceId).select((h) => h.defaultGateway),
+      phoneProvider(selectedDeviceId).select((p) => p.defaultGateway),
     );
     final macAddress = ref.watch(
-      hostProvider(selectedDeviceId).select((h) => h.macAddress),
+      phoneProvider(selectedDeviceId).select((p) => p.macAddress),
     );
-    final conId = ref.watch(
-      hostProvider(selectedDeviceId).select((h) => h.connectionId),
-    );
+    // final conId = ref.watch(
+    //   phoneProvider(selectedDeviceId).select((p) => p.connectionId),
+    // );
 
     return Padding(
       padding: const EdgeInsets.all(4.0),
@@ -56,7 +58,7 @@ class _HostInfoTabViewState extends ConsumerState<_HostInfoTabView> {
                 value: name,
                 validator: Validator.validateName,
                 onSave: (value) => ref
-                    .read(hostProvider(selectedDeviceId).notifier)
+                    .read(phoneProvider(selectedDeviceId).notifier)
                     .updateName(value),
               ),
               _InfoPanelField(
@@ -72,7 +74,7 @@ class _HostInfoTabViewState extends ConsumerState<_HostInfoTabView> {
                 validator: (input) =>
                     Validator.validateIpAddress(input, subnetMask, ipAddress),
                 onSave: (value) => ref
-                    .read(hostProvider(selectedDeviceId).notifier)
+                    .read(phoneProvider(selectedDeviceId).notifier)
                     .updateIpAddress(value),
               ),
               _InfoPanelField(
@@ -81,7 +83,7 @@ class _HostInfoTabViewState extends ConsumerState<_HostInfoTabView> {
                 validator: (input) =>
                     Validator.validateSubnetMask(input, ipAddress),
                 onSave: (value) => ref
-                    .read(hostProvider(selectedDeviceId).notifier)
+                    .read(phoneProvider(selectedDeviceId).notifier)
                     .updateSubnetMask(value),
               ),
               _InfoPanelField(
@@ -89,69 +91,29 @@ class _HostInfoTabViewState extends ConsumerState<_HostInfoTabView> {
                 value: defaultGateway,
                 validator: Validator.validateDefaultGateway,
                 onSave: (value) => ref
-                    .read(hostProvider(selectedDeviceId).notifier)
+                    .read(phoneProvider(selectedDeviceId).notifier)
                     .updateDefaultGateway(value),
               ),
               _InfoPanelField(label: 'Mac Address :', value: macAddress),
 
-              _buildConnectedDeviceCard(selectedDeviceId, conId),
+              // _buildConnectedDeviceCard(selectedDeviceId, conId),
             ],
           ),
         ),
       ),
     );
   }
-
-  Card _buildConnectedDeviceCard(String deviceId, String conId) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Connected Device :',
-              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                Image.asset(
-                  AppImage.ethernet,
-                  width: 15,
-                  height: 15,
-                  color: conId.isEmpty
-                      ? Theme.of(context).colorScheme.onSurface
-                      : Colors.green,
-                ),
-                const SizedBox(width: 5),
-                Expanded(
-                  child: conId.isEmpty
-                      ? const Text('eth0 :  Not connected')
-                      : Text(
-                          'eth0 :  ${ref.read(connectionProvider(conId).notifier).getConnectedDeviceName(deviceId)}',
-                        ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
-class _HostArpTableTabView extends ConsumerStatefulWidget {
-  const _HostArpTableTabView();
+class _PhoneArpTableTabView extends ConsumerStatefulWidget {
+  const _PhoneArpTableTabView();
 
   @override
-  ConsumerState<_HostArpTableTabView> createState() =>
-      _HostArpTableTabViewState();
+  ConsumerState<_PhoneArpTableTabView> createState() =>
+      _PhoneArpTableTabViewState();
 }
 
-class _HostArpTableTabViewState extends ConsumerState<_HostArpTableTabView> {
+class _PhoneArpTableTabViewState extends ConsumerState<_PhoneArpTableTabView> {
   final _scrollController = ScrollController();
 
   @override
@@ -162,13 +124,14 @@ class _HostArpTableTabViewState extends ConsumerState<_HostArpTableTabView> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('HostArpTableTabView Rebuilt');
+    debugPrint('PhoneArpTableTabView Rebuilt');
+
     final selectedDeviceId = ref.watch(
       simScreenProvider.select((s) => s.selectedDeviceOnInfo),
     );
 
     final arpTable = ref.watch(
-      hostProvider(selectedDeviceId).select((h) => h.arpTable),
+      phoneProvider(selectedDeviceId).select((p) => p.arpTable),
     );
 
     return Padding(

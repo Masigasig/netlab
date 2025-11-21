@@ -79,8 +79,12 @@ class _ConnectionWidgetState extends _SimObjectWidgetState<ConnectionWidget> {
       return routerProvider;
     } else if (deviceId.startsWith(SimObjectType.switch_.label)) {
       return switchProvider;
+    } else if (deviceId.startsWith(SimObjectType.accessPoint.label)) {
+      return accessPointProvider;
+    } else if (deviceId.startsWith(SimObjectType.phone.label)) {
+      return phoneProvider;
     }
-    //* this 3 is the only possible scenario so it's fine
+    //* this 5 is the only possible scenario so it's fine
     return hostProvider;
   }
 
@@ -129,54 +133,3 @@ class _ConnectionLinePainter extends CustomPainter {
         oldDelegate.end != end;
   }
 }
-
-// class _ConnectionLinePainter extends CustomPainter {
-//   final ColorScheme colorScheme;
-//   final Offset start;
-//   final Offset end;
-
-//   const _ConnectionLinePainter({
-//     required this.colorScheme,
-//     required this.start,
-//     required this.end,
-//   });
-
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     final paint = Paint()
-//       ..color = colorScheme.onSurface
-//       ..strokeWidth = 4.0
-//       ..style = PaintingStyle.stroke;
-
-//     const dashWidth = 10.0;
-//     const dashSpace = 5.0;
-
-//     final dx = end.dx - start.dx;
-//     final dy = end.dy - start.dy;
-//     final distance = sqrt(dx * dx + dy * dy);
-//     final dashCount = (distance / (dashWidth + dashSpace)).floor();
-
-//     final xStep = dx / dashCount;
-//     final yStep = dy / dashCount;
-
-//     double startX = start.dx;
-//     double startY = start.dy;
-
-//     for (int i = 0; i < dashCount; i++) {
-//       final endX = startX + xStep * (dashWidth / (dashWidth + dashSpace));
-//       final endY = startY + yStep * (dashWidth / (dashWidth + dashSpace));
-
-//       canvas.drawLine(Offset(startX, startY), Offset(endX, endY), paint);
-
-//       startX += xStep;
-//       startY += yStep;
-//     }
-//   }
-
-//   @override
-//   bool shouldRepaint(covariant _ConnectionLinePainter oldDelegate) {
-//     return oldDelegate.colorScheme != colorScheme ||
-//         oldDelegate.start != start ||
-//         oldDelegate.end != end;
-//   }
-// }

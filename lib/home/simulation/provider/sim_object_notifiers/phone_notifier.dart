@@ -54,6 +54,21 @@ class PhoneNotifier extends DeviceNotifier<Phone> {
   void removeSelf() {
     // TODO: implement removeSelf
   }
+
+  void updateIpAddress(String ipAddress) {
+    state = state.copyWith(ipAddress: ipAddress);
+    addInfoLog(state.id, 'Ipv4 address updated to $ipAddress');
+  }
+
+  void updateSubnetMask(String subnetMask) {
+    state = state.copyWith(subnetMask: subnetMask);
+    addInfoLog(state.id, 'Subnetmask updated to $subnetMask');
+  }
+
+  void updateDefaultGateway(String defaultGateway) {
+    state = state.copyWith(defaultGateway: defaultGateway);
+    addInfoLog(state.id, 'DefualtGateway updated to $defaultGateway');
+  }
 }
 
 class PhonePendingArpReqNotifier extends Notifier<Map<String, Duration>> {
