@@ -17,10 +17,10 @@ part 'access_point_info_panel.dart';
 part 'connection_info_panel.dart';
 part 'host_info_panel.dart';
 part 'message_info_panel.dart';
-part 'phone_info_panel.dart';
 part 'router_info_panel.dart';
 part 'switch_info_panel.dart';
 part 'wireless_con_info_panel.dart';
+part 'wireless_host_info_panel.dart';
 
 class InfoPanel extends ConsumerWidget {
   const InfoPanel({super.key});
@@ -99,16 +99,22 @@ class InfoPanel extends ConsumerWidget {
   }
 
   void _onDelete(WidgetRef ref, String selectedDevice) {
-    if (selectedDevice.startsWith(SimObjectType.host.label)) {
-      ref.read(hostProvider(selectedDevice).notifier).removeSelf();
+    if (selectedDevice.startsWith(SimObjectType.accessPoint.label)) {
+      ref.read(accessPointProvider(selectedDevice).notifier).removeSelf();
     } else if (selectedDevice.startsWith(SimObjectType.connection.label)) {
       ref.read(connectionProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.host.label)) {
+      ref.read(hostProvider(selectedDevice).notifier).removeSelf();
     } else if (selectedDevice.startsWith(SimObjectType.message.label)) {
       ref.read(messageProvider(selectedDevice).notifier).removeSelf();
-    } else if (selectedDevice.startsWith(SimObjectType.switch_.label)) {
-      ref.read(switchProvider(selectedDevice).notifier).removeSelf();
     } else if (selectedDevice.startsWith(SimObjectType.router.label)) {
       ref.read(routerProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.switch_.label)) {
+      ref.read(switchProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.wirelessCon.label)) {
+      ref.read(wirelessConProvider(selectedDevice).notifier).removeSelf();
+    } else if (selectedDevice.startsWith(SimObjectType.wirelessHost.label)) {
+      ref.read(wirelessHostProvider(selectedDevice).notifier).removeSelf();
     }
   }
 }
@@ -186,15 +192,6 @@ class _TabConfig {
         tabs: [Tab(child: Text('Info', textAlign: TextAlign.center))],
         views: [_MessageInfoTabView()],
       );
-    } else if (deviceType.startsWith(SimObjectType.phone.label)) {
-      return const _TabConfig(
-        length: 2,
-        tabs: [
-          Tab(child: Text('Info', textAlign: TextAlign.center)),
-          Tab(child: Text('ARP Table', textAlign: TextAlign.center)),
-        ],
-        views: [_PhoneInfoTabView(), _PhoneArpTableTabView()],
-      );
     } else if (deviceType.startsWith(SimObjectType.router.label)) {
       return const _TabConfig(
         length: 3,
@@ -218,12 +215,21 @@ class _TabConfig {
         ],
         views: [_SwitchInfoTabView(), _MacTableTabView()],
       );
-    } else {
-      //* Means wireless con is selected
+    } else if (deviceType.startsWith(SimObjectType.wirelessCon.label)) {
       return const _TabConfig(
         length: 1,
         tabs: [Tab(child: Text('Info', textAlign: TextAlign.center))],
         views: [_WirelessConInfoTabView()],
+      );
+    } else {
+      //* Means wireless host is selected
+      return const _TabConfig(
+        length: 2,
+        tabs: [
+          Tab(child: Text('Info', textAlign: TextAlign.center)),
+          Tab(child: Text('ARP Table', textAlign: TextAlign.center)),
+        ],
+        views: [_WirelessHostInfoTabView(), _WirelessHostArpTableTabView()],
       );
     }
   }

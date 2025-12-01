@@ -36,8 +36,8 @@ class DevicePanel extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 _DeviceSpawner(
-                  type: SimObjectType.phone,
-                  imagePath: AppImage.phone,
+                  type: SimObjectType.wirelessHost,
+                  imagePath: AppImage.wirelessHost,
                 ),
                 _DeviceSpawner(
                   type: SimObjectType.host,

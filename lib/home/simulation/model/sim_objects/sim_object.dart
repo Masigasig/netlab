@@ -4,10 +4,10 @@ part 'access_point.dart';
 part 'connection.dart';
 part 'host.dart';
 part 'message.dart';
-part 'phone.dart';
 part 'router.dart';
 part 'switch.dart';
 part 'wireless_con.dart';
+part 'wireless_host.dart';
 
 abstract class SimObject {
   final String id;
@@ -34,14 +34,14 @@ abstract class SimObject {
         return Host.fromMap(map);
       case SimObjectType.message:
         return Message.fromMap(map);
-      case SimObjectType.phone:
-        return Phone.fromMap(map);
       case SimObjectType.router:
         return Router.fromMap(map);
       case SimObjectType.switch_:
         return Switch.fromMap(map);
       case SimObjectType.wirelessCon:
         return WirelessCon.fromMap(map);
+      case SimObjectType.wirelessHost:
+        return WirelessHost.fromMap(map);
     }
   }
 }

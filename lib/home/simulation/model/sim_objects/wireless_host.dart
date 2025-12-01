@@ -1,15 +1,15 @@
 part of 'sim_object.dart';
 
-class Phone extends Device {
+class WirelessHost extends Device {
   final String ipAddress;
   final String subnetMask;
   final String defaultGateway;
   final String macAddress;
-  final String connectionId;
+  final String wirelessConId;
   final Map<String, String> arpTable;
   final List<String> messageIds;
 
-  Phone({
+  WirelessHost({
     required super.id,
     required super.name,
     required super.posX,
@@ -18,24 +18,24 @@ class Phone extends Device {
     this.subnetMask = '/24',
     this.defaultGateway = '',
     required this.macAddress,
-    this.connectionId = '',
+    this.wirelessConId = '',
     this.arpTable = const {},
     this.messageIds = const [],
-  }) : super(type: SimObjectType.phone);
+  }) : super(type: SimObjectType.wirelessHost);
 
   @override
-  Phone copyWith({
+  WirelessHost copyWith({
     String? name,
     double? posX,
     double? posY,
     String? ipAddress,
     String? subnetMask,
     String? defaultGateway,
-    String? connectionId,
+    String? wirelessConId,
     Map<String, String>? arpTable,
     List<String>? messageIds,
   }) {
-    return Phone(
+    return WirelessHost(
       id: id,
       name: name ?? this.name,
       posX: posX ?? this.posX,
@@ -44,7 +44,7 @@ class Phone extends Device {
       subnetMask: subnetMask ?? this.subnetMask,
       defaultGateway: defaultGateway ?? this.defaultGateway,
       macAddress: macAddress,
-      connectionId: connectionId ?? this.connectionId,
+      wirelessConId: wirelessConId ?? this.wirelessConId,
       arpTable: arpTable ?? Map<String, String>.from(this.arpTable),
       messageIds: messageIds ?? List<String>.from(this.messageIds),
     );
@@ -58,13 +58,13 @@ class Phone extends Device {
       'subnetMask': subnetMask,
       'defaultGateway': defaultGateway,
       'macAddress': macAddress,
-      'connectionId': connectionId,
+      'wirelessConId': wirelessConId,
       'messagesIds': messageIds,
     };
   }
 
-  factory Phone.fromMap(Map<String, dynamic> map) {
-    return Phone(
+  factory WirelessHost.fromMap(Map<String, dynamic> map) {
+    return WirelessHost(
       id: map['id'].toString(),
       name: map['name'].toString(),
       posX: map['posX'].toDouble(),
@@ -73,7 +73,7 @@ class Phone extends Device {
       subnetMask: map['subnetMask'].toString(),
       defaultGateway: map['defaultGateway'].toString(),
       macAddress: map['macAddress'].toString(),
-      connectionId: map['connectionId'].toString(),
+      wirelessConId: map['wirelessConId'].toString(),
       messageIds: List<String>.from(map['messagesIds']),
     );
   }

@@ -20,6 +20,9 @@ import 'package:netlab/home/simulation/widgets/sim_object_widget_stack.dart';
 
 //* TODO's:
 //* Finalization of UI
+//* Access Point
+//* Wireless Host
+//* Table Details
 
 class SimulationScreen extends ConsumerStatefulWidget {
   static const canvasSize = Size(100_000.0, 100_000.0);
@@ -102,7 +105,9 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 
                     const SimObjectWidgetStack(type: SimObjectType.connection),
                     const SimObjectWidgetStack(type: SimObjectType.wirelessCon),
-                    const SimObjectWidgetStack(type: SimObjectType.phone),
+                    const SimObjectWidgetStack(
+                      type: SimObjectType.wirelessHost,
+                    ),
                     const SimObjectWidgetStack(type: SimObjectType.host),
                     const SimObjectWidgetStack(type: SimObjectType.accessPoint),
                     const SimObjectWidgetStack(type: SimObjectType.switch_),

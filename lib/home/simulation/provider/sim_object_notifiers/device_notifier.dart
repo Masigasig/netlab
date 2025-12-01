@@ -55,6 +55,12 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
     }
   }
 
+  void removeWirelessConById(String wirelessConId) {
+    if (wirelessConId.isNotEmpty) {
+      wirelessConNotifier(wirelessConId).removeSelf();
+    }
+  }
+
   void removeMultipleIps(List<String> ipAddresses) {
     for (final ip in ipAddresses) {
       removeIpFromManager(ip);
@@ -70,6 +76,12 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
   void removeMultipleConnections(List<String> connectionIds) {
     for (final id in connectionIds) {
       removeConnectionById(id);
+    }
+  }
+
+  void removeMultipleWirelessCon(List<String> wirelessConIds) {
+    for (final id in wirelessConIds) {
+      removeWirelessConById(id);
     }
   }
 }

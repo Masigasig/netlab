@@ -1,12 +1,14 @@
 part of 'info_panel.dart';
 
-class _PhoneInfoTabView extends ConsumerStatefulWidget {
-  const _PhoneInfoTabView();
+class _WirelessHostInfoTabView extends ConsumerStatefulWidget {
+  const _WirelessHostInfoTabView();
   @override
-  ConsumerState<_PhoneInfoTabView> createState() => _PhoneInfoTabViewState();
+  ConsumerState<_WirelessHostInfoTabView> createState() =>
+      _WirelessHostInfoTabViewState();
 }
 
-class _PhoneInfoTabViewState extends ConsumerState<_PhoneInfoTabView> {
+class _WirelessHostInfoTabViewState
+    extends ConsumerState<_WirelessHostInfoTabView> {
   final _scrollController = ScrollController();
 
   @override
@@ -17,31 +19,31 @@ class _PhoneInfoTabViewState extends ConsumerState<_PhoneInfoTabView> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('PhoneInfoTabView Rebuilt');
+    debugPrint('WirelessHostInfoTabView Rebuilt');
 
-    //TODO: connection for phone
+    //TODO: connection for wirelessHost
 
     final selectedDeviceId = ref.watch(
       simScreenProvider.select((s) => s.selectedDeviceOnInfo),
     );
 
     final name = ref.watch(
-      phoneProvider(selectedDeviceId).select((p) => p.name),
+      wirelessHostProvider(selectedDeviceId).select((p) => p.name),
     );
     final ipAddress = ref.watch(
-      phoneProvider(selectedDeviceId).select((p) => p.ipAddress),
+      wirelessHostProvider(selectedDeviceId).select((p) => p.ipAddress),
     );
     final subnetMask = ref.watch(
-      phoneProvider(selectedDeviceId).select((p) => p.subnetMask),
+      wirelessHostProvider(selectedDeviceId).select((p) => p.subnetMask),
     );
     final defaultGateway = ref.watch(
-      phoneProvider(selectedDeviceId).select((p) => p.defaultGateway),
+      wirelessHostProvider(selectedDeviceId).select((p) => p.defaultGateway),
     );
     final macAddress = ref.watch(
-      phoneProvider(selectedDeviceId).select((p) => p.macAddress),
+      wirelessHostProvider(selectedDeviceId).select((p) => p.macAddress),
     );
     // final conId = ref.watch(
-    //   phoneProvider(selectedDeviceId).select((p) => p.connectionId),
+    //   wirelessHostProvider(selectedDeviceId).select((p) => p.connectionId),
     // );
 
     return Padding(
@@ -58,7 +60,7 @@ class _PhoneInfoTabViewState extends ConsumerState<_PhoneInfoTabView> {
                 value: name,
                 validator: Validator.validateName,
                 onSave: (value) => ref
-                    .read(phoneProvider(selectedDeviceId).notifier)
+                    .read(wirelessHostProvider(selectedDeviceId).notifier)
                     .updateName(value),
               ),
               _InfoPanelField(
@@ -74,7 +76,7 @@ class _PhoneInfoTabViewState extends ConsumerState<_PhoneInfoTabView> {
                 validator: (input) =>
                     Validator.validateIpAddress(input, subnetMask, ipAddress),
                 onSave: (value) => ref
-                    .read(phoneProvider(selectedDeviceId).notifier)
+                    .read(wirelessHostProvider(selectedDeviceId).notifier)
                     .updateIpAddress(value),
               ),
               _InfoPanelField(
@@ -83,7 +85,7 @@ class _PhoneInfoTabViewState extends ConsumerState<_PhoneInfoTabView> {
                 validator: (input) =>
                     Validator.validateSubnetMask(input, ipAddress),
                 onSave: (value) => ref
-                    .read(phoneProvider(selectedDeviceId).notifier)
+                    .read(wirelessHostProvider(selectedDeviceId).notifier)
                     .updateSubnetMask(value),
               ),
               _InfoPanelField(
@@ -91,7 +93,7 @@ class _PhoneInfoTabViewState extends ConsumerState<_PhoneInfoTabView> {
                 value: defaultGateway,
                 validator: Validator.validateDefaultGateway,
                 onSave: (value) => ref
-                    .read(phoneProvider(selectedDeviceId).notifier)
+                    .read(wirelessHostProvider(selectedDeviceId).notifier)
                     .updateDefaultGateway(value),
               ),
               _InfoPanelField(label: 'Mac Address :', value: macAddress),
@@ -105,15 +107,16 @@ class _PhoneInfoTabViewState extends ConsumerState<_PhoneInfoTabView> {
   }
 }
 
-class _PhoneArpTableTabView extends ConsumerStatefulWidget {
-  const _PhoneArpTableTabView();
+class _WirelessHostArpTableTabView extends ConsumerStatefulWidget {
+  const _WirelessHostArpTableTabView();
 
   @override
-  ConsumerState<_PhoneArpTableTabView> createState() =>
-      _PhoneArpTableTabViewState();
+  ConsumerState<_WirelessHostArpTableTabView> createState() =>
+      _WirelessHostArpTableTabViewState();
 }
 
-class _PhoneArpTableTabViewState extends ConsumerState<_PhoneArpTableTabView> {
+class _WirelessHostArpTableTabViewState
+    extends ConsumerState<_WirelessHostArpTableTabView> {
   final _scrollController = ScrollController();
 
   @override
@@ -124,14 +127,14 @@ class _PhoneArpTableTabViewState extends ConsumerState<_PhoneArpTableTabView> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('PhoneArpTableTabView Rebuilt');
+    debugPrint('WirelessHostArpTableTabView Rebuilt');
 
     final selectedDeviceId = ref.watch(
       simScreenProvider.select((s) => s.selectedDeviceOnInfo),
     );
 
     final arpTable = ref.watch(
-      phoneProvider(selectedDeviceId).select((p) => p.arpTable),
+      wirelessHostProvider(selectedDeviceId).select((p) => p.arpTable),
     );
 
     return Padding(

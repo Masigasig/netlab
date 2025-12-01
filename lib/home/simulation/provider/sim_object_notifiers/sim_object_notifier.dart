@@ -20,10 +20,10 @@ part 'connection_notifier.dart';
 part 'device_notifier.dart';
 part 'host_notifier.dart';
 part 'message_notifier.dart';
-part 'phone_notifier.dart';
 part 'router_notifier.dart';
 part 'switch_notifier.dart';
 part 'wireless_con_notifier.dart';
+part 'wireless_host_notifier.dart';
 
 abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
   @override
@@ -42,6 +42,8 @@ abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
   SimObjectLogNotifier simObjectLogNotifier(String id) =>
       ref.read(simObjectLogProvider(id).notifier);
 
+  AccessPointNotifier accessPointNotifier(String id) =>
+      ref.read(accessPointProvider(id).notifier);
   ConnectionNotifier connectionNotifier(String id) =>
       ref.read(connectionProvider(id).notifier);
   HostNotifier hostNotifier(String id) => ref.read(hostProvider(id).notifier);
@@ -51,6 +53,10 @@ abstract class SimObjectNotifier<T extends SimObject> extends Notifier<T> {
       ref.read(routerProvider(id).notifier);
   SwitchNotifier switchNotifier(String id) =>
       ref.read(switchProvider(id).notifier);
+  WirelessConNotifier wirelessConNotifier(String id) =>
+      ref.read(wirelessConProvider(id).notifier);
+  WirelessHostNotifier wirelessHostNotifier(String id) =>
+      ref.read(wirelessHostProvider(id).notifier);
 
   void addInfoLog(String id, String message) {
     simObjectLogNotifier(id).addLog(

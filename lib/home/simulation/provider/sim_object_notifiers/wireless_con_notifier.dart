@@ -40,7 +40,19 @@ class WirelessConNotifier extends SimObjectNotifier<WirelessCon> {
 
   @override
   void removeSelf() {
-    // TODO: implement removeSelf
+    if (state.conAId.startsWith(SimObjectType.accessPoint.label)) {
+      //TODO: remove the connection of accessPoint
+    } else if (state.conAId.startsWith(SimObjectType.wirelessHost.label)) {
+      wirelessHostNotifier(state.conAId).updateWirelessConId('');
+    }
+
+    if (state.conBId.startsWith(SimObjectType.accessPoint.label)) {
+      //TODO: remove the connection of accessPoint
+    } else if (state.conBId.startsWith(SimObjectType.wirelessHost.label)) {
+      wirelessHostNotifier(state.conBId).updateWirelessConId('');
+    }
+
+    ref.read(wirelessConMapProvider.notifier).removeAllState(state.id);
   }
 }
 

@@ -81,8 +81,8 @@ class _WirelessConWidgetState extends _SimObjectWidgetState<WirelessConWidget> {
       return switchProvider;
     } else if (deviceId.startsWith(SimObjectType.accessPoint.label)) {
       return accessPointProvider;
-    } else if (deviceId.startsWith(SimObjectType.phone.label)) {
-      return phoneProvider;
+    } else if (deviceId.startsWith(SimObjectType.wirelessHost.label)) {
+      return wirelessHostProvider;
     }
     //* this 5 is the only possible scenario so it's fine
     return hostProvider;

@@ -44,7 +44,9 @@ class AccessPointNotifier extends DeviceNotifier<AccessPoint> {
 
   @override
   void removeSelf() {
-    // TODO: implement removeSelf
+    // TODO: remove the connections
+
+    ref.read(accessPointMapProvider.notifier).removeAllState(state.id);
   }
 }
 

@@ -198,9 +198,12 @@ class SimScreenNotifier extends Notifier<SimScreen> {
 
   void clearAll() {
     ref.invalidate(connectionWidgetsProvider);
+    ref.invalidate(wirelessConWidgetsProvider);
     ref.invalidate(messageWidgetsProvider);
     ref.invalidate(hostWidgetsProvider);
+    ref.invalidate(wirelessHostWidgetsProvider);
     ref.invalidate(switchWidgetsProvider);
+    ref.invalidate(accessPointWidgetsProvider);
     ref.invalidate(routerWidgetsProvider);
 
     ref.invalidateSelf();
@@ -213,15 +216,21 @@ class SimScreenNotifier extends Notifier<SimScreen> {
       ref.invalidate(simClockProvider);
 
       ref.invalidate(connectionProvider);
+      ref.invalidate(wirelessConProvider);
       ref.invalidate(messageProvider);
       ref.invalidate(hostProvider);
+      ref.invalidate(wirelessHostProvider);
       ref.invalidate(switchProvider);
+      ref.invalidate(accessPointProvider);
       ref.invalidate(routerProvider);
 
       ref.invalidate(connectionMapProvider);
+      ref.invalidate(wirelessConMapProvider);
       ref.invalidate(messageMapProvider);
       ref.invalidate(hostMapProvider);
+      ref.invalidate(wirelessHostMapProvider);
       ref.invalidate(switchMapProvider);
+      ref.invalidate(accessPointMapProvider);
       ref.invalidate(routerMapProvider);
     });
   }
@@ -236,23 +245,38 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     Ipv4AddressManager.importStorage(data['Ipv4Address']);
     MacAddressManager.importStorage(data['MacAddress']);
 
+    final accessPointList = List.from(data['accessPoints']);
     final connectionList = List.from(data['connections']);
     final hostList = List.from(data['hosts']);
     final messageList = List.from(data['messages']);
     final routerList = List.from(data['routers']);
     final switchList = List.from(data['switches']);
+    final wirelessConList = List.from(data['wirelessCons']);
+    final wirelessHostList = List.from(data['wirelessHosts']);
 
+    ref.read(accessPointMapProvider.notifier).importFromList(accessPointList);
     ref.read(connectionMapProvider.notifier).importFromList(connectionList);
     ref.read(hostMapProvider.notifier).importFromList(hostList);
     ref.read(messageMapProvider.notifier).importFromList(messageList);
     ref.read(routerMapProvider.notifier).importFromList(routerList);
     ref.read(switchMapProvider.notifier).importFromList(switchList);
+    ref.read(wirelessConMapProvider.notifier).importFromList(wirelessConList);
+    ref.read(wirelessHostMapProvider.notifier).importFromList(wirelessHostList);
 
+    ref
+        .read(accessPointWidgetsProvider.notifier)
+        .importFromList(accessPointList);
     ref.read(connectionWidgetsProvider.notifier).importFromList(connectionList);
     ref.read(hostWidgetsProvider.notifier).importFromList(hostList);
     ref.read(messageWidgetsProvider.notifier).importFromList(messageList);
     ref.read(routerWidgetsProvider.notifier).importFromList(routerList);
     ref.read(switchWidgetsProvider.notifier).importFromList(switchList);
+    ref
+        .read(wirelessConWidgetsProvider.notifier)
+        .importFromList(wirelessConList);
+    ref
+        .read(wirelessHostWidgetsProvider.notifier)
+        .importFromList(wirelessHostList);
   }
 
   Map<String, dynamic> exportSimulation() {
@@ -262,11 +286,16 @@ class SimScreenNotifier extends Notifier<SimScreen> {
       ),
       'Ipv4Address': Ipv4AddressManager.exportStorage(),
       'MacAddress': MacAddressManager.exportStorage(),
+      'accessPoints': ref.read(accessPointMapProvider.notifier).exportToList(),
       'connections': ref.read(connectionMapProvider.notifier).exportToList(),
       'hosts': ref.read(hostMapProvider.notifier).exportToList(),
       'messages': ref.read(messageMapProvider.notifier).exportToList(),
       'routers': ref.read(routerMapProvider.notifier).exportToList(),
       'switches': ref.read(switchMapProvider.notifier).exportToList(),
+      'wirelessCons': ref.read(wirelessConMapProvider.notifier).exportToList(),
+      'wirelessHosts': ref
+          .read(wirelessHostMapProvider.notifier)
+          .exportToList(),
     };
   }
 
@@ -426,11 +455,6 @@ class SimScreenNotifier extends Notifier<SimScreen> {
         ref
             .read(messageWidgetsProvider.notifier)
             .addSimObjectWidget(widget as MessageWidget);
-      case SimObjectType.phone:
-        ref.read(phoneMapProvider.notifier).addSimObject(object as Phone);
-        ref
-            .read(phoneWidgetsProvider.notifier)
-            .addSimObjectWidget(widget as PhoneWidget);
       case SimObjectType.router:
         ref.read(routerMapProvider.notifier).addSimObject(object as Router);
         ref
@@ -448,6 +472,13 @@ class SimScreenNotifier extends Notifier<SimScreen> {
         ref
             .read(wirelessConWidgetsProvider.notifier)
             .addSimObjectWidget(widget as WirelessConWidget);
+      case SimObjectType.wirelessHost:
+        ref
+            .read(wirelessHostMapProvider.notifier)
+            .addSimObject(object as WirelessHost);
+        ref
+            .read(wirelessHostWidgetsProvider.notifier)
+            .addSimObjectWidget(widget as WirelessHostWidget);
     }
   }
 }
@@ -462,10 +493,12 @@ extension SimObjectCreation on SimObjectType {
       SimObjectType.connection => ConnectionWidget(simObjectId: simObjectId),
       SimObjectType.host => HostWidget(simObjectId: simObjectId),
       SimObjectType.message => MessageWidget(simObjectId: simObjectId),
-      SimObjectType.phone => PhoneWidget(simObjectId: simObjectId),
       SimObjectType.router => RouterWidget(simObjectId: simObjectId),
       SimObjectType.switch_ => SwitchWidget(simObjectId: simObjectId),
       SimObjectType.wirelessCon => WirelessConWidget(simObjectId: simObjectId),
+      SimObjectType.wirelessHost => WirelessHostWidget(
+        simObjectId: simObjectId,
+      ),
     };
   }
 
@@ -506,13 +539,6 @@ extension SimObjectCreation on SimObjectType {
         srcId: srcId,
         dstId: dstId,
       ),
-      SimObjectType.phone => Phone(
-        id: id,
-        name: name,
-        posX: posX,
-        posY: posY,
-        macAddress: MacAddressManager.generateMacAddress(),
-      ),
       SimObjectType.router => Router(
         id: id,
         name: name,
@@ -534,6 +560,13 @@ extension SimObjectCreation on SimObjectType {
         name: name,
         conAId: conAId,
         conBId: conBId,
+      ),
+      SimObjectType.wirelessHost => WirelessHost(
+        id: id,
+        name: name,
+        posX: posX,
+        posY: posY,
+        macAddress: MacAddressManager.generateMacAddress(),
       ),
     };
   }
