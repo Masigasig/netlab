@@ -98,7 +98,121 @@ class _WirelessHostInfoTabViewState
               ),
               _InfoPanelField(label: 'Mac Address :', value: macAddress),
 
-              // _buildConnectedDeviceCard(selectedDeviceId, conId),
+              Consumer(
+                builder: (context, ref, child) {
+                  final cs = Theme.of(context).colorScheme;
+                  final accessPointIds = ref
+                      .watch(accessPointMapProvider)
+                      .keys
+                      .toList();
+
+                  return Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 4),
+
+                        const Text(
+                          'Available Connections',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 4),
+
+                        ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: accessPointIds.length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 0),
+                          itemBuilder: (context, index) {
+                            final isConnected =
+                                accessPointIds[index] ==
+                                accessPointIds[1]; //* TODO connectedValue
+
+                            return Container(
+                              padding: const EdgeInsets.all(4),
+                              child: Row(
+                                children: [
+                                  HugeIcon(
+                                    icon: HugeIcons.strokeRoundedWifi01,
+                                    color: cs.onSurface,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          ref
+                                              .read(
+                                                accessPointProvider(
+                                                  accessPointIds[index],
+                                                ),
+                                              )
+                                              .name,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+
+                                        if (isConnected)
+                                          const Text(
+                                            'Connected',
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                              color: AppColors.successColor,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  const SizedBox(width: 2),
+
+                                  if (isConnected)
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        foregroundColor: AppColors.errorColor,
+                                        textStyle: const TextStyle(
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        //* TODO: Disconnect Function
+                                      },
+                                      child: const Text('Disconnect'),
+                                    )
+                                  else
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        foregroundColor: AppColors.successColor,
+                                        textStyle: const TextStyle(
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        //* TODO: Connect Function
+                                      },
+                                      child: const Text('Connect'),
+                                    ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

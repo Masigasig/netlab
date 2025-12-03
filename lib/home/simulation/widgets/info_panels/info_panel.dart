@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/core/constants/app_image.dart';
+import 'package:netlab/core/themes/app_colors.dart';
 
 import 'package:netlab/home/simulation/core/enums.dart';
 import 'package:netlab/home/simulation/core/ipv4_address_manager.dart';
