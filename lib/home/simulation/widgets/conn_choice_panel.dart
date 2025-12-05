@@ -44,6 +44,13 @@ class _ConnChoicePanelState extends ConsumerState<ConnChoicePanel> {
       connection = ref
           .read(switchProvider(selectedId).notifier)
           .getAllConnectionInfo();
+    } else if (selectedId.startsWith(SimObjectType.accessPoint.label)) {
+      device = ref.watch(accessPointProvider(selectedId));
+      connection = ref
+          .read(accessPointProvider(selectedId).notifier)
+          .getAllConnectionInfo();
+    } else if (selectedId.startsWith(SimObjectType.wirelessHost.label)) {
+      return const Offstage(offstage: true);
     }
 
     return Positioned(

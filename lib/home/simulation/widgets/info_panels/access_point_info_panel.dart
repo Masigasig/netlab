@@ -80,7 +80,7 @@ class _APMacTableTabViewState extends ConsumerState<_APMacTableTabView> {
     );
 
     final macTable = ref.watch(
-      accessPointProvider(selectedDeviceId).select((ap) => ap.macTable),
+      accessPointProvider(selectedDeviceId).select((ap) => ap.sessionTable),
     );
 
     return Padding(

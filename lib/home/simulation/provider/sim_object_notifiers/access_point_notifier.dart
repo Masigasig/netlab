@@ -33,8 +33,12 @@ class AccessPointNotifier extends DeviceNotifier<AccessPoint> {
 
   @override
   List<Map<String, String>> getAllConnectionInfo() {
-    // TODO: implement getAllConnectionInfo
-    throw UnimplementedError();
+    return [
+      {
+        ConnInfoKey.name.name: Port.port0.name,
+        ConnInfoKey.conId.name: state.port0conId,
+      },
+    ];
   }
 
   @override
