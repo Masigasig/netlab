@@ -340,7 +340,11 @@ class SimScreenNotifier extends Notifier<SimScreen> {
         connection.id,
       );
 
-      if (conAId.startsWith(SimObjectType.host.label)) {
+      if (conAId.startsWith(SimObjectType.accessPoint.label)) {
+        ref
+            .read(accessPointProvider(conAId).notifier)
+            .updatePort0conId(connection.id);
+      } else if (conAId.startsWith(SimObjectType.host.label)) {
         ref
             .read(hostProvider(conAId).notifier)
             .updateConnectionId(connection.id);
@@ -354,7 +358,11 @@ class SimScreenNotifier extends Notifier<SimScreen> {
             .updateConIdByPortName(conAName, connection.id);
       }
 
-      if (conBId.startsWith(SimObjectType.host.label)) {
+      if (conBId.startsWith(SimObjectType.accessPoint.label)) {
+        ref
+            .read(accessPointProvider(conBId).notifier)
+            .updatePort0conId(connection.id);
+      } else if (conBId.startsWith(SimObjectType.host.label)) {
         ref
             .read(hostProvider(conBId).notifier)
             .updateConnectionId(connection.id);
@@ -376,6 +384,27 @@ class SimScreenNotifier extends Notifier<SimScreen> {
 
       toggleConnectionMode();
     }
+  }
+
+  String createWirelessConnection(String fromDeviceId, String toDeviceId) {
+    final wirelessCon = SimObjectType.wirelessCon.createSimObject(
+      name:
+          '${SimObjectType.wirelessCon.label} ${_getNextCounter(SimObjectType.wirelessCon)}}',
+      conAId: fromDeviceId,
+      conBId: toDeviceId,
+    );
+
+    final wirelessConWidget = SimObjectType.wirelessCon.createSimObjectWidget(
+      wirelessCon.id,
+    );
+
+    _addSimObjectAndWidgetToProvider(
+      SimObjectType.wirelessCon,
+      wirelessCon,
+      wirelessConWidget,
+    );
+
+    return wirelessCon.id;
   }
 
   void createMessage(String hostId) {

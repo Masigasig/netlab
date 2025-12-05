@@ -52,6 +52,25 @@ class AccessPointNotifier extends DeviceNotifier<AccessPoint> {
 
     ref.read(accessPointMapProvider.notifier).removeAllState(state.id);
   }
+
+  void updatePort0conId(String connectionId) {
+    if (connectionId == '') {
+      addInfoLog(state.id, 'Connection Removed');
+    }
+    state = state.copyWith(port0conId: connectionId);
+  }
+
+  void updateConIdtoDeviceIdMap(String wirelessConId, String deviceId) {
+    final newMap = Map<String, String>.from(state.wirelessConIdToDeviceIdMap);
+    newMap[wirelessConId] = deviceId;
+    state = state.copyWith(wirelessConIdToDeviceIdMap: newMap);
+  }
+
+  void removeConIdtoConIdtoDeviceIdMap(String wirelessConId) {
+    final newMap = Map<String, String>.from(state.wirelessConIdToDeviceIdMap);
+    newMap.remove(wirelessConId);
+    state = state.copyWith(wirelessConIdToDeviceIdMap: newMap);
+  }
 }
 
 class AccessPointMapNotifer extends DeviceMapNotifier<AccessPoint> {

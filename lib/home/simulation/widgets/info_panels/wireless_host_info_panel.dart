@@ -28,23 +28,20 @@ class _WirelessHostInfoTabViewState
     );
 
     final name = ref.watch(
-      wirelessHostProvider(selectedDeviceId).select((p) => p.name),
+      wirelessHostProvider(selectedDeviceId).select((w) => w.name),
     );
     final ipAddress = ref.watch(
-      wirelessHostProvider(selectedDeviceId).select((p) => p.ipAddress),
+      wirelessHostProvider(selectedDeviceId).select((w) => w.ipAddress),
     );
     final subnetMask = ref.watch(
-      wirelessHostProvider(selectedDeviceId).select((p) => p.subnetMask),
+      wirelessHostProvider(selectedDeviceId).select((w) => w.subnetMask),
     );
     final defaultGateway = ref.watch(
-      wirelessHostProvider(selectedDeviceId).select((p) => p.defaultGateway),
+      wirelessHostProvider(selectedDeviceId).select((w) => w.defaultGateway),
     );
     final macAddress = ref.watch(
-      wirelessHostProvider(selectedDeviceId).select((p) => p.macAddress),
+      wirelessHostProvider(selectedDeviceId).select((w) => w.macAddress),
     );
-    // final conId = ref.watch(
-    //   wirelessHostProvider(selectedDeviceId).select((p) => p.connectionId),
-    // );
 
     return Padding(
       padding: const EdgeInsets.all(4.0),
@@ -101,6 +98,12 @@ class _WirelessHostInfoTabViewState
               Consumer(
                 builder: (context, ref, child) {
                   final cs = Theme.of(context).colorScheme;
+                  final wirelessConId = ref.watch(
+                    wirelessHostProvider(
+                      selectedDeviceId,
+                    ).select((w) => w.wirelessConId),
+                  );
+
                   final accessPointIds = ref
                       .watch(accessPointMapProvider)
                       .keys
@@ -131,9 +134,19 @@ class _WirelessHostInfoTabViewState
                           separatorBuilder: (context, index) =>
                               const SizedBox(height: 0),
                           itemBuilder: (context, index) {
-                            final isConnected =
-                                accessPointIds[index] ==
-                                accessPointIds[1]; //* TODO connectedValue
+                            bool isConnected = false;
+
+                            if (wirelessConId.isNotEmpty) {
+                              isConnected =
+                                  accessPointIds[index] ==
+                                  ref
+                                      .read(
+                                        wirelessConProvider(
+                                          wirelessConId,
+                                        ).notifier,
+                                      )
+                                      .getConnectedDeviceId(selectedDeviceId);
+                            }
 
                             return Container(
                               padding: const EdgeInsets.all(4),
@@ -186,7 +199,13 @@ class _WirelessHostInfoTabViewState
                                         ),
                                       ),
                                       onPressed: () {
-                                        //* TODO: Disconnect Function
+                                        ref
+                                            .read(
+                                              wirelessHostProvider(
+                                                selectedDeviceId,
+                                              ).notifier,
+                                            )
+                                            .disconnectToAccessPoint();
                                       },
                                       child: const Text('Disconnect'),
                                     )
@@ -199,7 +218,15 @@ class _WirelessHostInfoTabViewState
                                         ),
                                       ),
                                       onPressed: () {
-                                        //* TODO: Connect Function
+                                        ref
+                                            .read(
+                                              wirelessHostProvider(
+                                                selectedDeviceId,
+                                              ).notifier,
+                                            )
+                                            .connectToAccessPoint(
+                                              accessPointIds[index],
+                                            );
                                       },
                                       child: const Text('Connect'),
                                     ),

@@ -2,7 +2,7 @@ part of 'sim_object.dart';
 
 class AccessPoint extends Device {
   final String port0conId;
-  final Map<String, String> sessionTable;
+  final Map<String, String> wirelessConIdToDeviceIdMap;
 
   AccessPoint({
     required super.id,
@@ -10,16 +10,16 @@ class AccessPoint extends Device {
     required super.posX,
     required super.posY,
     this.port0conId = '',
-    this.sessionTable = const {},
+    this.wirelessConIdToDeviceIdMap = const {},
   }) : super(type: SimObjectType.accessPoint);
 
   @override
-  Device copyWith({
+  AccessPoint copyWith({
     String? name,
     double? posX,
     double? posY,
     String? port0conId,
-    Map<String, String>? sessionTable,
+    Map<String, String>? wirelessConIdToDeviceIdMap,
   }) {
     return AccessPoint(
       id: id,
@@ -27,7 +27,8 @@ class AccessPoint extends Device {
       posX: posX ?? this.posX,
       posY: posY ?? this.posY,
       port0conId: port0conId ?? this.port0conId,
-      sessionTable: sessionTable ?? this.sessionTable,
+      wirelessConIdToDeviceIdMap:
+          wirelessConIdToDeviceIdMap ?? this.wirelessConIdToDeviceIdMap,
     );
   }
 
@@ -36,7 +37,7 @@ class AccessPoint extends Device {
     return {
       ...super.toMap(),
       'port0conId': port0conId,
-      'sessionTable': sessionTable,
+      'wirelessConIdToDeviceIdMap': wirelessConIdToDeviceIdMap,
     };
   }
 
@@ -47,8 +48,8 @@ class AccessPoint extends Device {
       posX: map['posX'].toDouble(),
       posY: map['posY'].toDouble(),
       port0conId: map['port0conId'].toString(),
-      sessionTable:
-          (map['sessionTable'] as Map?)?.map(
+      wirelessConIdToDeviceIdMap:
+          (map['wirelessConIdToDeviceIdMap'] as Map?)?.map(
             (key, value) => MapEntry(key.toString(), value.toString()),
           ) ??
           {},

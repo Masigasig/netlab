@@ -91,6 +91,25 @@ class WirelessHostNotifier extends DeviceNotifier<WirelessHost> {
 
     state = state.copyWith(wirelessConId: wirelessConId);
   }
+
+  void connectToAccessPoint(String accessPointId) {
+    if (state.wirelessConId.isNotEmpty) {
+      disconnectToAccessPoint();
+    }
+    final wirelessConId = ref
+        .read(simScreenProvider.notifier)
+        .createWirelessConnection(state.id, accessPointId);
+
+    updateWirelessConId(wirelessConId);
+
+    ref
+        .read(accessPointProvider(accessPointId).notifier)
+        .updateConIdtoDeviceIdMap(wirelessConId, state.id);
+  }
+
+  void disconnectToAccessPoint() {
+    ref.read(wirelessConProvider(state.wirelessConId).notifier).removeSelf();
+  }
 }
 
 class WirelessHostPendingArpReqNotifier

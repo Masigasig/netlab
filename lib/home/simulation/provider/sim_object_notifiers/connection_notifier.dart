@@ -40,7 +40,7 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
   @override
   void removeSelf() {
     if (state.conAId.startsWith(SimObjectType.accessPoint.label)) {
-      //TODO: remove the connection of accessPoint
+      accessPointNotifier(state.conAId).updatePort0conId('');
     } else if (state.conAId.startsWith(SimObjectType.host.label)) {
       hostNotifier(state.conAId).updateConnectionId('');
     } else if (state.conAId.startsWith(SimObjectType.router.label)) {
@@ -50,7 +50,7 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
     }
 
     if (state.conBId.startsWith(SimObjectType.accessPoint.label)) {
-      //TODO: remove the connection of accessPoint
+      accessPointNotifier(state.conBId).updatePort0conId('');
     } else if (state.conBId.startsWith(SimObjectType.host.label)) {
       hostNotifier(state.conBId).updateConnectionId('');
     } else if (state.conBId.startsWith(SimObjectType.router.label)) {
