@@ -29,6 +29,11 @@ class _AccessPointInfoTabViewState
       accessPointProvider(selectedDeviceId).select((ap) => ap.name),
     );
 
+    final port0conId = ref.watch(
+      accessPointProvider(selectedDeviceId).select((a) => a.port0conId),
+    );
+    final portConIds = [port0conId];
+
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Scrollbar(
@@ -47,9 +52,61 @@ class _AccessPointInfoTabViewState
                     .updateName(value),
               ),
 
-              //TODO: connection of access point
+              _buildConnectedDeviceCard(selectedDeviceId, portConIds),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Card _buildConnectedDeviceCard(String deviceId, List<String> portConIds) {
+    List<Widget> buildConnectionRows() {
+      return List.generate(portConIds.length, (index) {
+        final conId = portConIds[index];
+        final label = 'port$index';
+
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Row(
+            children: [
+              Image.asset(
+                AppImage.ethernet,
+                width: 15,
+                height: 15,
+                color: conId.isEmpty
+                    ? Theme.of(context).colorScheme.onSurface
+                    : Colors.green,
+              ),
+              const SizedBox(width: 5),
+              Expanded(
+                child: Text(
+                  conId.isEmpty
+                      ? '$label :  Not connected'
+                      : '$label :  ${ref.read(connectionProvider(conId).notifier).getConnectedDeviceName(deviceId)}',
+                ),
+              ),
+            ],
+          ),
+        );
+      });
+    }
+
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Connected Device :',
+              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 4),
+            ...buildConnectionRows(),
+          ],
         ),
       ),
     );

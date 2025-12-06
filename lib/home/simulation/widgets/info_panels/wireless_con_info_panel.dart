@@ -27,7 +27,7 @@ class _WirelessConInfoTabViewState
     );
 
     final name = ref.watch(
-      connectionProvider(selectedDeviceId).select((w) => w.name),
+      wirelessConProvider(selectedDeviceId).select((w) => w.name),
     );
 
     return Padding(

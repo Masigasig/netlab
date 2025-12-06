@@ -129,7 +129,9 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
   ).name;
 
   Device _getDeviceById(String simObjectId) {
-    if (simObjectId.startsWith(SimObjectType.host.label)) {
+    if (simObjectId.startsWith(SimObjectType.accessPoint.label)) {
+      return ref.read(accessPointProvider(simObjectId));
+    } else if (simObjectId.startsWith(SimObjectType.host.label)) {
       return ref.read(hostProvider(simObjectId));
     } else if (simObjectId.startsWith(SimObjectType.router.label)) {
       return ref.read(routerProvider(simObjectId));
@@ -139,7 +141,9 @@ class ConnectionNotifier extends SimObjectNotifier<Connection> {
   }
 
   DeviceNotifier _getDeviceNotifierById(String simObjectId) {
-    if (simObjectId.startsWith(SimObjectType.host.label)) {
+    if (simObjectId.startsWith(SimObjectType.accessPoint.label)) {
+      return accessPointNotifier(simObjectId);
+    } else if (simObjectId.startsWith(SimObjectType.host.label)) {
       return hostNotifier(simObjectId);
     } else if (simObjectId.startsWith(SimObjectType.router.label)) {
       return routerNotifier(simObjectId);

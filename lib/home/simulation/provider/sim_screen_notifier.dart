@@ -389,7 +389,7 @@ class SimScreenNotifier extends Notifier<SimScreen> {
   String createWirelessConnection(String fromDeviceId, String toDeviceId) {
     final wirelessCon = SimObjectType.wirelessCon.createSimObject(
       name:
-          '${SimObjectType.wirelessCon.label} ${_getNextCounter(SimObjectType.wirelessCon)}}',
+          '${SimObjectType.wirelessCon.label} ${_getNextCounter(SimObjectType.wirelessCon)}',
       conAId: fromDeviceId,
       conBId: toDeviceId,
     );
@@ -518,7 +518,6 @@ extension SimObjectCreation on SimObjectType {
   SimObjectWidget createSimObjectWidget(String simObjectId) {
     return switch (this) {
       SimObjectType.accessPoint => AccessPointWidget(simObjectId: simObjectId),
-
       SimObjectType.connection => ConnectionWidget(simObjectId: simObjectId),
       SimObjectType.host => HostWidget(simObjectId: simObjectId),
       SimObjectType.message => MessageWidget(simObjectId: simObjectId),
