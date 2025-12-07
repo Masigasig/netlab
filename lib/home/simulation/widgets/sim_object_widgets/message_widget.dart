@@ -32,12 +32,21 @@ class _MessageWidgetState extends _SimObjectWidgetState<MessageWidget> {
     double originPosY = 0;
 
     if (!isPlaying) {
-      originPosX = ref.watch(
-        hostProvider(message.srcId).select((host) => host.posX),
-      );
-      originPosY = ref.watch(
-        hostProvider(message.srcId).select((host) => host.posY),
-      );
+      if (message.srcId.startsWith(SimObjectType.host.label)) {
+        originPosX = ref.watch(
+          hostProvider(message.srcId).select((host) => host.posX),
+        );
+        originPosY = ref.watch(
+          hostProvider(message.srcId).select((host) => host.posY),
+        );
+      } else if (message.srcId.startsWith(SimObjectType.wirelessHost.label)) {
+        originPosX = ref.watch(
+          wirelessHostProvider(message.srcId).select((w) => w.posX),
+        );
+        originPosY = ref.watch(
+          wirelessHostProvider(message.srcId).select((w) => w.posY),
+        );
+      }
     }
 
     return isPlaying

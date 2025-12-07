@@ -42,11 +42,18 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     final hostsIds = <String>{};
     for (final messageId in messageIds) {
       final message = ref.read(messageProvider(messageId));
-      final host = ref.read(hostProvider(message.srcId));
+      if (message.srcId.startsWith(SimObjectType.host.label)) {
+        final host = ref.read(hostProvider(message.srcId));
+        ref
+            .read(messageProvider(messageId).notifier)
+            .updatePosition(host.posX, host.posY);
+      } else if (message.srcId.startsWith(SimObjectType.wirelessHost.label)) {
+        final wirelessHost = ref.read(wirelessHostProvider(message.srcId));
 
-      ref
-          .read(messageProvider(messageId).notifier)
-          .updatePosition(host.posX, host.posY);
+        ref
+            .read(messageProvider(messageId).notifier)
+            .updatePosition(wirelessHost.posX, wirelessHost.posY);
+      }
 
       hostsIds.add(message.srcId);
     }
@@ -74,7 +81,13 @@ class SimScreenNotifier extends Notifier<SimScreen> {
         );
 
     for (final hostId in hostsIds) {
-      ref.read(hostProvider(hostId).notifier).startMessageProcessing();
+      if (hostId.startsWith(SimObjectType.host.label)) {
+        ref.read(hostProvider(hostId).notifier).startMessageProcessing();
+      } else if (hostId.startsWith(SimObjectType.wirelessHost.label)) {
+        ref
+            .read(wirelessHostProvider(hostId).notifier)
+            .startMessageProcessing();
+      }
     }
   }
 
@@ -409,7 +422,10 @@ class SimScreenNotifier extends Notifier<SimScreen> {
 
   void createMessage(String hostId) {
     if (!state.isMessageModeOn) return;
-    if (!hostId.startsWith(SimObjectType.host.label)) return;
+    if (!hostId.startsWith(SimObjectType.host.label) &&
+        !hostId.startsWith(SimObjectType.wirelessHost.label)) {
+      return;
+    }
 
     _selectedDevices.add({'id': hostId});
 
@@ -443,7 +459,13 @@ class SimScreenNotifier extends Notifier<SimScreen> {
           .read(messageProvider(message.id).notifier)
           .updateCurrentPlaceId(hostId1);
 
-      ref.read(hostProvider(hostId1).notifier).enqueueMessage(message.id);
+      if (hostId1.startsWith(SimObjectType.host.label)) {
+        ref.read(hostProvider(hostId1).notifier).enqueueMessage(message.id);
+      } else if (hostId1.startsWith(SimObjectType.wirelessHost.label)) {
+        ref
+            .read(wirelessHostProvider(hostId1).notifier)
+            .enqueueMessage(message.id);
+      }
 
       toggleMessageMode();
     }

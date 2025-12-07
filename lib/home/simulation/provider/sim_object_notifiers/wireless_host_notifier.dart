@@ -110,6 +110,22 @@ class WirelessHostNotifier extends DeviceNotifier<WirelessHost> {
   void disconnectToAccessPoint() {
     ref.read(wirelessConProvider(state.wirelessConId).notifier).removeSelf();
   }
+
+  void enqueueMessage(String messageId) {
+    final newMessageIds = List<String>.from(state.messageIds)..add(messageId);
+    state = state.copyWith(messageIds: newMessageIds);
+
+    if (ref.read(simScreenProvider).isPlaying) {
+      messageNotifier(messageId).updatePosition(state.posX, state.posY);
+      if (!_isProcessingMessages) {
+        startMessageProcessing();
+      }
+    }
+  }
+
+  void startMessageProcessing() {
+    //*TODO: message Processing
+  }
 }
 
 class WirelessHostPendingArpReqNotifier

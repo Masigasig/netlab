@@ -43,11 +43,15 @@ class _MessageInfoTabViewState extends ConsumerState<_MessageInfoTabView> {
       srcName = ref.read(hostProvider(srcId)).name;
     } else if (srcId.startsWith(SimObjectType.router.label)) {
       srcName = ref.read(routerProvider(srcId)).name;
+    } else if (srcId.startsWith(SimObjectType.wirelessHost.label)) {
+      srcName = ref.read(wirelessHostProvider(srcId)).name;
     }
 
     String dstHostName = dstId;
     if (dstId.startsWith(SimObjectType.host.label)) {
       dstHostName = ref.read(hostProvider(dstId)).name;
+    } else if (dstId.startsWith(SimObjectType.wirelessHost.label)) {
+      dstHostName = ref.read(wirelessHostProvider(dstId)).name;
     }
 
     return Padding(
@@ -69,6 +73,9 @@ class _MessageInfoTabViewState extends ConsumerState<_MessageInfoTabView> {
               _InfoPanelField(label: 'From :', value: srcName),
 
               _InfoPanelField(label: 'To :', value: dstHostName),
+
+              if (dstHostName.startsWith(SimObjectType.wirelessHost.label))
+                _OsiLayerCard(selectedDeviceId: selectedDeviceId),
 
               if (dstHostName.startsWith(SimObjectType.host.label))
                 _OsiLayerCard(selectedDeviceId: selectedDeviceId)
