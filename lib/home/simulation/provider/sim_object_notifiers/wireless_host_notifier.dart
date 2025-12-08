@@ -44,8 +44,8 @@ class WirelessHostNotifier extends DeviceNotifier<WirelessHost> {
 
   @override
   List<Map<String, String>> getAllConnectionInfo() {
-    // TODO: implement getAllConnectionInfo
-    throw UnimplementedError();
+    //* This method wont be called
+    return [];
   }
 
   @override

@@ -48,8 +48,9 @@ class AccessPointNotifier extends DeviceNotifier<AccessPoint> {
 
   @override
   void removeSelf() {
-    // TODO: remove the connections
-
+    final wirelessConIds = state.wirelessConIdToDeviceIdMap.keys.toList();
+    removeConnectionById(state.port0conId);
+    removeMultipleWirelessCon(wirelessConIds);
     ref.read(accessPointMapProvider.notifier).removeAllState(state.id);
   }
 

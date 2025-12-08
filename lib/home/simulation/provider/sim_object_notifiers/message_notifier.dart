@@ -34,7 +34,15 @@ class MessageNotifier extends SimObjectNotifier<Message> {
     ref.read(messageMapProvider.notifier).removeAllState(state.id);
   }
 
-  String getTargetIp() => hostNotifier(state.dstId).state.ipAddress;
+  String getTargetIp() {
+    if (state.dstId.startsWith(SimObjectType.host.label)) {
+      return hostNotifier(state.dstId).state.ipAddress;
+    } else if (state.dstId.startsWith(SimObjectType.wirelessHost.label)) {
+      return wirelessHostNotifier(state.dstId).state.ipAddress;
+    } else {
+      return '';
+    }
+  }
 
   void updateCurrentPlaceId(String newPlace) {
     state = state.copyWith(currentPlaceId: newPlace);

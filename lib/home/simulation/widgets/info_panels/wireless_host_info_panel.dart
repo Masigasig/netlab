@@ -21,8 +21,6 @@ class _WirelessHostInfoTabViewState
   Widget build(BuildContext context) {
     debugPrint('WirelessHostInfoTabView Rebuilt');
 
-    //TODO: connection for wirelessHost
-
     final selectedDeviceId = ref.watch(
       simScreenProvider.select((s) => s.selectedDeviceOnInfo),
     );
