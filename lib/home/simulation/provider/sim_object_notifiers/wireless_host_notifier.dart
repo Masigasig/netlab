@@ -26,6 +26,9 @@ final wirelessHostWidgetsProvider =
 class WirelessHostNotifier extends DeviceNotifier<WirelessHost> {
   final String arg;
 
+  Duration get _arpTimeout =>
+      Duration(seconds: ref.read(simScreenProvider).arpReqTimeout.toInt());
+
   WirelessHostNotifier(this.arg);
 
   @override
@@ -43,17 +46,6 @@ class WirelessHostNotifier extends DeviceNotifier<WirelessHost> {
   }
 
   @override
-  List<Map<String, String>> getAllConnectionInfo() {
-    //* This method wont be called
-    return [];
-  }
-
-  @override
-  void receiveMessage(String messageId, String fromConId) {
-    // TODO: implement receiveMessage
-  }
-
-  @override
   void removeSelf() {
     removeIpFromManager(state.ipAddress);
     removeMacFromManager(state.macAddress);
@@ -67,6 +59,17 @@ class WirelessHostNotifier extends DeviceNotifier<WirelessHost> {
     }
 
     ref.read(wirelessHostMapProvider.notifier).removeAllState(state.id);
+  }
+
+  @override
+  List<Map<String, String>> getAllConnectionInfo() {
+    //* This method wont be called
+    return [];
+  }
+
+  @override
+  void receiveMessage(String messageId, String fromWirelessConId) {
+    // TODO: implement receiveMessage
   }
 
   void updateIpAddress(String ipAddress) {
