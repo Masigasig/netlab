@@ -38,9 +38,15 @@ abstract class DeviceNotifier<T extends Device> extends SimObjectNotifier<T> {
       return;
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      connectionNotifier(connectionId).receiveMessage(messageId, fromId);
-    });
+    if (connectionId.startsWith(SimObjectType.connection.label)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        connectionNotifier(connectionId).receiveMessage(messageId, fromId);
+      });
+    } else if (connectionId.startsWith(SimObjectType.wirelessCon.label)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        wirelessConNotifier(connectionId).receiveMessage(messageId, fromId);
+      });
+    }
   }
 
   void removeIpFromManager(String ipAddress) =>

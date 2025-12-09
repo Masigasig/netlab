@@ -29,6 +29,8 @@ class MessageNotifier extends SimObjectNotifier<Message> {
   void removeSelf() {
     if (state.srcId.startsWith(SimObjectType.host.label)) {
       hostNotifier(state.srcId).removeMessage(state.id);
+    } else if (state.srcId.startsWith(SimObjectType.wirelessHost.label)) {
+      wirelessHostNotifier(state.srcId).removeMessage(state.id);
     }
 
     ref.read(messageMapProvider.notifier).removeAllState(state.id);

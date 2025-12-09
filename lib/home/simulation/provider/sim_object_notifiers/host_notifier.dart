@@ -554,7 +554,7 @@ class HostNotifier extends DeviceNotifier<Host> {
 
     if (targetIp == state.ipAddress) {
       addSystemSuccessLog(
-        'Message "${messageNotifier(messageId).state.name}" successfully arrive at host ${state.name}',
+        'Message "${messageNotifier(messageId).state.name}" successfully arrive at host "${state.name}"',
       );
 
       addSuccessLog(
