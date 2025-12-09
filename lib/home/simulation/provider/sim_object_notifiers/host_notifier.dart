@@ -185,7 +185,7 @@ class HostNotifier extends DeviceNotifier<Host> {
   String _getMacFromArpTable(String ipAddress) =>
       state.arpTable[ipAddress] ?? '';
 
-  void _stopMessgageProcessing() {
+  void _stopMessageProcessing() {
     _isProcessingMessages = false;
     _messageProcessingTimer?.cancel();
     _messageProcessingTimer = null;
@@ -213,7 +213,7 @@ class HostNotifier extends DeviceNotifier<Host> {
 
   void _processNextMessage() {
     if (!_isProcessingMessages || state.messageIds.isEmpty) {
-      _stopMessgageProcessing();
+      _stopMessageProcessing();
       return;
     }
 

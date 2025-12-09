@@ -179,7 +179,13 @@ class WirelessHostNotifier extends DeviceNotifier<WirelessHost> {
   }
 
   void startMessageProcessing() {
-    //*TODO: message Processing
+    if (_isProcessingMessages) return;
+    _isProcessingMessages = true;
+    addSystemInfoLog(
+      'Wireless host "${state.name}" started processing message',
+    );
+    addInfoLog(state.id, 'Started processing message');
+    _processNextMessage();
   }
 
   void _updateArpTable(String ipAddress, String macAddress) {
@@ -188,6 +194,266 @@ class WirelessHostNotifier extends DeviceNotifier<WirelessHost> {
     state = state.copyWith(arpTable: newArpTable);
 
     addInfoLog(state.id, 'Update ARP table $ipAddress -> $macAddress');
+  }
+
+  String _dequeueMessage() {
+    if (state.messageIds.isEmpty) return '';
+    final messageIds = List<String>.from(state.messageIds);
+    final messageId = messageIds.removeAt(0);
+    state = state.copyWith(messageIds: messageIds);
+    return messageId;
+  }
+
+  String _getMacFromArpTable(String ipAddress) =>
+      state.arpTable[ipAddress] ?? '';
+
+  void _stopMessageProcessing() {
+    _isProcessingMessages = false;
+    _messageProcessingTimer?.cancel();
+    _messageProcessingTimer = null;
+    addSystemInfoLog(
+      'Wireless host "${state.name}" stopped processing message',
+    );
+    addInfoLog(state.id, 'Stopped processing message');
+  }
+
+  void _scheduleNextProcessing() {
+    _messageProcessingTimer?.cancel();
+    if (!_isProcessingMessages) return;
+    _messageProcessingTimer = Timer(
+      DeviceNotifier.processingInterval,
+      _processNextMessage,
+    );
+
+    addInfoLog(state.id, 'Processing next message');
+  }
+
+  bool _isArpTimedOut(String targetIp) {
+    final requestTime = ref.read(
+      wirelessHostPendingArpReqProvider(state.id),
+    )[targetIp];
+    if (requestTime == null) return false;
+    final currentTime = ref.read(simClockProvider);
+    return currentTime - requestTime > _arpTimeout;
+  }
+
+  void _processNextMessage() {
+    if (!_isProcessingMessages || state.messageIds.isEmpty) {
+      _stopMessageProcessing();
+      return;
+    }
+
+    final messageId = _dequeueMessage();
+    if (messageId.isEmpty) {
+      _scheduleNextProcessing();
+      return;
+    }
+
+    if (state.ipAddress.isEmpty) {
+      addSystemErrorLog(
+        'Wireless host "${state.name}" drop "${messageNotifier(messageId).state.name}", reason: Wireless host "${state.name}" has no Ipv4 Address',
+      );
+
+      addErrorLog(
+        messageId,
+        'Dropped, reason: Wireless host "${state.name}" has no Ipv4 address',
+      );
+
+      addErrorLog(
+        state.id,
+        'Drop message "${messageNotifier(messageId).state.name}" reason: no Ipv4 address',
+      );
+
+      messageNotifier(messageId).dropMessage();
+
+      _scheduleNextProcessing();
+      return;
+    }
+
+    final targetIp = messageNotifier(messageId).getTargetIp();
+
+    if (targetIp.isEmpty) {
+      addSystemErrorLog(
+        'Wireless host "${state.name}" drop "${messageNotifier(messageId).state.name}", reason: Receiver has no Ipv4 address',
+      );
+
+      addErrorLog(messageId, 'Dropped, reason: Receiver has no Ipv4 address');
+
+      addErrorLog(
+        state.id,
+        'Drop message "${messageNotifier(messageId).state.name}" reason: Receiver has no Ipv4 address',
+      );
+
+      messageNotifier(messageId).dropMessage();
+
+      _scheduleNextProcessing();
+      return;
+    }
+
+    final isTargetInDifferentNetwork = !Ipv4AddressManager.isInSameNetwork(
+      state.ipAddress,
+      state.subnetMask,
+      targetIp,
+    );
+
+    final lookupIp = isTargetInDifferentNetwork
+        ? state.defaultGateway
+        : targetIp;
+
+    if (lookupIp.isEmpty) {
+      addSystemErrorLog(
+        'Wireless host "${state.name}" drop "${messageNotifier(messageId).state.name}", reason: Wireless host "${state.name}" has no Default Gateway',
+      );
+
+      addErrorLog(
+        messageId,
+        'Dropped, reason: Wireless host "${state.name}" has no Default Gateway',
+      );
+
+      addErrorLog(
+        state.id,
+        'Drop message "${messageNotifier(messageId).state.name}" reason: no Default Gateway',
+      );
+
+      messageNotifier(messageId).dropMessage();
+
+      _scheduleNextProcessing();
+      return;
+    }
+
+    if (ref
+        .read(wirelessHostPendingArpReqProvider(state.id))
+        .containsKey(lookupIp)) {
+      if (_isArpTimedOut(lookupIp)) {
+        ref
+            .read(wirelessHostPendingArpReqProvider(state.id).notifier)
+            .removePendingRequest(lookupIp);
+
+        addSystemErrorLog(
+          'Message "${messageNotifier(messageId).state.name}" dropped at wireless host "${state.name}", reason: ARP Req TimeOut',
+        );
+
+        addErrorLog(messageId, 'Dropped, reason: ARP Req TimeOut');
+
+        addErrorLog(
+          state.id,
+          'Dropped message "${messageNotifier(messageId)}, reason: ARP Req TimeOut',
+        );
+
+        messageNotifier(messageId).dropMessage();
+      } else {
+        enqueueMessage(messageId);
+      }
+      _scheduleNextProcessing();
+      return;
+    }
+
+    final targetMac = _getMacFromArpTable(lookupIp);
+
+    if (targetMac.isEmpty) {
+      ref
+          .read(wirelessHostPendingArpReqProvider(state.id).notifier)
+          .addPendingRequest(lookupIp, ref.read(simClockProvider));
+
+      if (state.wirelessConId.isEmpty) {
+        //* message will be dropped because no connection for arpRqst
+        sendMessageToConnection(state.wirelessConId, messageId, state.id);
+        return;
+      }
+      _sendArpRqst(lookupIp);
+      enqueueMessage(messageId);
+    } else {
+      _makeNetworkLayer(messageId);
+
+      _makeIpv4DataLinkLayer(messageId, targetMac);
+
+      addSystemInfoLog(
+        'Wireless host "${state.name}" send message "${messageNotifier(messageId).state.name}"',
+      );
+
+      addInfoLog(
+        state.id,
+        'Message "${messageNotifier(messageId).state.name}" sent to ${wirelessConNotifier(state.wirelessConId).state.name}',
+      );
+
+      sendMessageToConnection(state.wirelessConId, messageId, state.id);
+    }
+
+    _scheduleNextProcessing();
+  }
+
+  void _makeNetworkLayer(String messageId) {
+    final networkLayer = {
+      MessageKey.senderIp.name: state.ipAddress,
+      MessageKey.targetIp.name: messageNotifier(messageId).getTargetIp(),
+    };
+
+    messageNotifier(messageId).pushLayer(networkLayer);
+
+    addInfoLog(messageId, 'Network Layer Add to the Stack');
+  }
+
+  void _makeIpv4DataLinkLayer(String messageId, String targetMac) {
+    final dataLinkLayer = {
+      MessageKey.source.name: state.macAddress,
+      MessageKey.destination.name: targetMac,
+      MessageKey.type.name: DataLinkLayerType.ipv4.name,
+    };
+
+    messageNotifier(messageId).pushLayer(dataLinkLayer);
+
+    addInfoLog(messageId, 'Data Link Layer Add to the Stack');
+  }
+
+  void _sendArpRqst(String targetIp) {
+    final message =
+        SimObjectType.message.createSimObject(
+              name: 'ARP Request for $targetIp',
+              srcId: state.id,
+              dstId: 'ARP Request for $targetIp',
+            )
+            as Message;
+
+    ref.read(messageMapProvider.notifier).addSimObject(message);
+    ref
+        .read(messageWidgetsProvider.notifier)
+        .addSimObjectWidget(MessageWidget(simObjectId: message.id));
+
+    messageNotifier(message.id).updatePosition(state.posX, state.posY);
+    messageNotifier(message.id).updateCurrentPlaceId(state.id);
+
+    addInfoLog(message.id, 'Is at wireless host "${state.name}"');
+
+    final arpLayer = {
+      MessageKey.operation.name: OperationType.request.name,
+      MessageKey.senderIp.name: state.ipAddress,
+      MessageKey.targetIp.name: targetIp,
+    };
+
+    messageNotifier(message.id).pushLayer(arpLayer);
+
+    addInfoLog(message.id, 'ARP Layer add to the stack');
+
+    final dataLinkLayer = {
+      MessageKey.source.name: state.macAddress,
+      MessageKey.destination.name: MacAddressManager.broadcastMacAddress,
+      MessageKey.type.name: DataLinkLayerType.arp.name,
+    };
+
+    messageNotifier(message.id).pushLayer(dataLinkLayer);
+
+    addInfoLog(message.id, 'Data Link Layer add to the stack');
+
+    addSystemInfoLog(
+      'Wireless host "${state.name}" send "ARP Request for $targetIp"',
+    );
+
+    addInfoLog(
+      state.id,
+      '"ARP Request for $targetIp" sent to ${wirelessConNotifier(state.wirelessConId).state.name}',
+    );
+
+    sendMessageToConnection(state.wirelessConId, message.id, state.id);
   }
 
   void _sendArpReply(String targetMac, String targetIp) {
