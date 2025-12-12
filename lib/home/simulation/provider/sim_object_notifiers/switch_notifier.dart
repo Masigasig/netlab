@@ -173,7 +173,7 @@ class SwitchNotifier extends DeviceNotifier<Switch> {
   void _stopMessageProcessing() {
     _isProcessingMessages = false;
     _messageProcessingTimer?.cancel();
-    addSystemInfoLog('Switch "${state.name} stopped processing message');
+    addSystemInfoLog('Switch "${state.name}" stopped processing message');
     addInfoLog(state.id, 'Stopped processing message');
   }
 

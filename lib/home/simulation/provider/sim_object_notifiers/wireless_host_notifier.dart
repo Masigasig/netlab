@@ -582,7 +582,7 @@ class WirelessHostNotifier extends DeviceNotifier<WirelessHost> {
 
     _updateArpTable(
       networkLayer[MessageKey.senderIp.name]!,
-      dataLinkLayer[MessageKey.targetIp.name]!,
+      dataLinkLayer[MessageKey.source.name]!,
     );
 
     final targetIp = networkLayer[MessageKey.targetIp.name];

@@ -42,6 +42,7 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     final hostsIds = <String>{};
     for (final messageId in messageIds) {
       final message = ref.read(messageProvider(messageId));
+
       if (message.srcId.startsWith(SimObjectType.host.label)) {
         final host = ref.read(hostProvider(message.srcId));
         ref
@@ -105,9 +106,12 @@ class SimScreenNotifier extends Notifier<SimScreen> {
     ref.read(simClockProvider.notifier).reset();
 
     ref.invalidate(connectionWidgetsProvider);
+    ref.invalidate(wirelessConWidgetsProvider);
     ref.invalidate(messageWidgetsProvider);
     ref.invalidate(hostWidgetsProvider);
+    ref.invalidate(wirelessHostWidgetsProvider);
     ref.invalidate(switchWidgetsProvider);
+    ref.invalidate(accessPointWidgetsProvider);
     ref.invalidate(routerWidgetsProvider);
 
     state = state.copyWith(
@@ -122,15 +126,21 @@ class SimScreenNotifier extends Notifier<SimScreen> {
       MacAddressManager.clearStorage();
 
       ref.invalidate(connectionProvider);
+      ref.invalidate(wirelessConProvider);
       ref.invalidate(messageProvider);
       ref.invalidate(hostProvider);
+      ref.invalidate(wirelessHostProvider);
       ref.invalidate(switchProvider);
+      ref.invalidate(accessPointProvider);
       ref.invalidate(routerProvider);
 
       ref.invalidate(connectionMapProvider);
+      ref.invalidate(wirelessConMapProvider);
       ref.invalidate(messageMapProvider);
       ref.invalidate(hostMapProvider);
+      ref.invalidate(wirelessHostMapProvider);
       ref.invalidate(switchMapProvider);
+      ref.invalidate(accessPointMapProvider);
       ref.invalidate(routerMapProvider);
 
       importSimulation(_tempMap);

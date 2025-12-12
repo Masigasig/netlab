@@ -3,6 +3,7 @@ part of 'sim_object.dart';
 class AccessPoint extends Device {
   final String port0conId;
   final Map<String, String> wirelessConIdToDeviceIdMap;
+  final Map<String, String> macToConId;
 
   AccessPoint({
     required super.id,
@@ -11,6 +12,7 @@ class AccessPoint extends Device {
     required super.posY,
     this.port0conId = '',
     this.wirelessConIdToDeviceIdMap = const {},
+    this.macToConId = const {},
   }) : super(type: SimObjectType.accessPoint);
 
   @override
@@ -20,6 +22,7 @@ class AccessPoint extends Device {
     double? posY,
     String? port0conId,
     Map<String, String>? wirelessConIdToDeviceIdMap,
+    Map<String, String>? macToConId,
   }) {
     return AccessPoint(
       id: id,
@@ -29,6 +32,7 @@ class AccessPoint extends Device {
       port0conId: port0conId ?? this.port0conId,
       wirelessConIdToDeviceIdMap:
           wirelessConIdToDeviceIdMap ?? this.wirelessConIdToDeviceIdMap,
+      macToConId: macToConId ?? this.macToConId,
     );
   }
 

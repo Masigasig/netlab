@@ -59,7 +59,7 @@ class Host extends Device {
       'defaultGateway': defaultGateway,
       'macAddress': macAddress,
       'connectionId': connectionId,
-      'messagesIds': messageIds,
+      'messageIds': messageIds,
     };
   }
 
@@ -74,7 +74,7 @@ class Host extends Device {
       defaultGateway: map['defaultGateway'].toString(),
       macAddress: map['macAddress'].toString(),
       connectionId: map['connectionId'].toString(),
-      messageIds: List<String>.from(map['messagesIds']),
+      messageIds: List<String>.from(map['messageIds']),
     );
   }
 }

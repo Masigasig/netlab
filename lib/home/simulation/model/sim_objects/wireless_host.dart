@@ -59,7 +59,7 @@ class WirelessHost extends Device {
       'defaultGateway': defaultGateway,
       'macAddress': macAddress,
       'wirelessConId': wirelessConId,
-      'messagesIds': messageIds,
+      'messageIds': messageIds,
     };
   }
 
@@ -74,7 +74,7 @@ class WirelessHost extends Device {
       defaultGateway: map['defaultGateway'].toString(),
       macAddress: map['macAddress'].toString(),
       wirelessConId: map['wirelessConId'].toString(),
-      messageIds: List<String>.from(map['messagesIds']),
+      messageIds: List<String>.from(map['messageIds']),
     );
   }
 }

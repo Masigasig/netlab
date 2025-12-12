@@ -100,6 +100,10 @@ class WirelessConNotifier extends SimObjectNotifier<WirelessCon> {
         sendMessage(messageId);
       }
     });
+
+    messageNotifier(
+      messageId,
+    ).updatePosition(deviceTo.posX, deviceTo.posY, duration: duration);
   }
 
   void sendMessage(String messageId) {
