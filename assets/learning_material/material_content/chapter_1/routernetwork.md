@@ -1,16 +1,41 @@
 # Router Network Connections
 
-### Router Network Connections
+### How Routers Connect Multiple Networks
 
-A router is designed to connect two or more separate networks together.
-To do this, it must have a unique identity on each network it participates in.
-Just like a host, a router uses both an IP address and a MAC address to communicate.
+A **router** is designed to connect **two or more separate networks and enable communication between them**. To perform this role, a router must be able to **participate in each connected network** as a unique and identifiable device..
 
-However, because a router acts as a bridge between different networks, it cannot share the same address across all of them.
-Instead, the router must have one IP address and one MAC address for every network interface it is connected to.
+### Router Interfaces
 
-This is why a router is often described as having “multiple interfaces” or “multiple faces” — one for each network it is attached to.
-Each interface serves as the router’s unique identity within that specific network, allowing it to transfer data between otherwise separate systems.
+* A router uses **network interfaces** to connect to different networks.
 
-> Each router interface must have its own IP and MAC address.
-This is what allows the router to act as a link between different networks.
+* Each interface represents a **separate connection** to a network.
+
+* A router can have **multiple interfaces**, which is why it is often described as having **“multiple faces.”**
+
+### Addressing on Router Interfaces
+
+Just like a host, a router uses both:
+
+* an **IP address (Layer 3)**, and
+
+* a **MAC address (Layer 2)**
+
+However, unlike a host that belongs to only one network, a **router cannot use the same addresses on all networks.**
+
+**Important rules:**
+
+* **Each router interface must have its own unique IP address.**
+
+* **Each router interface must also have its own unique MAC address.**
+
+* These addresses identify the router **within that specific network only**.
+
+> This per-interface addressing is what allows the router to act as a bridge between otherwise separate networks.
+
+### LAN and WAN Interfaces
+
+* **LAN interfaces** connect the router to **local networks** (such as switches and end devices).
+
+* **WAN interfaces** connect the router to **external networks**, such as the Internet or other remote networks.
+
+* Interfaces can be **physical** (Ethernet, fiber, serial) **or logical** (VLANs, loopbacks).

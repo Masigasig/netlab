@@ -1,16 +1,39 @@
 # Switch Frame Types
 
-### Frame Types
+### How Switches Handle Different Frame Types
 
-A switch sends the frame to all ports if it does not know where the destination MAC Address is.
-That frame is called a **Unicast Frame** when it is meant for one device.
+Switches forward **Ethernet frames** based on the** destination MAC address**.
+Depending on how that destination is defined (or whether it is known), frames are classified into unicast or broadcast types.
 
-#### Unicast Frame
-One-to-one communication. Flooding happens only until the switch learns where the device is.
-Once the destination MAC is known (in the MAC table), the switch forwards directly to that port.
+### Unicast Frame
 
-#### Broadcast Frame
-One-to-all communication. The switch always floods the frame to all ports, regardless of its MAC Address Table.
+A **unicast frame** is a **one-to-one communication** intended for a single destination device.
 
-> When a host sends an “ARP Request”, it uses a Broadcast Frame.
-The destination MAC address is set to all F’s (FF:FF:FF:FF:FF:FF), a reserved address meaning the frame must be delivered to every host in the local network.
+**How a switch handles unicast frames:**
+
+* If the destination MAC address exists in the MAC Address Table, the switch forwards the frame only to the correct port.
+
+* If the destination MAC address is unknown, the switch floods the frame to all ports except the incoming port.
+
+* Once the destination responds, the switch learns the MAC address and updates its MAC table.
+
+> Flooding of unicast frames happens only when the destination MAC is unknown.
+
+### Broadcast Frame
+
+A **broadcast frame** is a one-to-all communication intended for **every device in the local network.**
+
+**Key characteristics:**
+
+* The switch **always floods** broadcast frames to all ports (except the source port).
+
+* The destination MAC address is **FF:FF:FF:FF:FF:FF**, a reserved broadcast address.
+
+* Broadcast frames are never filtered using the MAC Address Table.
+
+**Common example:**
+
+* **ARP Request** — used when a host needs to discover the MAC address associated with a known IP address.
+
+> **Key takeaway:**
+> Switches flood frames only when necessary — either when the destination MAC > is unknown (unicast flooding) or when the frame is explicitly a broadcast.

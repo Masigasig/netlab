@@ -1,20 +1,52 @@
 # Switch Operations
 
-### Switch Operations (Learn, Flood, Forward)
+### How a Switch Learns and Forwards Frames
 
-To occupy the MAC Address Table, the switch performs three key operations: Learn, Flood, and Forward.
+A switch builds and uses its **MAC Address Table** by performing three fundamental operations:
+**Learn, Flood, and Forward.**
+These steps allow the switch to deliver frames efficiently within a local network.
 
-#### Learn
-When the switch receives a frame (Layer 2 packet), it looks at the source MAC Address.
-It records the MAC address and the port it came from. This way, it builds its MAC Address Table.
+### Learn
 
-#### Flood
-If the switch does not know the destination MAC address, it sends the frame to all ports (except the incoming port).
-This ensures the correct destination receives it. Other devices also see it but ignore it if it is not for them.
+When a switch receives an Ethernet frame, it examines the source MAC address.
 
-#### Forward
-If the switch already knows the destination MAC’s port (from its table), it sends the frame directly to that port only.
-This makes communication efficient, private, and fast.
+**What the switch does:**
 
-> Even when a host sends data to a router instead of another host, the switch still uses the same process — Learn, Flood, and Forward.
-The router is simply another device with its own MAC address.
+* Records the source **MAC address**
+
+* Associates it with the incoming port
+
+* Stores this information in the **MAC Address Table**
+
+This process happens automatically and continuously as traffic flows through the switch.
+
+> The switch learns **only from the source MAC**, never from the destination MAC.
+
+### Flood
+
+If the destination MAC address is **not found** in the MAC Address Table, the switch cannot determine where to send the frame.
+
+**What the switch does:**
+
+* Sends (floods) the frame to all ports except the port it arrived on
+
+* The correct device processes the frame
+
+* All other devices receive the frame but **discard it**
+
+> Flooding ensures that unknown devices can still be reached and discovered.
+
+### Forward
+
+If the destination **MAC address exists in the MAC Address Table**, the switch knows exactly where the frame should go.
+
+**What the switch does:**
+
+* Forwards the frame only to the specific port linked to that MAC address
+
+* Does not send the frame to any other ports
+
+This makes **communication faster, more efficient, and more secure.**
+
+> **Key takeaway:**
+Switches do not “understand” IP addresses — they simply learn MAC addresses and use them to move frames correctly within the network.

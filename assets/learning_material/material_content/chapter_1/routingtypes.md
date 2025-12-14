@@ -1,25 +1,43 @@
 # Routing Types
 
-### Route Types and Creation
+### How Routes Are Created and Maintained
 
-Routers do not magically know about every network in existence.
-Instead, their routing tables are filled using three main methods: directly connected routes, static routes, and dynamic routes.
-Each method serves a different purpose, and together they allow routers to build a complete picture of how to reach different networks.
+Routers do not automatically know every possible network. Instead, their **routing tables** are built using different types of routes, each serving a specific purpose. The two main routing types you will encounter are static routing and dynamic routing.
 
-#### Directly Connected Route
-This is automatically created whenever a router is physically connected to a network.
-If a router has an interface plugged into a network and is assigned an IP address in that network’s address space,
-the router immediately knows that network exists and adds an entry for it in the routing table.
+> Directly connected routes exist automatically, while static and dynamic routes define how routers reach remote networks.
 
-#### Static Route
-A static route is created when a network administrator manually tells the router how to reach a particular network.
-This is like leaving written instructions in the router’s map: “If you want to reach Network X, send the packet to Router Y.
-Static routes are useful in smaller networks with simple, stable connections.
-However, they require manual setup and maintenance. If the network changes, the administrator must update or remove the static routes to avoid sending packets into a dead end.
+### Directly Connected Route
 
-#### Dynamic Route
-Dynamic routes are created when routers automatically exchange information about the networks they know.
-Instead of requiring a person to configure them, the routers essentially “talk” to each other and share their maps of the network.
-This makes dynamic routing highly scalable for large or constantly changing networks, such as the internet.
+* A **directly connected route** is created automatically when a router interface is connected to a network and assigned an IP address.
 
-> Static routes are simple and reliable for small networks, while dynamic routes scale better for larger, changing networks.
+* The router immediately knows the network exists because it is **physically and logically** connected to it.
+
+* No manual configuration or routing protocol is required.
+
+### Static Route
+
+**Static routing** uses routes that are manually configured by a network administrator.
+
+**Key characteristics:**
+
+* Routes remain **fixed** until they are changed or removed manually.
+
+* Simple and predictable.
+
+* Best suited for small, stable networks where the topology rarely changes.
+
+**Limitation:**
+
+* If the network changes, static routes do not update automatically, and incorrect routes can cause packet loss.
+
+### Dynamic Route
+
+**Dynamic routing** allows routers to automatically learn and update routes by exchanging information with other routers using routing protocols.
+
+**Key characteristics:**
+
+* Routes adjust automatically when network topology changes.
+
+* Ideal for large or frequently changing networks.
+
+* Requires more CPU, memory, and bandwidth than static routing.

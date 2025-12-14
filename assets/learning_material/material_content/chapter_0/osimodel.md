@@ -1,19 +1,53 @@
 # OSI Model
 
-### A conceptual framework of how data moves across a network
+### A Conceptual Framework for How Data Moves Across a Network
 
-The OSI Model is a conceptual framework that explains how computers and devices communicate over a network. 
-It is mainly used as a teaching and troubleshooting tool.
-In real-world networking, the TCP/IP Model is used for implementation, but OSI is still useful for understanding the concepts.
+The **OSI Model** (Open System Interconnection) is a **conceptual framework** that explains how devices communicate over a network. It is mainly used for **teaching and troubleshooting**, helping us understand how data travels from one device to another.
 
-* Layer 1: Physical – Transmits raw bits (1s and 0s) as electrical signals, light, or radio waves using cables, fiber optics, or Wi-Fi. Devices: repeaters, hubs.
+> Note: In practice, the **TCP/IP model** is used for real-world networking, but the OSI model is still useful for learning and troubleshooting network concepts.
 
-* Layer 2: Data Link – Organizes bits into frames, adds MAC addresses, checks for errors, ensures devices on the same local network can communicate.
+### The Seven Layers of the OSI Model
 
-* Layer 3: Network – Uses IP addresses to identify devices and routes packets across multiple networks.
+**1. Physical Layer (Layer 1)**
 
-* Layer 4: Transport – Ensures correct service-to-service delivery using ports. TCP provides reliability, UDP provides efficiency.
+* Transmits raw bits (1s and 0s) as electrical signals, light, or radio waves.
 
-* Layers 5–7: Application – Session, Presentation, and Application layers. Today these are usually combined into a single Application layer that handles user-facing apps, data formatting, and connections.
+* Example: sending data over **cables, fiber optics, or Wi-Fi**
 
-> The OSI Model is not implemented directly, but it provides a structured way to understand and troubleshoot network communication.
+**2. Data Link Layer (Layer 2)**
+
+* Organizes bits into frames, adds **MAC addresses**, and checks for errors.
+
+* Ensures devices on the **same local network** can communicate.
+
+**3. Network Layer (Layer 3)**
+
+* Uses IP addresses to identify devices and route packets across networks.
+
+**4. Transport Layer (Layer 4)**
+
+* Ensures data is **delivered accurately from service to service using ports**.
+
+* TCP provides reliability, UDP provides efficiency.
+
+**5. Session Layer (Layer 5)**
+
+* **Manages connections between applications**, establishing, maintaining, and terminating sessions.
+
+**6. Presentation Layer (Layer 6)**
+
+* Handles **data formatting, encryption, and compression** so that data is readable by the receiving system.
+
+**7. Application Layer (Layer 7)**
+
+* The **user-facing layer**, where applications like web browsers, email clients, and file transfer programs operate.
+
+> Today, the **Session, Presentation, and Application layers** are often combined into a single **Application layer**, but understanding them separately helps when troubleshooting network issues.
+
+### Key Points
+
+* OSI is a **reference model**, not implemented directly.
+
+* It provides a **structured way to understand and troubleshoot network communication**.
+
+* Layers are ordered **from top to bottom**: Application, Presentation, Session, Transport, Network, Data Link, Physical.

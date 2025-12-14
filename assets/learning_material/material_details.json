@@ -42,15 +42,15 @@
                         "explanation": "The original idea behind networking was to allow one computer to share data with another."
                     },
                     "question_3": {
-                        "question": "What device is commonly used to connect multiple computers within the same network?",
+                        "question": "How did computer networking begin?",
                         "answers": [
-                            "Monitor",
-                            "Switch",
-                            "Keyboard",
-                            "FlashDrive"
+                            "With wireless internet",
+                            "With large data centers",
+                            "With two computers sharing data",
+                            "With cloud storage"
                         ],
-                        "correct_answer": "Switch",
-                        "explanation": "A switch connects multiple devices in a local area network (LAN) to enable communication."
+                        "correct_answer": "With two computers sharing data",
+                        "explanation": "Networking started with simple data sharing."
                     }
                 }
             },
@@ -157,15 +157,15 @@
                         "explanation": "A router is a networking device that forwards data packets between networks, making it a core network device."
                     },
                     "question_2": {
-                        "question": "What is the main function of a network switch?",
+                        "question": "What defines a network?",
                         "answers": [
-                            "To convert analog signals to digital",
-                            "To connect devices within the same local area network",
-                            "To provide wireless connectivity",
-                            "To assign IP addresses automatically"
+                            "Any group of devices with the same brand",
+                            "A collection of hosts that can communicate with each other",
+                            "Devices that share the same physical location",
+                            "Devices connected only to the Internet"
                         ],
-                        "correct_answer": "To connect devices within the same local area network",
-                        "explanation": "A switch connects multiple devices within a LAN and forwards data to the correct destination device."
+                        "correct_answer": "A collection of hosts that can communicate with each other",
+                        "explanation": "Networks are defined by communication between hosts."
                     }
                 }
             },
@@ -359,26 +359,37 @@
                         "explanation": "Switches operate at the Data Link layer (Layer 2) and use the destination MAC address to determine the correct output port for the frame."
                     },
                     "question_2": {
-                        "question": "What happens when a switch receives a broadcast frame?",
+                        "question": "What is the purpose of the Learn operation in a switch?",
                         "answers": [
-                            "It drops the frame immediately",
-                            "It sends the frame to the router only",
-                            "It forwards the frame to all ports except the one it was received on",
-                            "It only sends it to one random port"
+                            "To send frames to all ports",
+                            "To record source MAC addresses and their incoming ports",
+                            "To encrypt network traffic",
+                            "To forward frames directly to the destination"
                         ],
-                        "correct_answer": "It forwards the frame to all ports except the one it was received on",
-                        "explanation": "Broadcast frames are sent to all ports except the incoming one, allowing all devices in the broadcast domain to receive it."
+                        "correct_answer": "To record source MAC addresses and their incoming ports",
+                        "explanation": "Learn builds the MAC Address Table by recording source addresses."
                     },
                     "question_3": {
-                        "question": "What does a switch do before forwarding a frame to its destination?",
+                        "question": "What is the main benefit of the Forward operation?",
                         "answers": [
-                            "It checks for an entry in its MAC address table",
-                            "It assigns a new MAC address to the frame",
-                            "It converts the frame to a packet",
-                            "It sends the frame to the router for processing"
+                            "It reduces unnecessary traffic by sending frames only to the correct port",
+                            "It encrypts all network frames",
+                            "It broadcasts frames to all devices",
+                            "It updates the router’s IP address"
                         ],
-                        "correct_answer": "It checks for an entry in its MAC address table",
-                        "explanation": "Before forwarding, the switch checks its MAC address table to determine the correct port to send the frame through."
+                        "correct_answer": "It reduces unnecessary traffic by sending frames only to the correct port",
+                        "explanation": "Forwarding ensures efficient, private communication."
+                    },
+                    "question_4": {
+                        "question": "If a switch receives a frame destined for a known MAC address, which sequence of operations occurs?",
+                        "answers": [
+                            "Flood → Learn → Forward",
+                            "Learn → Forward",
+                            "Forward → Flood",
+                            "Learn → Flood"
+                        ],
+                        "correct_answer": "Learn → Forward",
+                        "explanation": "The switch first learns the source MAC, then forwards directly if the destination is known."
                     }
                 }
             },
@@ -448,17 +459,6 @@
                         "explanation": "Routers use IP addresses to determine the next hop in the path toward the destination network."
                     },
                     "question_3": {
-                        "question": "What is the term for the path that a packet takes from the source to the destination across multiple networks?",
-                        "answers": [
-                            "Transmission route",
-                            "Routing path",
-                            "Network link",
-                            "Frame circuit"
-                        ],
-                        "correct_answer": "Routing path",
-                        "explanation": "The routing path refers to the specific route a packet follows across interconnected networks to reach its destination."
-                    },
-                    "question_4": {
                         "question": "True or False: Routers forward frames based on MAC addresses.",
                         "answers": [
                             "True",
@@ -467,18 +467,7 @@
                         "correct_answer": "False",
                         "explanation": "False — switches use MAC addresses, while routers make forwarding decisions using IP addresses at Layer 3."
                     },
-                    "question_5": {
-                        "question": "What is a routing table used for?",
-                        "answers": [
-                            "To store a list of MAC addresses",
-                            "To record the physical connections between devices",
-                            "To determine the best path to a destination network",
-                            "To monitor traffic collisions in a LAN"
-                        ],
-                        "correct_answer": "To determine the best path to a destination network",
-                        "explanation": "A routing table contains information about network destinations and the paths (next hops) used to reach them."
-                    },
-                    "question_6": {
+                    "question_4": {
                         "question": "What does a router do when it receives a packet for a network it doesn’t recognize?",
                         "answers": [
                             "It floods the packet to all ports",
@@ -489,18 +478,7 @@
                         "correct_answer": "It drops the packet",
                         "explanation": "If a router has no route for a destination network, it discards the packet and may send an ICMP “Destination Unreachable” message."
                     },
-                    "question_7": {
-                        "question": "What is the “default gateway” in a network?",
-                        "answers": [
-                            "A backup router used only when the main fails",
-                            "A device that assigns IP addresses automatically",
-                            "The router interface that connects the local network to external networks",
-                            "The switch port connected to all hosts"
-                        ],
-                        "correct_answer": "The router interface that connects the local network to external networks",
-                        "explanation": "The default gateway is the router interface that forwards packets from a local network to other networks when no specific route exists."
-                    },
-                    "question_8": {
+                    "question_5": {
                         "question": "Which of the following best describes the process of routing?",
                         "answers": [
                             "Deciding how to forward data frames within a LAN",
@@ -510,17 +488,6 @@
                         ],
                         "correct_answer": "Determining the best path to a destination network",
                         "explanation": "Routing is the process of determining the optimal path for data packets to reach their destination network."
-                    },
-                    "question_9": {
-                        "question": "What happens to the source and destination MAC addresses when a packet moves through multiple routers?",
-                        "answers": [
-                            "They stay the same throughout the path",
-                            "They change at each router hop",
-                            "Only the destination MAC changes",
-                            "Only the source MAC changes"
-                        ],
-                        "correct_answer": "They change at each router hop",
-                        "explanation": "Each router replaces both the source and destination MAC addresses at every hop since MAC addresses are only relevant within each local network segment."
                     }
                 }
             },
@@ -551,17 +518,6 @@
                         "explanation": "Routers operate at the Network layer (Layer 3) of the OSI model, where IP addressing and routing decisions occur."
                     },
                     "question_2": {
-                        "question": "How does a router determine where to send data packets?",
-                        "answers": [
-                            "By checking the MAC address table",
-                            "By using its routing table to find the best path",
-                            "By broadcasting the packet to all ports",
-                            "By guessing based on previous transmissions"
-                        ],
-                        "correct_answer": "By using its routing table to find the best path",
-                        "explanation": "Routers use a routing table containing known network paths and next-hop addresses to decide the most efficient route for each packet."
-                    },
-                    "question_3": {
                         "question": "Which statement best describes a host’s role in network communication?",
                         "answers": [
                             "It directs packets between multiple networks",
@@ -572,7 +528,7 @@
                         "correct_answer": "It generates, processes, and receives data within its own network",
                         "explanation": "Hosts act as endpoints — they create and consume data. Unlike routers, hosts don’t forward packets between networks."
                     },
-                    "question_4": {
+                    "question_3": {
                         "question": "True or False: A router can act as a host if it has applications that send or receive data.",
                         "answers": [
                             "True",
@@ -628,17 +584,6 @@
                         ],
                         "correct_answer": "True",
                         "explanation": "True — routers use physical interfaces (like Ethernet or serial ports) and logical interfaces (like VLANs or loopbacks) to manage and route traffic efficiently."
-                    },
-                    "question_4": {
-                        "question": "What is a loopback interface commonly used for in routers?",
-                        "answers": [
-                            "Providing a test or management IP address",
-                            "Physically connecting to other networks",
-                            "Powering network cables",
-                            "Transmitting wireless signals"
-                        ],
-                        "correct_answer": "Providing a test or management IP address",
-                        "explanation": "Loopback interfaces are virtual interfaces used mainly for testing, management, and network stability. They are always up as long as the router is operational."
                     }
                 }
             },
@@ -746,17 +691,6 @@
                         ],
                         "correct_answer": "True",
                         "explanation": "True — static routing works best in smaller, fixed networks where routes rarely change, making it simple and reliable."
-                    },
-                    "question_4": {
-                        "question": "Which of the following is an example of a dynamic routing protocol?",
-                        "answers": [
-                            "DNS",
-                            "OSPF",
-                            "ARP",
-                            "HTTP"
-                        ],
-                        "correct_answer": "OSPF",
-                        "explanation": "OSPF (Open Shortest Path First) is a dynamic routing protocol that allows routers to share route information and automatically update paths based on network conditions."
                     }
                 }
             }
@@ -1106,28 +1040,6 @@
                         ],
                         "correct_answer": "Source and destination IP addresses",
                         "explanation": "Headers contain important information such as source and destination IP addresses to ensure proper delivery of packets."
-                    },
-                    "question_5": {
-                        "question": "Which protocol is primarily responsible for logical addressing during the data preparation process?",
-                        "answers": [
-                            "IP (Internet Protocol)",
-                            "HTTP (Hypertext Transfer Protocol)",
-                            "Ethernet",
-                            "DNS (Domain Name System)"
-                        ],
-                        "correct_answer": "IP (Internet Protocol)",
-                        "explanation": "The Internet Protocol (IP) handles logical addressing, assigning source and destination IP addresses to each packet during data preparation."
-                    },
-                    "question_6": {
-                        "question": "What ensures that large data files are properly divided before transmission?",
-                        "answers": [
-                            "Segmentation by the Transport Layer",
-                            "Encapsulation by the Network Layer",
-                            "Switch forwarding tables",
-                            "Encryption by the Application Layer"
-                        ],
-                        "correct_answer": "Segmentation by the Transport Layer",
-                        "explanation": "The Transport Layer divides large data into smaller segments, ensuring efficient transmission and correct reassembly at the destination."
                     }
                 }
             },
@@ -1189,17 +1101,6 @@
                         "explanation": "False — ARP operates between the Network (Layer 3) and Data Link (Layer 2) layers, linking IP addresses to MAC addresses."
                     },
                     "question_5": {
-                        "question": "Which of the following best describes the ARP table?",
-                        "answers": [
-                            "A database that stores IP-to-MAC address mappings",
-                            "A list of device hostnames on the network",
-                            "A routing table used for forwarding packets",
-                            "A list of connected network interfaces"
-                        ],
-                        "correct_answer": "A database that stores IP-to-MAC address mappings",
-                        "explanation": "An ARP table (or cache) stores recently learned IP-to-MAC address pairs, allowing faster communication between local hosts."
-                    },
-                    "question_6": {
                         "question": "What problem does ARP solve in host-to-host communication?",
                         "answers": [
                             "Finding the correct IP address of a website",

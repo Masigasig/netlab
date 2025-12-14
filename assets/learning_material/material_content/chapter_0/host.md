@@ -1,15 +1,26 @@
 # Host
 
-### Host
+### A Device on a Network
 
-A host is a computer or other device that connects to other hosts on a network. Clients and servers that deliver or receive data, services, and applications are referred to as hosts in the network. For example: Computers, Phones, Printers, Servers, etc.
+A host is any computer or device that connects to other devices on a network. Hosts can send, receive, or provide data, services, and applications. Common examples include computers, phones, printers, and servers.
 
 * Any device that sends or receives traffic over a network is considered a host.
-* Hosts can be one of two categories: Clients or Servers.
-* Clients initiate requests, Servers respond to requests.
-* Roles can be relative depending on the specific communication.
+
+* Hosts are often classified as:
+
+    * Clients: devices that initiate requests for data or services.
+
+    * Servers: devices that respond to client requests.
+
+* The role of a host can change depending on the communication—sometimes a host can be both a client and a server.
 
 ![Host](resource:assets/learning_material/images/chapter_0/Host.gif)
 *Example of Hosts*
 
 > Remember: every device on the network that can send or receive data is a host.
+
+### Why Host Matter in Networking:
+
+* Networks exist to connect hosts and share resources like files, printers, and internet connections.
+
+* Networking started with the simple idea of one computer sharing data with another, and now it connects millions of hosts globally.
