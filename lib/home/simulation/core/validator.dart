@@ -50,9 +50,8 @@ class Validator {
     String oldIp,
     Map<String, Map<String, String>> routingTable,
   ) {
-    if (input == null || input.trim().isEmpty) return null;
-
     Ipv4AddressManager.removeIp(oldIp);
+    if (input == null || input.trim().isEmpty) return null;
 
     if (!Ipv4AddressManager.isValidIp(input)) return 'Invalid Ipv4 Address';
     if (subnetMask.isEmpty) return 'Input subnetMask First';

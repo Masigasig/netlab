@@ -121,7 +121,6 @@ class _APMacTableTabView extends ConsumerStatefulWidget {
 }
 
 class _APMacTableTabViewState extends ConsumerState<_APMacTableTabView> {
-  //TODO: AccessPoint mac table
   final _scrollController = ScrollController();
 
   @override
@@ -136,10 +135,8 @@ class _APMacTableTabViewState extends ConsumerState<_APMacTableTabView> {
       simScreenProvider.select((s) => s.selectedDeviceOnInfo),
     );
 
-    final macTable = ref.watch(
-      accessPointProvider(
-        selectedDeviceId,
-      ).select((ap) => ap.wirelessConIdToDeviceIdMap),
+    final macToConId = ref.watch(
+      accessPointProvider(selectedDeviceId).select((ap) => ap.macToConId),
     );
 
     return Padding(
@@ -173,9 +170,9 @@ class _APMacTableTabViewState extends ConsumerState<_APMacTableTabView> {
                 ),
                 columns: const [
                   DataColumn(
-                    columnWidth: FixedColumnWidth(50),
+                    columnWidth: FixedColumnWidth(100),
                     headingRowAlignment: MainAxisAlignment.center,
-                    label: Center(child: Text("Port")),
+                    label: Center(child: Text("SSID/Port")),
                   ),
                   DataColumn(
                     columnWidth: FixedColumnWidth(100),
@@ -183,10 +180,34 @@ class _APMacTableTabViewState extends ConsumerState<_APMacTableTabView> {
                     label: Center(child: Text("MAC Address")),
                   ),
                 ],
-                rows: macTable.entries.map((entry) {
+                rows: macToConId.entries.map((entry) {
                   return DataRow(
                     cells: [
-                      DataCell(Center(child: Text(entry.value))),
+                      DataCell(
+                        Center(
+                          child: Text(
+                            entry.value.startsWith(
+                                  SimObjectType.connection.label,
+                                )
+                                ? 'port0'
+                                : ref
+                                      .read(
+                                        wirelessHostProvider(
+                                          ref
+                                              .read(
+                                                wirelessConProvider(
+                                                  entry.value,
+                                                ).notifier,
+                                              )
+                                              .getConnectedDeviceId(
+                                                entry.value,
+                                              ),
+                                        ),
+                                      )
+                                      .name,
+                          ),
+                        ),
+                      ),
                       DataCell(Center(child: Text(entry.key))),
                     ],
                   );
