@@ -68,7 +68,7 @@ class InfoPanel extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8.0,
-                    vertical: 4.0,
+                    vertical: 2.0,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,

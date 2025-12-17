@@ -160,7 +160,7 @@ class _APMacTableTabViewState extends ConsumerState<_APMacTableTabView> {
                 ),
                 dataTextStyle: const TextStyle(
                   fontSize: 10,
-                  fontWeight: FontWeight.w100,
+                  fontWeight: FontWeight.normal,
                 ),
                 border: TableBorder(
                   horizontalInside: BorderSide(

@@ -18,12 +18,6 @@ import 'package:netlab/home/simulation/widgets/log_panel.dart';
 import 'package:netlab/home/simulation/widgets/setttings_popup.dart';
 import 'package:netlab/home/simulation/widgets/sim_object_widget_stack.dart';
 
-//* TODO's:
-//* Finalization of UI
-//* Access Point
-//* Wireless Host
-//* Table Details
-
 class SimulationScreen extends ConsumerStatefulWidget {
   static const canvasSize = Size(100_000.0, 100_000.0);
   const SimulationScreen({super.key});
@@ -124,9 +118,9 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
 
           const LogPanel(),
 
-          const InfoPanel(),
-
           const DevicePanel(),
+
+          const InfoPanel(),
 
           const FloatingTimer(),
 

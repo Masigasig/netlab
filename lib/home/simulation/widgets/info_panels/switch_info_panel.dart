@@ -206,7 +206,7 @@ class _MacTableTabViewState extends ConsumerState<_MacTableTabView> {
                 ),
                 dataTextStyle: const TextStyle(
                   fontSize: 10,
-                  fontWeight: FontWeight.w100,
+                  fontWeight: FontWeight.normal,
                 ),
                 border: TableBorder(
                   horizontalInside: BorderSide(

@@ -367,7 +367,7 @@ class _RouterArpTableTabViewState
                 ),
                 dataTextStyle: const TextStyle(
                   fontSize: 10,
-                  fontWeight: FontWeight.w100,
+                  fontWeight: FontWeight.normal,
                 ),
                 border: TableBorder(
                   horizontalInside: BorderSide(
@@ -470,7 +470,7 @@ class _RoutingTableTabViewState extends ConsumerState<_RoutingTableTabView> {
                     ),
                     dataTextStyle: const TextStyle(
                       fontSize: 10,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.normal,
                     ),
                     border: TableBorder(
                       horizontalInside: BorderSide(

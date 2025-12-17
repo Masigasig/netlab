@@ -192,7 +192,7 @@ class _HostArpTableTabViewState extends ConsumerState<_HostArpTableTabView> {
                 ),
                 dataTextStyle: const TextStyle(
                   fontSize: 10,
-                  fontWeight: FontWeight.w100,
+                  fontWeight: FontWeight.normal,
                 ),
                 border: TableBorder(
                   horizontalInside: BorderSide(
