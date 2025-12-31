@@ -7,7 +7,8 @@ import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
-import 'package:netlab/settings/providers/firebase_backup_service.dart';
+import 'package:netlab/settings/widgets/load_dialog.dart';
+import 'package:netlab/settings/widgets/save_dialog.dart';
 import 'widgets/section_title.dart';
 import 'widgets/setting_card.dart';
 import 'widgets/theme_selector.dart';
@@ -120,7 +121,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const BackupDialog(isLoad: true);
+                                return const LoadDialog();
                               },
                             );
                           },
@@ -150,7 +151,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const BackupDialog(isLoad: false);
+                                return const SaveDialog();
                               },
                             );
                           },
@@ -194,7 +195,6 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                                     TextButton(
                                       onPressed: () async {
                                         Navigator.of(context).pop();
-
                                         await ref
                                             .read(
                                               questionStatusProvider.notifier,
