@@ -25,8 +25,6 @@ class SettingScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingScreenState extends ConsumerState<SettingScreen> {
-  double fontSize = 16.0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,15 +84,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                         size: 20,
                       ),
                       label: 'Font Size (in Lesson/Quiz)',
-                      child: FontSizeSelector(
-                        value: fontSize,
-                        onChanged: (value) {
-                          setState(() {
-                            fontSize = value;
-                          });
-                          // TODO: Implement font size persistence
-                        },
-                      ),
+                      child: const FontSizeSelector(),
                     ),
                   ),
                   const SizedBox(height: 32),

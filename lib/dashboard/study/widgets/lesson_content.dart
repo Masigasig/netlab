@@ -8,6 +8,7 @@ import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/quiz_screen.dart';
+import 'package:netlab/settings/providers/settings_provider.dart';
 import 'package:netlab/temp/core/components/animations.dart';
 
 class LessonContent extends ConsumerStatefulWidget {
@@ -92,6 +93,7 @@ class _LessonContentState extends ConsumerState<LessonContent>
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final fontMultiplier = ref.watch(fontMultiplierProvider);
 
     final lessonContent = ref
         .read(materialContentProvider.notifier)
@@ -135,24 +137,25 @@ class _LessonContentState extends ConsumerState<LessonContent>
                   styleSheet: MarkdownStyleSheet(
                     p: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 16,
+                      fontSize: 16 * fontMultiplier,
                       height: 1.5,
                       color: cs.onSurface,
                     ),
                     h1: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 32,
+                      fontSize: 32 * fontMultiplier,
                       fontWeight: FontWeight.bold,
                       color: cs.onSurface,
                     ),
                     h3: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 18,
+                      fontSize: 18 * fontMultiplier,
                       height: 1.5,
                       color: cs.onSurface,
                     ),
                     blockquote: TextStyle(
                       fontFamily: 'Poppins',
+                      fontSize: 16 * fontMultiplier,
                       color: cs.onSurface,
                     ),
                     blockquoteDecoration: BoxDecoration(
