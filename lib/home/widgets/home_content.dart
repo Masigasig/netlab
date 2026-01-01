@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:netlab/core/components/animations.dart';
 import '../../temp/core/constants/app_text.dart';
 import 'gradient_text.dart';
 import 'package:netlab/core/routing/go_router.dart';
-import 'package:netlab/temp/core/components/animations.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});

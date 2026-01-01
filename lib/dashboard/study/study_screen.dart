@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:netlab/core/components/animations.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/chapter_card.dart';
 import 'package:netlab/home/widgets/gradient_text.dart';
-import 'package:netlab/temp/core/components/animations.dart';
 
 class StudyScreen extends ConsumerWidget {
   const StudyScreen({super.key});

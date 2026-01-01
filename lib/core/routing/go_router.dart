@@ -11,8 +11,8 @@ import 'package:netlab/dashboard/study/widgets/lesson_content.dart';
 import 'package:netlab/tools/tool_screen.dart';
 import 'package:netlab/home/home_screen.dart';
 import 'package:netlab/home/simulation/simulation_screen.dart';
-import 'package:netlab/temp/homie/widgets/tutorial/tutorial_screen.dart'; //*TODO: remove from temp
 import 'package:netlab/settings/setting_screen.dart';
+import 'package:netlab/tutorial/tutorial_screen.dart';
 
 export 'package:go_router/go_router.dart';
 

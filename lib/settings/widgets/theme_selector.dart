@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hugeicons/hugeicons.dart';
+
 import 'package:netlab/core/provider/theme_mode_notifier.dart';
 import 'package:netlab/temp/core/constants/app_text.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class ThemeSelector extends ConsumerWidget {
   const ThemeSelector({super.key});

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:netlab/core/components/animations.dart';
 import 'package:netlab/dashboard/widgets/dashboard_sidebar.dart';
 import 'package:netlab/dashboard/widgets/question_performance_card.dart';
 import 'package:netlab/dashboard/widgets/stats_grid.dart';
-import 'package:netlab/temp/core/components/animations.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});

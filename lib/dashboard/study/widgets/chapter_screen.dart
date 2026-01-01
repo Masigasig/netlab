@@ -2,12 +2,12 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:netlab/core/components/animations.dart';
 import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/core/themes/app_colors.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
-import 'package:netlab/temp/core/components/animations.dart';
 
 class ChapterScreen extends ConsumerWidget {
   final String chapterId;

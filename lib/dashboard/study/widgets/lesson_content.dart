@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:netlab/core/components/animations.dart';
 
 import 'package:netlab/dashboard/study/provider/material_content_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
@@ -9,7 +10,6 @@ import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/quiz_screen.dart';
 import 'package:netlab/settings/providers/settings_provider.dart';
-import 'package:netlab/temp/core/components/animations.dart';
 
 class LessonContent extends ConsumerStatefulWidget {
   final String chapterId;
