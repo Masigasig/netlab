@@ -1,14 +1,14 @@
-import 'package:google_sign_in_all_platforms/google_sign_in_all_platforms.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in_all_platforms/google_sign_in_all_platforms.dart';
 
-import 'package:netlab/settings/providers/firebase_backup_service.dart';
-import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
+import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
+import 'package:netlab/settings/providers/firebase_backup_service.dart';
 
 class LoadDialog extends ConsumerStatefulWidget {
   const LoadDialog({super.key});

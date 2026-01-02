@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:netlab/core/provider/async_shared_prefs_provider.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final chapterQuizStatusProvider =
     NotifierProvider<ChapterQuizStatusNotifier, Map<String, bool>>(

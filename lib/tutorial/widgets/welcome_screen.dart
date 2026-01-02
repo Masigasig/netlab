@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:netlab/core/constants/app_text.dart';
+
 import 'package:netlab/core/components/animations.dart';
+import 'package:netlab/core/constants/app_text.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});

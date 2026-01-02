@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:netlab/core/constants/app_text.dart';
-import '../../../models/tutorial_content.dart';
+import 'package:netlab/tutorial/models/tutorial_content.dart';
 
 class TextBlock extends StatelessWidget {
   final String content;

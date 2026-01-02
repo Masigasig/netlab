@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
-import '../../models/tutorial_content.dart';
-import 'content_blocks/content_blocks.dart';
-import 'package:netlab/core/constants/app_text.dart';
+
 import 'package:netlab/core/components/animations.dart';
+import 'package:netlab/core/constants/app_text.dart';
+import 'package:netlab/tutorial/models/tutorial_content.dart';
+import 'package:netlab/tutorial/widgets/content/content_blocks/content_blocks.dart';
 
 class TutorialContentViewer extends StatefulWidget {
   final TutorialSection section;

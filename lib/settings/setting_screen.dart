@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:netlab/core/components/animations.dart';
 import 'package:netlab/core/constants/app_text.dart';
-
 import 'package:netlab/core/themes/app_colors.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
+import 'package:netlab/settings/widgets/font_size_selector.dart';
 import 'package:netlab/settings/widgets/load_dialog.dart';
 import 'package:netlab/settings/widgets/save_dialog.dart';
-import 'widgets/section_title.dart';
-import 'widgets/setting_card.dart';
-import 'widgets/theme_selector.dart';
-import 'widgets/font_size_selector.dart';
-import 'package:hugeicons/hugeicons.dart';
+import 'package:netlab/settings/widgets/section_title.dart';
+import 'package:netlab/settings/widgets/setting_card.dart';
+import 'package:netlab/settings/widgets/theme_selector.dart';
 
 class SettingScreen extends ConsumerStatefulWidget {
   const SettingScreen({super.key});

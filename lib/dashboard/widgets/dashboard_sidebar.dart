@@ -1,5 +1,5 @@
-import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:netlab/core/components/animations.dart';

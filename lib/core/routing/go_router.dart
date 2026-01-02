@@ -8,10 +8,10 @@ import 'package:netlab/dashboard/study/widgets/chapter_quiz_screen.dart';
 import 'package:netlab/dashboard/study/widgets/chapter_screen.dart';
 import 'package:netlab/dashboard/study/widgets/default_content.dart';
 import 'package:netlab/dashboard/study/widgets/lesson_content.dart';
-import 'package:netlab/tools/tool_screen.dart';
 import 'package:netlab/home/home_screen.dart';
 import 'package:netlab/home/simulation/simulation_screen.dart';
 import 'package:netlab/settings/setting_screen.dart';
+import 'package:netlab/tools/tool_screen.dart';
 import 'package:netlab/tutorial/tutorial_screen.dart';
 
 export 'package:go_router/go_router.dart';

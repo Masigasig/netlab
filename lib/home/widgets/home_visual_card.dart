@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:netlab/core/components/animations.dart';
 
 class HomeVisualCard extends StatelessWidget {

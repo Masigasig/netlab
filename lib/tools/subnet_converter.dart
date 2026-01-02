@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:netlab/core/constants/app_text.dart';
 
+import 'package:netlab/core/constants/app_text.dart';
 import 'package:netlab/core/themes/app_colors.dart';
 
 class SubnetConverter extends StatefulWidget {

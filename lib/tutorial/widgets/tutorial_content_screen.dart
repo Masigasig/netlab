@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../tutorial/models/tutorial_content.dart';
+
+import 'package:netlab/tutorial/models/tutorial_content.dart';
 
 class TutorialSidebar extends StatelessWidget {
   final List<TutorialSection> sections;

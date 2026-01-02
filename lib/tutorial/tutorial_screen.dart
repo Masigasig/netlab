@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'models/tutorial_content.dart';
-import 'services/tutorial_json_service.dart';
-import 'widgets/sidebar/tutorial_sidebar.dart';
-import 'widgets/content/tutorial_content_viewer.dart';
-import 'widgets/welcome_screen.dart';
+
+import 'package:netlab/tutorial/models/tutorial_content.dart';
+import 'package:netlab/tutorial/services/tutorial_json_service.dart';
+import 'package:netlab/tutorial/widgets/content/tutorial_content_viewer.dart';
+import 'package:netlab/tutorial/widgets/sidebar/tutorial_sidebar.dart';
+import 'package:netlab/tutorial/widgets/welcome_screen.dart';
 
 class TutorialScreen extends StatefulWidget {
   const TutorialScreen({super.key});

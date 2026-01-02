@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'widgets/home_content.dart';
-import 'widgets/home_visual_card.dart';
-import 'widgets/background_grid_pattern.dart';
+
+import 'package:netlab/home/widgets/background_grid_pattern.dart';
+import 'package:netlab/home/widgets/home_content.dart';
+import 'package:netlab/home/widgets/home_visual_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

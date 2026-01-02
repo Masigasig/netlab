@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hugeicons/hugeicons.dart';
-import '../models/tutorial_content.dart';
+
+import 'package:netlab/tutorial/models/tutorial_content.dart';
 
 class TutorialJsonService {
   static final _iconMap = <String, ({dynamic icon, bool isHuge})>{

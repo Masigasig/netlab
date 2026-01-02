@@ -41,14 +41,6 @@ class SideBar extends StatelessWidget {
             onTap: () => context.go(Routes.dashboard),
           ),
           const SizedBox(height: 16),
-          // NavItem(
-          //   icon: HugeIcons.strokeRoundedDashboardSquare03,
-          //   isActive:
-          //       currentLocation == Routes.tempDashBoard ||
-          //       currentLocation == Routes.tempStudy,
-          //   onTap: () => context.go(Routes.tempDashBoard),
-          // ),
-          // const SizedBox(height: 16),
           NavItem(
             icon: HugeIcons.strokeRoundedCalculator01,
             isActive: currentLocation == Routes.tools,
