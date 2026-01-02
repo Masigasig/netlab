@@ -7,17 +7,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:netlab/firebase_options.dart';
-import 'package:netlab/core/provider/theme_mode_notifier.dart';
 import 'package:netlab/core/provider/async_shared_prefs_provider.dart';
+import 'package:netlab/core/provider/theme_mode_notifier.dart';
 import 'package:netlab/core/routing/go_router.dart';
 import 'package:netlab/core/themes/app_theme.dart';
+import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
+import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
+import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_content_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
-import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
-import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
-import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

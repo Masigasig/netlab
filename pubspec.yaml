@@ -82,13 +82,6 @@ flutter:
   assets:
     - assets/fonts/
     - assets/images/
-    - assets/images/old_device/
-    - assets/images/content_image/
-    - assets/images/content_image/network_fundamentals/
-    - assets/images/content_image/network_devices/
-    - assets/images/content_image/host_to_host/
-    - assets/images/lottie/
-    - assets/images/lottie/onboarding_screen/
     - assets/learning_material/
     - assets/learning_material/images/chapter_0/
     - assets/learning_material/images/chapter_2/
