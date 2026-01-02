@@ -3,11 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 import 'package:netlab/core/components/animations.dart';
+import 'package:netlab/core/constants/app_text.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 import 'package:netlab/dashboard/study/widgets/quiz_screen.dart';
-
-import 'package:netlab/temp/core/constants/app_text.dart';
 
 class ChapterQuizScreen extends ConsumerStatefulWidget {
   final String chapterId;

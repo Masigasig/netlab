@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:netlab/temp/core/constants/app_text.dart';
+import 'package:netlab/core/constants/app_text.dart';
 
 class SectionTitle extends StatelessWidget {
   final String title;

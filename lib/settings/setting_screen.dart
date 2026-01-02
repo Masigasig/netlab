@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:netlab/core/components/animations.dart';
+import 'package:netlab/core/constants/app_text.dart';
 
 import 'package:netlab/core/themes/app_colors.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
@@ -14,7 +15,6 @@ import 'widgets/section_title.dart';
 import 'widgets/setting_card.dart';
 import 'widgets/theme_selector.dart';
 import 'widgets/font_size_selector.dart';
-import 'package:netlab/temp/core/constants/app_text.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class SettingScreen extends ConsumerStatefulWidget {

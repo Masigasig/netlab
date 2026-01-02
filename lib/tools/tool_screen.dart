@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:netlab/core/components/animations.dart';
+import 'package:netlab/core/constants/app_text.dart';
 import 'package:netlab/tools/ip_converter.dart';
 import 'package:netlab/tools/subnet_converter.dart';
 import 'package:netlab/tools/ip_subnet_analyzer.dart';
-import 'package:netlab/temp/core/constants/app_text.dart';
 
 class ToolScreen extends StatelessWidget {
   const ToolScreen({super.key});
