@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../temp/core/constants/app_text.dart';
+import 'package:netlab/core/constants/app_text.dart';
 
 class CustomGradientText extends StatelessWidget {
   final String text;
