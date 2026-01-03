@@ -54,10 +54,15 @@ class Ipv4AddressManager {
   }
 
   static bool isValidIp(String ip) {
-    final regex = RegExp(
-      r'^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$',
-    );
-    return regex.hasMatch(ip);
+    final parts = ip.split('.');
+    if (parts.length != 4) return false;
+    for (final part in parts) {
+      final value = int.tryParse(part);
+      if (value == null || value < 0 || value > 255) {
+        return false;
+      }
+    }
+    return true;
   }
 
   static bool isValidSubnet(String subnet) {

@@ -1,9 +1,7 @@
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:netlab/simulation/core/mac_address_manager.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:netlab/home/simulation/core/mac_address_manager.dart';
 
 void main() {
-  //* to test, make a getter for macStorage and make isValid public
-  /*
   test('generateUniqueMacAddress returns a valid and unique MAC', () {
     final mac = MacAddressManager.generateMacAddress();
 
@@ -15,14 +13,14 @@ void main() {
 
   test('remove returns true when MAC is removed', () {
     final mac = MacAddressManager.generateMacAddress();
-    final result = MacAddressManager.remove(mac);
+    final result = MacAddressManager.removeMac(mac);
 
     expect(result, isTrue);
     expect(MacAddressManager.macStorage.contains(mac), isFalse);
   });
 
   test('remove returns false when MAC does not exist', () {
-    final result = MacAddressManager.remove('AA:BB:CC:DD:EE:FF');
+    final result = MacAddressManager.removeMac('AA:BB:CC:DD:EE:FF');
     expect(result, isFalse);
   });
 
@@ -35,5 +33,4 @@ void main() {
   test('isValid returns true for correct MAC format', () {
     expect(MacAddressManager.isValid('AA:BB:CC:DD:EE:FF'), isTrue);
   });
-  */
 }

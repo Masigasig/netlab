@@ -56,7 +56,18 @@ class CustomGradientText extends StatelessWidget {
       final word = entry.value;
       final isLast = index == words.length - 1;
 
-      final cleanWord = word.replaceAll(RegExp(r'[^\w]'), '');
+      // final cleanWord = word.replaceAll(RegExp(r'[^\w]'), '');
+      final cleanWord = word
+          .split('')
+          .where(
+            (ch) =>
+                ch.codeUnitAt(0) >= 48 && ch.codeUnitAt(0) <= 57 ||
+                ch.codeUnitAt(0) >= 65 && ch.codeUnitAt(0) <= 90 ||
+                ch.codeUnitAt(0) >= 97 && ch.codeUnitAt(0) <= 122 ||
+                ch == '_',
+          )
+          .join();
+
       final isGradient = gradientWords.any(
         (gw) => gw.toLowerCase() == cleanWord.toLowerCase(),
       );
