@@ -1292,7 +1292,29 @@
                             "To convert IP addresses into MAC addresses"
                         ],
                         "correct_answer": "To divide a large network into smaller, more efficient segments",
-                        "explanation": "Subnetting breaks a large network into smaller subnets to improve performance, reduce unnecessary traffic, and enhance security. It helps network administrators manage IP addresses more efficiently and maintain better control over the network."
+                        "explanation": "Subnetting divides a large IP network into smaller subnets, making the network easier to manage, improving efficiency, and reducing unnecessary traffic."
+                    },
+                    "question_1": {
+                        "question": "Which of the following is a key benefit of subnetting?",
+                        "answers": [
+                            "It eliminates the need for routers",
+                            "It improves performance and reduces broadcast traffic",
+                            "It allows unlimited IP address usage",
+                            "It increases network congestion"
+                        ],
+                        "correct_answer": "It improves performance and reduces broadcast traffic",
+                        "explanation": "By creating smaller broadcast domains, subnetting reduces unnecessary network traffic, which leads to better performance and more efficient communication."
+                    },
+                    "question_2": {
+                        "question": "How does subnetting enhance network security?",
+                        "answers": [
+                            "By encrypting all data packets",
+                            "By isolating sections of the network",
+                            "By increasing internet speed",
+                            "By replacing firewalls"
+                        ],
+                        "correct_answer": "By isolating sections of the network",
+                        "explanation": "Subnetting separates a network into isolated segments, limiting access between them and making it easier to control, monitor, and secure network resources."
                     }
                 }
             },
@@ -1301,15 +1323,37 @@
                 "content_path": "assets/learning_material/material_content/chapter_4/attributes.md",
                 "questions": {
                     "question_0": {
-                        "question": "What does the Network ID in a subnet represent?",
+                        "question": "What does the Network ID represent in a subnet?",
                         "answers": [
-                            "The last IP address used for broadcasting",
-                            "The first usable IP address for devices",
-                            "The address that identifies the subnet itself",
-                            "The next available subnet in the network"
+                            "The last usable IP address for hosts",
+                            "The first IP address that identifies the subnet itself",
+                            "The address used to send data to all devices",
+                            "Any IP address that can be assigned to a device"
                         ],
-                        "correct_answer": "The address that identifies the subnet itself",
-                        "explanation": "The Network ID is the first address in a subnet and is used to identify that specific subnet. It cannot be assigned to any device, as it represents the entire network segment."
+                        "correct_answer": "The first IP address that identifies the subnet itself",
+                        "explanation": "The Network ID is the first address in a subnet and is used to identify the subnet. It cannot be assigned to a host device."
+                    },
+                    "question_1": {
+                        "question": "Which subnet attribute defines the size of the subnet?",
+                        "answers": [
+                            "Broadcast IP",
+                            "Network ID",
+                            "CIDR Notation & Subnet Mask",
+                            "First Host IP"
+                        ],
+                        "correct_answer": "CIDR Notation & Subnet Mask",
+                        "explanation": "CIDR notation and the subnet mask determine how many IP addresses belong to a subnet and define its overall size."
+                    },
+                    "question_2": {
+                        "question": "Which IP address is used to send data to all hosts within a subnet?",
+                        "answers": [
+                            "Network ID",
+                            "First Host IP",
+                            "Broadcast IP",
+                            "Next Network"
+                        ],
+                        "correct_answer": "Broadcast IP",
+                        "explanation": "The Broadcast IP is the last address in a subnet and is used to send data to all devices within that subnet simultaneously."
                     }
                 }
             },
@@ -1318,15 +1362,37 @@
                 "content_path": "assets/learning_material/material_content/chapter_4/cidr.md",
                 "questions": {
                     "question_0": {
-                        "question": "What does the /24 in the CIDR notation 192.168.1.0/24 represent?",
+                        "question": "What does CIDR notation represent in an IP address?",
                         "answers": [
-                            "The total number of hosts in the network",
-                            "The number of bits used for the host portion",
+                            "The total number of devices in a network",
                             "The number of bits used for the network portion",
-                            "The subnet mask in binary form"
+                            "The physical location of the network",
+                            "The speed of data transmission"
                         ],
                         "correct_answer": "The number of bits used for the network portion",
-                        "explanation": "In CIDR notation, /24 means that 24 bits are used for the network part of the IP address. This corresponds to a subnet mask of 255.255.255.0, which helps devices identify which IPs are within the same network."
+                        "explanation": "CIDR notation indicates how many bits of an IP address are allocated to the network, with the remaining bits used for host addresses."
+                    },
+                    "question_1": {
+                        "question": "Which subnet mask is equivalent to the CIDR notation /24?",
+                        "answers": [
+                            "255.255.0.0",
+                            "255.255.255.128",
+                            "255.255.255.0",
+                            "255.255.255.252"
+                        ],
+                        "correct_answer": "255.255.255.0",
+                        "explanation": "A /24 CIDR prefix means the first 24 bits are used for the network, which corresponds to the subnet mask 255.255.255.0."
+                    },
+                    "question_2": {
+                        "question": "What happens when more bits are allocated to the network portion of an IP address?",
+                        "answers": [
+                            "More host IP addresses become available",
+                            "Fewer host IP addresses become available",
+                            "The IP address becomes invalid",
+                            "Broadcast addresses are removed"
+                        ],
+                        "correct_answer": "Fewer host IP addresses become available",
+                        "explanation": "Using more bits for the network leaves fewer bits for hosts, reducing the total number of usable IP addresses in the subnet."
                     }
                 }
             },
@@ -1335,15 +1401,37 @@
                 "content_path": "assets/learning_material/material_content/chapter_4/example.md",
                 "questions": {
                     "question_0": {
-                        "question": "In the subnetting example using 142.2.0.0/25, how many usable host IP addresses does each subnet have?",
+                        "question": "What is the subnet mask for the network 192.2.0.0/25 used in the subnetting example?",
                         "answers": [
-                            "32 usable IP addresses",
+                            "255.255.255.0",
+                            "255.255.255.128",
+                            "255.255.255.192",
+                            "255.255.255.224"
+                        ],
+                        "correct_answer": "255.255.255.128",
+                        "explanation": "A /25 CIDR prefix means that 25 bits are used for the network portion, which corresponds to the subnet mask 255.255.255.128."
+                    },
+                    "question_1": {
+                        "question": "After dividing the network 192.2.0.0/25 into four subnets, how many usable host IP addresses does each subnet have?",
+                        "answers": [
+                            "16 usable IP addresses",
                             "30 usable IP addresses",
-                            "25 usable IP addresses",
-                            "20 usable IP addresses"
+                            "32 usable IP addresses",
+                            "62 usable IP addresses"
                         ],
                         "correct_answer": "30 usable IP addresses",
-                        "explanation": "Each subnet created from 142.2.0.0/25 has 32 total addresses, but 2 are reserved — one for the network ID and one for the broadcast address. This leaves 30 usable IP addresses for devices in each subnet."
+                        "explanation": "Each subnet contains 32 total IP addresses. After excluding the Network ID and Broadcast IP, 30 usable IP addresses remain for host devices."
+                    },
+                    "question_2": {
+                        "question": "You are asked to subnet the network 192.168.10.0/24 into 4 equal subnets. What is the range of the first subnet?",
+                        "answers": [
+                            "192.168.10.0 – 192.168.10.63",
+                            "192.168.10.0 – 192.168.10.31",
+                            "192.168.10.0 – 192.168.10.127",
+                            "192.168.10.0 – 192.168.10.15"
+                        ],
+                        "correct_answer": "192.168.10.0 – 192.168.10.63",
+                        "explanation": "To create 4 subnets from a /24 network, we need 2 additional bits for subnetting (since 2² = 4). This gives a new subnet mask of /26 (255.255.255.192). Each subnet has 64 addresses, so the first subnet range is 192.168.10.0 – 192.168.10.63."
                     }
                 }
             },
@@ -1352,15 +1440,37 @@
                 "content_path": "assets/learning_material/material_content/chapter_4/practice.md",
                 "questions": {
                     "question_0": {
-                        "question": "Why is consistent practice important when learning subnetting?",
+                        "question": "You are asked to subnet the network 192.168.1.0/24 into 4 equal subnets. What is the range of the first subnet?",
                         "answers": [
-                            "Because subnetting relies only on memorizing IP ranges",
-                            "Because understanding binary and performing calculations accurately requires hands-on experience",
-                            "Because subnetting changes frequently in modern networks",
-                            "Because tools automatically handle subnetting without user input"
+                            "192.168.1.0 – 192.168.1.31",
+                            "192.168.1.0 – 192.168.1.63",
+                            "192.168.1.0 – 192.168.1.127",
+                            "192.168.1.0 – 192.168.1.15"
                         ],
-                        "correct_answer": "Because understanding binary and performing calculations accurately requires hands-on experience",
-                        "explanation": "Subnetting involves calculating subnet masks, ranges, and host counts using binary concepts. Regular practice helps build accuracy and confidence in performing these calculations manually."
+                        "correct_answer": "192.168.1.0 – 192.168.1.63",
+                        "explanation": "To divide a /24 network into 4 subnets, we borrow 2 bits for subnetting (2²=4). The new subnet mask is /26 (255.255.255.192), giving 64 addresses per subnet. The first subnet range is 192.168.1.0 – 192.168.1.63."
+                    },
+                    "question_1": {
+                        "question": "Subnet the network 10.0.0.0/16 into 8 equal subnets. What is the new subnet mask?",
+                        "answers": [
+                            "255.255.248.0",
+                            "255.255.255.0",
+                            "255.255.252.0",
+                            "255.255.240.0"
+                        ],
+                        "correct_answer": "255.255.248.0",
+                        "explanation": "To create 8 subnets, we need 3 additional bits (2³=8). Borrowing 3 bits from the host portion of a /16 network gives a new subnet mask of /19, which is 255.255.248.0."
+                    },
+                    "question_2": {
+                        "question": "You need at least 30 usable IP addresses per subnet for the network 172.16.0.0/24. What subnet mask should you use?",
+                        "answers": [
+                            "255.255.255.192",
+                            "255.255.255.224",
+                            "255.255.255.240",
+                            "255.255.255.128"
+                        ],
+                        "correct_answer": "255.255.255.224",
+                        "explanation": "To provide at least 30 usable IPs, we need 32 addresses per subnet (since 2 addresses are reserved for Network and Broadcast). Borrowing 3 bits from the host portion of a /24 network gives a /27 subnet mask (255.255.255.224), providing 32 addresses per subnet."
                     }
                 }
             }
