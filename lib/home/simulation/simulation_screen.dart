@@ -78,6 +78,7 @@ class _SimulationScreenState extends ConsumerState<SimulationScreen>
   Widget build(BuildContext context) {
     debugPrint('SimulationScreen Widget rebuilt');
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           //* Uncomment this if there's a bug in build
