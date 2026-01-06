@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in_all_platforms/google_sign_in_all_platforms.dart';
@@ -146,6 +147,7 @@ class _SaveDialogState extends ConsumerState<SaveDialog> {
   Widget build(BuildContext context) {
     final user = _auth.currentUser;
     final isSignedIn = user != null;
+    final googleSignIn = ref.read(googleSignInProvider);
 
     return AlertDialog(
       title: const Text('Save Progress'),
@@ -205,14 +207,17 @@ class _SaveDialogState extends ConsumerState<SaveDialog> {
                 ),
               ),
             ] else ...[
-              ElevatedButton.icon(
-                onPressed: _isLoading ? null : _signInWithGoogle,
-                icon: const Icon(Icons.login),
-                label: const Text('Sign In with Google'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+              if (kIsWeb)
+                googleSignIn.signInButton()!
+              else
+                ElevatedButton.icon(
+                  onPressed: _isLoading ? null : _signInWithGoogle,
+                  icon: const Icon(Icons.login),
+                  label: const Text('Sign In with Google'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
                 ),
-              ),
             ],
             if (_errorMessage != null) ...[
               const SizedBox(height: 12),
