@@ -28,6 +28,28 @@ class _LoadDialogState extends ConsumerState<LoadDialog> {
   void initState() {
     super.initState();
     _signOutUser();
+
+    // Listen for Google Sign-In state changes (web button emits here)
+    ref.read(googleSignInProvider).authenticationState.listen((creds) async {
+      _currentUser = creds;
+
+      if (creds != null && _auth.currentUser == null) {
+        try {
+          await _auth.signInWithCredential(
+            GoogleAuthProvider.credential(
+              accessToken: creds.accessToken,
+              idToken: creds.idToken,
+            ),
+          );
+        } catch (e) {
+          debugPrint('Error linking Google creds to Firebase: $e');
+        }
+      } else if (creds == null && _auth.currentUser != null) {
+        await _auth.signOut();
+      }
+
+      if (mounted) setState(() {});
+    });
   }
 
   Future<void> _signOutUser() async {
