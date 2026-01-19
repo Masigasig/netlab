@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in_all_platforms/google_sign_in_all_platforms.dart';
+import 'package:hugeicons/hugeicons.dart';
 
+import 'package:netlab/core/constants/app_text.dart';
 import 'package:netlab/dashboard/study/provider/chapter_quiz_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_history_notifier.dart';
 import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
@@ -146,12 +148,24 @@ class _SaveDialogState extends ConsumerState<SaveDialog> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Success'),
-            content: const Text('Progress saved and signed out!'),
+            title: Text(
+              'Success',
+              style: AppTextStyles.forSurface(
+                AppTextStyles.headerMedium,
+                context,
+              ),
+            ),
+            content: Text(
+              'Progress saved and signed out!',
+              style: AppTextStyles.forSurface(
+                AppTextStyles.bodyMedium,
+                context,
+              ),
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('OK'),
+                child: Text('OK', style: AppTextStyles.buttonMedium),
               ),
             ],
           ),
@@ -172,100 +186,132 @@ class _SaveDialogState extends ConsumerState<SaveDialog> {
     final googleSignIn = ref.read(googleSignInProvider);
 
     return AlertDialog(
-      title: const Text('Save Progress'),
+      title: Text(
+        'Save Progress',
+        style: AppTextStyles.forSurface(
+          AppTextStyles.headerLarge.copyWith(fontSize: 26),
+          context,
+        ),
+      ),
       content: SizedBox(
         width: 300,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Stack(
           children: [
-            const Text(
-              'Sign in to save your progress to the cloud.',
-              style: TextStyle(fontSize: 14),
-            ),
-            const SizedBox(height: 20),
-
-            if (isSignedIn) ...[
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.green.shade200),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.check_circle, color: Colors.green),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Signed in as:',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            user.email ?? 'Unknown',
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton.icon(
-                onPressed: _isLoading ? null : _saveToCloud,
-                icon: const Icon(Icons.upload),
-                label: const Text('Save Now'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-              ),
-            ] else ...[
-              if (kIsWeb)
-                googleSignIn.signInButton()!
-              else
-                ElevatedButton.icon(
-                  onPressed: _isLoading ? null : _signInWithGoogle,
-                  icon: const Icon(Icons.login),
-                  label: const Text('Sign In with Google'),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Sign in to save your progress to the cloud.',
+                  style: AppTextStyles.forSurface(
+                    AppTextStyles.bodyMedium,
+                    context,
                   ),
                 ),
-            ],
-            if (_errorMessage != null) ...[
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.red.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  _errorMessage!,
-                  style: TextStyle(color: Colors.red.shade900, fontSize: 12),
+                const SizedBox(height: 20),
+
+                if (isSignedIn) ...[
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.green.shade200),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.check_circle, color: Colors.green),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Signed in as:',
+                                style: AppTextStyles.forSurface(
+                                  AppTextStyles.subtitleMedium,
+                                  context,
+                                ),
+                              ),
+                              Text(
+                                user.email ?? 'Unknown',
+                                style: AppTextStyles.forSurface(
+                                  AppTextStyles.bodySmall,
+                                  context,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: _isLoading ? null : _saveToCloud,
+                    icon: const Icon(Icons.upload),
+                    label: Text('Save Now', style: AppTextStyles.buttonMedium),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                  ),
+                ] else ...[
+                  if (kIsWeb)
+                    googleSignIn.signInButton()!
+                  else
+                    ElevatedButton.icon(
+                      onPressed: _isLoading ? null : _signInWithGoogle,
+                      icon: const HugeIcon(icon: HugeIcons.strokeRoundedGoogle),
+                      label: Text(
+                        'Sign In with Google',
+                        style: AppTextStyles.buttonMedium,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onPrimary,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                    ),
+                ],
+                if (_errorMessage != null) ...[
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      _errorMessage!,
+                      style: AppTextStyles.withColor(
+                        AppTextStyles.bodySmall,
+                        Colors.red.shade900,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            if (_isLoading)
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withAlpha(51),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: const Center(child: CircularProgressIndicator()),
                 ),
               ),
-            ],
-            if (_isLoading) ...[
-              const SizedBox(height: 12),
-              const Center(child: CircularProgressIndicator()),
-            ],
           ],
         ),
       ),
       actions: [
         TextButton(
           onPressed: _isLoading ? null : () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text('Cancel', style: AppTextStyles.buttonMedium),
         ),
       ],
     );
