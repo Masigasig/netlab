@@ -18,12 +18,24 @@ class TutorialSection {
 
 class TutorialImage {
   final String path;
+  final String? pathDark;
+  final String? pathLight;
   final String? caption;
 
-  TutorialImage({required this.path, this.caption});
+  TutorialImage({
+    required this.path,
+    this.pathDark,
+    this.pathLight,
+    this.caption,
+  });
 
   factory TutorialImage.fromJson(Map<String, dynamic> json) {
-    return TutorialImage(path: json['path'], caption: json['caption']);
+    return TutorialImage(
+      path: json['path'],
+      pathDark: json['path_dark'],
+      pathLight: json['path_light'],
+      caption: json['caption'],
+    );
   }
 }
 

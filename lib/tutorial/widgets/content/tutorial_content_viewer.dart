@@ -120,7 +120,11 @@ class _TutorialContentViewerState extends State<TutorialContentViewer> {
                           _buildContentBlock(item.content[index]),
                           if (item.images != null &&
                               index < item.images!.length)
-                            ImageBlock(imagePath: item.images![index].path),
+                            ImageBlock(
+                              imagePath: item.images![index].path,
+                              imagePathDark: item.images![index].pathDark,
+                              imagePathLight: item.images![index].pathLight,
+                            ),
                           if (item.imagePath != null && item.images == null)
                             ImageBlock(imagePath: item.imagePath!),
                           const SizedBox(height: 24),

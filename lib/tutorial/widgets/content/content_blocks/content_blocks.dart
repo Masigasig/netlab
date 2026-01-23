@@ -26,13 +26,33 @@ class TextBlock extends StatelessWidget {
 
 class ImageBlock extends StatelessWidget {
   final String imagePath;
+  final String? imagePathDark;
+  final String? imagePathLight;
   final String? title;
 
-  const ImageBlock({super.key, required this.imagePath, this.title});
+  const ImageBlock({
+    super.key,
+    required this.imagePath,
+    this.imagePathDark,
+    this.imagePathLight,
+    this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
+    final isDarkMode = brightness == Brightness.dark;
+
+    String resolvedPath;
+    if (isDarkMode && imagePathDark != null) {
+      resolvedPath = imagePathDark!;
+    } else if (!isDarkMode && imagePathLight != null) {
+      resolvedPath = imagePathLight!;
+    } else {
+      resolvedPath = imagePath;
+    }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Column(
@@ -41,7 +61,7 @@ class ImageBlock extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
-              imagePath,
+              resolvedPath,
               width: double.infinity,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {

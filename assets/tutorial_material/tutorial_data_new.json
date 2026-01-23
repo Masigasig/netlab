@@ -13,6 +13,8 @@
           "images": [
             {
               "path": "tutorial_material/images/canvas/canvas_plain.png",
+              "path_dark": "tutorial_material/images/dark_mode/canvas/canvas_plain.png",
+              "path_light": "tutorial_material/images/light_mode/canvas/canvasLight.jpg",
               "caption": "Overview of the Netlab Simulation Screen"
             }
           ],
@@ -37,7 +39,9 @@
           "icon": "arrow_back",
           "images": [
             {
-              "path": "assets/tutorial_material/images/utility_buttons/backbutton.jpg",
+              "path": "tutorial_material/images/utility_buttons/backbutton.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/utility_buttons/backbutton.jpg",
+              "path_light": "tutorial_material/images/light_mode/utility_buttons/backLight.png",
               "caption": "Back button location in the top-left corner"
             }
           ],
@@ -54,11 +58,15 @@
           "icon": "save",
           "images": [
             {
-              "path": "assets/tutorial_material/images/utility_buttons/save_button.jpg",
+              "path": "tutorial_material/images/utility_buttons/save_button.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/utility_buttons/save_button.jpg",
+              "path_light": "tutorial_material/images/light_mode/utility_buttons/saveLight.png",
               "caption": "Step 1: Click the Save button to open the file dialog"
             },
             {
-              "path": "assets/tutorial_material/images/utility_buttons/disable_save_button.jpg",
+              "path": "tutorial_material/images/utility_buttons/disable_save_button.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/utility_buttons/disable_save_button.jpg",
+              "path_light": "tutorial_material/images/light_mode/utility_buttons/saveDisableLight.png",
               "caption": "Step 2: The Save button is disabled during simulation"
             }
           ],
@@ -79,11 +87,15 @@
           "icon": "folder_open",
           "images": [
             {
-              "path": "assets/tutorial_material/images/utility_buttons/load_button.jpg",
+              "path": "tutorial_material/images/utility_buttons/load_button.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/utility_buttons/load_button.jpg",
+              "path_light": "tutorial_material/images/light_mode/utility_buttons/loadLight.png",
               "caption": "Step 1: Click the Load button to browse files"
             },
             {
-              "path": "assets/tutorial_material/images/utility_buttons/disable_load_button.jpg",
+              "path": "tutorial_material/images/utility_buttons/disable_load_button.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/utility_buttons/disable_load_button.jpg",
+              "path_light": "tutorial_material/images/light_mode/utility_buttons/loadDisableLight.png",
               "caption": "Step 2: The Load button is disabled during simulation"
             }
           ],
@@ -112,15 +124,21 @@
           "icon": "settings",
           "images": [
             {
-              "path": "assets/tutorial_material/images/control_buttons/settings_button.jpg",
+              "path": "tutorial_material/images/control_buttons/settings_button.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/control_buttons/settings_button.jpg",
+              "path_light": "tutorial_material/images/light_mode/control_buttons/settingsLight.png",
               "caption": "Step 1: Click the Settings button to open settings menu"
             },
             {
-              "path": "assets/tutorial_material/images/control_buttons/settings_open.jpg",
+              "path": "tutorial_material/images/control_buttons/settings_open.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/control_buttons/settings_open.jpg",
+              "path_light": "tutorial_material/images/light_mode/control_buttons/settingsARP.jpg",
               "caption": "Step 2: Settings panel when opened"
             },
             {
-              "path": "assets/tutorial_material/images/control_buttons/setting_disable.jpg",
+              "path": "tutorial_material/images/control_buttons/setting_disable.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/control_buttons/setting_disable.jpg",
+              "path_light": "tutorial_material/images/light_mode/control_buttons/settingsDisableLight.png",
               "caption": "Step 3: Settings button is disabled during simulation"
             }
           ],
@@ -148,7 +166,9 @@
           "icon": "article",
           "images": [
             {
-              "path": "assets/tutorial_material/images/control_buttons/log_pannel_button.jpg",
+              "path": "tutorial_material/images/control_buttons/log_pannel_button.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/control_buttons/log_pannel_button.jpg",
+              "path_light": "tutorial_material/images/light_mode/control_buttons/logPanelLight.png",
               "caption": "Log Panel showing network events"
             }
           ],
@@ -165,7 +185,9 @@
           "icon": "play_arrow",
           "images": [
             {
-              "path": "assets/tutorial_material/images/control_buttons/play_button.jpg",
+              "path": "tutorial_material/images/control_buttons/play_button.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/control_buttons/play_button.jpg",
+              "path_light": "tutorial_material/images/light_mode/control_buttons/playButtonLight.png",
               "caption": "Play button to start/resume simulation"
             }
           ],
@@ -182,7 +204,9 @@
           "icon": "center_focus_strong",
           "images": [
             {
-              "path": "assets/tutorial_material/images/control_buttons/center_button.jpg",
+              "path": "tutorial_material/images/control_buttons/center_button.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/control_buttons/center_button.jpg",
+              "path_light": "tutorial_material/images/light_mode/control_buttons/centerButtonLight.png",
               "caption": "Center button to reset view"
             }
           ],
@@ -199,11 +223,15 @@
           "icon": "restart_alt",
           "images": [
             {
-              "path": "assets/tutorial_material/images/control_buttons/reset_canvas_button.jpg",
+              "path": "tutorial_material/images/control_buttons/reset_canvas_button.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/control_buttons/reset_canvas_button.jpg",
+              "path_light": "tutorial_material/images/light_mode/control_buttons/resetButtonLight.png",
               "caption": "Reset button to clear canvas"
             },
             {
-              "path": "assets/tutorial_material/images/control_buttons/reset_canvas_disable.jpg",
+              "path": "tutorial_material/images/control_buttons/reset_canvas_disable.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/control_buttons/reset_canvas_disable.jpg",
+              "path_light": "tutorial_material/images/light_mode/control_buttons/resetDisableLight.png",
               "caption": "Reset button is disabled during simulation"
             }
           ],
@@ -220,11 +248,15 @@
           "icon": "add_circle",
           "images": [
             {
-              "path": "assets/tutorial_material/images/utility_buttons/add_device_button.jpg",
+              "path": "tutorial_material/images/utility_buttons/add_device_button.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/utility_buttons/add_device_button.jpg",
+              "path_light": "tutorial_material/images/light_mode/utility_buttons/addButtonLight.png",
               "caption": "Step 1: Click the Add button to open Device Panel"
             },
             {
-              "path": "assets/tutorial_material/images/utility_buttons/add_device_open.jpg",
+              "path": "tutorial_material/images/utility_buttons/add_device_open.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/utility_buttons/add_device_open.jpg",
+              "path_light": "tutorial_material/images/light_mode/utility_buttons/addButtonOpenLight.png",
               "caption": "Step 2: Drag devices onto the canvas"
             }
           ],
@@ -253,7 +285,9 @@
           "icon": "terminal",
           "images": [
             {
-              "path": "assets/tutorial_material/images/log_panel/log_pannel_system.jpg",
+              "path": "tutorial_material/images/log_panel/log_pannel_system.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/log_panel/log_pannel_system.jpg",
+              "path_light": "tutorial_material/images/light_mode/log_panel/systemLogLight.png",
               "caption": "System Log showing global events"
             }
           ],
@@ -270,7 +304,9 @@
           "icon": "devices",
           "images": [
             {
-              "path": "assets/tutorial_material/images/log_panel/log_pannel_device.jpg",
+              "path": "tutorial_material/images/log_panel/log_pannel_device.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/log_panel/log_pannel_device.jpg",
+              "path_light": "tutorial_material/images/light_mode/log_panel/logPanelLight.png",
               "caption": "Device Log showing device-specific events"
             }
           ],
@@ -287,6 +323,7 @@
         }
       ]
     },
+
     {
       "id": "info-panel",
       "title": "Information Panels",
@@ -299,7 +336,9 @@
           "icon": "computer",
           "images": [
             {
-              "path": "assets/tutorial_material/images/information_panel/host_info_edited.jpg",
+              "path": "tutorial_material/images/information_panel/host_info_edited.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/information_panel/host_info_edited.jpg",
+              "path_light": "tutorial_material/images/light_mode/information_panel/hostLlight.png",
               "caption": "Host Information Panel"
             }
           ],
@@ -316,7 +355,9 @@
           "icon": "router",
           "images": [
             {
-              "path": "assets/tutorial_material/images/information_panel/switch_mac_table_edited.jpg",
+              "path": "tutorial_material/images/information_panel/switch_mac_table_edited.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/information_panel/switch_mac_table_edited.jpg",
+              "path_light": "tutorial_material/images/light_mode/information_panel/switchLlight.png",
               "caption": "Switch Information Panel"
             }
           ],
@@ -333,19 +374,27 @@
           "icon": "wifi_tethering",
           "images": [
             {
-              "path": "assets/tutorial_material/images/information_panel/router_interface_0_edited.jpg",
+              "path": "tutorial_material/images/information_panel/router_interface_0_edited.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/information_panel/router_interface_0_edited.jpg",
+              "path_light": "tutorial_material/images/light_mode/information_panel/routerLlight.png",
               "caption": "Router Interface Configuration 0"
             },
             {
-              "path": "assets/tutorial_material/images/information_panel/router_arp_edited.jpg",
+              "path": "tutorial_material/images/information_panel/router_arp_edited.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/information_panel/router_arp_edited.jpg",
+              "path_light": "tutorial_material/images/light_mode/information_panel/routerARPLlight.png",
               "caption": "Router ARP Table View"
             },
             {
-              "path": "assets/tutorial_material/images/information_panel/routing_table_edited.jpg",
+              "path": "tutorial_material/images/information_panel/routing_table_edited.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/information_panel/routing_table_edited.jpg",
+              "path_light": "tutorial_material/images/light_mode/information_panel/routingTableLlight.png",
               "caption": "Routing Table View"
             },
             {
-              "path": "assets/tutorial_material/images/information_panel/routing_add_static_route.png",
+              "path": "tutorial_material/images/information_panel/routing_add_static_route.png",
+              "path_dark": "tutorial_material/images/dark_mode/information_panel/routing_add_static_route.png",
+              "path_light": "tutorial_material/images/light_mode/information_panel/staticRouteLlight.png",
               "caption": "Add Static Route Configuration"
             }
           ],
@@ -379,6 +428,8 @@
           "images": [
             {
               "path": "tutorial_material/images/information_panel/image_info_panel_edted.jpg",
+              "path_dark": "tutorial_material/images/dark_mode/information_panel/image_info_panel_edted.jpg",
+              "path_light": "tutorial_material/images/light_mode/information_panel/wirelessLlight.png",
               "caption": "Message Information Panel"
             }
           ],
@@ -388,85 +439,6 @@
               "content": "The Message Information Panel displays the current state of a message, including its position in the OSI Model. This information updates live as the message travels through different devices and layers of the network."
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "network-devices",
-      "title": "Network Devices",
-      "description": "Learn about the network components you can add to your simulation",
-      "icon": "devices",
-      "items": [
-        {
-          "title": "Host Device",
-          "description": "A computer or end device that sends and receives network traffic",
-          "icon": "computer",
-          "images": [
-            {
-              "path": "tutorial_material/images/information_panel/host_info_edited.jpg",
-              "caption": "Host Device Configuration"
-            }
-          ],
-          "content": [
-            {
-              "type": "text",
-              "content": "A Host is any device that can send or receive data on a network. Examples include computers, smartphones, and tablets."
-            },
-            {
-              "type": "tip",
-              "content": "You can configure a host's IP address and subnet mask to integrate it into your network."
-            }
-          ]
-        },
-        {
-          "title": "Switch Device",
-          "description": "A network switch that connects devices and learns MAC addresses",
-          "icon": "router",
-          "images": [
-            {
-              "path": "tutorial_material/images/information_panel/switch_mac_table_edited.jpg",
-              "caption": "Switch MAC Table"
-            }
-          ],
-          "content": [
-            {
-              "type": "text",
-              "content": "A Switch connects multiple devices and learns the MAC addresses of connected devices. It forwards frames to the appropriate ports based on MAC addresses."
-            },
-            {
-              "type": "tip",
-              "content": "The switch dynamically builds its MAC table as devices communicate across the network."
-            }
-          ]
-        },
-        {
-          "title": "Router Device",
-          "description": "A router that manages traffic between different networks",
-          "icon": "wifi_tethering",
-          "images": [
-            {
-              "path": "tutorial_material/images/information_panel/router_interface_0_edited.jpg",
-              "caption": "Router Interface Configuration"
-            },
-            {
-              "path": "tutorial_material/images/information_panel/routing_table_edited.jpg",
-              "caption": "Router Routing Table"
-            }
-          ],
-          "content": [
-            {
-              "type": "text",
-              "content": "A Router connects multiple networks and directs traffic between them using IP addresses. It maintains routing tables to determine the best path for packets."
-            },
-            {
-              "type": "bulletList",
-              "content": [
-                "Configure multiple interfaces with different IP addresses",
-                "View and manage static routes",
-                "Monitor ARP tables for IP-to-MAC mappings"
-              ]
-            }
-          ]
         },
         {
           "title": "Access Point",
@@ -474,7 +446,9 @@
           "icon": "router",
           "images": [
             {
-              "path": "tutorial_material/images/utility_buttons/accessPointDark.png",
+              "path": "tutorial_material/images/information_panel/accessPointDark.png",
+              "path_dark": "tutorial_material/images/dark_mode/information_panel/accessPointDark.png",
+              "path_light": "tutorial_material/images/light_mode/information_panel/accessPointLlight.png",
               "caption": "Access Point Device"
             }
           ],
@@ -491,7 +465,9 @@
           "icon": "devices",
           "images": [
             {
-              "path": "tutorial_material/images/utility_buttons/wirelessDark.png",
+              "path": "tutorial_material/images/information_panel/wirelessDark.png",
+              "path_dark": "tutorial_material/images/dark_mode/information_panel/wirelessDark.png",
+              "path_light": "tutorial_material/images/light_mode/information_panel/wirelessLlight.png",
               "caption": "Wireless Device"
             }
           ],
