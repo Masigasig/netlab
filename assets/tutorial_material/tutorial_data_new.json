@@ -12,7 +12,7 @@
           "icon": "cable_outlined",
           "images": [
             {
-              "path": "assets/images/canvas_plain.jpg",
+              "path": "tutorial_material/images/canvas/canvas_plain.png",
               "caption": "Overview of the Netlab Simulation Screen"
             }
           ],
@@ -378,7 +378,7 @@
           "icon": "mail",
           "images": [
             {
-              "path": "assets/tutorial_material/images/information_panel/image_info_panel_edted.jpg",
+              "path": "tutorial_material/images/information_panel/image_info_panel_edted.jpg",
               "caption": "Message Information Panel"
             }
           ],
@@ -386,6 +386,119 @@
             {
               "type": "text",
               "content": "The Message Information Panel displays the current state of a message, including its position in the OSI Model. This information updates live as the message travels through different devices and layers of the network."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "network-devices",
+      "title": "Network Devices",
+      "description": "Learn about the network components you can add to your simulation",
+      "icon": "devices",
+      "items": [
+        {
+          "title": "Host Device",
+          "description": "A computer or end device that sends and receives network traffic",
+          "icon": "computer",
+          "images": [
+            {
+              "path": "tutorial_material/images/information_panel/host_info_edited.jpg",
+              "caption": "Host Device Configuration"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "A Host is any device that can send or receive data on a network. Examples include computers, smartphones, and tablets."
+            },
+            {
+              "type": "tip",
+              "content": "You can configure a host's IP address and subnet mask to integrate it into your network."
+            }
+          ]
+        },
+        {
+          "title": "Switch Device",
+          "description": "A network switch that connects devices and learns MAC addresses",
+          "icon": "router",
+          "images": [
+            {
+              "path": "tutorial_material/images/information_panel/switch_mac_table_edited.jpg",
+              "caption": "Switch MAC Table"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "A Switch connects multiple devices and learns the MAC addresses of connected devices. It forwards frames to the appropriate ports based on MAC addresses."
+            },
+            {
+              "type": "tip",
+              "content": "The switch dynamically builds its MAC table as devices communicate across the network."
+            }
+          ]
+        },
+        {
+          "title": "Router Device",
+          "description": "A router that manages traffic between different networks",
+          "icon": "wifi_tethering",
+          "images": [
+            {
+              "path": "tutorial_material/images/information_panel/router_interface_0_edited.jpg",
+              "caption": "Router Interface Configuration"
+            },
+            {
+              "path": "tutorial_material/images/information_panel/routing_table_edited.jpg",
+              "caption": "Router Routing Table"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "A Router connects multiple networks and directs traffic between them using IP addresses. It maintains routing tables to determine the best path for packets."
+            },
+            {
+              "type": "bulletList",
+              "content": [
+                "Configure multiple interfaces with different IP addresses",
+                "View and manage static routes",
+                "Monitor ARP tables for IP-to-MAC mappings"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Access Point",
+          "description": "A wireless access point for connecting wireless devices",
+          "icon": "router",
+          "images": [
+            {
+              "path": "tutorial_material/images/utility_buttons/accessPointDark.png",
+              "caption": "Access Point Device"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "An Access Point is a networking device that allows wireless devices to connect to a wired network. It bridges wireless and wired network communications."
+            }
+          ]
+        },
+        {
+          "title": "Wireless Device",
+          "description": "A wireless-enabled device that connects via WiFi",
+          "icon": "devices",
+          "images": [
+            {
+              "path": "tutorial_material/images/utility_buttons/wirelessDark.png",
+              "caption": "Wireless Device"
+            }
+          ],
+          "content": [
+            {
+              "type": "text",
+              "content": "A Wireless Device is a host that connects to the network via WiFi instead of wired connections. Examples include smartphones, laptops with WiFi, and wireless tablets."
             }
           ]
         }
