@@ -8,6 +8,11 @@ class HomeVisualCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
+    final isDarkMode = brightness == Brightness.dark;
+    final imagePath = isDarkMode
+        ? 'assets/images/homeDark.png'
+        : 'assets/images/homeLight.png';
 
     return Center(
       child: AnimationPresets.mediaEntrance(
@@ -30,7 +35,7 @@ class HomeVisualCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(22),
             child: Image.asset(
-              'assets/images/sample.png',
+              imagePath,
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
