@@ -14,6 +14,7 @@ class ToolScreen extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: cs.surface,
       body: SingleChildScrollView(
         child: Column(

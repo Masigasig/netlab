@@ -11,6 +11,7 @@ class AppLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint('AppLayout Widget rebuilt');
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Row(
         children: [
           const SideBar(),

@@ -68,11 +68,15 @@ class _TutorialScreenState extends State<TutorialScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
 
     if (_error != null) {
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -109,6 +113,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
     if (_sections == null || _sections!.isEmpty) {
       return const Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Center(child: Text('No tutorials available')),
       );
     }
@@ -118,6 +123,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
         : null;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Row(
         children: [
           // Sidebar

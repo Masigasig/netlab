@@ -33,6 +33,7 @@ class ChapterScreen extends ConsumerWidget {
     ).pathParameters['lessonId'];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

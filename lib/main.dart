@@ -138,6 +138,7 @@ class _MyAppState extends ConsumerState<MyApp>
         darkTheme: AppThemes.darkTheme,
         debugShowCheckedModeBanner: false,
         home: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: FadeTransition(
             opacity: _fade,
             child: Center(

@@ -61,14 +61,14 @@ class ImageBlock extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
-              resolvedPath,
+              "assets/$resolvedPath",
               width: double.infinity,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Container(
                   height: 200,
                   decoration: BoxDecoration(
-                    color: cs.onSurfaceVariant,
+                    color: cs.secondary,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(

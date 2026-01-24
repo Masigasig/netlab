@@ -15,6 +15,7 @@ class StudyScreen extends ConsumerWidget {
     final json = ref.read(materialDetailProvider);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Column(
           children: [
