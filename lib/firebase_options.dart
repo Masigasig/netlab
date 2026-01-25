@@ -6,15 +6,6 @@ import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform, kReleaseMode;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -41,57 +32,85 @@ class DefaultFirebaseOptions {
     }
   }
 
+  // Define const values from dart-define
+  static const String _webApiKey = String.fromEnvironment(
+    'WEB_AND_WINDOWS_FIREBASE_API_KEY',
+  );
+  static const String _webAppId = String.fromEnvironment('WEB_APPID');
+  static const String _androidApiKey = String.fromEnvironment(
+    'ANDROID_FIREBASE_API_KEY',
+  );
+  static const String _androidAppId = String.fromEnvironment('ANDROID_APPID');
+  static const String _iosApiKey = String.fromEnvironment(
+    'IOS_AND_MACOS_FIREBASE_API_KEY',
+  );
+  static const String _iosAppId = String.fromEnvironment('IOS_MACOS_APPID');
+  static const String _windowsAppId = String.fromEnvironment('WINDOWS_APPID');
+  static const String _messagingSenderId = String.fromEnvironment(
+    'MESSAGING_SENDER_ID',
+  );
+
   static FirebaseOptions get web => FirebaseOptions(
-    apiKey: _getConfig('WEB_AND_WINDOWS_FIREBASE_API_KEY'),
-    appId: _getConfig('WEB_APPID'),
-    messagingSenderId: _getConfig('MESSAGING_SENDER_ID'),
+    apiKey: kReleaseMode
+        ? _webApiKey
+        : (dotenv.env['WEB_AND_WINDOWS_FIREBASE_API_KEY'] ?? ''),
+    appId: kReleaseMode ? _webAppId : (dotenv.env['WEB_APPID'] ?? ''),
+    messagingSenderId: kReleaseMode
+        ? _messagingSenderId
+        : (dotenv.env['MESSAGING_SENDER_ID'] ?? ''),
     projectId: 'netlab-8c22e',
     authDomain: 'netlab-8c22e.firebaseapp.com',
     storageBucket: 'netlab-8c22e.firebasestorage.app',
   );
 
   static FirebaseOptions get android => FirebaseOptions(
-    apiKey: _getConfig('ANDROID_FIREBASE_API_KEY'),
-    appId: _getConfig('ANDROID_APPID'),
-    messagingSenderId: _getConfig('MESSAGING_SENDER_ID'),
+    apiKey: kReleaseMode
+        ? _androidApiKey
+        : (dotenv.env['ANDROID_FIREBASE_API_KEY'] ?? ''),
+    appId: kReleaseMode ? _androidAppId : (dotenv.env['ANDROID_APPID'] ?? ''),
+    messagingSenderId: kReleaseMode
+        ? _messagingSenderId
+        : (dotenv.env['MESSAGING_SENDER_ID'] ?? ''),
     projectId: 'netlab-8c22e',
     storageBucket: 'netlab-8c22e.firebasestorage.app',
   );
 
   static FirebaseOptions get ios => FirebaseOptions(
-    apiKey: _getConfig('IOS_AND_MACOS_FIREBASE_API_KEY'),
-    appId: _getConfig('IOS_MACOS_APPID'),
-    messagingSenderId: _getConfig('MESSAGING_SENDER_ID'),
+    apiKey: kReleaseMode
+        ? _iosApiKey
+        : (dotenv.env['IOS_AND_MACOS_FIREBASE_API_KEY'] ?? ''),
+    appId: kReleaseMode ? _iosAppId : (dotenv.env['IOS_MACOS_APPID'] ?? ''),
+    messagingSenderId: kReleaseMode
+        ? _messagingSenderId
+        : (dotenv.env['MESSAGING_SENDER_ID'] ?? ''),
     projectId: 'netlab-8c22e',
     storageBucket: 'netlab-8c22e.firebasestorage.app',
     iosBundleId: 'com.example.netlab',
   );
 
   static FirebaseOptions get macos => FirebaseOptions(
-    apiKey: _getConfig('IOS_AND_MACOS_FIREBASE_API_KEY'),
-    appId: _getConfig('IOS_MACOS_APPID'),
-    messagingSenderId: _getConfig('MESSAGING_SENDER_ID'),
+    apiKey: kReleaseMode
+        ? _iosApiKey
+        : (dotenv.env['IOS_AND_MACOS_FIREBASE_API_KEY'] ?? ''),
+    appId: kReleaseMode ? _iosAppId : (dotenv.env['IOS_MACOS_APPID'] ?? ''),
+    messagingSenderId: kReleaseMode
+        ? _messagingSenderId
+        : (dotenv.env['MESSAGING_SENDER_ID'] ?? ''),
     projectId: 'netlab-8c22e',
     storageBucket: 'netlab-8c22e.firebasestorage.app',
     iosBundleId: 'com.example.netlab',
   );
 
   static FirebaseOptions get windows => FirebaseOptions(
-    apiKey: _getConfig('WEB_AND_WINDOWS_FIREBASE_API_KEY'),
-    appId: _getConfig('WINDOWS_APPID'),
-    messagingSenderId: _getConfig('MESSAGING_SENDER_ID'),
+    apiKey: kReleaseMode
+        ? _webApiKey
+        : (dotenv.env['WEB_AND_WINDOWS_FIREBASE_API_KEY'] ?? ''),
+    appId: kReleaseMode ? _windowsAppId : (dotenv.env['WINDOWS_APPID'] ?? ''),
+    messagingSenderId: kReleaseMode
+        ? _messagingSenderId
+        : (dotenv.env['MESSAGING_SENDER_ID'] ?? ''),
     projectId: 'netlab-8c22e',
     authDomain: 'netlab-8c22e.firebaseapp.com',
     storageBucket: 'netlab-8c22e.firebasestorage.app',
   );
-
-  /// Helper method to get config values from either .env (debug) or dart-define (release)
-  static String _getConfig(String key) {
-    if (kReleaseMode) {
-      // In production/release mode, use dart-define values
-      return String.fromEnvironment(key, defaultValue: '');
-    }
-    // In debug mode, use .env file
-    return dotenv.env[key] ?? '';
-  }
 }
