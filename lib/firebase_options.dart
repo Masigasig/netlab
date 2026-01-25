@@ -6,6 +6,15 @@ import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
+///
+/// Example:
+/// ```dart
+/// import 'firebase_options.dart';
+/// // ...
+/// await Firebase.initializeApp(
+///   options: DefaultFirebaseOptions.currentPlatform,
+/// );
+/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -32,101 +41,64 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static FirebaseOptions get web {
-    // Try to get from .env first (for local dev), fallback to compile-time constants
-    final apiKey = _getEnvOrConst(
-      'WEB_AND_WINDOWS_FIREBASE_API_KEY',
-      _webApiKey,
-    );
-    final appId = _getEnvOrConst('WEB_APPID', _webAppId);
-    final messagingSenderId = _getEnvOrConst(
+  static FirebaseOptions get web => FirebaseOptions(
+    apiKey: _getEnvOrConst('WEB_AND_WINDOWS_FIREBASE_API_KEY', _webApiKey),
+    appId: _getEnvOrConst('WEB_APPID', _webAppId),
+    messagingSenderId: _getEnvOrConst(
       'MESSAGING_SENDER_ID',
       _messagingSenderId,
-    );
+    ),
+    projectId: 'netlab-8c22e',
+    authDomain: 'netlab-8c22e.firebaseapp.com',
+    storageBucket: 'netlab-8c22e.firebasestorage.app',
+  );
 
-    return FirebaseOptions(
-      apiKey: apiKey,
-      appId: appId,
-      messagingSenderId: messagingSenderId,
-      projectId: 'netlab-8c22e',
-      authDomain: 'netlab-8c22e.firebaseapp.com',
-      storageBucket: 'netlab-8c22e.firebasestorage.app',
-    );
-  }
-
-  static FirebaseOptions get android {
-    final apiKey = _getEnvOrConst('ANDROID_FIREBASE_API_KEY', _androidApiKey);
-    final appId = _getEnvOrConst('ANDROID_APPID', _androidAppId);
-    final messagingSenderId = _getEnvOrConst(
+  static FirebaseOptions get android => FirebaseOptions(
+    apiKey: _getEnvOrConst('ANDROID_FIREBASE_API_KEY', _androidApiKey),
+    appId: _getEnvOrConst('ANDROID_APPID', _androidAppId),
+    messagingSenderId: _getEnvOrConst(
       'MESSAGING_SENDER_ID',
       _messagingSenderId,
-    );
+    ),
+    projectId: 'netlab-8c22e',
+    storageBucket: 'netlab-8c22e.firebasestorage.app',
+  );
 
-    return FirebaseOptions(
-      apiKey: apiKey,
-      appId: appId,
-      messagingSenderId: messagingSenderId,
-      projectId: 'netlab-8c22e',
-      storageBucket: 'netlab-8c22e.firebasestorage.app',
-    );
-  }
-
-  static FirebaseOptions get ios {
-    final apiKey = _getEnvOrConst('IOS_AND_MACOS_FIREBASE_API_KEY', _iosApiKey);
-    final appId = _getEnvOrConst('IOS_MACOS_APPID', _iosAppId);
-    final messagingSenderId = _getEnvOrConst(
+  static FirebaseOptions get ios => FirebaseOptions(
+    apiKey: _getEnvOrConst('IOS_AND_MACOS_FIREBASE_API_KEY', _iosApiKey),
+    appId: _getEnvOrConst('IOS_MACOS_APPID', _iosAppId),
+    messagingSenderId: _getEnvOrConst(
       'MESSAGING_SENDER_ID',
       _messagingSenderId,
-    );
+    ),
+    projectId: 'netlab-8c22e',
+    storageBucket: 'netlab-8c22e.firebasestorage.app',
+    iosBundleId: 'com.example.netlab',
+  );
 
-    return FirebaseOptions(
-      apiKey: apiKey,
-      appId: appId,
-      messagingSenderId: messagingSenderId,
-      projectId: 'netlab-8c22e',
-      storageBucket: 'netlab-8c22e.firebasestorage.app',
-      iosBundleId: 'com.example.netlab',
-    );
-  }
-
-  static FirebaseOptions get macos {
-    final apiKey = _getEnvOrConst('IOS_AND_MACOS_FIREBASE_API_KEY', _iosApiKey);
-    final appId = _getEnvOrConst('IOS_MACOS_APPID', _iosAppId);
-    final messagingSenderId = _getEnvOrConst(
+  static FirebaseOptions get macos => FirebaseOptions(
+    apiKey: _getEnvOrConst('IOS_AND_MACOS_FIREBASE_API_KEY', _iosApiKey),
+    appId: _getEnvOrConst('IOS_MACOS_APPID', _iosAppId),
+    messagingSenderId: _getEnvOrConst(
       'MESSAGING_SENDER_ID',
       _messagingSenderId,
-    );
+    ),
+    projectId: 'netlab-8c22e',
+    storageBucket: 'netlab-8c22e.firebasestorage.app',
+    iosBundleId: 'com.example.netlab',
+  );
 
-    return FirebaseOptions(
-      apiKey: apiKey,
-      appId: appId,
-      messagingSenderId: messagingSenderId,
-      projectId: 'netlab-8c22e',
-      storageBucket: 'netlab-8c22e.firebasestorage.app',
-      iosBundleId: 'com.example.netlab',
-    );
-  }
-
-  static FirebaseOptions get windows {
-    final apiKey = _getEnvOrConst(
-      'WEB_AND_WINDOWS_FIREBASE_API_KEY',
-      _webApiKey,
-    );
-    final appId = _getEnvOrConst('WINDOWS_APPID', _windowsAppId);
-    final messagingSenderId = _getEnvOrConst(
+  static FirebaseOptions get windows => FirebaseOptions(
+    apiKey: _getEnvOrConst('WEB_AND_WINDOWS_FIREBASE_API_KEY', _webApiKey),
+    appId: _getEnvOrConst('WINDOWS_APPID', _windowsAppId),
+    messagingSenderId: _getEnvOrConst(
       'MESSAGING_SENDER_ID',
       _messagingSenderId,
-    );
-
-    return FirebaseOptions(
-      apiKey: apiKey,
-      appId: appId,
-      messagingSenderId: messagingSenderId,
-      projectId: 'netlab-8c22e',
-      authDomain: 'netlab-8c22e.firebaseapp.com',
-      storageBucket: 'netlab-8c22e.firebasestorage.app',
-    );
-  }
+    ),
+    projectId: 'netlab-8c22e',
+    authDomain: 'netlab-8c22e.firebaseapp.com',
+    storageBucket: 'netlab-8c22e.firebasestorage.app',
+  );
 
   // Compile-time constants from dart-define
   static const String _webApiKey = String.fromEnvironment(
@@ -165,15 +137,13 @@ class DefaultFirebaseOptions {
   // Helper to get value from .env or use compile-time constant
   static String _getEnvOrConst(String key, String constValue) {
     try {
-      // Try .env first (will only work in debug with .env loaded)
       final envValue = dotenv.env[key];
       if (envValue != null && envValue.isNotEmpty) {
         return envValue;
       }
-    } catch (e) {
-      // dotenv not loaded or error accessing it, use const value
+    } catch (_) {
+      // dotenv not loaded, use const value
     }
-    // Fallback to compile-time constant from dart-define
     return constValue;
   }
 }

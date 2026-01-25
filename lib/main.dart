@@ -22,72 +22,30 @@ import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 
-// Define const values at the top level
-const _webApiKeyCheck = String.fromEnvironment(
-  'WEB_AND_WINDOWS_FIREBASE_API_KEY',
-);
-const _webAppIdCheck = String.fromEnvironment('WEB_APPID');
-
 Future main() async {
-  runZonedGuarded(
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
-      print('🚀 App starting...');
-      print('🔍 Platform: ${kIsWeb ? "Web" : "Native"}');
-      print('🔍 Release mode: $kReleaseMode');
+  if (kDebugMode) {
+    await dotenv.load(fileName: ".env");
+  }
 
-      // Only load .env in debug mode
-      if (!kReleaseMode) {
-        try {
-          await dotenv.load(fileName: ".env");
-          print('✅ .env loaded successfully');
-        } catch (e) {
-          print('⚠️ Could not load .env file: $e');
-        }
-      } else {
-        // Check if dart-define values are present using const values
-        print('🔍 Checking dart-define values:');
-        print(
-          '  - WEB_AND_WINDOWS_FIREBASE_API_KEY: ${_webApiKeyCheck.isEmpty ? "MISSING ❌" : "Present ✅"}',
-        );
-        print(
-          '  - WEB_APPID: ${_webAppIdCheck.isEmpty ? "MISSING ❌" : "Present ✅"}',
-        );
-      }
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-      try {
-        await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        );
-        print('✅ Firebase initialized successfully');
-      } catch (e, stackTrace) {
-        print('❌ Firebase initialization error: $e');
-        print('Stack trace: $stackTrace');
-      }
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  final asyncPrefs = SharedPreferencesAsync();
 
-      final asyncPrefs = SharedPreferencesAsync();
-
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ]).then((_) {
-        print('✅ Running app...');
-        runApp(
-          ProviderScope(
-            overrides: [asyncSharedPrefsProvider.overrideWithValue(asyncPrefs)],
-            child: const MyApp(),
-          ),
-        );
-      });
-    },
-    (error, stack) {
-      print('💥 FATAL ERROR: $error');
-      print('Stack: $stack');
-    },
-  );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]).then((_) {
+    runApp(
+      ProviderScope(
+        overrides: [asyncSharedPrefsProvider.overrideWithValue(asyncPrefs)],
+        child: const MyApp(),
+      ),
+    );
+  });
 }
 
 class MyApp extends ConsumerStatefulWidget {
