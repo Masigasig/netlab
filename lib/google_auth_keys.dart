@@ -1,14 +1,10 @@
-import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-//*sample
 class GoogleAuthKeys {
-  static final String clientId =
+  static String get clientId =>
       dotenv.env['GOOGLE_CLIENT_ID'] ??
-      Platform.environment['GOOGLE_CLIENT_ID'] ??
-      '';
-  static final String clientSecret =
+      const String.fromEnvironment('GOOGLE_CLIENT_ID', defaultValue: '');
+  static String get clientSecret =>
       dotenv.env['GOOGLE_CLIENT_SECRET'] ??
-      Platform.environment['GOOGLE_CLIENT_SECRET'] ??
-      '';
+      const String.fromEnvironment('GOOGLE_CLIENT_SECRET', defaultValue: '');
 }
