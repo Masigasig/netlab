@@ -16,6 +16,17 @@ jobs:
           flutter-version: '3.38.7'
           channel: 'stable'
       - run: flutter build web --release
+      - env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          WEB_AND_WINDOWS_FIREBASE_API_KEY: ${{ secrets.WEB_AND_WINDOWS_FIREBASE_API_KEY }}
+          ANDROID_FIREBASE_API_KEY: ${{ secrets.ANDROID_FIREBASE_API_KEY }}
+          IOS_AND_MACOS_FIREBASE_API_KEY: ${{ secrets.IOS_AND_MACOS_FIREBASE_API_KEY }}
+          WEB_APPID: ${{ secrets.WEB_APPID }}
+          ANDROID_APPID: ${{ secrets.ANDROID_APPID }}
+          IOS_MACOS_APPID: ${{ secrets.IOS_MACOS_APPID }}
+          WINDOWS_APPID: ${{ secrets.WINDOWS_APPID }}
+          MESSAGING_SENDER_ID: ${{ secrets.MESSAGING_SENDER_ID }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

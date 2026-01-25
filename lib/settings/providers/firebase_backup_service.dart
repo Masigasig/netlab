@@ -7,7 +7,7 @@ import 'package:netlab/google_auth_keys.dart';
 
 final googleSignInProvider = Provider((ref) {
   return GoogleSignIn(
-    params: const GoogleSignInParams(
+    params: GoogleSignInParams(
       clientId: GoogleAuthKeys.clientId,
       clientSecret: GoogleAuthKeys.clientSecret,
     ),
