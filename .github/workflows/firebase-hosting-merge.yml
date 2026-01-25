@@ -24,16 +24,16 @@ jobs:
       # Build with secrets injected via --dart-define
       - name: Build Flutter Web
         run: |
-          flutter build web --release \ 
-            --dart-define=GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \ 
-            --dart-define=GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \ 
-            --dart-define=WEB_AND_WINDOWS_FIREBASE_API_KEY=${{ secrets.WEB_AND_WINDOWS_FIREBASE_API_KEY }} \ 
-            --dart-define=ANDROID_FIREBASE_API_KEY=${{ secrets.ANDROID_FIREBASE_API_KEY }} \ 
-            --dart-define=IOS_AND_MACOS_FIREBASE_API_KEY=${{ secrets.IOS_AND_MACOS_FIREBASE_API_KEY }} \ 
-            --dart-define=WEB_APPID=${{ secrets.WEB_APPID }} \ 
-            --dart-define=ANDROID_APPID=${{ secrets.ANDROID_APPID }} \ 
-            --dart-define=IOS_MACOS_APPID=${{ secrets.IOS_MACOS_APPID }} \ 
-            --dart-define=WINDOWS_APPID=${{ secrets.WINDOWS_APPID }} \ 
+          flutter build web --release \
+            --dart-define=GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+            --dart-define=GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+            --dart-define=WEB_AND_WINDOWS_FIREBASE_API_KEY=${{ secrets.WEB_AND_WINDOWS_FIREBASE_API_KEY }} \
+            --dart-define=ANDROID_FIREBASE_API_KEY=${{ secrets.ANDROID_FIREBASE_API_KEY }} \
+            --dart-define=IOS_AND_MACOS_FIREBASE_API_KEY=${{ secrets.IOS_AND_MACOS_FIREBASE_API_KEY }} \
+            --dart-define=WEB_APPID=${{ secrets.WEB_APPID }} \
+            --dart-define=ANDROID_APPID=${{ secrets.ANDROID_APPID }} \
+            --dart-define=IOS_MACOS_APPID=${{ secrets.IOS_MACOS_APPID }} \
+            --dart-define=WINDOWS_APPID=${{ secrets.WINDOWS_APPID }} \
             --dart-define=MESSAGING_SENDER_ID=${{ secrets.MESSAGING_SENDER_ID }}
 
       - name: Deploy to Firebase Hosting
