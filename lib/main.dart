@@ -24,8 +24,12 @@ import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (!kReleaseMode) {
-    await dotenv.load(fileName: ".env");
+  if (kDebugMode) {
+    try {
+      await dotenv.load(fileName: ".env");
+    } catch (e) {
+      debugPrint('⚠️ Could not load .env file: $e');
+    }
   }
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
