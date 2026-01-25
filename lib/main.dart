@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -22,33 +23,68 @@ import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
 
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-  if (kDebugMode) {
-    try {
-      await dotenv.load(fileName: ".env");
-    } catch (e) {
-      debugPrint('⚠️ Could not load .env file: $e');
-    }
-  }
+      print('🚀 App starting...');
+      print('🔍 Platform: ${kIsWeb ? "Web" : "Native"}');
+      print('🔍 Release mode: $kReleaseMode');
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+      // Only load .env in debug mode
+      if (!kReleaseMode) {
+        try {
+          await dotenv.load(fileName: ".env");
+          print('✅ .env loaded successfully');
+        } catch (e) {
+          print('⚠️ Could not load .env file: $e');
+        }
+      } else {
+        // Check if dart-define values are present
+        const webApiKey = String.fromEnvironment(
+          'WEB_AND_WINDOWS_FIREBASE_API_KEY',
+        );
+        const webAppId = String.fromEnvironment('WEB_APPID');
 
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+        print('🔍 Checking dart-define values:');
+        print(
+          '  - WEB_AND_WINDOWS_FIREBASE_API_KEY: ${webApiKey.isEmpty ? "MISSING ❌" : "Present ✅"}',
+        );
+        print('  - WEB_APPID: ${webAppId.isEmpty ? "MISSING ❌" : "Present ✅"}');
+      }
 
-  final asyncPrefs = SharedPreferencesAsync();
+      try {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+        print('✅ Firebase initialized successfully');
+      } catch (e, stackTrace) {
+        print('❌ Firebase initialization error: $e');
+        print('Stack trace: $stackTrace');
+        // Continue anyway to see if it's just Firebase or something else
+      }
 
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
-  ]).then((_) {
-    runApp(
-      ProviderScope(
-        overrides: [asyncSharedPrefsProvider.overrideWithValue(asyncPrefs)],
-        child: const MyApp(),
-      ),
-    );
-  });
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+      final asyncPrefs = SharedPreferencesAsync();
+
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]).then((_) {
+        runApp(
+          ProviderScope(
+            overrides: [asyncSharedPrefsProvider.overrideWithValue(asyncPrefs)],
+            child: const MyApp(),
+          ),
+        );
+      });
+    },
+    (error, stack) {
+      print('💥 FATAL ERROR: $error');
+      print('Stack: $stack');
+    },
+  );
 }
 
 class MyApp extends ConsumerStatefulWidget {
