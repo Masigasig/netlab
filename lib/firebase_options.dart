@@ -43,16 +43,16 @@ class DefaultFirebaseOptions {
 
   static final FirebaseOptions web = FirebaseOptions(
     apiKey:
-        dotenv.env['WEB_AND_WINDOWS_FIREBASE_API_KEY'] ??
+        dotenv.maybeGet('WEB_AND_WINDOWS_FIREBASE_API_KEY') ??
         const String.fromEnvironment(
           'WEB_AND_WINDOWS_FIREBASE_API_KEY',
           defaultValue: '',
         ),
     appId:
-        dotenv.env['WEB_APPID'] ??
+        dotenv.maybeGet('WEB_APPID') ??
         const String.fromEnvironment('WEB_APPID', defaultValue: ''),
     messagingSenderId:
-        dotenv.env['MESSAGING_SENDER_ID'] ??
+        dotenv.maybeGet('MESSAGING_SENDER_ID') ??
         const String.fromEnvironment('MESSAGING_SENDER_ID', defaultValue: ''),
     projectId: 'netlab-8c22e',
     authDomain: 'netlab-8c22e.firebaseapp.com',
@@ -61,16 +61,16 @@ class DefaultFirebaseOptions {
 
   static final FirebaseOptions android = FirebaseOptions(
     apiKey:
-        dotenv.env['ANDROID_FIREBASE_API_KEY'] ??
+        dotenv.maybeGet('ANDROID_FIREBASE_API_KEY') ??
         const String.fromEnvironment(
           'ANDROID_FIREBASE_API_KEY',
           defaultValue: '',
         ),
     appId:
-        dotenv.env['ANDROID_APPID'] ??
+        dotenv.maybeGet('ANDROID_APPID') ??
         const String.fromEnvironment('ANDROID_APPID', defaultValue: ''),
     messagingSenderId:
-        dotenv.env['MESSAGING_SENDER_ID'] ??
+        dotenv.maybeGet('MESSAGING_SENDER_ID') ??
         const String.fromEnvironment('MESSAGING_SENDER_ID', defaultValue: ''),
     projectId: 'netlab-8c22e',
     storageBucket: 'netlab-8c22e.firebasestorage.app',
@@ -78,16 +78,16 @@ class DefaultFirebaseOptions {
 
   static final FirebaseOptions ios = FirebaseOptions(
     apiKey:
-        dotenv.env['IOS_AND_MACOS_FIREBASE_API_KEY'] ??
+        dotenv.maybeGet('IOS_AND_MACOS_FIREBASE_API_KEY') ??
         const String.fromEnvironment(
           'IOS_AND_MACOS_FIREBASE_API_KEY',
           defaultValue: '',
         ),
     appId:
-        dotenv.env['IOS_MACOS_APPID'] ??
+        dotenv.maybeGet('IOS_MACOS_APPID') ??
         const String.fromEnvironment('IOS_MACOS_APPID', defaultValue: ''),
     messagingSenderId:
-        dotenv.env['MESSAGING_SENDER_ID'] ??
+        dotenv.maybeGet('MESSAGING_SENDER_ID') ??
         const String.fromEnvironment('MESSAGING_SENDER_ID', defaultValue: ''),
     projectId: 'netlab-8c22e',
     storageBucket: 'netlab-8c22e.firebasestorage.app',
@@ -96,16 +96,16 @@ class DefaultFirebaseOptions {
 
   static final FirebaseOptions macos = FirebaseOptions(
     apiKey:
-        dotenv.env['IOS_AND_MACOS_FIREBASE_API_KEY'] ??
+        dotenv.maybeGet('IOS_AND_MACOS_FIREBASE_API_KEY') ??
         const String.fromEnvironment(
           'IOS_AND_MACOS_FIREBASE_API_KEY',
           defaultValue: '',
         ),
     appId:
-        dotenv.env['IOS_MACOS_APPID'] ??
+        dotenv.maybeGet('IOS_MACOS_APPID') ??
         const String.fromEnvironment('IOS_MACOS_APPID', defaultValue: ''),
     messagingSenderId:
-        dotenv.env['MESSAGING_SENDER_ID'] ??
+        dotenv.maybeGet('MESSAGING_SENDER_ID') ??
         const String.fromEnvironment('MESSAGING_SENDER_ID', defaultValue: ''),
     projectId: 'netlab-8c22e',
     storageBucket: 'netlab-8c22e.firebasestorage.app',
@@ -114,16 +114,16 @@ class DefaultFirebaseOptions {
 
   static final FirebaseOptions windows = FirebaseOptions(
     apiKey:
-        dotenv.env['WEB_AND_WINDOWS_FIREBASE_API_KEY'] ??
+        dotenv.maybeGet('WEB_AND_WINDOWS_FIREBASE_API_KEY') ??
         const String.fromEnvironment(
           'WEB_AND_WINDOWS_FIREBASE_API_KEY',
           defaultValue: '',
         ),
     appId:
-        dotenv.env['WINDOWS_APPID'] ??
+        dotenv.maybeGet('WINDOWS_APPID') ??
         const String.fromEnvironment('WINDOWS_APPID', defaultValue: ''),
     messagingSenderId:
-        dotenv.env['MESSAGING_SENDER_ID'] ??
+        dotenv.maybeGet('MESSAGING_SENDER_ID') ??
         const String.fromEnvironment('MESSAGING_SENDER_ID', defaultValue: ''),
     projectId: 'netlab-8c22e',
     authDomain: 'netlab-8c22e.firebaseapp.com',
