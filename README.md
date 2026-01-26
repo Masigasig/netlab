@@ -1,22 +1,117 @@
-# netlab
+<h1 align="center">NetLab</h1>
 
-A new Flutter project.
+<div align="center">
 
-## Getting Started
+**Interactive Network Learning & Simulation Platform**
 
-This project is a starting point for a Flutter application.
+Learn networking by doing—design networks, run simulations, and master networking fundamentals.
 
-A few resources to get you started if this is your first Flutter project:
+![Dart](https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+[Getting Started](#quick-start) • [Features](#features) • [Simulator](#network-simulator) • [Curriculum](#learning-curriculum)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+</div>
 
-<!--
-Notes: 
+---
+
+NetLab is an interactive educational application designed to teach computer networking fundamentals through a combination of structured learning materials, hands-on network simulation, and practical networking tools. Whether you're a student, aspiring network administrator, or IT professional, NetLab provides an immersive environment to understand how networks operate in practice.
+
+## Quick Start
+
+**Explore three ways to learn:**
+
+1. **🎮 Network Simulator** - Design and simulate real-world network topologies. Create devices, define connections, and observe ARP and packet routing in real-time.
+2. **📚 Study Materials** - Work through 5 chapters of structured networking content with interactive quizzes and detailed explanations.
+3. **🛠️ Utility Tools** - Use quick-reference calculators for IP addresses, subnet masks, and network analysis.
+
+## Table of Contents
+
+- [Features](#features)
+- [Network Simulator](#network-simulator)
+- [Learning Curriculum](#learning-curriculum)
+- [Tutorials & Tools](#tutorials--tools)
+
+## Features
+
+- 🎮 **Network Simulator** - Design and simulate real network topologies with visual packet routing and ARP protocol
+- 📚 **5-Chapter Curriculum** - Fundamentals, switching, routing, and advanced networking concepts
+- 🎓 **Interactive Tutorials** - Step-by-step guidance for every feature
+- 🛠️ **Network Tools** - IP converter, subnet calculator, and network analyzer
+- 📊 **Progress Tracking** - Track lessons, quizzes, and learning analytics
+- 🌙 **Customization** - Light/dark themes and adjustable fonts
+- 📱 **Cross-Platform** - iOS, Android, Windows, macOS, and web
+- 🔒 **Offline-First** - Access content offline with cloud sync
+
+---
+
+## Network Simulator
+
+The core of NetLab—build networks and watch them work in real-time.
+
+**Key Features:**
+- Create and configure network devices (routers, switches, hosts, access points, wireless devices)
+- Draw connections between devices
+- Run simulations with ARP protocol and packet routing
+- Watch real-time event logs and packet movement
+- Save and load your network projects
+- Explore networking concepts through hands-on practice
+
+**Learn:** How devices communicate.
+
+---
+
+## Learning Curriculum
+
+Master networking fundamentals through a structured, progressive 5-chapter course:
+
+<div align="center">
+
+| Chapter | Title | Topics |
+|---------|-------|--------|
+| **1** | Network Fundamentals | Hosts, Internet, Networks, IP Addressing, OSI Model |
+| **2** | Switching & Routing | MAC Addresses, Switch Operations, Routing Tables, Static/Dynamic Routing |
+| **3** | Network Devices | Switches, Routers, Hosts, Access Points, Wireless Devices |
+| **4** | Host-to-Host Communication | ARP Protocol, Data Transmission, Network Efficiency |
+| **5** | Subnetting | CIDR Notation, Subnet Masks, Network Attributes, Practice Exercises |
+
+</div>
+
+Each chapter includes lessons, quizzes with explanations, and chapter assessments.
+
+---
+
+## Tutorials & Tools
+
+**Interactive Tutorials** - In-app guided walkthroughs for the simulator.
+
+**Network Tools:**
+- IP Converter - Convert between formats
+- Subnet Calculator - CIDR and subnet calculations
+- Network Analyzer - Analyze IPv4 subnets
+
+---
+
+## Get Started
+
+1. **Open the Simulator** - Start on the home screen and design your first network
+2. **Follow Tutorials** - Learn features step-by-step with visual guidance
+3. **Study Lessons** - Go to the dashboard and work through Chapter 1
+4. **Practice Tools** - Use calculators while building your networks
+5. **Track Progress** - Check your advancement in dashboard
+
+---
+
+## Call to Action
+
+Ready to master networking? **Download NetLab and start building networks today!**
+
+⭐ Star this project if you find it helpful
+📧 Have feedback? Report issues or suggest features
+🤝 Want to contribute? Check out our contribution guidelines
+<!-- Notes: 
     Add useful information here that you think that will help us.
 
 Useful commands:
