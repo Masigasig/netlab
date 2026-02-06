@@ -21,6 +21,8 @@ import 'package:netlab/dashboard/study/provider/material_content_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 import 'package:netlab/dashboard/study/provider/question_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/study_time_notifier.dart';
+import 'package:netlab/core/widgets/mobile_web_blocker.dart';
+import 'package:netlab/core/utils/platform_helper.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,6 +66,11 @@ class _MyAppState extends ConsumerState<MyApp>
   @override
   void initState() {
     super.initState();
+
+    if (isMobileWeb()) {
+      return;
+    }
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
@@ -79,7 +86,9 @@ class _MyAppState extends ConsumerState<MyApp>
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (!isMobileWeb()) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
@@ -135,7 +144,17 @@ class _MyAppState extends ConsumerState<MyApp>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('MyApp Widget rebuit');
+    debugPrint('MyApp Widget rebuilt');
+
+    if (isMobileWeb()) {
+      return MaterialApp(
+        theme: AppThemes.lightTheme,
+        darkTheme: AppThemes.darkTheme,
+        debugShowCheckedModeBanner: false,
+        home: const MobileWebBlocker(),
+      );
+    }
+
     final themeMode = ref.watch(themeModeProvider);
 
     if (_showSplash) {
