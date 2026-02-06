@@ -1,14 +1,29 @@
 <h1 align="center">NetLab</h1>
 
+<p align="center">
+  <img src="assets/images/logo.svg" width="150" height="150"/>
+</p>
+
 <div align="center">
 
 **Interactive Network Learning & Simulation Platform**
 
 Learn networking by doing—design networks, run simulations, and master networking fundamentals.
 
-![Dart](https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white)
-![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
-![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black)
+### Technologies Used
+
+<p align="center">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg" alt="Dart" width="40" height="40"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg" alt="Flutter" width="40" height="40"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg" alt="Firebase" width="40" height="40"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/android/android-original.svg" alt="Android" width="40" height="40"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/apple/apple-original.svg" alt="iOS" width="40" height="40"/>
+</p>
+
+<p align="center">
+  <em>Built with Dart & Flutter • Cloud-synced with Firebase • Cross-platform: Android, iOS, Web, Desktop</em>
+</p>
+
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 [Getting Started](#quick-start) • [Features](#features) • [Simulator](#network-simulator) • [Curriculum](#learning-curriculum)
@@ -49,6 +64,10 @@ NetLab is an interactive educational application designed to teach computer netw
 
 ## Network Simulator
 
+<p align="center">
+  <img src="assets/readmes/canvas.png" width="800"/>
+</p>
+
 The core of NetLab—build networks and watch them work in real-time.
 
 **Key Features:**
@@ -64,6 +83,10 @@ The core of NetLab—build networks and watch them work in real-time.
 ---
 
 ## Learning Curriculum
+
+<p align="center">
+  <img src="assets/readmes/learn.png" width="800"/>
+</p>
 
 Master networking fundamentals through a structured, progressive 5-chapter course:
 
@@ -85,9 +108,18 @@ Each chapter includes lessons, quizzes with explanations, and chapter assessment
 
 ## Tutorials & Tools
 
+<p align="center">
+  <img src="assets/readmes/tutorial.png" width="800"/>
+</p>
+
 **Interactive Tutorials** - In-app guided walkthroughs for the simulator.
 
 **Network Tools:**
+
+<p align="center">
+  <img src="assets/readmes/tools.png" width="800"/>
+</p>
+
 - IP Converter - Convert between formats
 - Subnet Calculator - CIDR and subnet calculations
 - Network Analyzer - Analyze IPv4 subnets
@@ -195,7 +227,7 @@ Youtube Videos you might find helpful (don't get stuck on tutorial hell, watch i
         (2 hrs) The Complete Dart & Flutter Developer Course | Full Tutorial For Beginners to Advanced
             https://youtu.be/CzRQ9mnmh44?si=zeivDb8VSpsvVCaw 
         (3 mins) Dart in 100 Seconds
-            https://youtu.be/NrO0CJCbYLA?si=bCv1B97eqQ3SnHEr
+            https://youtu.be/NrO0CJCbYLA?si=bCf1B97eqQ3SnHEr
         (3 mins) Flutter in 100 seconds
             https://youtu.be/lHhRhPV--G0?si=AzYXV_aBKkoVo5lp
         (12 mins) Flutter Basic Training - 12 Minute Bootcamp
