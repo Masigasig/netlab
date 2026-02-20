@@ -143,6 +143,8 @@ Ready to master networking? **Download NetLab and start building networks today!
 ⭐ Star this project if you find it helpful
 📧 Have feedback? Report issues or suggest features
 🤝 Want to contribute? Check out our contribution guidelines
+
+
 <!-- Notes: 
     Add useful information here that you think that will help us.
 
@@ -254,8 +256,8 @@ Youtube Videos you might find helpful (don't get stuck on tutorial hell, watch i
 
 
 Current version:
-    dart = Dart SDK version: 3.10.7
-    flutter = Flutter 3.38.7
+    dart = Dart SDK version: 3.11.0
+    flutter = Flutter 3.41.2
 
     Android: 
         compileSdk = 36
