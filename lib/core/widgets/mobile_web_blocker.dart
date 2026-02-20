@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hugeicons/hugeicons.dart';
-// import 'package:url_launcher/url_launcher.dart';
-//** add the url once we publish the app */
+import 'package:url_launcher/url_launcher.dart';
 
 class MobileWebBlocker extends StatelessWidget {
   const MobileWebBlocker({super.key});
 
-  // Future<void> _launchURL(String url) async {
-  //   final Uri uri = Uri.parse(url);
-  //   if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-  //     debugPrint('Could not launch $url');
-  //   }
-  // }
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      debugPrint('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +83,7 @@ class MobileWebBlocker extends StatelessWidget {
                           ),
                           child: ElevatedButton.icon(
                             onPressed: () {
+                              //** add the url once we publish the app */
                               // _launchURL('https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME');
                             },
                             icon: const HugeIcon(
@@ -93,6 +93,52 @@ class MobileWebBlocker extends StatelessWidget {
                             ),
                             label: const Text(
                               'Download on Google Play',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 24,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(32),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      SizedBox(
+                        width: double.infinity,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [cs.primary, cs.secondary],
+                            ),
+                            borderRadius: BorderRadius.circular(32),
+                          ),
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              _launchURL(
+                                'https://github.com/Masigasig/netlab/releases',
+                              );
+                            },
+                            icon: const HugeIcon(
+                              icon: HugeIcons.strokeRoundedGithub,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                            label: const Text(
+                              'Download on Github',
                               style: TextStyle(
                                 fontFamily: 'Inter',
                                 fontSize: 14,
