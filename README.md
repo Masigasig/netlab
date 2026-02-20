@@ -15,9 +15,7 @@ Learn networking by doing—design networks, run simulations, and master network
 <p align="center">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg" alt="Dart" width="40" height="40"/>
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg" alt="Flutter" width="40" height="40"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg" alt="Firebase" width="40" height="40"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/android/android-original.svg" alt="Android" width="40" height="40"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/apple/apple-original.svg" alt="iOS" width="40" height="40"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg" alt="Firebase" width="40" height="40"/>  
 </p>
 
 <p align="center">
@@ -65,7 +63,7 @@ NetLab is an interactive educational application designed to teach computer netw
 ## Network Simulator
 
 <p align="center">
-  <img src="assets/readmes/canvas.png" width="800"/>
+  <img src="assets/readmes/canvas2.png" width="800"/>
 </p>
 
 The core of NetLab—build networks and watch them work in real-time.
