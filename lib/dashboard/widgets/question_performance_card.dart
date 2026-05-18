@@ -16,18 +16,17 @@ class QuestionPerformanceCard extends ConsumerWidget {
     final correctAnswers = stats['correct']!;
     final wrongAnswers = stats['incorrect']!;
     final unansweredQuestions = stats['unanswered']!;
-    final correctPercentage =
-        (correctAnswers /
-            (correctAnswers + wrongAnswers + unansweredQuestions)) *
-        100;
+    final totalAnswers = correctAnswers + wrongAnswers + unansweredQuestions;
+    final correctPercentage = totalAnswers == 0
+        ? 0.0
+        : (correctAnswers / totalAnswers) * 100;
 
     return AnimationPresets.cardEntrance(
       delay: 300,
       scaleFrom: 0.9,
       child: Container(
         width: double.infinity,
-        constraints: const BoxConstraints(minHeight: 150),
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: cs.surfaceContainerLow,
           borderRadius: BorderRadius.circular(12),
@@ -35,44 +34,42 @@ class QuestionPerformanceCard extends ConsumerWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
+            // Header — icon, title and the correct-percentage badge.
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: cs.primary.withAlpha(30),
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: HugeIcon(
                     icon: HugeIcons.strokeRoundedQuiz05,
                     color: cs.primary,
-                    size: 16,
+                    size: 22,
                   ),
                 ),
-                const SizedBox(width: 6),
-                Text(
-                  'Question Performance',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    color: cs.onSurface,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Question Performance',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      color: cs.onSurface,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-              ],
-            ),
-
-            Row(
-              children: [
-                const Spacer(),
+                const SizedBox(width: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
+                    horizontal: 14,
+                    vertical: 6,
                   ),
                   decoration: BoxDecoration(
                     color: AppColors.successColor.withAlpha(51),
@@ -83,79 +80,69 @@ class QuestionPerformanceCard extends ConsumerWidget {
                     style: const TextStyle(
                       fontFamily: 'Inter',
                       color: AppColors.successColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
               ],
             ),
 
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: SizedBox(
-                  height: 6,
-                  child: Row(
-                    children: [
-                      if (correctAnswers > 0)
-                        Expanded(
-                          flex: correctAnswers,
-                          child: Container(color: AppColors.successColor),
-                        ),
-                      if (wrongAnswers > 0)
-                        Expanded(
-                          flex: wrongAnswers,
-                          child: Container(color: AppColors.errorColor),
-                        ),
-                      if (unansweredQuestions > 0)
-                        Expanded(
-                          flex: unansweredQuestions,
-                          child: Container(color: cs.onSurfaceVariant),
-                        ),
-                    ],
-                  ),
+            const SizedBox(height: 24),
+
+            // Stacked progress bar of correct / incorrect / unanswered.
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                height: 18,
+                child: Row(
+                  children: [
+                    if (correctAnswers > 0)
+                      Expanded(
+                        flex: correctAnswers,
+                        child: Container(color: AppColors.successColor),
+                      ),
+                    if (wrongAnswers > 0)
+                      Expanded(
+                        flex: wrongAnswers,
+                        child: Container(color: AppColors.errorColor),
+                      ),
+                    if (unansweredQuestions > 0)
+                      Expanded(
+                        flex: unansweredQuestions,
+                        child: Container(color: cs.onSurfaceVariant),
+                      ),
+                  ],
                 ),
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildProgressDetail(
-                    'Correct',
-                    '$correctAnswers',
-                    AppColors.successColor,
-                    cs.onSurface,
-                  ),
-                  Container(
-                    height: 18,
-                    width: 1,
-                    color: cs.outline.withAlpha(77),
-                  ),
-                  _buildProgressDetail(
-                    'Incorrect',
-                    '$wrongAnswers',
-                    AppColors.errorColor,
-                    cs.onSurface,
-                  ),
-                  Container(
-                    height: 18,
-                    width: 1,
-                    color: cs.outline.withAlpha(77),
-                  ),
-                  _buildProgressDetail(
-                    'Unanswered',
-                    '$unansweredQuestions',
-                    cs.onSurfaceVariant,
-                    cs.onSurface,
-                  ),
-                ],
-              ),
+            const SizedBox(height: 24),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildProgressDetail(
+                  'Correct',
+                  '$correctAnswers',
+                  AppColors.successColor,
+                  cs.onSurface,
+                ),
+                Container(height: 34, width: 1, color: cs.outline.withAlpha(77)),
+                _buildProgressDetail(
+                  'Incorrect',
+                  '$wrongAnswers',
+                  AppColors.errorColor,
+                  cs.onSurface,
+                ),
+                Container(height: 34, width: 1, color: cs.outline.withAlpha(77)),
+                _buildProgressDetail(
+                  'Unanswered',
+                  '$unansweredQuestions',
+                  cs.onSurfaceVariant,
+                  cs.onSurface,
+                ),
+              ],
             ),
           ],
         ),
@@ -176,17 +163,17 @@ class QuestionPerformanceCard extends ConsumerWidget {
           style: TextStyle(
             fontFamily: 'Poppins',
             color: color,
-            fontSize: 18,
+            fontSize: 26,
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 2),
+        const SizedBox(height: 4),
         Text(
           label,
           style: TextStyle(
             fontFamily: 'Inter',
             color: labelColor.withValues(alpha: 0.75),
-            fontSize: 10,
+            fontSize: 13,
             fontWeight: FontWeight.normal,
           ),
         ),

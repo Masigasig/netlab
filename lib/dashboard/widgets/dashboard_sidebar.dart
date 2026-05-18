@@ -10,7 +10,8 @@ import 'package:netlab/dashboard/study/provider/lesson_status_notifier.dart';
 import 'package:netlab/dashboard/study/provider/material_details_notifier.dart';
 
 class DashboardSidebar extends ConsumerWidget {
-  const DashboardSidebar({super.key});
+  final double width;
+  const DashboardSidebar({super.key, required this.width});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,7 +19,7 @@ class DashboardSidebar extends ConsumerWidget {
     final history = ref.watch(lessonHistoryProvider);
 
     return SizedBox(
-      width: 250,
+      width: width,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -30,7 +31,7 @@ class DashboardSidebar extends ConsumerWidget {
                 'Quick Actions',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: cs.onSurface,
                 ),
@@ -43,7 +44,7 @@ class DashboardSidebar extends ConsumerWidget {
                 icon: HugeIcon(
                   icon: HugeIcons.strokeRoundedPlay,
                   color: cs.onPrimary,
-                  size: 18,
+                  size: 20,
                 ),
                 label: history.isNotEmpty
                     ? 'Continue Learning'
@@ -68,7 +69,7 @@ class DashboardSidebar extends ConsumerWidget {
                 icon: HugeIcon(
                   icon: HugeIcons.strokeRoundedSearch02,
                   color: cs.onPrimary,
-                  size: 18,
+                  size: 20,
                 ),
                 label: 'Browse Topics',
                 color: cs.secondary,
@@ -82,7 +83,7 @@ class DashboardSidebar extends ConsumerWidget {
                 'Recent Activity',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: cs.onSurface,
                 ),
@@ -128,8 +129,8 @@ class DashboardSidebar extends ConsumerWidget {
                           dense: true,
                           leading: Container(
                             padding: const EdgeInsets.all(6),
-                            width: 28,
-                            height: 28,
+                            width: 34,
+                            height: 34,
                             decoration: BoxDecoration(
                               color: isComplete
                                   ? AppColors.successColor.withAlpha(30)
@@ -143,6 +144,7 @@ class DashboardSidebar extends ConsumerWidget {
                               color: isComplete
                                   ? AppColors.successColor
                                   : cs.primary,
+                              size: 20,
                             ),
                           ),
                           title: Text(
@@ -150,7 +152,7 @@ class DashboardSidebar extends ConsumerWidget {
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               color: cs.onSurface,
-                              fontSize: 11,
+                              fontSize: 13,
                               fontWeight: FontWeight.normal,
                             ),
                             maxLines: 2,
@@ -161,7 +163,7 @@ class DashboardSidebar extends ConsumerWidget {
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               color: cs.onSurface,
-                              fontSize: 8,
+                              fontSize: 10,
                               fontWeight: FontWeight.normal,
                             ),
                             maxLines: 2,
@@ -172,7 +174,7 @@ class DashboardSidebar extends ConsumerWidget {
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               color: cs.onSurface,
-                              fontSize: 8,
+                              fontSize: 10,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
@@ -208,7 +210,7 @@ class DashboardSidebar extends ConsumerWidget {
           borderRadius: BorderRadius.circular(10),
           child: Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 14),
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(10),
@@ -222,7 +224,7 @@ class DashboardSidebar extends ConsumerWidget {
                   label,
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),

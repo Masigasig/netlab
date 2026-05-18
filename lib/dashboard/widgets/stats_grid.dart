@@ -37,61 +37,89 @@ class StatsGrid extends ConsumerWidget {
         .read(studyTimeProvider.notifier)
         .getFormattedTime();
 
-    return GridView.count(
-      shrinkWrap: true,
-      crossAxisCount: 4,
-      crossAxisSpacing: 16,
-      childAspectRatio: 1.2,
-      children: [
-        _StatCard(
-          icon: HugeIcon(
-            icon: HugeIcons.strokeRoundedBookOpen02,
-            color: cs.secondary,
-            size: 16,
-          ),
-          title: 'Chapter Test',
-          value: '$totalNumberOfCompletedChapter/$totalNumberOfChapter',
-          subtitle: 'Completed',
-          color: cs.secondary,
-          index: 0,
-        ),
-        _StatCard(
-          icon: const HugeIcon(
-            icon: HugeIcons.strokeRoundedQuiz03,
-            color: AppColors.warningColor,
-            size: 16,
-          ),
-          title: 'Quizzes',
-          value: '$totalNumberOfCompletedLessons/$totalNumberOfLessons',
-          subtitle: 'Completed',
-          color: AppColors.warningColor,
-          index: 1,
-        ),
-        _StatCard(
-          icon: const HugeIcon(
-            icon: HugeIcons.strokeRoundedClock01,
-            color: AppColors.successColor,
-            size: 16,
-          ),
-          title: 'Study Time',
-          value: totalStudyTime,
-          subtitle: 'Total',
-          color: AppColors.successColor,
-          index: 2,
-        ),
-        _StatCard(
-          icon: const HugeIcon(
-            icon: HugeIcons.strokeRoundedTimer02,
-            color: Colors.purple,
-            size: 16,
-          ),
-          title: 'Quiz Time',
-          value: '${averageQuizTime.toStringAsFixed(1)} s',
-          subtitle: 'Per Questions',
-          color: Colors.purple,
-          index: 3,
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const gap = 16.0;
+        final width = constraints.maxWidth;
+
+        // Responsive columns: four across a desktop width, two on a
+        // narrow window so the cards never get cramped.
+        final crossAxisCount = width >= 860 ? 4 : 2;
+        final cardWidth =
+            (width - gap * (crossAxisCount - 1)) / crossAxisCount;
+
+        // Scale the card content with the available width so cards stay
+        // filled instead of becoming large boxes with tiny text. Clamped
+        // so they never shrink too far or balloon on ultra-wide screens.
+        final scale = (cardWidth / 240).clamp(0.85, 1.35).toDouble();
+        // Card height grows more gently than the content so the cards are
+        // comfortably tall without looking stretched on wide screens.
+        final cardHeight = 175.0 * scale.clamp(0.85, 1.15);
+        final iconSize = 19.0 * scale;
+
+        return GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: gap,
+          mainAxisSpacing: gap,
+          childAspectRatio: cardWidth / cardHeight,
+          children: [
+            _StatCard(
+              icon: HugeIcon(
+                icon: HugeIcons.strokeRoundedBookOpen02,
+                color: cs.secondary,
+                size: iconSize,
+              ),
+              title: 'Chapter Test',
+              value: '$totalNumberOfCompletedChapter/$totalNumberOfChapter',
+              subtitle: 'Completed',
+              color: cs.secondary,
+              scale: scale,
+              index: 0,
+            ),
+            _StatCard(
+              icon: HugeIcon(
+                icon: HugeIcons.strokeRoundedQuiz03,
+                color: AppColors.warningColor,
+                size: iconSize,
+              ),
+              title: 'Quizzes',
+              value: '$totalNumberOfCompletedLessons/$totalNumberOfLessons',
+              subtitle: 'Completed',
+              color: AppColors.warningColor,
+              scale: scale,
+              index: 1,
+            ),
+            _StatCard(
+              icon: HugeIcon(
+                icon: HugeIcons.strokeRoundedClock01,
+                color: AppColors.successColor,
+                size: iconSize,
+              ),
+              title: 'Study Time',
+              value: totalStudyTime,
+              subtitle: 'Total',
+              color: AppColors.successColor,
+              scale: scale,
+              index: 2,
+            ),
+            _StatCard(
+              icon: HugeIcon(
+                icon: HugeIcons.strokeRoundedTimer02,
+                color: Colors.purple,
+                size: iconSize,
+              ),
+              title: 'Quiz Time',
+              value: '${averageQuizTime.toStringAsFixed(1)} s',
+              subtitle: 'Per Questions',
+              color: Colors.purple,
+              scale: scale,
+              index: 3,
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -102,6 +130,7 @@ class _StatCard extends StatelessWidget {
   final String value;
   final String subtitle;
   final Color color;
+  final double scale;
   final int index;
 
   const _StatCard({
@@ -110,6 +139,7 @@ class _StatCard extends StatelessWidget {
     required this.value,
     required this.subtitle,
     required this.color,
+    required this.scale,
     required this.index,
   });
 
@@ -120,23 +150,11 @@ class _StatCard extends StatelessWidget {
     return AnimationPresets.cardEntrance(
       delay: index * 100,
       child: Container(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(12.0 * scale),
         decoration: BoxDecoration(
           color: cs.surfaceContainerLow,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: color.withAlpha(52), width: 1.5),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: cs.onSurface.withAlpha(13),
-          //     blurRadius: 4,
-          //     offset: const Offset(2, 4),
-          //   ),
-          //   BoxShadow(
-          //     color: color.withAlpha(26),
-          //     blurRadius: 15,
-          //     offset: const Offset(-5, 10),
-          //   ),
-          // ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,21 +164,21 @@ class _StatCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(6),
+                  padding: EdgeInsets.all(7.0 * scale),
                   decoration: BoxDecoration(
                     color: color.withAlpha(30),
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: icon,
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: 8.0 * scale),
                 Expanded(
                   child: Text(
                     title,
                     style: TextStyle(
                       fontFamily: 'Inter',
                       color: cs.onSurface,
-                      fontSize: 11,
+                      fontSize: 13.0 * scale,
                       fontWeight: FontWeight.w500,
                     ),
                     maxLines: 1,
@@ -180,11 +198,11 @@ class _StatCard extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     color: cs.onSurface,
-                    fontSize: 18,
+                    fontSize: 22.0 * scale,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2.0 * scale),
                 Text(
                   subtitle,
                   maxLines: 1,
@@ -192,7 +210,7 @@ class _StatCard extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'Inter',
                     color: cs.onSurface.withAlpha(180),
-                    fontSize: 10,
+                    fontSize: 11.0 * scale,
                     fontWeight: FontWeight.w300,
                   ),
                 ),
