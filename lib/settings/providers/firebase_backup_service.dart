@@ -10,6 +10,10 @@ final googleSignInProvider = Provider((ref) {
     params: GoogleSignInParams(
       clientId: GoogleAuthKeys.clientId,
       clientSecret: GoogleAuthKeys.clientSecret,
+      // 'openid' must be requested for Google to return an id_token. Without
+      // it the desktop OAuth flow yields creds.idToken == null, which
+      // FirebaseAuth.signInWithCredential needs for Google sign-in.
+      scopes: const ['openid', 'email', 'profile'],
     ),
   );
 });

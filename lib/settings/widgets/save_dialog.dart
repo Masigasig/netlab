@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,6 +27,7 @@ class _SaveDialogState extends ConsumerState<SaveDialog> {
   bool _isLoading = false;
   String? _errorMessage;
   GoogleSignInCredentials? _currentUser;
+  StreamSubscription<GoogleSignInCredentials?>? _authSub;
 
   @override
   void initState() {
@@ -32,7 +35,9 @@ class _SaveDialogState extends ConsumerState<SaveDialog> {
     _signOutUser();
 
     // Listen for Google Sign-In state changes (web button emits here)
-    ref.read(googleSignInProvider).authenticationState.listen((creds) async {
+    _authSub = ref.read(googleSignInProvider).authenticationState.listen((
+      creds,
+    ) async {
       _currentUser = creds;
 
       if (creds != null && _auth.currentUser == null) {
@@ -52,6 +57,12 @@ class _SaveDialogState extends ConsumerState<SaveDialog> {
 
       if (mounted) setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    _authSub?.cancel();
+    super.dispose();
   }
 
   Future<void> _signOutUser() async {
